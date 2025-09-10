@@ -1,0 +1,46 @@
+{
+  "mcpServers": {
+    "linear": {
+      "command": "npx",
+      "args": ["-y", "mcp-remote", "https://mcp.linear.app/sse"],
+      "env": {},
+      "description": "Linear MCP server for FAEVision MVP project management integration",
+      "enabled": true,
+      "metadata": {
+        "expert": "Jordan Lee (Cursor Expert)",
+        "integration_date": "2025-09-10",
+        "project": "FAEVision MVP",
+        "epic": "Epic 0 - Environment & Tools Setup",
+        "benefits": [
+          "Direct AI-Linear issue management from Cursor",
+          "Real-time project status integration",
+          "Enhanced cross-expert coordination workflows",
+          "Automated project tracking and updates"
+        ],
+        "endpoints": {
+          "sse": "https://mcp.linear.app/sse",
+          "http": "https://mcp.linear.app/mcp"
+        },
+        "authentication": "OAuth 2.1 with dynamic client registration",
+        "transport": "Server-Sent Events (SSE)"
+      }
+    }
+  },
+  "faevision_cursor_config": {
+    "version": "1.0",
+    "expert_lead": "Jordan Lee",
+    "integration_strategy": "advanced_ai_development_workflow",
+    "quality_gates": {
+      "scope_validation": true,
+      "expert_assignment": true,
+      "quality_enforcement": true,
+      "performance_monitoring": true
+    },
+    "team_coordination": {
+      "cross_expert_handoffs": true,
+      "automated_progress_tracking": true,
+      "intelligent_issue_routing": true,
+      "ai_assisted_planning": true
+    }
+  }
+}
