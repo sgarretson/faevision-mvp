@@ -1,0 +1,22 @@
+{
+  "mcpServers": {
+    "linear": {
+      "command": "npx",
+      "args": ["-y", "mcp-remote", "https://mcp.linear.app/sse"],
+      "description": "Linear project management integration for FAEVision MVP",
+      "enabled": true
+    }
+  },
+  "faevision": {
+    "project": "FAEVision MVP",
+    "expert": "Alex Johnson (Linear Expert)",
+    "integration_date": "2025-09-10",
+    "epic": "Epic 0 - Environment & Tools Setup",
+    "benefits": [
+      "AI-assisted issue creation during development",
+      "Real-time project status and tracking",
+      "Enhanced cross-expert coordination",
+      "Reduced manual project management overhead"
+    ]
+  }
+}
