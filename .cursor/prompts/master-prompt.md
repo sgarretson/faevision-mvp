@@ -101,11 +101,19 @@ Need to create comments table with polymorphic relationships to support comments
 ## 🚨 Critical Reminders
 
 1. **Always start with this master prompt** for any FAEVision development work
-2. **Wait for router analysis** before proceeding with implementation
+2. **IMPLEMENT ACTUAL CODE** - not just planning or Linear management
 3. **Follow expert assignment** - never proceed without proper expert approval
 4. **Respect scope boundaries** - escalate scope creep to Product Manager
 5. **Use specialized templates** as directed by the router
 6. **Complete quality gates** before considering work done
+
+## ⚠️ DEVELOPMENT FOCUS MANDATE
+
+**PRIMARY GOAL**: Write actual code, create real files, implement features
+- ❌ **AVOID**: Only updating Linear issues or creating plans
+- ✅ **DO**: Write TypeScript/React code, create components, implement features
+- ✅ **DO**: Use search_replace, write, MultiEdit tools to create actual code
+- ✅ **DO**: Implement user stories with real, functional code
 
 ---
 
