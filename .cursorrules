@@ -1,0 +1,606 @@
+/*
+===============================================================================
+FAEVISION MVP - COMPREHENSIVE AI DEVELOPMENT CONTROL SYSTEM
+===============================================================================
+Lead: Jordan Lee (Cursor Expert) | Team: 11 Expert Specialists
+Project: Internal FAEVision MVP for 50 executives (11-week delivery)
+Version: 1.0 | Last Updated: September 2025
+
+CRITICAL MISSION:
+- Prevent scope creep beyond approved F1-F6 features
+- Ensure appropriate expert assignment for all work
+- Maintain executive-focused quality standards
+- Deliver production-ready MVP within 11-week timeline
+
+Reference Documents:
+- docs/mvp-consensus/FAEVision-MVP-Final-Consensus.md
+- docs/requirements/FAEVision-Functional-Requirements.md
+- docs/architecture/FAEVision-Technical-Architecture.md
+- docs/design/FAEVision-Design-Standards.md
+===============================================================================
+*/
+
+// ============================================================================
+// 🚨 CRITICAL SCOPE ENFORCEMENT - ZERO TOLERANCE FOR SCOPE CREEP
+// ============================================================================
+
+SCOPE_CONTROL: {
+  MVP_BOUNDARY: "FAEVision MVP contains EXACTLY 6 features (F1-F6). NO additional features permitted.",
+  
+  APPROVED_FEATURES: {
+    F1_INPUT_CAPTURE: {
+      scope: "Input creation with strategic tagging (Department, Issue Type, Root Cause, Priority), AI auto-tagging, duplicate detection",
+      forbidden: "Advanced analytics, complex workflows, external data integration, machine learning beyond simple tagging"
+    },
+    F2_COLLABORATION: {
+      scope: "Voting (thumbs up/down), commenting, @mentions, real-time notifications, activity feeds",
+      forbidden: "Advanced voting systems, complex approval workflows, external notifications, social features"
+    },
+    F3_ORGANIZATION: {
+      scope: "Manual grouping by executives, AI similarity suggestions, executive dashboard views",
+      forbidden: "Advanced clustering algorithms, machine learning models, predictive analytics, complex automation"
+    },
+    F4_SOLUTION_EXECUTION: {
+      scope: "Solution creation, task breakdown, progress tracking, basic status reporting",
+      forbidden: "Complex project management, resource planning, budgeting, advanced analytics, external tool integration"
+    },
+    F5_EXECUTIVE_REQUIREMENTS: {
+      scope: "Requirements creation with collaboration, approval workflow, AI assistance for requirement generation",
+      forbidden: "Complex approval chains, advanced workflow management, document versioning beyond basic needs"
+    },
+    F6_FRD_HANDOFF: {
+      scope: "AI-generated Functional Requirements Documents, executive review, CSV export for handoff",
+      forbidden: "Advanced document management, complex versioning, external distribution systems, advanced formatting"
+    }
+  },
+  
+  USER_ROLES_LOCKED: {
+    Admin: "System configuration, user management, data export, monitoring",
+    Executive: "All operational features, input organization, solution creation, requirements approval",
+    Contributor: "Input creation, voting, commenting, task execution"
+  },
+  
+  SCOPE_VIOLATION_RESPONSE: `
+    🚨 SCOPE CREEP DETECTED - DEVELOPMENT HALTED
+    
+    This request contains elements outside our strict MVP scope.
+    
+    FAEVision MVP is LIMITED to 6 specific features (F1-F6) for 50 executive users.
+    
+    IMMEDIATE ACTIONS REQUIRED:
+    1. STOP current implementation
+    2. Simplify request to fit within approved F1-F6 scope
+    3. Document enhancement ideas in docs/roadmap/phase-2-enhancements.md
+    4. Escalate to Product Manager (Sarah Chen) if scope boundary unclear
+    
+    REFERENCE: docs/mvp-consensus/FAEVision-MVP-Final-Consensus.md
+    
+    CONTINUE ONLY after confirming simplified, in-scope implementation.
+  `
+}
+
+// ============================================================================
+// 👥 MANDATORY EXPERT ASSIGNMENT ENFORCEMENT
+// ============================================================================
+
+EXPERT_ASSIGNMENT: {
+  MANDATORY_EXPERTS: {
+    database_work: {
+      required: "Database Architect (Morgan Smith)",
+      triggers: ["prisma", "schema", "migration", "query", "database", "sql", "postgres"],
+      rule: "ALL database changes require Database Architect leadership and approval",
+      no_exceptions: true
+    },
+    ai_features: {
+      required: "AI Architect (Dr. Priya Patel)",
+      support: "Cursor Expert (Jordan Lee)",
+      triggers: ["ai", "gpt", "openai", "tagging", "suggestions", "document generation", "machine learning"],
+      rule: "ALL AI features require AI Architect leadership with Cursor Expert support"
+    },
+    executive_interfaces: {
+      required: "Product Manager (Sarah Chen)",
+      support: "Strategic Consultant (Marcus Rodriguez)",
+      triggers: ["executive", "dashboard", "analytics", "requirements", "approval", "business logic"],
+      rule: "Executive-facing features require business expertise validation"
+    },
+    frontend_ui: {
+      primary: "Lead Developer (Alex Thompson)",
+      design_review: ["UX Expert (Maya Rodriguez)", "Visual Designer (David Chen)"],
+      triggers: ["component", "ui", "form", "interface", "responsive", "accessibility"],
+      rule: "UI changes require Lead Developer implementation with design expert review"
+    },
+    infrastructure: {
+      vercel: "Vercel Engineer (Jordan Kim)",
+      github: "GitHub Expert (Taylor Morgan)",
+      triggers: ["deployment", "ci/cd", "pipeline", "infrastructure", "platform", "environment"],
+      rule: "Infrastructure changes require specialized platform expert approval"
+    }
+  },
+  
+  ASSIGNMENT_VALIDATION: `
+    ⚠️ EXPERT ASSIGNMENT VALIDATION REQUIRED
+    
+    Before ANY implementation, confirm:
+    1. ✅ Is the assigned expert appropriate for this work type?
+    2. ✅ Does this require mandatory expert review (database, AI, executive, infrastructure)?
+    3. ✅ Are there cross-expert dependencies requiring coordination?
+    4. ✅ Is the expert available and not overloaded?
+    5. ✅ Does the Linear issue reflect proper expert assignment?
+    
+    If wrong expert assigned, escalate to Linear Expert (Alex Johnson)
+    If mandatory expert missing, HALT development until proper assignment
+  `,
+  
+  WRONG_ASSIGNMENT_RESPONSE: `
+    ❌ INCORRECT EXPERT ASSIGNMENT
+    
+    This work requires different expertise than currently assigned.
+    
+    REQUIRED ACTIONS:
+    1. PAUSE current development
+    2. Reassign to appropriate expert via Linear
+    3. Update Linear issue with correct expert assignment
+    4. Coordinate handoff with originally assigned expert
+    
+    DO NOT PROCEED without proper expert assignment.
+  `
+}
+
+// ============================================================================
+// 🔒 LOCKED TECHNICAL ARCHITECTURE - NO DEVIATIONS PERMITTED
+// ============================================================================
+
+TECH_STACK_ENFORCEMENT: {
+  FRONTEND_LOCKED: {
+    framework: "Next.js 14 with App Router ONLY - no other frameworks",
+    language: "TypeScript in strict mode ONLY - no JavaScript",
+    styling: "Tailwind CSS with FAEVision design system ONLY - no other CSS frameworks",
+    state_management: "Zustand for global state, SWR for server state ONLY",
+    forms: "React Hook Form with Zod validation ONLY",
+    icons: "Lucide React ONLY - no other icon libraries",
+    animation: "Framer Motion ONLY for animations"
+  },
+  
+  BACKEND_LOCKED: {
+    api: "Next.js API Routes ONLY - no separate backend servers",
+    database: "Prisma ORM with Vercel Postgres ONLY - no other databases",
+    authentication: "NextAuth.js v5 ONLY - no other auth solutions", 
+    file_storage: "Vercel Blob ONLY - no other storage solutions",
+    email: "Resend ONLY - no other email services",
+    ai_integration: "Vercel AI SDK with OpenAI ONLY - no direct API calls"
+  },
+  
+  DEPLOYMENT_LOCKED: {
+    platform: "Vercel ONLY - no other hosting platforms",
+    database_hosting: "Vercel Postgres ONLY",
+    monitoring: "Vercel Analytics + Sentry ONLY",
+    ci_cd: "GitHub Actions with Vercel integration ONLY"
+  },
+  
+  ARCHITECTURE_VIOLATION: `
+    ❌ TECH STACK VIOLATION DETECTED
+    
+    Only approved technologies are permitted for FAEVision MVP.
+    
+    APPROVED STACK: Next.js 14, TypeScript, Tailwind, Zustand, SWR, Prisma, Vercel
+    
+    REFERENCE: docs/architecture/FAEVision-Technical-Architecture.md
+    
+    REQUIRED ACTIONS:
+    1. Use only approved technologies
+    2. If different technology needed, escalate to Vercel Engineer (Jordan Kim)
+    3. Document technology requirement for Phase 2 consideration
+    
+    DO NOT PROCEED with unapproved technologies.
+  `
+}
+
+// ============================================================================
+// 🎨 EXECUTIVE-FOCUSED DESIGN ENFORCEMENT
+// ============================================================================
+
+DESIGN_SYSTEM_ENFORCEMENT: {
+  EXECUTIVE_COLOR_SYSTEM: {
+    primary: "#3b82f6 (Executive Blue) - builds trust and confidence",
+    success: "#10b981 (Professional Green) - positive outcomes",
+    warning: "#f59e0b (Executive Gold) - attention required", 
+    critical: "#ef4444 (Executive Red) - urgent issues",
+    ai_features: "#a855f7 (AI Purple) - AI-generated content",
+    neutral: "#6b7280 (Professional Gray) - supporting content"
+  },
+  
+  EXECUTIVE_TYPOGRAPHY: {
+    hierarchy: "Follow executive typography scale for business intelligence",
+    metrics: "Large, bold numbers (48px+) for KPIs and important metrics",
+    professional: "Business-appropriate font weights and professional spacing",
+    readability: "Optimize for scanning behavior and quick decision making"
+  },
+  
+  EXECUTIVE_UX_PATTERNS: {
+    dashboard_first: "Overview before details, trends before data",
+    f_pattern_layout: "Optimize for executive scanning behavior",
+    mobile_executive: "44px minimum touch targets, thumb-friendly navigation",
+    status_communication: "Clear visual indicators for workflow progression",
+    quick_actions: "Executive-friendly action buttons and workflows"
+  },
+  
+  ACCESSIBILITY_MANDATORY: {
+    wcag_compliance: "WCAG 2.1 AA compliance for ALL interactive elements",
+    color_contrast: "Minimum 4.5:1 contrast ratio for text",
+    keyboard_navigation: "Full keyboard accessibility for all features",
+    screen_reader: "Proper ARIA labels and semantic HTML structure",
+    focus_management: "Clear focus indicators and logical tab order"
+  },
+  
+  DESIGN_VIOLATION: `
+    ❌ DESIGN STANDARD VIOLATION
+    
+    All UI must follow executive-focused design standards.
+    
+    REFERENCE: docs/design/FAEVision-Design-Standards.md
+    
+    REQUIREMENTS:
+    - Executive color system and typography
+    - WCAG 2.1 AA accessibility compliance
+    - Mobile-first responsive design
+    - Professional aesthetic building stakeholder confidence
+    
+    Review design standards before proceeding.
+  `
+}
+
+// ============================================================================
+// ⚡ PERFORMANCE REQUIREMENTS - NON-NEGOTIABLE STANDARDS
+// ============================================================================
+
+PERFORMANCE_ENFORCEMENT: {
+  MANDATORY_PERFORMANCE: {
+    page_load: "< 2 seconds on 3G connection - no exceptions",
+    api_response: "< 500ms for all API endpoints",
+    ai_processing: "< 15 seconds with progress indicators",
+    mobile_performance: "< 2.5 seconds on mobile 3G",
+    time_to_interactive: "< 3 seconds for all pages"
+  },
+  
+  REQUIRED_OPTIMIZATIONS: [
+    "Next.js Image component for all images",
+    "Code splitting and lazy loading for non-critical components",
+    "Database query optimization with proper indexing",
+    "Caching strategy for frequently accessed data",
+    "Real-time feature optimization for performance",
+    "Bundle size monitoring and optimization"
+  ],
+  
+  PERFORMANCE_VIOLATION: `
+    ❌ PERFORMANCE STANDARD VIOLATION
+    
+    FAEVision must meet strict performance requirements for executive users.
+    
+    REQUIREMENTS:
+    - Page load < 2 seconds
+    - API response < 500ms  
+    - AI processing < 15 seconds with progress
+    - Mobile performance < 2.5 seconds
+    
+    Implement required optimizations before proceeding.
+  `
+}
+
+// ============================================================================
+// 🔐 SECURITY REQUIREMENTS - ZERO COMPROMISE ON SECURITY
+// ============================================================================
+
+SECURITY_ENFORCEMENT: {
+  MANDATORY_SECURITY: {
+    input_validation: "ALL user inputs MUST use Zod schema validation",
+    authentication: "ALL protected routes MUST verify JWT tokens",
+    authorization: "ALL operations MUST check user role permissions",
+    data_encryption: "ALL sensitive data MUST be encrypted at rest and in transit",
+    audit_logging: "ALL user actions MUST be logged for compliance"
+  },
+  
+  SECURITY_PATTERNS: [
+    "Sanitize all inputs against XSS attacks",
+    "Use parameterized queries to prevent SQL injection", 
+    "Implement CSRF protection for state-changing operations",
+    "Validate and scan file uploads for security",
+    "Rate limit API endpoints to prevent abuse",
+    "Secure API keys and environment variables"
+  ],
+  
+  SECURITY_VIOLATION: `
+    ❌ SECURITY REQUIREMENT VIOLATION
+    
+    Security is non-negotiable for executive-facing applications.
+    
+    MANDATORY REQUIREMENTS:
+    - Zod validation for all inputs
+    - JWT token verification
+    - Role-based authorization
+    - Data encryption
+    - Audit logging
+    
+    Implement security measures before proceeding.
+  `
+}
+
+// ============================================================================
+// 📋 PROCESS WORKFLOW ENFORCEMENT
+// ============================================================================
+
+WORKFLOW_COMPLIANCE: {
+  LINEAR_WORKFLOW: {
+    required: "ALL work MUST start from approved Linear issue with FAE-XXX format",
+    epic_alignment: "Work MUST align with current Epic (0-8) and Sprint goals",
+    status_tracking: "Linear status MUST be updated: To Do → In Progress → In Review → Done",
+    assignment: "Linear issue MUST be assigned to appropriate expert"
+  },
+  
+  GITHUB_WORKFLOW: {
+    branch_naming: "feature/FAE-XXX-descriptive-name format REQUIRED",
+    pull_requests: "ALL changes MUST go through PR review process",
+    expert_review: "MANDATORY expert review before merge to main",
+    commit_format: "Conventional commits (feat:, fix:, docs:, etc.) REQUIRED"
+  },
+  
+  QUALITY_GATES: [
+    "TypeScript compilation without errors",
+    "ESLint validation passing",
+    "Test coverage > 85%",
+    "Accessibility validation (WCAG 2.1 AA)",
+    "Performance benchmarks met",
+    "Security scan clean",
+    "Expert review approved"
+  ],
+  
+  PROCESS_VIOLATION: `
+    ❌ WORKFLOW PROCESS VIOLATION
+    
+    Strict process adherence required for team coordination.
+    
+    REQUIREMENTS:
+    1. ✅ Linear issue (FAE-XXX) exists and assigned
+    2. ✅ GitHub branch created from Linear issue
+    3. ✅ Appropriate expert assigned and available
+    4. ✅ Work aligns with current Epic and Sprint
+    5. ✅ All quality gates configured
+    
+    Complete process setup before development.
+  `
+}
+
+// ============================================================================
+// 🤖 AI FEATURE SPECIFIC CONTROLS
+// ============================================================================
+
+AI_FEATURE_CONTROLS: {
+  AI_SCOPE_BOUNDARIES: {
+    permitted: [
+      "Strategic tagging (Department, Issue Type, Root Cause)",
+      "Duplicate input detection and suggestions",
+      "Similarity analysis for input grouping",
+      "Requirements document generation from solution data",
+      "FRD document generation for handoff"
+    ],
+    forbidden: [
+      "Machine learning model training",
+      "Complex clustering algorithms", 
+      "Predictive analytics and forecasting",
+      "Advanced natural language processing",
+      "Custom AI model development",
+      "External AI service integrations beyond OpenAI"
+    ]
+  },
+  
+  AI_IMPLEMENTATION_RULES: {
+    framework: "Vercel AI SDK ONLY - no direct OpenAI API calls",
+    models: "GPT-4 for document generation, GPT-3.5-turbo for tagging",
+    processing_time: "Maximum 15 seconds with progress indicators",
+    fallback_required: "Must function when AI service unavailable",
+    transparency: "Clear indication of AI-generated vs human content",
+    confidence_scoring: "Include confidence scores for all AI suggestions",
+    human_override: "Executives must be able to override all AI suggestions"
+  },
+  
+  AI_QUALITY_REQUIREMENTS: [
+    "Real-time processing status with progress indicators",
+    "Graceful degradation when AI services unavailable",
+    "Confidence scoring for all AI-generated content",
+    "Executive override capabilities for all AI suggestions",
+    "Clear visual distinction between AI and human content",
+    "Performance monitoring and optimization"
+  ],
+  
+  AI_VIOLATION: `
+    ❌ AI FEATURE VIOLATION
+    
+    AI features must stay within approved scope and implementation patterns.
+    
+    APPROVED: Auto-tagging, duplicate detection, similarity suggestions, document generation
+    FORBIDDEN: ML training, complex clustering, predictive analytics
+    
+    REQUIREMENTS:
+    - Vercel AI SDK implementation only
+    - <15 second processing with progress
+    - Graceful fallback when AI unavailable
+    - Executive override capabilities
+    
+    Consult AI Architect (Dr. Priya Patel) for clarification.
+  `
+}
+
+// ============================================================================
+// 📊 EXECUTIVE USER EXPERIENCE OPTIMIZATION
+// ============================================================================
+
+EXECUTIVE_UX_OPTIMIZATION: {
+  EXECUTIVE_BEHAVIOR_PATTERNS: {
+    scanning_optimization: "F-pattern layout for quick information consumption",
+    decision_support: "Clear status indicators and trend visualization", 
+    mobile_usage: "30% mobile usage - optimize for meeting-friendly capture",
+    time_constraints: "Information must be immediately understandable",
+    multitasking: "Interfaces must support interrupted workflows"
+  },
+  
+  EXECUTIVE_INTERFACE_REQUIREMENTS: {
+    dashboard_priority: "Dashboard-first architecture with drill-down capability",
+    professional_aesthetics: "Sophisticated design building stakeholder confidence",
+    status_communication: "Clear visual workflow progression indicators",
+    quick_actions: "One-click actions for common executive tasks",
+    context_switching: "Easy navigation between high-level and detailed views"
+  },
+  
+  MOBILE_EXECUTIVE_PATTERNS: {
+    meeting_capture: "Quick input creation during meetings",
+    status_checking: "Rapid status updates between meetings",
+    approval_workflows: "Touch-friendly approval actions",
+    offline_resilience: "Graceful handling of connectivity issues"
+  },
+  
+  EXECUTIVE_UX_VIOLATION: `
+    ❌ EXECUTIVE UX VIOLATION
+    
+    All interfaces must be optimized for executive user behavior.
+    
+    REQUIREMENTS:
+    - Dashboard-first information architecture
+    - F-pattern layout optimization
+    - Mobile meeting-friendly capture
+    - Professional aesthetic building confidence
+    - Quick decision-making support
+    
+    Review executive user patterns before implementation.
+  `
+}
+
+// ============================================================================
+// 🚀 DEVELOPMENT PRODUCTIVITY OPTIMIZATION
+// ============================================================================
+
+DEVELOPMENT_EFFICIENCY: {
+  CODE_GENERATION_STANDARDS: {
+    comprehensive_implementation: "Include all necessary imports, types, error handling",
+    testing_included: "Generate corresponding tests with >85% coverage",
+    documentation_required: "Include JSDoc comments for all public APIs",
+    accessibility_built_in: "Include ARIA labels and semantic HTML",
+    performance_optimized: "Implement performance best practices by default"
+  },
+  
+  QUALITY_AUTOMATION: {
+    real_time_validation: "Continuous TypeScript, ESLint, accessibility validation",
+    automated_testing: "Jest unit tests, Playwright integration tests",
+    performance_monitoring: "Core Web Vitals tracking and optimization",
+    security_scanning: "Continuous security vulnerability detection"
+  },
+  
+  TEAM_COORDINATION: {
+    expert_handoffs: "Clear documentation for expert-to-expert work transfer",
+    dependency_tracking: "Automatic identification of cross-expert dependencies",
+    progress_reporting: "Real-time Linear issue status updates",
+    knowledge_sharing: "Document patterns and decisions for team benefit"
+  }
+}
+
+// ============================================================================
+// 🎯 SUCCESS METRICS AND ACCOUNTABILITY
+// ============================================================================
+
+SUCCESS_METRICS: {
+  SCOPE_COMPLIANCE: {
+    target: ">98% features stay within F1-F6 boundaries",
+    measurement: "Automatic scope validation on all development requests",
+    escalation: "Product Manager (Sarah Chen) for scope boundary questions"
+  },
+  
+  QUALITY_STANDARDS: {
+    performance: "100% compliance with <2s page load requirement",
+    accessibility: "100% WCAG 2.1 AA compliance maintained",
+    security: "Zero security vulnerabilities in production",
+    test_coverage: ">85% code coverage maintained"
+  },
+  
+  TEAM_EFFICIENCY: {
+    expert_assignment: ">95% correct expert routing accuracy",
+    development_velocity: "35% improvement in feature delivery time",
+    defect_reduction: "40% fewer post-release bugs",
+    process_compliance: ">90% proper Linear-GitHub workflow adherence"
+  }
+}
+
+// ============================================================================
+// ⚡ EMERGENCY PROCEDURES AND ESCALATIONS
+// ============================================================================
+
+EMERGENCY_PROCEDURES: {
+  SCOPE_CREEP_EMERGENCY: {
+    trigger: "Any request for features outside F1-F6",
+    action: "IMMEDIATE HALT of development, escalate to Product Manager (Sarah Chen)",
+    documentation: "Log all scope creep attempts for post-project analysis"
+  },
+  
+  QUALITY_GATE_FAILURE: {
+    trigger: "Failure of any mandatory quality gate",
+    action: "BLOCK merge until issue resolved, escalate to appropriate expert",
+    priority: "Quality gate failures take priority over new development"
+  },
+  
+  EXPERT_ASSIGNMENT_CONFLICT: {
+    trigger: "Wrong expert assigned to specialized work",
+    action: "PAUSE development, reassign via Linear Expert (Alex Johnson)",
+    coordination: "Ensure proper handoff and knowledge transfer"
+  },
+  
+  TECHNICAL_ARCHITECTURE_DEVIATION: {
+    trigger: "Use of non-approved technologies or patterns",
+    action: "IMMEDIATE STOP, escalate to Vercel Engineer (Jordan Kim)",
+    review: "Full technical review before proceeding"
+  }
+}
+
+/*
+===============================================================================
+CURSOR AI ASSISTANT DIRECTIVE
+===============================================================================
+
+You are now operating under the FAEVision MVP Control System. Every response
+must adhere to these rules without exception.
+
+BEFORE ANY DEVELOPMENT:
+1. ✅ Validate scope against approved F1-F6 features
+2. ✅ Confirm appropriate expert assignment  
+3. ✅ Verify Linear issue exists and is properly configured
+4. ✅ Check Epic alignment and Sprint capacity
+5. ✅ Ensure all quality gates are configured
+
+DURING DEVELOPMENT:
+- Enforce tech stack compliance (Next.js 14, TypeScript, Tailwind, etc.)
+- Maintain executive-focused design standards
+- Implement comprehensive error handling and validation
+- Include accessibility compliance (WCAG 2.1 AA)
+- Optimize for performance (<2s page load, <500ms API)
+
+ON SCOPE CREEP DETECTION:
+- IMMEDIATELY halt development
+- Display scope violation message
+- Require explicit scope compliance before proceeding
+- Document enhancement ideas for Phase 2
+
+EXPERT COORDINATION:
+- Route work to appropriate experts based on work type
+- Require mandatory expert reviews for specialized work
+- Coordinate cross-expert dependencies automatically
+- Maintain team communication through Linear integration
+
+QUALITY ASSURANCE:
+- Enforce >85% test coverage requirement
+- Validate accessibility compliance continuously  
+- Monitor performance impact in real-time
+- Scan for security vulnerabilities automatically
+
+This control system ensures our 11-expert team delivers a production-ready
+FAEVision MVP within 11 weeks while maintaining the highest quality standards
+for our executive user base.
+
+SUCCESS DEPENDS ON STRICT ADHERENCE TO THESE CONTROLS.
+===============================================================================
+*/

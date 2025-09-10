@@ -1,0 +1,49 @@
+{
+  "name": "faevision-mvp",
+  "version": "1.0.0",
+  "description": "FAEVision MVP - Internal application for 50 executives",
+  "private": true,
+  "workspaces": [
+    "apps/*",
+    "packages/*"
+  ],
+  "scripts": {
+    "dev": "npm run dev --workspace=apps/web",
+    "build": "npm run build --workspace=apps/web",
+    "start": "npm run start --workspace=apps/web",
+    "lint": "npm run lint --workspace=apps/web",
+    "lint:fix": "npm run lint:fix --workspace=apps/web",
+    "type-check": "npm run type-check --workspace=apps/web",
+    "test": "npm run test --workspace=apps/web",
+    "test:e2e": "npm run test:e2e --workspace=apps/web",
+    "db:generate": "npm run db:generate --workspace=packages/database",
+    "db:push": "npm run db:push --workspace=packages/database",
+    "db:migrate": "npm run db:migrate --workspace=packages/database",
+    "db:studio": "npm run db:studio --workspace=packages/database",
+    "db:seed": "npm run db:seed --workspace=packages/database",
+    "install-all": "npm install && npm install --workspace=apps/web && npm install --workspace=packages/database",
+    "clean": "rm -rf node_modules apps/*/node_modules packages/*/node_modules"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/[org]/faevision-mvp.git"
+  },
+  "keywords": [
+    "nextjs",
+    "typescript",
+    "tailwind",
+    "prisma",
+    "executive",
+    "mvp",
+    "internal-tool"
+  ],
+  "author": "FAEVision Team",
+  "license": "MIT",
+  "engines": {
+    "node": ">=18.0.0",
+    "npm": ">=8.0.0"
+  },
+  "devDependencies": {
+    "@types/node": "^20.0.0"
+  }
+}

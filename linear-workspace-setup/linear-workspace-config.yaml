@@ -1,0 +1,143 @@
+# FAEVision MVP - Linear Workspace Configuration
+# Alex Johnson (Linear Expert) - Epic 0 Implementation
+
+workspace:
+  name: "FAEVision MVP"
+  description: "Internal MVP for 50 executives - 11-week delivery"
+  url: "faevision-mvp"
+
+teams:
+  core_development:
+    name: "Core Development"
+    description: "Frontend, Backend, Database, AI Development"
+    members:
+      - "Alex Thompson (Lead Developer)"
+      - "Jordan Lee (Cursor Expert)"
+      - "Taylor Morgan (GitHub Expert)"
+      - "Morgan Smith (Database Architect)"
+    permissions: "full_access"
+    
+  product_strategy:
+    name: "Product & Strategy"
+    description: "Product Management, Business Strategy, Process"
+    members:
+      - "Sarah Chen (Product Manager)"
+      - "Marcus Rodriguez (Strategic Consultant)"
+      - "Alex Johnson (Linear Expert)"
+    permissions: "full_access"
+    
+  design_ux:
+    name: "Design & UX"
+    description: "User Experience, Visual Design, AI Architecture"
+    members:
+      - "Maya Rodriguez (UX Expert)"
+      - "David Chen (Visual Designer)"
+      - "Dr. Priya Patel (AI Architect)"
+    permissions: "full_access"
+    
+  platform_infrastructure:
+    name: "Platform & Infrastructure"
+    description: "Deployment, Platform, Infrastructure"
+    members:
+      - "Jordan Kim (Vercel Engineer)"
+      - "Taylor Morgan (GitHub Expert)"
+      - "Morgan Smith (Database Architect)"
+    permissions: "full_access"
+
+custom_fields:
+  business_impact:
+    type: "select"
+    name: "Business Impact"
+    description: "Business value delivered by this work"
+    options: ["High", "Medium", "Low"]
+    
+  user_role_affected:
+    type: "multi_select"
+    name: "User Role Affected"
+    description: "Which user roles are impacted"
+    options: ["Admin", "Executive", "Contributor", "All"]
+    
+  technical_complexity:
+    type: "select"
+    name: "Technical Complexity"
+    description: "Technical implementation complexity"
+    options: ["Simple", "Medium", "Complex", "Research Required"]
+    
+  ai_component:
+    type: "boolean"
+    name: "AI Component"
+    description: "Does this issue involve AI features?"
+    
+  executive_review_required:
+    type: "boolean"
+    name: "Executive Review Required"
+    description: "Requires executive review before implementation"
+
+issue_templates:
+  epic:
+    name: "Epic Template"
+    description: "Major feature areas (Epic 0-8)"
+    labels: ["epic"]
+    
+  story:
+    name: "User Story Template"
+    description: "User-facing functionality within Epics"
+    labels: ["story"]
+    
+  task:
+    name: "Task Template"
+    description: "Technical implementation work"
+    labels: ["task"]
+    
+  bug:
+    name: "Bug Report Template"
+    description: "Defects requiring immediate attention"
+    labels: ["bug"]
+    
+  ai_feature:
+    name: "AI Feature Template"
+    description: "AI-specific functionality and implementation"
+    labels: ["ai", "feature"]
+    
+  review:
+    name: "Review Template"
+    description: "Code review and quality assurance"
+    labels: ["review"]
+    
+  deployment:
+    name: "Deployment Template"
+    description: "Release and deployment activities"
+    labels: ["deployment"]
+
+project_settings:
+  issue_numbering: "FAE-{number}"
+  default_assignee: "auto_assign_based_on_labels"
+  cycle_length: "2_weeks"
+  start_of_week: "monday"
+  
+integrations:
+  github:
+    enabled: true
+    repository: "faevision-mvp"
+    sync_settings:
+      auto_close_on_merge: true
+      auto_assign_based_on_labels: true
+      status_sync: true
+      
+  slack:
+    enabled: true
+    notifications:
+      issue_created: true
+      issue_completed: true
+      epic_milestone: true
+      
+automation_rules:
+  status_transitions:
+    - trigger: "issue_created"
+      action: "auto_assign_to_epic_based_on_labels"
+    - trigger: "pr_created"
+      action: "move_to_in_review"
+    - trigger: "pr_merged"
+      action: "move_to_done"
+    - trigger: "issue_labeled_critical"
+      action: "notify_product_manager"

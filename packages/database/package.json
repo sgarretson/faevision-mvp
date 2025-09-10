@@ -1,0 +1,31 @@
+{
+  "name": "@faevision/database",
+  "version": "1.0.0",
+  "description": "FAEVision database schema and migrations",
+  "main": "index.js",
+  "scripts": {
+    "db:generate": "prisma generate",
+    "db:push": "prisma db push",
+    "db:migrate": "prisma migrate dev",
+    "db:migrate:prod": "prisma migrate deploy",
+    "db:studio": "prisma studio",
+    "db:seed": "prisma db seed",
+    "db:reset": "prisma migrate reset",
+    "postinstall": "prisma generate"
+  },
+  "dependencies": {
+    "@prisma/client": "^5.0.0",
+    "prisma": "^5.0.0"
+  },
+  "prisma": {
+    "seed": "ts-node prisma/seed.ts"
+  },
+  "keywords": [
+    "prisma",
+    "database",
+    "postgres",
+    "faevision"
+  ],
+  "author": "Morgan Smith (Database Architect)",
+  "license": "MIT"
+}
