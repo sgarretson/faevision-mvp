@@ -1,0 +1,74 @@
+# FAEVision MVP - Code Owners
+# This file defines who must review changes to specific parts of the codebase
+
+# Global fallback - Lead Developer reviews everything
+* @alexthompson
+
+# Database and Schema Changes
+packages/database/ @morgansmith @alexthompson
+**/prisma/ @morgansmith
+**/*.prisma @morgansmith
+**/migrations/ @morgansmith
+
+# Authentication and Security
+**/auth/ @alexthompson
+**/middleware.ts @alexthompson
+**/api/auth/ @alexthompson
+**/*auth*.ts @alexthompson
+
+# AI Features
+**/ai/ @priyapatel @jordanlee
+**/*ai*.ts @priyapatel
+**/*openai*.ts @priyapatel
+**/lib/ai/ @priyapatel
+
+# UI Components and Design
+**/components/ui/ @davidchen @mayarodriguez
+**/*.css @davidchen
+**/styles/ @davidchen
+**/design/ @davidchen
+**/tailwind.config.js @davidchen
+
+# UX and Accessibility
+**/accessibility/ @mayarodriguez
+**/*a11y*.ts @mayarodriguez
+**/*accessibility*.ts @mayarodriguez
+
+# Infrastructure and Deployment
+.github/ @taylormorgan @jordankim
+**/vercel.json @jordankim
+**/next.config.js @jordankim @alexthompson
+**/.env* @jordankim
+**/docker* @jordankim
+
+# CI/CD and Quality
+.github/workflows/ @taylormorgan
+**/.eslintrc* @taylormorgan @alexthompson
+**/prettier.config.js @taylormorgan
+**/vitest.config.ts @taylormorgan
+**/playwright.config.ts @taylormorgan
+
+# Documentation
+**/README.md @sarahchen @alexthompson
+**/docs/ @sarahchen
+**/*.md @sarahchen
+
+# Business Logic and Product Requirements
+**/requirements/ @sarahchen @marcusrodriguez
+**/business/ @sarahchen
+**/strategy/ @marcusrodriguez
+
+# Linear and Project Management
+**/linear/ @alexjohnson
+**/.linear/ @alexjohnson
+**/project-management/ @alexjohnson
+
+# Package.json and Dependencies
+**/package.json @alexthompson @taylormorgan
+**/package-lock.json @alexthompson @taylormorgan
+
+# Root Configuration Files
+/.cursorrules @jordanlee
+/.cursor/ @jordanlee
+/tsconfig.json @alexthompson
+/turbo.json @alexthompson

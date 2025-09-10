@@ -115,6 +115,17 @@ Need to create comments table with polymorphic relationships to support comments
 - ✅ **DO**: Use search_replace, write, MultiEdit tools to create actual code
 - ✅ **DO**: Implement user stories with real, functional code
 
+## 🚨 REGRESSION PREVENTION PROTOCOL
+
+**CRITICAL**: Never delete or remove working code without proper escalation
+- ✅ **PRESERVE**: Always backup working code before attempting fixes
+- ✅ **BRANCH**: Create experimental branches for risky changes
+- ✅ **ESCALATE**: Create Linear issue for technical problems after 1 hour
+- ✅ **CONSULT**: Engage Expert Consultants for specialized technical issues
+- ✅ **PARALLEL**: Continue Sprint development while solving technical issues
+- ❌ **NEVER**: Remove working features to fix build/config issues
+- ❌ **NEVER**: Spend >2 hours on non-critical technical configuration
+
 ---
 
 **Quick Start**: Copy the master prompt template above, fill in your specific task details, and let the intelligent router guide you to the right expert and implementation approach.

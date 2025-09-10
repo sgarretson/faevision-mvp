@@ -554,6 +554,40 @@ EMERGENCY_PROCEDURES: {
     trigger: "Use of non-approved technologies or patterns",
     action: "IMMEDIATE STOP, escalate to Vercel Engineer (Jordan Kim)",
     review: "Full technical review before proceeding"
+  },
+
+  TECHNICAL_REGRESSION_EMERGENCY: {
+    trigger: "Code removal, build failures, or system regressions detected",
+    action: "IMMEDIATE CODE PRESERVATION - do not delete working code without backup",
+    escalation_chain: [
+      "1. STOP current approach - preserve existing working code",
+      "2. Create Linear issue documenting the problem and attempted solutions", 
+      "3. Escalate to appropriate Technical Expert Consultant based on issue type",
+      "4. Convene Expert Consultation Panel if needed",
+      "5. Document solution and lessons learned for future prevention"
+    ],
+    expert_consultants: {
+      build_config: "Vercel Engineer (Jordan Kim) + Cursor Expert (Jordan Lee)",
+      dependency_conflicts: "Lead Developer (Alex Thompson) + GitHub Expert (Taylor Morgan)",
+      css_frameworks: "Visual Designer (David Chen) + UX Expert (Maya Rodriguez)",
+      database_issues: "Database Architect (Morgan Smith)",
+      ai_integrations: "AI Architect (Dr. Priya Patel) + Cursor Expert (Jordan Lee)",
+      performance_issues: "Vercel Engineer (Jordan Kim) + Lead Developer (Alex Thompson)"
+    },
+    prevention_protocol: "Always preserve working code, create branches for experiments, document rollback plans"
+  },
+
+  DEVELOPMENT_VELOCITY_CRISIS: {
+    trigger: "Development stuck on non-critical issue for >2 hours",
+    action: "ESCALATE IMMEDIATELY - switch to parallel development approach",
+    protocol: [
+      "1. Preserve current working state",
+      "2. Create workaround or simplified approach",
+      "3. Continue Sprint development on other stories",
+      "4. Assign Expert Consultant to resolve issue in parallel",
+      "5. Implement proper solution when ready"
+    ],
+    philosophy: "Deliver working features while solving technical challenges in parallel"
   }
 }
 

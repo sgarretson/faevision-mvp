@@ -1,0 +1,202 @@
+name: CI/CD Pipeline
+
+on:
+  push:
+    branches: [main, develop]
+  pull_request:
+    branches: [main, develop]
+
+env:
+  NODE_VERSION: '18'
+  VERCEL_TOKEN: ${{ secrets.VERCEL_TOKEN }}
+  DATABASE_URL: ${{ secrets.DATABASE_URL }}
+  NEXTAUTH_SECRET: ${{ secrets.NEXTAUTH_SECRET }}
+  NEXTAUTH_URL: ${{ secrets.NEXTAUTH_URL }}
+
+jobs:
+  # Quality Gates
+  quality-gates:
+    runs-on: ubuntu-latest
+    name: Quality Gates & Testing
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: ${{ env.NODE_VERSION }}
+          cache: 'npm'
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Install web app dependencies
+        run: |
+          cd apps/web
+          npm ci --legacy-peer-deps
+
+      - name: TypeScript type checking
+        run: |
+          cd apps/web
+          npx tsc --noEmit
+
+      - name: Lint code
+        run: |
+          cd apps/web
+          npm run lint
+
+      - name: Format check
+        run: |
+          cd apps/web
+          npx prettier --check .
+
+      - name: Database schema validation
+        run: |
+          cd packages/database
+          npx prisma validate
+
+      - name: Build application
+        run: |
+          cd apps/web
+          npm run build
+
+  # Security Scanning
+  security-scan:
+    runs-on: ubuntu-latest
+    name: Security Analysis
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: ${{ env.NODE_VERSION }}
+          cache: 'npm'
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Security audit
+        run: npm audit --audit-level high
+
+      - name: Run CodeQL Analysis
+        uses: github/codeql-action/init@v2
+        with:
+          languages: javascript, typescript
+
+      - name: Perform CodeQL Analysis
+        uses: github/codeql-action/analyze@v2
+
+  # Performance Testing
+  performance-test:
+    runs-on: ubuntu-latest
+    name: Performance Validation
+    needs: quality-gates
+    if: github.event_name == 'pull_request'
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: ${{ env.NODE_VERSION }}
+          cache: 'npm'
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Build application
+        run: |
+          cd apps/web
+          npm ci --legacy-peer-deps
+          npm run build
+
+      - name: Start application
+        run: |
+          cd apps/web
+          npm start &
+          sleep 30
+
+      - name: Run Lighthouse CI
+        uses: treosh/lighthouse-ci-action@v9
+        with:
+          uploadArtifacts: true
+          temporaryPublicStorage: true
+          configPath: './.lighthouserc.json'
+
+  # Deployment to Vercel
+  deploy:
+    runs-on: ubuntu-latest
+    name: Deploy to Vercel
+    needs: [quality-gates, security-scan]
+    if: github.ref == 'refs/heads/main' || github.ref == 'refs/heads/develop'
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: ${{ env.NODE_VERSION }}
+          cache: 'npm'
+
+      - name: Install Vercel CLI
+        run: npm install --global vercel@latest
+
+      - name: Pull Vercel Environment Information
+        run: |
+          cd apps/web
+          vercel pull --yes --environment=${{ github.ref == 'refs/heads/main' && 'production' || 'preview' }} --token=${{ secrets.VERCEL_TOKEN }}
+
+      - name: Build Project Artifacts
+        run: |
+          cd apps/web
+          vercel build ${{ github.ref == 'refs/heads/main' && '--prod' || '' }} --token=${{ secrets.VERCEL_TOKEN }}
+
+      - name: Deploy Project Artifacts to Vercel
+        id: deploy
+        run: |
+          cd apps/web
+          DEPLOYMENT_URL=$(vercel deploy --prebuilt ${{ github.ref == 'refs/heads/main' && '--prod' || '' }} --token=${{ secrets.VERCEL_TOKEN }})
+          echo "deployment_url=$DEPLOYMENT_URL" >> $GITHUB_OUTPUT
+
+      - name: Update deployment status
+        uses: actions/github-script@v6
+        with:
+          script: |
+            const { owner, repo } = context.repo;
+            const sha = context.sha;
+            const deploymentUrl = '${{ steps.deploy.outputs.deployment_url }}';
+            
+            await github.rest.repos.createDeploymentStatus({
+              owner,
+              repo,
+              deployment_id: context.payload.deployment?.id || 1,
+              state: 'success',
+              environment_url: deploymentUrl,
+              log_url: `https://github.com/${owner}/${repo}/actions/runs/${context.runId}`,
+              description: 'Deployment successful'
+            });
+
+  # Notification
+  notify:
+    runs-on: ubuntu-latest
+    name: Notify Team
+    needs: [quality-gates, security-scan, deploy]
+    if: always()
+    steps:
+      - name: Notify on success
+        if: needs.deploy.result == 'success'
+        run: |
+          echo "✅ Deployment successful!"
+          echo "URL: ${{ needs.deploy.outputs.deployment_url }}"
+
+      - name: Notify on failure
+        if: failure()
+        run: |
+          echo "❌ Pipeline failed. Check logs for details."
