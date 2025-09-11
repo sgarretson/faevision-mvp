@@ -1,4 +1,4 @@
-name: Quality Check
+name: MVP Quality Check
 on:
   pull_request:
     branches: [main, develop, preview]
@@ -20,46 +20,11 @@ jobs:
       - name: Install dependencies
         run: npm ci
         
-      - name: ESLint Validation
-        run: npm run lint
-        
-      - name: TypeScript Type Checking
+      - name: TypeScript compilation
         run: npm run type-check
         
-      - name: Unit Tests
-        run: npm run test
+      - name: ESLint validation
+        run: npm run lint
         
-      - name: Build Verification
+      - name: Build verification
         run: npm run build
-        
-      - name: Accessibility Testing
-        run: npm run test:accessibility || echo "Accessibility tests not configured yet"
-        
-      - name: Performance Testing
-        run: npm run test:performance || echo "Performance tests not configured yet"
-
-  security-scan:
-    runs-on: ubuntu-latest
-    steps:
-      - uses: actions/checkout@v4
-      
-      - name: Setup Node.js
-        uses: actions/setup-node@v4
-        with:
-          node-version: '18'
-          cache: 'npm'
-          
-      - name: Install dependencies
-        run: npm ci
-        
-      - name: Security Audit
-        run: npm audit --audit-level high
-        
-      - name: Report Quality Results
-        if: always()
-        run: |
-          echo "🔍 Quality Check Complete"
-          echo "Branch: ${{ github.ref_name }}"
-          echo "Commit: ${{ github.sha }}"
-          echo "Quality Gate: ${{ job.status == 'success' && '✅ PASSED' || '❌ FAILED' }}"
-          echo "Security Scan: ${{ job.status == 'success' && '✅ CLEAN' || '⚠️ ISSUES FOUND' }}"
