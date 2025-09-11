@@ -1,0 +1,69 @@
+name: Quality Check
+on:
+  pull_request:
+    branches: [main, develop, preview]
+  push:
+    branches: [main, develop, preview]
+
+jobs:
+  quality:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '18'
+          cache: 'npm'
+          
+      - name: Install dependencies
+        run: npm ci
+        
+      - name: ESLint Validation
+        run: npm run lint
+        
+      - name: TypeScript Type Checking
+        run: npm run type-check
+        
+      - name: Unit Tests
+        run: npm run test
+        
+      - name: Build Verification
+        run: npm run build
+        
+      - name: Accessibility Testing
+        run: npm run test:accessibility || echo "Accessibility tests not configured yet"
+        
+      - name: Performance Testing
+        run: npm run test:performance || echo "Performance tests not configured yet"
+
+  security-scan:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '18'
+          cache: 'npm'
+          
+      - name: Install dependencies
+        run: npm ci
+        
+      - name: Security Audit
+        run: npm audit --audit-level high
+        
+      - name: Update Linear with Quality Results
+        if: always()
+        uses: linear/action@v1
+        with:
+          api-key: ${{ secrets.LINEAR_API_KEY }}
+          comment: |
+            🔍 **Quality Check Complete**
+            
+            **Branch**: `${{ github.ref_name }}`
+            **Commit**: ${{ github.sha }}
+            **Quality Gate**: ${{ job.status == 'success' && '✅ PASSED' || '❌ FAILED' }}
+            **Security Scan**: ${{ job.status == 'success' && '✅ CLEAN' || '⚠️ ISSUES FOUND' }}

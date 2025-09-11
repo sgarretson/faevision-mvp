@@ -1,0 +1,47 @@
+name: Linear Integration
+on:
+  issues:
+    types: [opened, edited, closed]
+  pull_request:
+    types: [opened, closed, merged, synchronize]
+  push:
+    branches: [main, develop, preview]
+
+jobs:
+  sync-linear:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Extract Linear Issue ID
+        id: linear-id
+        run: |
+          if [[ "${{ github.event_name }}" == "pull_request" ]]; then
+            ISSUE_ID=$(echo '${{ github.event.pull_request.title }}' | grep -o 'FAE-[0-9]*' || echo "")
+          elif [[ "${{ github.event_name }}" == "push" ]]; then
+            ISSUE_ID=$(echo '${{ github.event.head_commit.message }}' | grep -o 'FAE-[0-9]*' || echo "")
+          else
+            ISSUE_ID=$(echo '${{ github.event.issue.title }}' | grep -o 'FAE-[0-9]*' || echo "")
+          fi
+          echo "issue_id=$ISSUE_ID" >> $GITHUB_OUTPUT
+          
+      - name: Update Linear Status
+        if: steps.linear-id.outputs.issue_id != ''
+        uses: linear/action@v1
+        with:
+          api-key: ${{ secrets.LINEAR_API_KEY }}
+          issue-id: ${{ steps.linear-id.outputs.issue_id }}
+          status: ${{ github.event.action == 'closed' && 'Done' || 'In Progress' }}
+          
+      - name: Add GitHub Link to Linear
+        if: github.event_name == 'pull_request' && github.event.action == 'opened'
+        uses: linear/action@v1
+        with:
+          api-key: ${{ secrets.LINEAR_API_KEY }}
+          comment: |
+            🔗 **GitHub Integration Update**
+            
+            **Pull Request**: ${{ github.event.pull_request.html_url }}
+            **Branch**: `${{ github.event.pull_request.head.ref }}`
+            **Status**: Opened for review
+            **Author**: @${{ github.event.pull_request.user.login }}
+            
+            **Changes Ready for Review**
