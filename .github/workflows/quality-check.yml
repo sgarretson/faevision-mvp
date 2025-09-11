@@ -55,15 +55,11 @@ jobs:
       - name: Security Audit
         run: npm audit --audit-level high
         
-      - name: Update Linear with Quality Results
+      - name: Report Quality Results
         if: always()
-        uses: linear/action@v1
-        with:
-          api-key: ${{ secrets.LINEAR_API_KEY }}
-          comment: |
-            🔍 **Quality Check Complete**
-            
-            **Branch**: `${{ github.ref_name }}`
-            **Commit**: ${{ github.sha }}
-            **Quality Gate**: ${{ job.status == 'success' && '✅ PASSED' || '❌ FAILED' }}
-            **Security Scan**: ${{ job.status == 'success' && '✅ CLEAN' || '⚠️ ISSUES FOUND' }}
+        run: |
+          echo "🔍 Quality Check Complete"
+          echo "Branch: ${{ github.ref_name }}"
+          echo "Commit: ${{ github.sha }}"
+          echo "Quality Gate: ${{ job.status == 'success' && '✅ PASSED' || '❌ FAILED' }}"
+          echo "Security Scan: ${{ job.status == 'success' && '✅ CLEAN' || '⚠️ ISSUES FOUND' }}"

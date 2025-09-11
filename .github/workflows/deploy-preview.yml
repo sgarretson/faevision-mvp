@@ -30,6 +30,7 @@ jobs:
         run: npm run build
         
       - name: Deploy to Vercel Preview
+        id: deploy
         uses: amondnet/vercel-action@v25
         with:
           vercel-token: ${{ secrets.VERCEL_TOKEN }}
@@ -38,16 +39,12 @@ jobs:
           working-directory: ./
           vercel-args: '--env DATABASE_URL=${{ secrets.PREVIEW_DATABASE_URL }}'
           
-      - name: Update Linear with Preview
+      - name: Notify Preview Deployment
         if: success()
-        uses: linear/action@v1
-        with:
-          api-key: ${{ secrets.LINEAR_API_KEY }}
-          comment: |
-            🧪 **Preview Deployment Complete**
-            
-            **Branch**: `${{ github.ref_name }}`
-            **Commit**: ${{ github.sha }}
-            **Status**: ✅ Successfully deployed
-            **Environment**: Preview/Staging
-            **Preview URL**: ${{ steps.deploy.outputs.preview-url }}
+        run: |
+          echo "🧪 Preview Deployment Complete"
+          echo "Branch: ${{ github.ref_name }}"
+          echo "Commit: ${{ github.sha }}"
+          echo "Status: ✅ Successfully deployed"
+          echo "Environment: Preview/Staging"
+          echo "Preview URL: ${{ steps.deploy.outputs.preview-url }}"

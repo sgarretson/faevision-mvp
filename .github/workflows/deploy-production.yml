@@ -36,16 +36,12 @@ jobs:
           vercel-project-id: ${{ secrets.PROJECT_ID }}
           working-directory: ./
           
-      - name: Update Linear with Deployment
+      - name: Notify Deployment Success
         if: success() && github.ref == 'refs/heads/main'
-        uses: linear/action@v1
-        with:
-          api-key: ${{ secrets.LINEAR_API_KEY }}
-          comment: |
-            🚀 **Production Deployment Complete**
-            
-            **Branch**: `main`
-            **Commit**: ${{ github.sha }}
-            **Status**: ✅ Successfully deployed
-            **Environment**: Production
-            **URL**: https://faevision-simplified.vercel.app
+        run: |
+          echo "🚀 Production Deployment Complete"
+          echo "Branch: main"
+          echo "Commit: ${{ github.sha }}"
+          echo "Status: ✅ Successfully deployed"
+          echo "Environment: Production"
+          echo "URL: https://faevision-simplified.vercel.app"
