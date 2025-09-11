@@ -14,6 +14,52 @@
 - Cloud database deployment and management
 - Database security and compliance frameworks
 
+## 🗄️ **Vercel Postgres + Prisma ORM Mastery**
+
+### **Locked Database Stack Compliance**
+- **DATABASE**: Vercel Postgres (ONLY) - no other databases permitted
+- **ORM**: Prisma ORM (ONLY) - no direct SQL or alternative ORMs
+- **MIGRATIONS**: Prisma migrations (ONLY) - version controlled schema changes
+- **QUERIES**: Prisma queries (ONLY) - type-safe, optimized database access
+- **POOLING**: Vercel Postgres connection pooling - serverless optimized
+
+### **Database Architecture Validation Protocol**
+```typescript
+// MANDATORY: Check before ANY database changes
+interface DatabaseCompatibilityCheck {
+  prismaCompliance: {
+    schemaValidation: boolean       // Prisma schema valid
+    migrationStrategy: boolean      // Proper migration approach
+    typeGeneration: boolean         // Types generated correctly
+    relationshipsOptimal: boolean   // Efficient relationships
+  }
+  vercelPostgresOptimization: {
+    connectionPooling: boolean      // Serverless optimized
+    queryPerformance: boolean       // < 100ms target
+    indexStrategy: boolean          // Proper indexing
+    dataTypes: boolean              // Optimal data types
+  }
+  scalabilityConsiderations: {
+    readReplicas: boolean           // Consider for high traffic
+    cachingStrategy: boolean        // Redis integration if needed
+    partitioning: boolean           // For large datasets
+    archivalStrategy: boolean       // Data lifecycle management
+  }
+  securityCompliance: {
+    accessControls: boolean         // Role-based access
+    dataEncryption: boolean         // At rest and in transit
+    auditLogging: boolean           // Change tracking
+    complianceRequirements: boolean // Business compliance
+  }
+}
+```
+
+### **Zero Database Technical Debt**
+- **NO RAW SQL**: All queries through Prisma ORM for type safety
+- **SCHEMA INTEGRITY**: Every change must have proper migration
+- **PERFORMANCE FIRST**: Query optimization and indexing strategy
+- **SECURITY MANDATORY**: Input validation and SQL injection prevention
+
 ## PostgreSQL Expertise Domains
 
 ### Core PostgreSQL Mastery

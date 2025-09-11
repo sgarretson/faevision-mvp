@@ -1,0 +1,180 @@
+{
+  "executiveUsers": [
+    {
+      "email": "sarah.chen@faevision.com",
+      "name": "Sarah Chen",
+      "role": "EXECUTIVE", 
+      "department": "Strategy",
+      "title": "Chief Strategy Officer"
+    },
+    {
+      "email": "marcus.rodriguez@faevision.com",
+      "name": "Marcus Rodriguez",
+      "role": "EXECUTIVE",
+      "department": "Operations", 
+      "title": "Chief Operating Officer"
+    },
+    {
+      "email": "priya.patel@faevision.com",
+      "name": "Dr. Priya Patel",
+      "role": "EXECUTIVE",
+      "department": "Engineering",
+      "title": "VP Engineering"
+    }
+  ],
+  "testScenarios": [
+    {
+      "id": "quarterly-planning",
+      "name": "Quarterly Strategic Planning",
+      "description": "Executive processes multiple strategic inputs from department heads",
+      "duration": 45,
+      "inputs": [
+        {
+          "title": "API Performance Optimization Initiative",
+          "description": "Current API response times are impacting executive dashboard performance during peak usage",
+          "department": "ENGINEERING",
+          "issueType": "TECHNOLOGY",
+          "rootCause": "Inefficient database queries and lack of caching infrastructure",
+          "priority": "HIGH",
+          "businessImpact": "Reduced executive productivity and delayed strategic decision making"
+        },
+        {
+          "title": "Sales Process Digitization Project", 
+          "description": "Manual sales processes are creating bottlenecks in deal closure and forecasting accuracy",
+          "department": "SALES",
+          "issueType": "PROCESS",
+          "rootCause": "Legacy CRM system and manual data entry requirements",
+          "priority": "MEDIUM",
+          "businessImpact": "Longer sales cycles and reduced revenue predictability"
+        },
+        {
+          "title": "Remote Work Policy Enhancement",
+          "description": "Current remote work policies need updating to support hybrid executive decision-making",
+          "department": "HR",
+          "issueType": "COMMUNICATION",
+          "rootCause": "Outdated policies from pre-pandemic era",
+          "priority": "MEDIUM", 
+          "businessImpact": "Reduced employee satisfaction and executive oversight challenges"
+        }
+      ]
+    },
+    {
+      "id": "crisis-response",
+      "name": "Crisis Response Workflow",
+      "description": "Urgent cross-departmental issue requiring rapid executive coordination",
+      "duration": 30,
+      "inputs": [
+        {
+          "title": "URGENT: Customer Data Security Incident",
+          "description": "Potential data breach detected in customer database requiring immediate executive response",
+          "department": "ENGINEERING", 
+          "issueType": "TECHNOLOGY",
+          "rootCause": "Vulnerability in third-party integration",
+          "priority": "CRITICAL",
+          "businessImpact": "Potential customer trust loss and regulatory compliance issues"
+        }
+      ]
+    },
+    {
+      "id": "multi-department-initiative",
+      "name": "Multi-Department Strategic Initiative",
+      "description": "Cross-functional project involving multiple teams and complex stakeholder coordination",
+      "duration": 60,
+      "inputs": [
+        {
+          "title": "Digital Transformation Strategy",
+          "description": "Company-wide digital transformation affecting all departments and requiring coordinated executive leadership",
+          "department": "STRATEGY",
+          "issueType": "PROCESS",
+          "rootCause": "Outdated technology stack and manual processes across departments",
+          "priority": "HIGH",
+          "businessImpact": "Competitive disadvantage and operational inefficiency across organization"
+        },
+        {
+          "title": "Customer Experience Platform Integration",
+          "description": "Integration of customer experience tools across sales, marketing, and support requires executive coordination",
+          "department": "SALES",
+          "issueType": "TECHNOLOGY", 
+          "rootCause": "Siloed customer data and inconsistent experience delivery",
+          "priority": "HIGH",
+          "businessImpact": "Inconsistent customer experience and lost revenue opportunities"
+        }
+      ]
+    }
+  ],
+  "expectedWorkflowOutcomes": {
+    "f1InputCapture": {
+      "aiTaggingAccuracy": ">80%",
+      "duplicateDetectionRate": ">90%", 
+      "executiveSatisfaction": ">4.0/5.0",
+      "timeToComplete": "<5 minutes"
+    },
+    "f2Collaboration": {
+      "votingEngagement": ">3 votes per input",
+      "commentQuality": "Professional business context",
+      "stakeholderParticipation": ">80%",
+      "consensusBuilding": ">4.0/5.0 effectiveness"
+    },
+    "f3Organization": {
+      "groupingLogic": "Clear business alignment",
+      "analyticsValue": ">4.0/5.0 usefulness",
+      "dashboardInsights": "Actionable executive intelligence",
+      "mobileUsability": ">4.0/5.0 rating"
+    },
+    "f4SolutionManagement": {
+      "solutionQuality": "Comprehensive and actionable",
+      "taskBreakdown": "Clear and assignable",
+      "progressTracking": "Real-time and accurate",
+      "businessValue": "Clearly defined ROI"
+    },
+    "f5Requirements": {
+      "requirementQuality": "Implementation-ready specifications",
+      "approvalWorkflow": "Efficient executive process",
+      "aiAssistance": ">75% acceptance rate", 
+      "collaborationValue": "Enhanced stakeholder input"
+    },
+    "f6FRDGeneration": {
+      "documentQuality": "Professional implementation-ready",
+      "aiGenerationTime": "<60 seconds",
+      "executiveApproval": "Clear approval workflow",
+      "exportCapability": "Multiple formats working"
+    }
+  },
+  "performanceBenchmarks": {
+    "pageLoadTimes": {
+      "dashboard": "<2000ms",
+      "inputCreation": "<1500ms", 
+      "solutionManagement": "<2000ms",
+      "requirementsPage": "<1500ms",
+      "frdGeneration": "<2000ms"
+    },
+    "apiResponseTimes": {
+      "inputsAPI": "<400ms",
+      "solutionsAPI": "<500ms",
+      "userSearchAPI": "<300ms",
+      "dashboardMetrics": "<600ms",
+      "collaborationAPI": "<400ms"
+    },
+    "aiProcessingTimes": {
+      "inputTagging": "<15000ms",
+      "duplicateDetection": "<10000ms",
+      "requirementsGeneration": "<20000ms", 
+      "frdGeneration": "<60000ms"
+    },
+    "mobilePerformance": {
+      "dashboardLoad": "<2500ms",
+      "inputCreationForm": "<1500ms",
+      "touchTargetSize": ">=44px",
+      "textReadability": ">=16px font size"
+    }
+  },
+  "accessibilityRequirements": {
+    "wcagCompliance": "WCAG 2.1 AA",
+    "colorContrast": ">=4.5:1 ratio",
+    "keyboardNavigation": "100% accessible",
+    "screenReader": "Full compatibility",
+    "focusManagement": "Proper focus indicators",
+    "alternativeText": "All images have alt text",
+    "formLabeling": "All inputs properly labeled"
+  }
+}

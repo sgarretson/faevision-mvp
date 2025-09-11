@@ -1,0 +1,250 @@
+name: Linear Branch Automation
+# Implements Alex Johnson (Linear Expert) automated branch creation workflow
+# Creates GitHub branches automatically from Linear issue assignments
+
+on:
+  # Webhook trigger from Linear (when implemented)
+  repository_dispatch:
+    types: [linear-issue-assigned, linear-issue-status-changed]
+  
+  # Manual trigger for testing
+  workflow_dispatch:
+    inputs:
+      linear_issue_id:
+        description: 'Linear Issue ID (e.g., FAE-123)'
+        required: true
+        type: string
+      issue_title:
+        description: 'Issue Title'
+        required: true
+        type: string
+      branch_type:
+        description: 'Branch Type'
+        required: true
+        type: choice
+        options: ['feature', 'fix', 'hotfix', 'chore', 'docs']
+        default: 'feature'
+      assignee:
+        description: 'GitHub Username (assignee)'
+        required: false
+        type: string
+
+jobs:
+  # ============================================================================
+  # CREATE BRANCH FROM LINEAR ISSUE
+  # ============================================================================
+  create-branch:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Extract Issue Information
+        id: issue-info
+        run: |
+          # From workflow dispatch or repository dispatch
+          if [ "${{ github.event_name }}" = "workflow_dispatch" ]; then
+            LINEAR_ISSUE="${{ github.event.inputs.linear_issue_id }}"
+            ISSUE_TITLE="${{ github.event.inputs.issue_title }}"
+            BRANCH_TYPE="${{ github.event.inputs.branch_type }}"
+            ASSIGNEE="${{ github.event.inputs.assignee }}"
+          else
+            # From Linear webhook (repository_dispatch)
+            LINEAR_ISSUE="${{ github.event.client_payload.issue_id }}"
+            ISSUE_TITLE="${{ github.event.client_payload.title }}"
+            BRANCH_TYPE="${{ github.event.client_payload.branch_type || 'feature' }}"
+            ASSIGNEE="${{ github.event.client_payload.assignee }}"
+          fi
+          
+          echo "Linear Issue: $LINEAR_ISSUE"
+          echo "Issue Title: $ISSUE_TITLE"
+          echo "Branch Type: $BRANCH_TYPE"
+          echo "Assignee: $ASSIGNEE"
+          
+          # Create branch name following our convention: type/FAE-XXX-description
+          SLUG=$(echo "$ISSUE_TITLE" | tr '[:upper:]' '[:lower:]' | sed 's/[^a-z0-9]/-/g' | sed 's/--*/-/g' | sed 's/^-\|-$//g' | cut -c1-50)
+          BRANCH_NAME="${BRANCH_TYPE}/${LINEAR_ISSUE}-${SLUG}"
+          
+          echo "Branch Name: $BRANCH_NAME"
+          
+          # Export variables
+          echo "linear_issue=$LINEAR_ISSUE" >> $GITHUB_OUTPUT
+          echo "issue_title=$ISSUE_TITLE" >> $GITHUB_OUTPUT
+          echo "branch_type=$BRANCH_TYPE" >> $GITHUB_OUTPUT
+          echo "branch_name=$BRANCH_NAME" >> $GITHUB_OUTPUT
+          echo "assignee=$ASSIGNEE" >> $GITHUB_OUTPUT
+
+      - name: Checkout Repository
+        uses: actions/checkout@v4
+        with:
+          token: ${{ secrets.GITHUB_TOKEN }}
+          fetch-depth: 0
+
+      - name: Create and Push Branch
+        id: create-branch
+        run: |
+          BRANCH_NAME="${{ steps.issue-info.outputs.branch_name }}"
+          LINEAR_ISSUE="${{ steps.issue-info.outputs.linear_issue }}"
+          
+          echo "Creating branch: $BRANCH_NAME"
+          
+          # Check if branch already exists
+          if git show-ref --verify --quiet refs/remotes/origin/$BRANCH_NAME; then
+            echo "Branch $BRANCH_NAME already exists"
+            echo "branch_exists=true" >> $GITHUB_OUTPUT
+            echo "branch_url=https://github.com/${{ github.repository }}/tree/$BRANCH_NAME" >> $GITHUB_OUTPUT
+          else
+            # Create new branch from develop (or main if develop doesn't exist)
+            if git show-ref --verify --quiet refs/remotes/origin/develop; then
+              BASE_BRANCH="develop"
+            else
+              BASE_BRANCH="main"
+            fi
+            
+            echo "Creating branch from $BASE_BRANCH"
+            
+            git config user.name "Linear Bot"
+            git config user.email "linear-bot@faevision.com"
+            
+            git checkout -b $BRANCH_NAME origin/$BASE_BRANCH
+            git push origin $BRANCH_NAME
+            
+            echo "branch_exists=false" >> $GITHUB_OUTPUT
+            echo "branch_url=https://github.com/${{ github.repository }}/tree/$BRANCH_NAME" >> $GITHUB_OUTPUT
+            echo "base_branch=$BASE_BRANCH" >> $GITHUB_OUTPUT
+          fi
+
+      - name: Create GitHub Issue (if needed)
+        id: create-issue
+        if: steps.create-branch.outputs.branch_exists == 'false'
+        uses: actions/github-script@v7
+        with:
+          script: |
+            const linearIssue = '${{ steps.issue-info.outputs.linear_issue }}';
+            const issueTitle = '${{ steps.issue-info.outputs.issue_title }}';
+            const branchName = '${{ steps.issue-info.outputs.branch_name }}';
+            const branchUrl = '${{ steps.create-branch.outputs.branch_url }}';
+            const assignee = '${{ steps.issue-info.outputs.assignee }}';
+            
+            // Check if GitHub issue already exists for this Linear issue
+            const existingIssues = await github.rest.search.issuesAndPullRequests({
+              q: `${linearIssue} repo:${context.repo.owner}/${context.repo.repo} type:issue`
+            });
+            
+            if (existingIssues.data.items.length > 0) {
+              console.log(`GitHub issue already exists for ${linearIssue}`);
+              return existingIssues.data.items[0].number;
+            }
+            
+            // Create new GitHub issue
+            const issueBody = `🔗 **Linear Integration**\n\n` +
+                             `**Linear Issue:** ${linearIssue}\n` +
+                             `**Development Branch:** [${branchName}](${branchUrl})\n` +
+                             `**Status:** Ready for development\n\n` +
+                             `---\n\n` +
+                             `${issueTitle}\n\n` +
+                             `*This issue was automatically created from Linear for development tracking.*`;
+            
+            const newIssue = await github.rest.issues.create({
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              title: `${linearIssue}: ${issueTitle}`,
+              body: issueBody,
+              labels: ['linear-sync', 'development'],
+              assignees: assignee ? [assignee] : []
+            });
+            
+            console.log(`Created GitHub issue #${newIssue.data.number} for ${linearIssue}`);
+            return newIssue.data.number;
+
+      - name: Update Linear with GitHub Links
+        uses: actions/github-script@v7
+        with:
+          script: |
+            const linearIssue = '${{ steps.issue-info.outputs.linear_issue }}';
+            const branchUrl = '${{ steps.create-branch.outputs.branch_url }}';
+            const branchName = '${{ steps.issue-info.outputs.branch_name }}';
+            const issueNumber = '${{ steps.create-issue.outputs.result }}';
+            const branchExists = '${{ steps.create-branch.outputs.branch_exists }}' === 'true';
+            
+            // In production, this would call Linear API to update the issue
+            // For now, we'll log the sync information
+            console.log('='.repeat(60));
+            console.log('LINEAR-GITHUB SYNC SUMMARY');
+            console.log('='.repeat(60));
+            console.log(`Linear Issue: ${linearIssue}`);
+            console.log(`Branch: ${branchName}`);
+            console.log(`Branch URL: ${branchUrl}`);
+            console.log(`GitHub Issue: #${issueNumber || 'existing'}`);
+            console.log(`Branch Status: ${branchExists ? 'existing' : 'created'}`);
+            console.log('='.repeat(60));
+            
+            // Create summary comment for tracking
+            const summary = {
+              linear_issue: linearIssue,
+              github_branch: branchName,
+              branch_url: branchUrl,
+              github_issue: issueNumber,
+              sync_time: new Date().toISOString(),
+              status: branchExists ? 'branch_exists' : 'branch_created'
+            };
+            
+            console.log('Sync Summary:', JSON.stringify(summary, null, 2));
+
+  # ============================================================================
+  # NOTIFY TEAM OF NEW BRANCH
+  # ============================================================================
+  notify-team:
+    runs-on: ubuntu-latest
+    needs: create-branch
+    if: success()
+    steps:
+      - name: Create Team Notification
+        uses: actions/github-script@v7
+        with:
+          script: |
+            const linearIssue = '${{ needs.create-branch.outputs.linear_issue }}';
+            const branchName = '${{ needs.create-branch.outputs.branch_name }}';
+            const assignee = '${{ needs.create-branch.outputs.assignee }}';
+            
+            console.log(`🚀 Linear Branch Automation Complete`);
+            console.log(`Linear Issue: ${linearIssue}`);
+            console.log(`Branch Created: ${branchName}`);
+            console.log(`Assignee: ${assignee || 'Unassigned'}`);
+            console.log(`Ready for development with Cursor AI integration`);
+
+  # ============================================================================
+  # DEVELOPMENT ENVIRONMENT SETUP
+  # ============================================================================
+  setup-dev-environment:
+    runs-on: ubuntu-latest
+    needs: create-branch
+    if: success()
+    steps:
+      - name: Prepare Development Environment
+        run: |
+          echo "🔧 Development Environment Setup"
+          echo "=================================="
+          echo "Linear Issue: ${{ needs.create-branch.outputs.linear_issue }}"
+          echo "Branch: ${{ needs.create-branch.outputs.branch_name }}"
+          echo ""
+          echo "Next Steps for Developer:"
+          echo "1. git checkout ${{ needs.create-branch.outputs.branch_name }}"
+          echo "2. Open Cursor IDE"
+          echo "3. Use Linear MCP integration for issue context"
+          echo "4. Begin development with AI assistance"
+          echo "5. Follow conventional commit standards"
+          echo "6. Create PR when ready for review"
+          echo ""
+          echo "Linear-GitHub-Cursor workflow activated! 🚀"
+
+# ============================================================================
+# OUTPUTS FOR OTHER WORKFLOWS
+# ============================================================================
+outputs:
+  linear_issue:
+    description: "Linear issue ID"
+    value: ${{ jobs.create-branch.outputs.linear_issue }}
+  branch_name:
+    description: "Created branch name"
+    value: ${{ jobs.create-branch.outputs.branch_name }}
+  github_issue:
+    description: "GitHub issue number"
+    value: ${{ jobs.create-branch.outputs.github_issue }}

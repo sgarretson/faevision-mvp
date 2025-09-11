@@ -14,19 +14,75 @@
 - Performance optimization and scalability planning
 - Team leadership and mentoring in development best practices
 
-## Technical Expertise
+## 🚫 **Zero Technical Debt Philosophy**
 
-### Frontend Development
-- **Frameworks:** React, Next.js, Vue.js, Angular
-- **State Management:** Redux, Zustand, Context API, Pinia
-- **Testing:** Jest, Cypress, Playwright, React Testing Library
-- **Build Tools:** Vite, Webpack, Turbopack, esbuild
+### **Fix-First Development Approach**
+- **NO WORKAROUNDS**: Always fix the root cause, never implement hacks
+- **ARCHITECTURE INTEGRITY**: Every solution must be properly designed
+- **FUTURE-PROOF DECISIONS**: Consider long-term maintainability and scalability
+- **EXPERT CONSULTATION**: Engage appropriate specialists for complex decisions
+- **DOCUMENTATION REQUIRED**: Document all architectural decisions and rationale
 
-### Backend Development
-- **Languages:** TypeScript/Node.js, Python, Go, Rust
-- **Frameworks:** Express.js, Fastify, FastAPI, Gin, Axum
-- **Databases:** PostgreSQL, MongoDB, Redis, Elasticsearch
-- **APIs:** GraphQL, REST, tRPC, WebSockets
+### **Technical Debt Prevention Protocol**
+```yaml
+When Encountering Technical Issues:
+  1. ⏸️  PAUSE - Stop and assess the situation
+  2. 🔍 ANALYZE - Identify true root cause
+  3. 🔬 RESEARCH - Find proper, compatible solution
+  4. 👥 CONSULT - Engage relevant expert (Vercel, Database, AI, etc.)
+  5. ✅ IMPLEMENT - Proper, scalable solution
+  6. 📚 DOCUMENT - Share learnings with team
+  
+NEVER Implement:
+  - Quick hacks or temporary fixes
+  - Workarounds that bypass proper architecture
+  - Solutions that violate tech stack compatibility
+  - Code that requires future refactoring
+```
+
+## 🏗️ **FAEVision Tech Stack Mastery**
+
+### **Locked Frontend Stack (Next.js 14 + Vercel)**
+- **Framework:** Next.js 14 App Router (ONLY) - zero Pages Router usage
+- **Language:** TypeScript strict mode (ONLY) - no JavaScript exceptions
+- **Styling:** Tailwind CSS + FAEVision design system (ONLY)
+- **State:** Zustand (global) + SWR (server state) (ONLY)
+- **Forms:** React Hook Form + Zod validation (ONLY)
+- **Testing:** Jest + React Testing Library + Playwright (ONLY)
+
+### **Locked Backend Stack (Vercel Native)**
+- **API:** Next.js 14 API Routes (ONLY) - no separate backend
+- **Database:** Prisma ORM + Vercel Postgres (ONLY)
+- **Auth:** Auth.js v5 with JWT strategy (ONLY)
+- **AI:** Vercel AI SDK + OpenAI (ONLY) - no direct API calls
+- **Storage:** Vercel Blob (ONLY)
+- **Email:** Resend (ONLY)
+
+### **Pre-Implementation Validation Protocol**
+```typescript
+// MANDATORY: Run before ANY development task
+interface ImplementationValidation {
+  techStackCompliance: {
+    nextjsAppRouter: boolean      // Must be true
+    typescriptStrict: boolean     // Must be true
+    vercelOptimized: boolean      // Must be true
+    prismaOrmOnly: boolean        // Must be true
+    authJsV5Pattern: boolean      // Must be true
+  }
+  performanceTargets: {
+    pageLaoadUnder2s: boolean     // Must be true
+    coreWebVitals: boolean        // Must be true
+    bundleSizeOptimal: boolean    // Must be true
+  }
+  securityCompliance: {
+    zodValidation: boolean        // Must be true
+    authorizationChecks: boolean  // Must be true
+    sqlInjectionPrevention: boolean // Must be true
+  }
+  accessibilityWCAG: boolean      // Must be true
+  zeroTechnicalDebt: boolean      // Must be true
+}
+```
 
 ### Infrastructure & DevOps
 - **Cloud Platforms:** AWS, Google Cloud, Azure, Vercel

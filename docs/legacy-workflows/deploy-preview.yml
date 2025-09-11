@@ -1,0 +1,50 @@
+name: Deploy to Preview
+on:
+  push:
+    branches: [develop]
+  pull_request:
+    branches: [develop]
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    environment: preview
+    steps:
+      - uses: actions/checkout@v4
+      
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '18'
+          cache: 'npm'
+          
+      - name: Install dependencies
+        run: npm ci
+        
+      - name: Run quality checks
+        run: |
+          npm run lint
+          npm run type-check
+          npm run test
+          
+      - name: Build application
+        run: npm run build
+        
+      - name: Deploy to Vercel Preview
+        uses: amondnet/vercel-action@v25
+        with:
+          vercel-token: ${{ secrets.VERCEL_TOKEN }}
+          vercel-org-id: ${{ secrets.ORG_ID }}
+          vercel-project-id: ${{ secrets.PROJECT_ID }}
+          vercel-args: '--env ENVIRONMENT=preview'
+          
+      - name: Update Linear with Preview URL
+        if: success()
+        uses: linear/action@v1
+        with:
+          api-key: ${{ secrets.LINEAR_API_KEY }}
+          comment: |
+            🎭 Preview deployed successfully
+            Preview URL: ${{ steps.deploy.outputs.preview-url }}
+            Environment: Preview
+            Branch: develop

@@ -1,0 +1,93 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap');
+
+/* FAEVision Executive Design System */
+:root {
+  --executive-blue: #3b82f6;
+  --professional-green: #10b981;
+  --executive-gold: #f59e0b;
+  --executive-red: #ef4444;
+  --ai-purple: #a855f7;
+  --professional-gray: #6b7280;
+}
+
+@layer base {
+  body {
+    @apply bg-white font-sans leading-relaxed text-neutral-900;
+  }
+
+  /* Executive Typography Scale */
+  .text-executive-heading {
+    @apply text-executive-xl text-neutral-900;
+  }
+
+  .text-executive-subheading {
+    @apply text-executive-lg text-neutral-700;
+  }
+
+  .text-executive-body {
+    @apply text-executive-base text-neutral-600;
+  }
+}
+
+@layer components {
+  /* Executive Button Patterns */
+  .btn-executive {
+    @apply inline-flex min-h-[44px] items-center justify-center rounded-executive px-6 py-3 font-medium transition-all duration-200;
+  }
+
+  .btn-primary {
+    @apply btn-executive bg-executive-blue text-white hover:bg-executive-600 focus:ring-2 focus:ring-executive-500 focus:ring-offset-2;
+  }
+
+  .btn-secondary {
+    @apply btn-executive border border-executive-blue bg-white text-executive-blue hover:bg-executive-50;
+  }
+
+  .btn-success {
+    @apply btn-executive bg-professional-green text-white hover:bg-professional-600;
+  }
+
+  /* Executive Card Patterns */
+  .card-executive {
+    @apply rounded-executive border border-neutral-200 bg-white shadow-sm transition-shadow duration-200 hover:shadow-md;
+  }
+
+  /* Executive Form Elements */
+  .input-executive {
+    @apply w-full rounded-executive border border-neutral-300 px-4 py-3 placeholder-neutral-400 focus:border-executive-500 focus:ring-2 focus:ring-executive-500;
+  }
+
+  /* Executive Dashboard Elements */
+  .stat-card {
+    @apply card-executive p-6 text-center;
+  }
+
+  .stat-number {
+    @apply mb-2 text-3xl font-bold text-executive-blue;
+  }
+
+  .stat-label {
+    @apply text-sm font-medium uppercase tracking-wide text-neutral-600;
+  }
+}
+
+@layer utilities {
+  .text-balance {
+    text-wrap: balance;
+  }
+
+  /* Executive-specific utilities */
+  .shadow-executive {
+    box-shadow:
+      0 4px 6px -1px rgba(59, 130, 246, 0.1),
+      0 2px 4px -1px rgba(59, 130, 246, 0.06);
+  }
+
+  .bg-gradient-executive {
+    background: linear-gradient(135deg, #3b82f6 0%, #1e3a8a 100%);
+  }
+}

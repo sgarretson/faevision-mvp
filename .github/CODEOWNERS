@@ -1,74 +1,44 @@
-# FAEVision MVP - Code Owners
-# This file defines who must review changes to specific parts of the codebase
+# FAEVision Code Owners
 
-# Global fallback - Lead Developer reviews everything
-* @alexthompson
+# Global owners (all files)
+* @alex-thompson @jordan-lee
 
-# Database and Schema Changes
-packages/database/ @morgansmith @alexthompson
-**/prisma/ @morgansmith
-**/*.prisma @morgansmith
-**/migrations/ @morgansmith
+# Expert-specific ownership
 
-# Authentication and Security
-**/auth/ @alexthompson
-**/middleware.ts @alexthompson
-**/api/auth/ @alexthompson
-**/*auth*.ts @alexthompson
+# Database and Prisma
+prisma/ @morgan-smith
+src/lib/prisma.ts @morgan-smith
+*.prisma @morgan-smith
 
-# AI Features
-**/ai/ @priyapatel @jordanlee
-**/*ai*.ts @priyapatel
-**/*openai*.ts @priyapatel
-**/lib/ai/ @priyapatel
+# Authentication and security
+src/lib/auth.ts @alex-thompson @jordan-lee
+src/lib/auth-utils.ts @alex-thompson
+src/middleware.ts @alex-thompson
+src/app/api/auth/ @alex-thompson
 
-# UI Components and Design
-**/components/ui/ @davidchen @mayarodriguez
-**/*.css @davidchen
-**/styles/ @davidchen
-**/design/ @davidchen
-**/tailwind.config.js @davidchen
+# AI features and integration
+src/lib/ai/ @priya-patel @jordan-lee
+src/components/ai/ @priya-patel @jordan-lee
 
-# UX and Accessibility
-**/accessibility/ @mayarodriguez
-**/*a11y*.ts @mayarodriguez
-**/*accessibility*.ts @mayarodriguez
+# UI and design components
+src/components/ui/ @maya-rodriguez @david-chen
+src/app/globals.css @david-chen @maya-rodriguez
+tailwind.config.ts @david-chen
 
-# Infrastructure and Deployment
-.github/ @taylormorgan @jordankim
-**/vercel.json @jordankim
-**/next.config.js @jordankim @alexthompson
-**/.env* @jordankim
-**/docker* @jordankim
+# Executive dashboard and interfaces
+src/app/dashboard/ @sarah-chen @marcus-rodriguez
+src/components/dashboard/ @sarah-chen @marcus-rodriguez
 
-# CI/CD and Quality
-.github/workflows/ @taylormorgan
-**/.eslintrc* @taylormorgan @alexthompson
-**/prettier.config.js @taylormorgan
-**/vitest.config.ts @taylormorgan
-**/playwright.config.ts @taylormorgan
+# Infrastructure and deployment
+.github/ @taylor-morgan @jordan-kim
+vercel.json @jordan-kim
+.env.example @jordan-kim
+dockerfile @jordan-kim
 
 # Documentation
-**/README.md @sarahchen @alexthompson
-**/docs/ @sarahchen
-**/*.md @sarahchen
+docs/ @jordan-lee @alex-johnson
+*.md @jordan-lee
 
-# Business Logic and Product Requirements
-**/requirements/ @sarahchen @marcusrodriguez
-**/business/ @sarahchen
-**/strategy/ @marcusrodriguez
-
-# Linear and Project Management
-**/linear/ @alexjohnson
-**/.linear/ @alexjohnson
-**/project-management/ @alexjohnson
-
-# Package.json and Dependencies
-**/package.json @alexthompson @taylormorgan
-**/package-lock.json @alexthompson @taylormorgan
-
-# Root Configuration Files
-/.cursorrules @jordanlee
-/.cursor/ @jordanlee
-/tsconfig.json @alexthompson
-/turbo.json @alexthompson
+# Linear integration
+.cursor/ @alex-johnson @jordan-lee
+linear.json @alex-johnson
