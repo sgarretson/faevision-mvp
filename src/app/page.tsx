@@ -42,13 +42,13 @@ export default function Home() {
             <div className="flex justify-center gap-4">
               <Link
                 href="/dashboard"
-                className="btn-primary bg-white text-executive-blue hover:bg-executive-50"
+                className="inline-flex items-center justify-center rounded-lg bg-white px-6 py-3 font-medium text-blue-600 transition-colors hover:bg-blue-50"
               >
                 Executive Dashboard
               </Link>
               <Link
                 href="/inputs"
-                className="btn-secondary border-white text-white hover:bg-white hover:text-executive-blue"
+                className="inline-flex items-center justify-center rounded-lg border border-white bg-transparent px-6 py-3 font-medium text-white transition-colors hover:bg-white hover:text-blue-600"
               >
                 Strategic Inputs
               </Link>
@@ -69,40 +69,40 @@ export default function Home() {
 
           <div className="grid gap-8 md:grid-cols-3">
             {/* F1 Input Capture */}
-            <div className="card-executive p-8 text-center">
+            <div className="rounded-lg border border-neutral-200 bg-white p-8 text-center shadow-sm transition-shadow duration-200 hover:shadow-md">
               <div className="mb-4 text-4xl">📝</div>
               <h3 className="text-executive-subheading mb-4">F1: Input Capture</h3>
               <p className="text-executive-body mb-6">
                 Strategic input creation with comprehensive tagging, priority management, and
                 executive-optimized workflows for operational insights.
               </p>
-              <Link href="/inputs/create" className="btn-secondary">
+              <Link href="/inputs/create" className="inline-flex items-center justify-center rounded-lg border border-blue-500 bg-white px-6 py-3 font-medium text-blue-500 transition-colors hover:bg-blue-50">
                 Create Input
               </Link>
             </div>
 
             {/* F2 Collaboration */}
-            <div className="card-executive p-8 text-center">
+            <div className="rounded-lg border border-neutral-200 bg-white p-8 text-center shadow-sm transition-shadow duration-200 hover:shadow-md">
               <div className="mb-4 text-4xl">🗳️</div>
               <h3 className="text-executive-subheading mb-4">F2: Collaboration</h3>
               <p className="text-executive-body mb-6">
                 Real-time voting, threaded commenting, @mentions, and activity feeds for executive
                 team collaboration and consensus building.
               </p>
-              <Link href="/inputs" className="btn-secondary">
+              <Link href="/inputs" className="inline-flex items-center justify-center rounded-lg border border-blue-500 bg-white px-6 py-3 font-medium text-blue-500 transition-colors hover:bg-blue-50">
                 View Collaboration
               </Link>
             </div>
 
             {/* F3 Organization */}
-            <div className="card-executive p-8 text-center">
+            <div className="rounded-lg border border-neutral-200 bg-white p-8 text-center shadow-sm transition-shadow duration-200 hover:shadow-md">
               <div className="mb-4 text-4xl">📊</div>
               <h3 className="text-executive-subheading mb-4">F3: Organization</h3>
               <p className="text-executive-body mb-6">
                 Executive dashboard with comprehensive analytics, pattern recognition, and
                 data-driven decision support for strategic oversight.
               </p>
-              <Link href="/dashboard" className="btn-secondary">
+              <Link href="/dashboard" className="inline-flex items-center justify-center rounded-lg border border-blue-500 bg-white px-6 py-3 font-medium text-blue-500 transition-colors hover:bg-blue-50">
                 View Analytics
               </Link>
             </div>
@@ -147,7 +147,7 @@ export default function Home() {
                 </div>
               </div>
             </div>
-            <div className="shadow-executive rounded-executive bg-white p-8">
+            <div className="rounded-lg bg-white p-8 shadow-lg">
               <h3 className="text-executive-subheading mb-6">Executive Demo Access</h3>
               <div className="space-y-4">
                 <div>
@@ -159,7 +159,7 @@ export default function Home() {
                   <div className="text-sm text-neutral-800">admin@faevision.com</div>
                 </div>
                 <div className="pt-4">
-                  <Link href="/login" className="btn-primary w-full text-center">
+                  <Link href="/login" className="inline-flex w-full items-center justify-center rounded-lg bg-blue-600 px-6 py-3 font-medium text-white transition-colors hover:bg-blue-700">
                     Executive Login
                   </Link>
                 </div>
