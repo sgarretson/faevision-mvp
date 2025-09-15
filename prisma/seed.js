@@ -99,8 +99,7 @@ async function seedUsers() {
         email: userData.email,
         name: userData.name,
         role: userData.role,
-        password: hashedPassword,
-        emailVerified: new Date(),
+        passwordHash: hashedPassword,
       },
     });
     
