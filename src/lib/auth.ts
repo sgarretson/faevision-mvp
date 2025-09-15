@@ -52,31 +52,51 @@ export const { handlers, auth, signIn, signOut } = NextAuth({
         password: { label: "Password", type: "password" }
       },
       async authorize(credentials) {
-        if (!credentials?.email || !credentials?.password) {
+        try {
+          console.log('🔍 Auth attempt for:', credentials?.email)
+          
+          if (!credentials?.email || !credentials?.password) {
+            console.log('❌ Missing credentials')
+            return null
+          }
+
+          console.log('🗄️ Looking up user in database...')
+          const user = await prisma.user.findUnique({
+            where: { email: String(credentials.email).toLowerCase() }
+          })
+
+          if (!user) {
+            console.log('❌ User not found:', credentials.email)
+            return null
+          }
+
+          if (!user.passwordHash) {
+            console.log('❌ User has no password hash:', credentials.email)
+            return null
+          }
+
+          console.log('🔒 Comparing password...')
+          const isValid = await compare(String(credentials.password), user.passwordHash)
+          
+          if (!isValid) {
+            console.log('❌ Password invalid for:', credentials.email)
+            return null
+          }
+
+          console.log('✅ Authentication successful for:', credentials.email)
+          return {
+            id: user.id,
+            email: user.email,
+            name: user.name,
+            role: user.role,
+            department: user.department,
+            avatar: user.avatar
+          }
+        } catch (error) {
+          console.error('💥 Auth error:', error)
+          console.error('Database URL exists:', !!process.env.DATABASE_URL)
+          console.error('NEXTAUTH_SECRET exists:', !!process.env.NEXTAUTH_SECRET)
           return null
-        }
-
-        const user = await prisma.user.findUnique({
-          where: { email: String(credentials.email).toLowerCase() }
-        })
-
-        if (!user || !user.passwordHash) {
-          return null
-        }
-
-        const isValid = await compare(String(credentials.password), user.passwordHash)
-        
-        if (!isValid) {
-          return null
-        }
-
-        return {
-          id: user.id,
-          email: user.email,
-          name: user.name,
-          role: user.role,
-          department: user.department,
-          avatar: user.avatar
         }
       }
     })
