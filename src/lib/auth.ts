@@ -62,8 +62,8 @@ export const { handlers, auth, signIn, signOut } = NextAuth({
   },
   debug: true, // Enable Auth.js debug mode
   logger: {
-    error(code, metadata) {
-      console.error('🚨 Auth.js Error:', code, metadata)
+    error(error) {
+      console.error('🚨 Auth.js Error:', error)
     },
     warn(code) {
       console.warn('⚠️ Auth.js Warning:', code)
