@@ -2,7 +2,12 @@ import { PrismaClient } from '../../src/generated/prisma'
 
 const prismaClientSingleton = () => {
   return new PrismaClient({
-    log: ['query', 'info', 'warn', 'error'],
+    log: process.env.VERCEL_ENV === 'preview' ? ['query', 'info', 'warn', 'error'] : ['warn', 'error'],
+    datasources: {
+      db: {
+        url: process.env.DATABASE_URL,
+      },
+    },
   })
 }
 

@@ -36,7 +36,14 @@ export async function GET(request: NextRequest) {
   console.log('🔍 Environment Debug Info:', environmentInfo)
 
   // Add database check
-  let databaseInfo = { error: 'No database check' };
+  let databaseInfo: {
+    connected?: boolean;
+    userCount?: number;
+    adminFound?: boolean;
+    adminUser?: any;
+    error?: string;
+  } = {};
+  
   try {
     const userCount = await prisma.user.count();
     const adminUser = await prisma.user.findUnique({
