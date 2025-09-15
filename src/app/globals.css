@@ -46,42 +46,137 @@
 @layer components {
   /* Executive Button Patterns */
   .btn-executive {
-    @apply inline-flex min-h-[44px] items-center justify-center rounded-lg px-6 py-3 font-medium transition-all duration-200;
+    display: inline-flex;
+    min-height: 44px;
+    align-items: center;
+    justify-content: center;
+    border-radius: 0.5rem;
+    padding: 0.75rem 1.5rem;
+    font-weight: 500;
+    transition: all 0.2s;
   }
 
   .btn-primary {
-    @apply btn-executive bg-blue-500 text-white hover:bg-blue-600 focus:ring-2 focus:ring-blue-500 focus:ring-offset-2;
+    display: inline-flex;
+    min-height: 44px;
+    align-items: center;
+    justify-content: center;
+    border-radius: 0.5rem;
+    padding: 0.75rem 1.5rem;
+    font-weight: 500;
+    transition: all 0.2s;
+    background-color: rgb(59 130 246);
+    color: white;
+  }
+
+  .btn-primary:hover {
+    background-color: rgb(37 99 235);
+  }
+
+  .btn-primary:focus {
+    ring: 2px;
+    ring-color: rgb(59 130 246);
+    ring-offset: 2px;
   }
 
   .btn-secondary {
-    @apply btn-executive border border-blue-500 bg-white text-blue-500 hover:bg-blue-50;
+    display: inline-flex;
+    min-height: 44px;
+    align-items: center;
+    justify-content: center;
+    border-radius: 0.5rem;
+    padding: 0.75rem 1.5rem;
+    font-weight: 500;
+    transition: all 0.2s;
+    border: 1px solid rgb(59 130 246);
+    background-color: white;
+    color: rgb(59 130 246);
+  }
+
+  .btn-secondary:hover {
+    background-color: rgb(239 246 255);
   }
 
   .btn-success {
-    @apply btn-executive bg-emerald-500 text-white hover:bg-emerald-600;
+    display: inline-flex;
+    min-height: 44px;
+    align-items: center;
+    justify-content: center;
+    border-radius: 0.5rem;
+    padding: 0.75rem 1.5rem;
+    font-weight: 500;
+    transition: all 0.2s;
+    background-color: rgb(16 185 129);
+    color: white;
+  }
+
+  .btn-success:hover {
+    background-color: rgb(5 150 105);
   }
 
   /* Executive Card Patterns */
   .card-executive {
-    @apply rounded-lg border border-neutral-200 bg-white shadow-sm transition-shadow duration-200 hover:shadow-md;
+    border-radius: 0.5rem;
+    border: 1px solid rgb(229 231 235);
+    background-color: white;
+    box-shadow: 0 1px 2px 0 rgba(0, 0, 0, 0.05);
+    transition: box-shadow 0.2s;
+  }
+
+  .card-executive:hover {
+    box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
   }
 
   /* Executive Form Elements */
   .input-executive {
-    @apply w-full rounded-lg border border-neutral-300 px-4 py-3 placeholder-neutral-400 focus:border-blue-500 focus:ring-2 focus:ring-blue-500;
+    width: 100%;
+    border-radius: 0.5rem;
+    border: 1px solid rgb(209 213 219);
+    padding: 0.75rem 1rem;
+    color: rgb(17 24 39);
+  }
+
+  .input-executive::placeholder {
+    color: rgb(156 163 175);
+  }
+
+  .input-executive:focus {
+    border-color: rgb(59 130 246);
+    ring: 2px;
+    ring-color: rgb(59 130 246);
+    outline: none;
   }
 
   /* Executive Dashboard Elements */
   .stat-card {
-    @apply card-executive p-6 text-center;
+    border-radius: 0.5rem;
+    border: 1px solid rgb(229 231 235);
+    background-color: white;
+    box-shadow: 0 1px 2px 0 rgba(0, 0, 0, 0.05);
+    transition: box-shadow 0.2s;
+    padding: 1.5rem;
+    text-align: center;
+  }
+
+  .stat-card:hover {
+    box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
   }
 
   .stat-number {
-    @apply mb-2 text-3xl font-bold text-blue-500;
+    margin-bottom: 0.5rem;
+    font-size: 1.875rem;
+    line-height: 2.25rem;
+    font-weight: 700;
+    color: rgb(59 130 246);
   }
 
   .stat-label {
-    @apply text-sm font-medium uppercase tracking-wide text-neutral-600;
+    font-size: 0.875rem;
+    line-height: 1.25rem;
+    font-weight: 500;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    color: rgb(75 85 99);
   }
 }
 
