@@ -2,7 +2,7 @@ import { NextRequest } from 'next/server'
 import { prisma } from '@/lib/prisma'
 import { compare } from 'bcryptjs'
 
-export async function POST(request: NextRequest) {
+async function testAuth(email?: string, password?: string) {
   // Only allow in non-production Vercel environments (preview, development)
   // Note: Vercel Preview has NODE_ENV=production but VERCEL_ENV=preview
   if (process.env.VERCEL_ENV === 'production') {
@@ -10,10 +10,11 @@ export async function POST(request: NextRequest) {
   }
 
   try {
-    const body = await request.json()
-    const { email, password } = body
+    // Use default admin credentials if not provided
+    const testEmail = email || 'admin@faevision.com'
+    const testPassword = password || 'FAEVision2025!'
 
-    console.log('🧪 Testing auth for:', email)
+    console.log('🧪 Testing auth for:', testEmail)
 
     // Test database connection
     console.log('🗄️ Testing database connection...')
@@ -21,9 +22,9 @@ export async function POST(request: NextRequest) {
     console.log('📊 Total users in database:', userCount)
 
     // Find specific user
-    console.log('👤 Looking up user:', email)
+    console.log('👤 Looking up user:', testEmail)
     const user = await prisma.user.findUnique({
-      where: { email: email?.toLowerCase() }
+      where: { email: testEmail?.toLowerCase() }
     })
 
     if (!user) {
@@ -31,7 +32,7 @@ export async function POST(request: NextRequest) {
         success: false,
         error: 'User not found',
         debug: {
-          email_searched: email?.toLowerCase(),
+          email_searched: testEmail?.toLowerCase(),
           total_users: userCount,
           database_connected: true
         }
@@ -40,7 +41,7 @@ export async function POST(request: NextRequest) {
 
     // Test password comparison
     console.log('🔒 Testing password comparison...')
-    const isValid = await compare(password, user.passwordHash || '')
+    const isValid = await compare(testPassword, user.passwordHash || '')
 
     return Response.json({
       success: isValid,
@@ -76,5 +77,19 @@ export async function POST(request: NextRequest) {
         }
       }
     })
+  }
+}
+
+export async function GET(request: NextRequest) {
+  return testAuth()
+}
+
+export async function POST(request: NextRequest) {
+  try {
+    const body = await request.json()
+    const { email, password } = body
+    return testAuth(email, password)
+  } catch (error) {
+    return testAuth()
   }
 }
