@@ -48,3 +48,4 @@ The GitHub MCP Server integrates with Cursor IDE to provide:
 2. Test GitHub MCP Server connection
 3. Configure Cursor integration
 4. Begin using AI-powered GitHub operations
+

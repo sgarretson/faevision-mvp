@@ -12,28 +12,28 @@ export default function LoginPage() {
     <div className="flex min-h-screen items-center justify-center bg-neutral-50 px-4 py-12 sm:px-6 lg:px-8">
       <div className="w-full max-w-md space-y-8">
         <div className="text-center">
-          <h1 className="text-executive-heading text-executive-blue">FAEVision</h1>
-          <p className="text-executive-body mt-2">Strategic Intelligence Platform</p>
-          <h2 className="text-executive-subheading mt-6">Sign in to your account</h2>
+          <h1 className="text-2xl font-bold text-blue-600">FAEVision</h1>
+          <p className="mt-2 text-base text-neutral-700">Strategic Intelligence Platform</p>
+          <h2 className="mt-6 text-lg font-semibold text-neutral-800">Sign in to your account</h2>
           <p className="mt-2 text-sm text-neutral-600">
             Or{' '}
             <Link
               href="/signup"
-              className="font-medium text-executive-blue transition-colors hover:text-executive-600"
+              className="font-medium text-blue-600 transition-colors hover:text-blue-700"
             >
               create a new account
             </Link>
           </p>
         </div>
 
-        <div className="card-executive p-8">
+        <div className="rounded-lg border border-neutral-200 bg-white p-8 shadow-sm">
           <LoginForm />
         </div>
 
         <div className="text-center">
           <Link
             href="/"
-            className="text-sm text-neutral-600 transition-colors hover:text-executive-blue"
+            className="text-sm text-neutral-600 transition-colors hover:text-blue-600"
           >
             ← Back to homepage
           </Link>
