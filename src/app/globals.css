@@ -21,44 +21,54 @@
 
   /* Executive Typography Scale */
   .text-executive-heading {
-    @apply text-executive-xl text-neutral-900;
+    font-size: 1.5rem;
+    line-height: 2rem;
+    letter-spacing: -0.025em;
+    font-weight: 700;
+    color: rgb(17 24 39);
   }
 
   .text-executive-subheading {
-    @apply text-executive-lg text-neutral-700;
+    font-size: 1.125rem;
+    line-height: 1.75rem;
+    font-weight: 600;
+    color: rgb(55 65 81);
   }
 
   .text-executive-body {
-    @apply text-executive-base text-neutral-600;
+    font-size: 1rem;
+    line-height: 1.625rem;
+    font-weight: 400;
+    color: rgb(75 85 99);
   }
 }
 
 @layer components {
   /* Executive Button Patterns */
   .btn-executive {
-    @apply inline-flex min-h-[44px] items-center justify-center rounded-executive px-6 py-3 font-medium transition-all duration-200;
+    @apply inline-flex min-h-[44px] items-center justify-center rounded-lg px-6 py-3 font-medium transition-all duration-200;
   }
 
   .btn-primary {
-    @apply btn-executive bg-executive-blue text-white hover:bg-executive-600 focus:ring-2 focus:ring-executive-500 focus:ring-offset-2;
+    @apply btn-executive bg-blue-500 text-white hover:bg-blue-600 focus:ring-2 focus:ring-blue-500 focus:ring-offset-2;
   }
 
   .btn-secondary {
-    @apply btn-executive border border-executive-blue bg-white text-executive-blue hover:bg-executive-50;
+    @apply btn-executive border border-blue-500 bg-white text-blue-500 hover:bg-blue-50;
   }
 
   .btn-success {
-    @apply btn-executive bg-professional-green text-white hover:bg-professional-600;
+    @apply btn-executive bg-emerald-500 text-white hover:bg-emerald-600;
   }
 
   /* Executive Card Patterns */
   .card-executive {
-    @apply rounded-executive border border-neutral-200 bg-white shadow-sm transition-shadow duration-200 hover:shadow-md;
+    @apply rounded-lg border border-neutral-200 bg-white shadow-sm transition-shadow duration-200 hover:shadow-md;
   }
 
   /* Executive Form Elements */
   .input-executive {
-    @apply w-full rounded-executive border border-neutral-300 px-4 py-3 placeholder-neutral-400 focus:border-executive-500 focus:ring-2 focus:ring-executive-500;
+    @apply w-full rounded-lg border border-neutral-300 px-4 py-3 placeholder-neutral-400 focus:border-blue-500 focus:ring-2 focus:ring-blue-500;
   }
 
   /* Executive Dashboard Elements */
@@ -67,7 +77,7 @@
   }
 
   .stat-number {
-    @apply mb-2 text-3xl font-bold text-executive-blue;
+    @apply mb-2 text-3xl font-bold text-blue-500;
   }
 
   .stat-label {
