@@ -79,7 +79,7 @@ export function SignupForm() {
           {...register('name')}
           type="text"
           id="name"
-          className="input-executive"
+          className="w-full rounded-lg border border-neutral-300 px-4 py-3 text-neutral-900 placeholder-neutral-500 focus:border-blue-500 focus:outline-none focus:ring-2 focus:ring-blue-500"
           placeholder="Enter your full name"
           disabled={isLoading}
         />
@@ -94,7 +94,7 @@ export function SignupForm() {
           {...register('email')}
           type="email"
           id="email"
-          className="input-executive"
+          className="w-full rounded-lg border border-neutral-300 px-4 py-3 text-neutral-900 placeholder-neutral-500 focus:border-blue-500 focus:outline-none focus:ring-2 focus:ring-blue-500"
           placeholder="Enter your email"
           disabled={isLoading}
         />
@@ -109,7 +109,7 @@ export function SignupForm() {
           <select
             {...register('department')}
             id="department"
-            className="input-executive"
+            className="w-full rounded-lg border border-neutral-300 px-4 py-3 text-neutral-900 focus:border-blue-500 focus:outline-none focus:ring-2 focus:ring-blue-500"
             disabled={isLoading}
           >
             <option value="">Select Department</option>
@@ -128,7 +128,7 @@ export function SignupForm() {
           <label htmlFor="role" className="mb-1 block text-sm font-medium text-neutral-700">
             Role
           </label>
-          <select {...register('role')} id="role" className="input-executive" disabled={isLoading}>
+          <select {...register('role')} id="role" className="w-full rounded-lg border border-neutral-300 px-4 py-3 text-neutral-900 focus:border-blue-500 focus:outline-none focus:ring-2 focus:ring-blue-500" disabled={isLoading}>
             <option value="">Select Role</option>
             <option value="EXECUTIVE">Executive</option>
             <option value="CONTRIBUTOR">Contributor</option>
@@ -145,7 +145,7 @@ export function SignupForm() {
           {...register('password')}
           type="password"
           id="password"
-          className="input-executive"
+          className="w-full rounded-lg border border-neutral-300 px-4 py-3 text-neutral-900 placeholder-neutral-500 focus:border-blue-500 focus:outline-none focus:ring-2 focus:ring-blue-500"
           placeholder="Enter your password"
           disabled={isLoading}
         />
@@ -163,7 +163,7 @@ export function SignupForm() {
           {...register('confirmPassword')}
           type="password"
           id="confirmPassword"
-          className="input-executive"
+          className="w-full rounded-lg border border-neutral-300 px-4 py-3 text-neutral-900 placeholder-neutral-500 focus:border-blue-500 focus:outline-none focus:ring-2 focus:ring-blue-500"
           placeholder="Confirm your password"
           disabled={isLoading}
         />
@@ -173,7 +173,7 @@ export function SignupForm() {
       </div>
 
       <div>
-        <button type="submit" disabled={isLoading} className="btn-primary w-full">
+        <button type="submit" disabled={isLoading} className="w-full rounded-lg bg-blue-600 px-4 py-3 font-medium text-white transition-colors hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50">
           {isLoading ? (
             <div className="flex items-center justify-center">
               <div className="mr-2 h-4 w-4 animate-spin rounded-full border-b-2 border-white"></div>
