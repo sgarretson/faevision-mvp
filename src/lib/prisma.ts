@@ -1,7 +1,9 @@
 import { PrismaClient } from '../../src/generated/prisma'
 
 const prismaClientSingleton = () => {
-  return new PrismaClient()
+  return new PrismaClient({
+    log: ['query', 'info', 'warn', 'error'],
+  })
 }
 
 declare global {
@@ -11,4 +13,7 @@ declare global {
 
 export const prisma = globalThis.prisma ?? prismaClientSingleton()
 
-if (process.env.NODE_ENV !== 'production') globalThis.prisma = prisma
+// Always use global in serverless environments to prevent connection pooling issues
+if (process.env.NODE_ENV !== 'production' || process.env.VERCEL_ENV) {
+  globalThis.prisma = prisma
+}
