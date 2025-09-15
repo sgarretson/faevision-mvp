@@ -40,9 +40,37 @@ declare module "next-auth" {
 // AUTH.JS V5 CONFIGURATION
 // ============================================================================
 
+// ============================================================================
+// ENVIRONMENT VALIDATION
+// ============================================================================
+
+console.log('🔧 Auth.js config loading...')
+console.log('📊 Environment check:')
+console.log('  - NODE_ENV:', process.env.NODE_ENV)
+console.log('  - VERCEL_ENV:', process.env.VERCEL_ENV)
+console.log('  - NEXTAUTH_SECRET exists:', !!process.env.NEXTAUTH_SECRET)
+console.log('  - NEXTAUTH_URL:', process.env.NEXTAUTH_URL)
+console.log('  - DATABASE_URL exists:', !!process.env.DATABASE_URL)
+
+if (!process.env.NEXTAUTH_SECRET) {
+  console.error('❌ NEXTAUTH_SECRET is missing!')
+}
+
 export const { handlers, auth, signIn, signOut } = NextAuth({
   session: {
     strategy: "jwt",
+  },
+  debug: true, // Enable Auth.js debug mode
+  logger: {
+    error(code, metadata) {
+      console.error('🚨 Auth.js Error:', code, metadata)
+    },
+    warn(code) {
+      console.warn('⚠️ Auth.js Warning:', code)
+    },
+    debug(code, metadata) {
+      console.log('🔍 Auth.js Debug:', code, metadata)
+    }
   },
   providers: [
     Credentials({

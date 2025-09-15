@@ -6,24 +6,34 @@ export async function GET(request: NextRequest) {
     return Response.json({ error: 'Debug endpoint disabled in production' }, { status: 403 })
   }
 
-  const envCheck = {
-    NODE_ENV: process.env.NODE_ENV,
-    VERCEL_ENV: process.env.VERCEL_ENV,
-    VERCEL_BRANCH_URL: process.env.VERCEL_BRANCH_URL,
-    DATABASE_URL_exists: !!process.env.DATABASE_URL,
-    DATABASE_URL_preview: process.env.DATABASE_URL?.includes('ep-round-frost-aecda5ou'),
-    NEXTAUTH_SECRET_exists: !!process.env.NEXTAUTH_SECRET,
-    NEXTAUTH_URL_exists: !!process.env.NEXTAUTH_URL,
-    NEXTAUTH_URL_value: process.env.NEXTAUTH_URL,
+  const environmentInfo = {
     timestamp: new Date().toISOString(),
+    environment: {
+      NODE_ENV: process.env.NODE_ENV,
+      VERCEL_ENV: process.env.VERCEL_ENV,
+      VERCEL_URL: process.env.VERCEL_URL,
+      VERCEL_GIT_COMMIT_REF: process.env.VERCEL_GIT_COMMIT_REF,
+    },
+    auth_variables: {
+      NEXTAUTH_SECRET_exists: !!process.env.NEXTAUTH_SECRET,
+      NEXTAUTH_SECRET_length: process.env.NEXTAUTH_SECRET?.length || 0,
+      NEXTAUTH_URL: process.env.NEXTAUTH_URL,
+    },
+    database_variables: {
+      DATABASE_URL_exists: !!process.env.DATABASE_URL,
+      DATABASE_URL_length: process.env.DATABASE_URL?.length || 0,
+      DIRECT_URL_exists: !!process.env.DIRECT_URL,
+    },
+    ai_variables: {
+      OPENAI_API_KEY_exists: !!process.env.OPENAI_API_KEY,
+    }
   }
 
+  console.log('🔍 Environment Debug Info:', environmentInfo)
+
   return Response.json({
-    message: 'FAEVision Preview Environment Debug',
-    environment: envCheck,
-    auth_status: {
-      nextauth_configured: !!(process.env.NEXTAUTH_SECRET && process.env.NEXTAUTH_URL),
-      database_configured: !!process.env.DATABASE_URL,
-    }
+    success: true,
+    message: 'Environment variables check complete',
+    ...environmentInfo
   })
 }
