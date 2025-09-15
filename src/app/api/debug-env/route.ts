@@ -1,8 +1,9 @@
 import { NextRequest } from 'next/server'
 
 export async function GET(request: NextRequest) {
-  // Only allow in non-production environments
-  if (process.env.NODE_ENV === 'production') {
+  // Only allow in non-production Vercel environments (preview, development)
+  // Note: Vercel Preview has NODE_ENV=production but VERCEL_ENV=preview
+  if (process.env.VERCEL_ENV === 'production') {
     return Response.json({ error: 'Debug endpoint disabled in production' }, { status: 403 })
   }
 
