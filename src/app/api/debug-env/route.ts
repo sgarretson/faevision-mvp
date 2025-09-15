@@ -1,4 +1,5 @@
 import { NextRequest } from 'next/server'
+import { prisma } from '@/lib/prisma'
 
 export async function GET(request: NextRequest) {
   // Only allow in non-production Vercel environments (preview, development)
@@ -23,6 +24,8 @@ export async function GET(request: NextRequest) {
     database_variables: {
       DATABASE_URL_exists: !!process.env.DATABASE_URL,
       DATABASE_URL_length: process.env.DATABASE_URL?.length || 0,
+      DATABASE_URL_partial: process.env.DATABASE_URL?.substring(0, 50) + '...',
+      DATABASE_URL_host: process.env.DATABASE_URL?.match(/@([^:]+)/)?.[1] || 'unknown',
       DIRECT_URL_exists: !!process.env.DIRECT_URL,
     },
     ai_variables: {
@@ -32,9 +35,35 @@ export async function GET(request: NextRequest) {
 
   console.log('🔍 Environment Debug Info:', environmentInfo)
 
+  // Add database check
+  let databaseInfo = { error: 'No database check' };
+  try {
+    const userCount = await prisma.user.count();
+    const adminUser = await prisma.user.findUnique({
+      where: { email: 'admin@faevision.com' },
+      select: { id: true, email: true, name: true, role: true }
+    });
+    
+    databaseInfo = {
+      connected: true,
+      userCount,
+      adminFound: !!adminUser,
+      adminUser: adminUser || null
+    };
+    
+    console.log('🗄️ Database Info:', databaseInfo);
+  } catch (error) {
+    databaseInfo = { 
+      connected: false, 
+      error: error instanceof Error ? error.message : 'Unknown database error' 
+    };
+    console.log('❌ Database Error:', databaseInfo);
+  }
+
   return Response.json({
     success: true,
     message: 'Environment variables check complete',
+    database: databaseInfo,
     ...environmentInfo
   })
 }
