@@ -379,26 +379,35 @@ async function createOrganizationalStructure() {
   // If not, we'll work with the existing structure
   
   try {
-    // Try to create departments (V2 feature)
-    for (const dept of departments) {
-      await prisma.department.create({
-        data: dept
-      });
+    // Check if department model exists by attempting to access it
+    const departmentModel = (prisma as any).department;
+    if (departmentModel) {
+      // Try to create departments (V2 feature)
+      for (const dept of departments) {
+        await departmentModel.create({
+          data: dept
+        });
+      }
+      console.log(`  ✅ Created ${departments.length} departments`);
+    } else {
+      console.log('  ⚠️ Department model not available (using legacy structure)');
     }
-    console.log(`  ✅ Created ${departments.length} departments`);
   } catch (error) {
     console.log('  ⚠️ Department model not available (using legacy structure)');
   }
   
   try {
     // Try to create teams (V2 feature)
-    for (const team of teams) {
-      const department = await prisma.department.findUnique({
-        where: { name: team.departmentName }
-      });
+    const teamModel = (prisma as any).team;
+    const departmentModel = (prisma as any).department;
+    if (teamModel && departmentModel) {
+      for (const team of teams) {
+        const department = await departmentModel.findUnique({
+          where: { name: team.departmentName }
+        });
       
       if (department) {
-        await prisma.team.create({
+        await teamModel.create({
           data: {
             name: team.name,
             departmentId: department.id
@@ -407,6 +416,9 @@ async function createOrganizationalStructure() {
       }
     }
     console.log(`  ✅ Created ${teams.length} teams`);
+    } else {
+      console.log('  ⚠️ Team model not available (using legacy structure)');
+    }
   } catch (error) {
     console.log('  ⚠️ Team model not available (using legacy structure)');
   }

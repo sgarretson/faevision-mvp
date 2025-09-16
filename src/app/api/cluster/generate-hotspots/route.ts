@@ -37,24 +37,36 @@ export async function POST(request: NextRequest) {
     let signals;
     try {
       // Try V2 Signal model first
-      signals = await prisma.signal.findMany({
-        where: {
-          aiProcessed: true,
-          embedding: { not: null },
-          ...(options.forceReclustering ? {} : {
-            hotspots: { none: {} } // Only unassigned signals unless forcing
-          })
-        },
-        include: {
-          hotspots: {
-            include: { hotspot: true }
+      const signalModel = (prisma as any).signal;
+      if (signalModel) {
+        signals = await signalModel.findMany({
+          where: {
+            aiProcessed: true,
+            embedding: { not: null },
+            ...(options.forceReclustering ? {} : {
+              hotspots: { none: {} } // Only unassigned signals unless forcing
+            })
           },
-          department: true,
-          team: true
-        },
-        orderBy: { receivedAt: 'desc' },
-        take: 200 // Limit for performance
-      });
+          include: {
+            hotspots: {
+              include: { hotspot: true }
+            },
+            department: true,
+            team: true
+          },
+          orderBy: { receivedAt: 'desc' },
+          take: 200 // Limit for performance
+        });
+      } else {
+        // Use legacy Input model
+        signals = await prisma.input.findMany({
+          where: {
+            // Basic filtering for legacy model
+          },
+          orderBy: { createdAt: 'desc' },
+          take: 50 // Smaller limit for legacy
+        });
+      }
     } catch (error) {
       // Fallback to legacy Input model
       signals = await prisma.input.findMany({
