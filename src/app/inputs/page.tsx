@@ -1,6 +1,7 @@
 'use client';
 
 import { useState, useEffect, useCallback } from 'react';
+import { useSession } from 'next-auth/react';
 import Link from 'next/link';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent } from '@/components/ui/card';
@@ -69,6 +70,7 @@ const TYPE_ICONS = {
 };
 
 export default function InputsPage() {
+  const { data: session, status } = useSession();
   const [inputs, setInputs] = useState<InputItem[]>([]);
   const [pagination, setPagination] = useState<PaginationInfo | null>(null);
   const [isLoading, setIsLoading] = useState(true);
@@ -81,6 +83,12 @@ export default function InputsPage() {
   const [searchQuery, setSearchQuery] = useState<string>('');
 
   const fetchInputs = useCallback(async () => {
+    // Don't fetch if not authenticated
+    if (status !== 'authenticated' || !session) {
+      setIsLoading(false);
+      return;
+    }
+
     try {
       setIsLoading(true);
       setError(null);
@@ -106,7 +114,7 @@ export default function InputsPage() {
     } finally {
       setIsLoading(false);
     }
-  }, [statusFilter, typeFilter, departmentFilter]);
+  }, [statusFilter, typeFilter, departmentFilter, session, status]);
 
   useEffect(() => {
     fetchInputs();
@@ -126,6 +134,36 @@ export default function InputsPage() {
       day: 'numeric',
     });
   };
+
+  // Handle loading authentication
+  if (status === 'loading') {
+    return (
+      <div className="min-h-screen bg-gray-50 py-8">
+        <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
+          <div className="py-12 text-center">
+            <div className="mx-auto h-8 w-8 animate-spin rounded-full border-b-2 border-blue-600"></div>
+            <p className="mt-4 text-gray-600">Authenticating...</p>
+          </div>
+        </div>
+      </div>
+    );
+  }
+
+  // Handle unauthenticated state
+  if (status === 'unauthenticated') {
+    return (
+      <div className="min-h-screen bg-gray-50 py-8">
+        <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
+          <Alert variant="destructive">
+            <AlertCircle className="h-4 w-4" />
+            <AlertDescription>
+              Please log in to view strategic inputs.
+            </AlertDescription>
+          </Alert>
+        </div>
+      </div>
+    );
+  }
 
   if (error) {
     return (

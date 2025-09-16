@@ -1,6 +1,7 @@
 'use client';
 
 import { useState, useEffect } from 'react';
+import { useSession } from 'next-auth/react';
 import { HotspotCard } from './hotspot-card';
 import { ClusteringControls } from './clustering-controls';
 import { HotspotMetrics } from './hotspot-metrics';
@@ -50,6 +51,7 @@ interface DashboardMetrics {
 }
 
 export function HotspotDashboard() {
+  const { data: session, status } = useSession();
   const [hotspots, setHotspots] = useState<Hotspot[]>([]);
   const [metrics, setMetrics] = useState<DashboardMetrics | null>(null);
   const [loading, setLoading] = useState(true);
@@ -60,9 +62,13 @@ export function HotspotDashboard() {
 
   // Load initial data
   useEffect(() => {
-    loadHotspots();
-    loadMetrics();
-  }, []);
+    if (status === 'authenticated' && session) {
+      loadHotspots();
+      loadMetrics();
+    } else if (status !== 'loading') {
+      setLoading(false);
+    }
+  }, [status, session]);
 
   const loadHotspots = async () => {
     try {
@@ -149,6 +155,25 @@ export function HotspotDashboard() {
       console.error(`Error performing ${action}:`, err);
     }
   };
+
+  // Handle loading authentication
+  if (status === 'loading') {
+    return <HotspotDashboardSkeleton />;
+  }
+
+  // Handle unauthenticated state
+  if (status === 'unauthenticated') {
+    return (
+      <div className="rounded-lg border border-red-200 bg-red-50 p-4">
+        <div className="flex items-center">
+          <AlertTriangle className="mr-2 h-5 w-5 text-red-600" />
+          <span className="font-medium text-red-800">
+            Please log in to view hotspots.
+          </span>
+        </div>
+      </div>
+    );
+  }
 
   if (loading && hotspots.length === 0) {
     return <HotspotDashboardSkeleton />;
