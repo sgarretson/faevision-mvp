@@ -1,6 +1,7 @@
 'use client';
 
 import { useState, useEffect, useCallback } from 'react';
+import { useSession } from 'next-auth/react';
 import { Card, CardContent } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
@@ -89,6 +90,7 @@ const STATUS_COLORS = {
 };
 
 export function IdeasDashboard() {
+  const { data: session, status } = useSession();
   const [ideas, setIdeas] = useState<Idea[]>([]);
   const [pagination, setPagination] = useState<Pagination | null>(null);
   const [isLoading, setIsLoading] = useState(true);
@@ -99,6 +101,12 @@ export function IdeasDashboard() {
   const [originFilter, setOriginFilter] = useState<string>('');
 
   const fetchIdeas = useCallback(async () => {
+    // Don't fetch if not authenticated
+    if (status !== 'authenticated' || !session) {
+      setIsLoading(false);
+      return;
+    }
+
     try {
       setIsLoading(true);
       setError(null);
@@ -123,7 +131,7 @@ export function IdeasDashboard() {
     } finally {
       setIsLoading(false);
     }
-  }, [statusFilter, originFilter]);
+  }, [statusFilter, originFilter, session, status]);
 
   useEffect(() => {
     fetchIdeas();
@@ -137,6 +145,27 @@ export function IdeasDashboard() {
       minute: '2-digit',
     });
   };
+
+  // Handle loading authentication
+  if (status === 'loading') {
+    return (
+      <div className="py-12 text-center">
+        <div className="mx-auto h-8 w-8 animate-spin rounded-full border-b-2 border-purple-600"></div>
+        <p className="mt-4 text-gray-600">Authenticating...</p>
+      </div>
+    );
+  }
+
+  // Handle unauthenticated state
+  if (status === 'unauthenticated') {
+    return (
+      <div className="space-y-6">
+        <Alert variant="destructive">
+          <AlertDescription>Please log in to view ideas.</AlertDescription>
+        </Alert>
+      </div>
+    );
+  }
 
   if (error) {
     return (
