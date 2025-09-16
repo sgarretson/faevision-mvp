@@ -50,19 +50,19 @@
 
 /* Primary action buttons - thumb-friendly */
 .executive-button {
-  @apply touch-target bg-blue-600 text-white rounded-lg font-medium transition-colors;
+  @apply touch-target rounded-lg bg-blue-600 font-medium text-white transition-colors;
   @apply hover:bg-blue-700 active:bg-blue-800;
   @apply focus:ring-2 focus:ring-blue-500 focus:ring-offset-2;
   touch-action: manipulation; /* Prevents zoom on double-tap */
 }
 
 .executive-button:disabled {
-  @apply bg-gray-300 text-gray-500 cursor-not-allowed;
+  @apply cursor-not-allowed bg-gray-300 text-gray-500;
 }
 
 /* Secondary action buttons */
 .executive-button-secondary {
-  @apply touch-target bg-white text-gray-700 border border-gray-300 rounded-lg font-medium transition-colors;
+  @apply touch-target rounded-lg border border-gray-300 bg-white font-medium text-gray-700 transition-colors;
   @apply hover:bg-gray-50 active:bg-gray-100;
   @apply focus:ring-2 focus:ring-blue-500 focus:ring-offset-2;
   touch-action: manipulation;
@@ -74,7 +74,7 @@
 
 /* Executive card layout - optimized for scanning */
 .executive-card {
-  @apply bg-white rounded-lg border border-gray-200 shadow-sm;
+  @apply rounded-lg border border-gray-200 bg-white shadow-sm;
   @apply transition-shadow duration-200;
 }
 
@@ -83,7 +83,7 @@
 }
 
 .executive-card:active {
-  @apply shadow-sm scale-[0.98];
+  @apply scale-[0.98] shadow-sm;
   transition: all 0.1s ease-in-out;
 }
 
@@ -112,7 +112,7 @@
 
 /* Executive headlines - large, scannable */
 .executive-headline {
-  @apply text-2xl font-bold text-gray-900 leading-tight;
+  @apply text-2xl font-bold leading-tight text-gray-900;
 }
 
 @media (min-width: 640px) {
@@ -123,7 +123,7 @@
 
 /* Executive metrics - prominent numbers */
 .executive-metric {
-  @apply text-4xl font-bold text-gray-900 leading-none;
+  @apply text-4xl font-bold leading-none text-gray-900;
 }
 
 @media (min-width: 640px) {
@@ -134,13 +134,13 @@
 
 /* Executive body text - optimized for mobile reading */
 .executive-body {
-  @apply text-base text-gray-700 leading-relaxed;
+  @apply text-base leading-relaxed text-gray-700;
   line-height: 1.6; /* Optimal for mobile reading */
 }
 
 /* Executive labels - clear hierarchy */
 .executive-label {
-  @apply text-sm font-medium text-gray-600 uppercase tracking-wide;
+  @apply text-sm font-medium uppercase tracking-wide text-gray-600;
 }
 
 /* ============================================================================
@@ -148,23 +148,23 @@
    ============================================================================ */
 
 .status-critical {
-  @apply bg-red-100 text-red-800 border border-red-200;
+  @apply border border-red-200 bg-red-100 text-red-800;
 }
 
 .status-warning {
-  @apply bg-yellow-100 text-yellow-800 border border-yellow-200;
+  @apply border border-yellow-200 bg-yellow-100 text-yellow-800;
 }
 
 .status-success {
-  @apply bg-green-100 text-green-800 border border-green-200;
+  @apply border border-green-200 bg-green-100 text-green-800;
 }
 
 .status-info {
-  @apply bg-blue-100 text-blue-800 border border-blue-200;
+  @apply border border-blue-200 bg-blue-100 text-blue-800;
 }
 
 .status-neutral {
-  @apply bg-gray-100 text-gray-800 border border-gray-200;
+  @apply border border-gray-200 bg-gray-100 text-gray-800;
 }
 
 /* ============================================================================
@@ -202,10 +202,10 @@
 /* F-pattern layout optimization */
 .f-pattern-container {
   display: grid;
-  grid-template-areas: 
-    "header header"
-    "primary secondary"
-    "details details";
+  grid-template-areas:
+    'header header'
+    'primary secondary'
+    'details details';
   gap: 1rem;
 }
 
@@ -269,7 +269,7 @@
   .executive-card {
     @apply border-2 border-gray-900;
   }
-  
+
   .executive-button {
     @apply border-2 border-blue-800;
   }
@@ -289,18 +289,18 @@
 /* Dark mode considerations (for executive preference) */
 @media (prefers-color-scheme: dark) {
   .executive-card {
-    @apply bg-gray-800 border-gray-700 text-white;
+    @apply border-gray-700 bg-gray-800 text-white;
   }
-  
+
   .executive-headline,
   .executive-metric {
     @apply text-white;
   }
-  
+
   .executive-body {
     @apply text-gray-300;
   }
-  
+
   .executive-label {
     @apply text-gray-400;
   }
@@ -311,7 +311,7 @@
    ============================================================================ */
 
 .executive-skeleton {
-  @apply bg-gray-200 rounded animate-pulse;
+  @apply animate-pulse rounded bg-gray-200;
 }
 
 .executive-skeleton-text {
@@ -336,7 +336,7 @@
 
 /* Skip to content for accessibility */
 .skip-to-content {
-  @apply sr-only focus:not-sr-only focus:absolute focus:top-4 focus:left-4;
-  @apply bg-blue-600 text-white px-4 py-2 rounded-lg font-medium;
+  @apply sr-only focus:not-sr-only focus:absolute focus:left-4 focus:top-4;
+  @apply rounded-lg bg-blue-600 px-4 py-2 font-medium text-white;
   @apply focus:ring-2 focus:ring-blue-500 focus:ring-offset-2;
 }

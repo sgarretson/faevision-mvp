@@ -27,21 +27,25 @@ After analyzing our complete documentation, I've identified **5 critical control
 ### **Primary Tools for Control**
 
 #### **1. .cursorrules (Primary Enforcement)**
+
 - **Purpose**: Strict project-wide rules that AI cannot violate
 - **Scope**: Code standards, architecture patterns, quality gates
 - **Enforcement**: Every AI interaction must comply
 
 #### **2. Cursor Composer (Multi-File Control)**
+
 - **Purpose**: Complex feature implementation with scope validation
 - **Scope**: Feature-level development with cross-file consistency
 - **Enforcement**: Pre-implementation scope and expert validation
 
 #### **3. Custom Prompt Templates (Guided Development)**
+
 - **Purpose**: Structured prompts ensuring process compliance
 - **Scope**: Feature development, bug fixes, code reviews
 - **Enforcement**: Mandatory prompt structure with validation checkpoints
 
 #### **4. Background Agents (Continuous Monitoring)**
+
 - **Purpose**: Real-time code quality and scope monitoring
 - **Scope**: Ongoing code analysis and improvement suggestions
 - **Enforcement**: Automatic alerts for violations and deviations
@@ -97,23 +101,23 @@ EXPERT_ROUTING: {
   // Frontend & UI Development
   FRONTEND_WORK: "Assign to Lead Developer (Alex Thompson) or UX Expert (Maya Rodriguez)",
   UI_COMPONENTS: "Assign to Visual Designer (David Chen) with UX Expert (Maya Rodriguez) review",
-  
-  // Backend & API Development  
+
+  // Backend & API Development
   BACKEND_API: "Assign to Lead Developer (Alex Thompson) or AI Architect (Dr. Priya Patel)",
   DATABASE_WORK: "MUST assign to Database Architect (Morgan Smith) - no exceptions",
-  
+
   // AI Feature Development
   AI_FEATURES: "MUST assign to AI Architect (Dr. Priya Patel) with Cursor Expert (Jordan Lee) support",
   AI_TAGGING: "AI Architect (Dr. Priya Patel) primary, Lead Developer secondary",
   DOCUMENT_GENERATION: "AI Architect (Dr. Priya Patel) primary, Visual Designer for templates",
-  
+
   // Infrastructure & Deployment
   VERCEL_CONFIG: "MUST assign to Vercel Engineer (Jordan Kim) - platform expertise required",
   GITHUB_WORKFLOW: "MUST assign to GitHub Expert (Taylor Morgan) - workflow expertise required",
-  
+
   // Project Management
   LINEAR_CONFIG: "MUST assign to Linear Expert (Alex Johnson) - project management expertise",
-  
+
   // Business & Strategy
   REQUIREMENTS: "Strategic Consultant (Marcus Rodriguez) primary, Product Manager secondary",
   EXECUTIVE_FEATURES: "Product Manager (Sarah Chen) primary, Strategic Consultant secondary"
@@ -243,10 +247,12 @@ PROMPT_REQUIREMENTS: {
 ### **Composer Session Templates**
 
 #### **Feature Development Session Template**
+
 ```markdown
 # FAEVision MVP Feature Development Session
 
 ## SCOPE VALIDATION (MANDATORY)
+
 Before starting, confirm this feature is in our approved MVP scope:
 ✅ F1: Input Capture
 ✅ F2: Collaborative Engagement  
@@ -258,7 +264,9 @@ Before starting, confirm this feature is in our approved MVP scope:
 ❌ If not in scope, STOP and escalate to Product Manager
 
 ## EXPERT ASSIGNMENT VALIDATION
+
 Confirm the right expert is assigned:
+
 - Frontend/UI: Lead Developer + UX Expert + Visual Designer
 - Backend/API: Lead Developer + AI Architect (if AI involved)
 - Database: Database Architect (REQUIRED for schema changes)
@@ -267,6 +275,7 @@ Confirm the right expert is assigned:
 - Requirements: Strategic Consultant + Product Manager
 
 ## LINEAR ISSUE CONTEXT
+
 Linear Issue ID: [FAE-XXX]
 Epic: [Epic Name and Number]
 Assigned Expert: [Expert Name]
@@ -274,6 +283,7 @@ Business Value: [High/Medium/Low]
 Technical Complexity: [Simple/Medium/Complex]
 
 ## IMPLEMENTATION REQUIREMENTS
+
 1. Follow .cursorrules configuration strictly
 2. Implement for user roles: Admin, Executive, Contributor
 3. Include comprehensive error handling
@@ -284,7 +294,9 @@ Technical Complexity: [Simple/Medium/Complex]
 8. Optimize for <2s page load, <500ms API response
 
 ## QUALITY VALIDATION CHECKLIST
+
 Before completing implementation:
+
 - [ ] Code follows .cursorrules standards
 - [ ] TypeScript compilation without errors
 - [ ] ESLint and Prettier checks pass
@@ -295,7 +307,9 @@ Before completing implementation:
 - [ ] Expert review completed
 
 ## SCOPE CREEP PREVENTION
+
 If during development you identify "nice-to-have" features or improvements:
+
 1. STOP implementation
 2. Document the idea for Phase 2
 3. Focus ONLY on MVP requirements
@@ -303,18 +317,23 @@ If during development you identify "nice-to-have" features or improvements:
 ```
 
 #### **Bug Fix Session Template**
+
 ```markdown
 # FAEVision MVP Bug Fix Session
 
 ## BUG CLASSIFICATION (MANDATORY)
+
 Severity Level:
+
 - [ ] Critical (P0): Fix within 4 hours - Application crashes, security issues
-- [ ] High (P1): Fix within 24 hours - Major dysfunction, user workflow blocked  
+- [ ] High (P1): Fix within 24 hours - Major dysfunction, user workflow blocked
 - [ ] Medium (P2): Fix within 1 week - Minor issues, workaround available
 - [ ] Low (P3): Fix within 2 weeks - Cosmetic, edge cases
 
 ## EXPERT ASSIGNMENT VALIDATION
+
 Bug Type → Required Expert:
+
 - Frontend issues → Lead Developer or UX Expert
 - Backend issues → Lead Developer or AI Architect
 - Database issues → Database Architect (REQUIRED)
@@ -323,12 +342,14 @@ Bug Type → Required Expert:
 - Process issues → Linear Expert
 
 ## ROOT CAUSE ANALYSIS
+
 1. Identify the underlying cause (not just symptoms)
 2. Determine if bug indicates larger architectural issue
 3. Assess impact on other features or systems
 4. Plan minimal, safe fix approach
 
 ## FIX IMPLEMENTATION RULES
+
 1. Minimal code changes to reduce risk
 2. Add specific regression tests
 3. Follow existing code patterns and conventions
@@ -337,6 +358,7 @@ Bug Type → Required Expert:
 6. Test fix thoroughly before PR creation
 
 ## REGRESSION PREVENTION
+
 - [ ] Regression tests added for this specific bug
 - [ ] Related functionality tested for side effects
 - [ ] Performance impact assessed
@@ -347,54 +369,64 @@ Bug Type → Required Expert:
 ### **Scope Creep Detection Prompts**
 
 #### **Feature Request Validator**
+
 ```markdown
 # Scope Creep Detection System
 
 You are a strict MVP scope validator for FAEVision. Before implementing ANY feature request:
 
 ## SCOPE VALIDATION PROTOCOL
+
 1. **Check against approved features**: Is this request part of F1-F6?
 2. **Identify scope creep**: Does this add functionality beyond MVP scope?
 3. **Escalation requirement**: If outside scope, require Product Manager approval
 
 ## APPROVED MVP FEATURES ONLY:
+
 **F1: Input Capture**
+
 - Input creation form with title, description, type
 - Strategic tagging (department, issue type, root cause)
 - AI auto-tagging and duplicate detection
 - Mobile-responsive capture
 
 **F2: Collaborative Engagement**
+
 - Voting system (upvote/downvote)
 - Threaded commenting with @mentions
 - Real-time updates and notifications
 - Activity feeds
 
 **F3: Intelligent Organization**
+
 - Manual grouping with drag-and-drop
 - AI similarity suggestions
 - Group insights and themes
 - Executive dashboard views
 
 **F4: Solution Execution**
+
 - Solution creation from inputs/groups
 - Task breakdown and assignment
 - Progress tracking and reporting
 - Solution collaboration
 
 **F5: Executive Requirements**
+
 - Requirements creation and management
 - Requirements collaboration (voting, commenting)
 - Executive approval workflow
 - AI-assisted requirements generation
 
 **F6: AI-Generated FRD Handoff**
+
 - Document generation from solution + requirements
 - Professional templates
 - Executive review and approval
 - Multi-format export
 
 ## SCOPE CREEP INDICATORS:
+
 ❌ "Advanced analytics" or "predictive insights"
 ❌ "Complex approval workflows" beyond executive approval
 ❌ "Mobile native app" (responsive web only)
@@ -405,11 +437,13 @@ You are a strict MVP scope validator for FAEVision. Before implementing ANY feat
 ❌ "Advanced reporting" beyond basic dashboards
 
 ## RESPONSE PROTOCOL:
+
 If request is scope creep, respond:
 "🚫 SCOPE VALIDATION FAILED
 This request appears to be outside our MVP scope. Our approved features are F1-F6 as defined in docs/mvp-consensus/FAEVision-MVP-Final-Consensus.md.
 
 Suggested Actions:
+
 1. Review if this can be simplified to fit within existing features
 2. Document as Phase 2 enhancement
 3. Escalate to Product Manager (Sarah Chen) for scope clarification
@@ -428,10 +462,18 @@ Would you like me to help implement this within our current MVP scope instead?"
 const EXPERT_ASSIGNMENT_RULES = {
   // === FRONTEND DEVELOPMENT ===
   FRONTEND_PATTERNS: {
-    keywords: ["component", "ui", "interface", "form", "button", "layout", "responsive"],
-    primaryExpert: "Lead Developer (Alex Thompson)",
-    secondaryExpert: "UX Expert (Maya Rodriguez)",
-    reviewRequired: "Visual Designer (David Chen)",
+    keywords: [
+      'component',
+      'ui',
+      'interface',
+      'form',
+      'button',
+      'layout',
+      'responsive',
+    ],
+    primaryExpert: 'Lead Developer (Alex Thompson)',
+    secondaryExpert: 'UX Expert (Maya Rodriguez)',
+    reviewRequired: 'Visual Designer (David Chen)',
     cursorPrompt: `
       You are implementing frontend features for FAEVision MVP.
       Primary Expert: Lead Developer (Alex Thompson)
@@ -445,15 +487,23 @@ const EXPERT_ASSIGNMENT_RULES = {
       - Ensure mobile responsiveness (320px-1440px+)
       - Include TypeScript interfaces
       - Add comprehensive error handling
-    `
+    `,
   },
 
   // === AI FEATURE DEVELOPMENT ===
   AI_FEATURES: {
-    keywords: ["ai", "gpt", "openai", "tagging", "suggestions", "similarity", "document generation"],
-    primaryExpert: "AI Architect (Dr. Priya Patel)",
-    secondaryExpert: "Cursor Expert (Jordan Lee)",
-    reviewRequired: "Lead Developer (Alex Thompson)",
+    keywords: [
+      'ai',
+      'gpt',
+      'openai',
+      'tagging',
+      'suggestions',
+      'similarity',
+      'document generation',
+    ],
+    primaryExpert: 'AI Architect (Dr. Priya Patel)',
+    secondaryExpert: 'Cursor Expert (Jordan Lee)',
+    reviewRequired: 'Lead Developer (Alex Thompson)',
     cursorPrompt: `
       You are implementing AI features for FAEVision MVP.
       Primary Expert: AI Architect (Dr. Priya Patel)
@@ -467,15 +517,23 @@ const EXPERT_ASSIGNMENT_RULES = {
       - Include performance monitoring (<15s processing)
       - Follow AI transparency design patterns
       - Add comprehensive error handling for AI failures
-    `
+    `,
   },
 
   // === DATABASE DEVELOPMENT ===
   DATABASE_WORK: {
-    keywords: ["prisma", "schema", "migration", "database", "query", "sql", "postgres"],
-    primaryExpert: "Database Architect (Morgan Smith)",
-    secondaryExpert: "Lead Developer (Alex Thompson)",
-    reviewRequired: "AI Architect (Dr. Priya Patel) if AI data involved",
+    keywords: [
+      'prisma',
+      'schema',
+      'migration',
+      'database',
+      'query',
+      'sql',
+      'postgres',
+    ],
+    primaryExpert: 'Database Architect (Morgan Smith)',
+    secondaryExpert: 'Lead Developer (Alex Thompson)',
+    reviewRequired: 'AI Architect (Dr. Priya Patel) if AI data involved',
     cursorPrompt: `
       You are implementing database features for FAEVision MVP.
       PRIMARY EXPERT REQUIRED: Database Architect (Morgan Smith)
@@ -488,15 +546,22 @@ const EXPERT_ASSIGNMENT_RULES = {
       - Add migration scripts for schema changes
       - Include connection pooling and optimization
       - Follow security patterns for data protection
-    `
+    `,
   },
 
   // === EXECUTIVE FEATURES ===
   EXECUTIVE_FEATURES: {
-    keywords: ["executive", "dashboard", "analytics", "requirements", "approval", "reporting"],
-    primaryExpert: "Product Manager (Sarah Chen)",
-    secondaryExpert: "Strategic Consultant (Marcus Rodriguez)",
-    reviewRequired: "UX Expert (Maya Rodriguez)",
+    keywords: [
+      'executive',
+      'dashboard',
+      'analytics',
+      'requirements',
+      'approval',
+      'reporting',
+    ],
+    primaryExpert: 'Product Manager (Sarah Chen)',
+    secondaryExpert: 'Strategic Consultant (Marcus Rodriguez)',
+    reviewRequired: 'UX Expert (Maya Rodriguez)',
     cursorPrompt: `
       You are implementing executive-focused features for FAEVision MVP.
       Primary Expert: Product Manager (Sarah Chen)
@@ -510,41 +575,58 @@ const EXPERT_ASSIGNMENT_RULES = {
       - Add business intelligence and analytics
       - Follow professional aesthetics and trust-building design
       - Include mobile executive patterns for efficiency
-    `
-  }
+    `,
+  },
 };
 
 // === AUTOMATIC EXPERT DETECTION ===
 function detectRequiredExpert(issueDescription, codeContext, labels) {
-  const content = `${issueDescription} ${codeContext} ${labels.join(' ')}`.toLowerCase();
-  
+  const content =
+    `${issueDescription} ${codeContext} ${labels.join(' ')}`.toLowerCase();
+
   // Database work detection (CRITICAL)
-  if (content.includes('prisma') || content.includes('schema') || content.includes('migration') || content.includes('database')) {
+  if (
+    content.includes('prisma') ||
+    content.includes('schema') ||
+    content.includes('migration') ||
+    content.includes('database')
+  ) {
     return {
-      primaryExpert: "Database Architect (Morgan Smith)",
+      primaryExpert: 'Database Architect (Morgan Smith)',
       mandatory: true,
-      reason: "Database changes require Database Architect expertise"
+      reason: 'Database changes require Database Architect expertise',
     };
   }
-  
+
   // AI feature detection (CRITICAL)
-  if (content.includes('ai') || content.includes('gpt') || content.includes('openai') || content.includes('tagging') || content.includes('suggestions')) {
+  if (
+    content.includes('ai') ||
+    content.includes('gpt') ||
+    content.includes('openai') ||
+    content.includes('tagging') ||
+    content.includes('suggestions')
+  ) {
     return {
-      primaryExpert: "AI Architect (Dr. Priya Patel)",
+      primaryExpert: 'AI Architect (Dr. Priya Patel)',
       mandatory: true,
-      reason: "AI features require AI Architect expertise"
+      reason: 'AI features require AI Architect expertise',
     };
   }
-  
+
   // Executive feature detection
-  if (content.includes('executive') || content.includes('dashboard') || content.includes('requirements') || content.includes('approval')) {
+  if (
+    content.includes('executive') ||
+    content.includes('dashboard') ||
+    content.includes('requirements') ||
+    content.includes('approval')
+  ) {
     return {
-      primaryExpert: "Product Manager (Sarah Chen)",
-      secondaryExpert: "Strategic Consultant (Marcus Rodriguez)",
-      reason: "Executive features require business expertise"
+      primaryExpert: 'Product Manager (Sarah Chen)',
+      secondaryExpert: 'Strategic Consultant (Marcus Rodriguez)',
+      reason: 'Executive features require business expertise',
     };
   }
-  
+
   // Continue for other patterns...
 }
 ```
@@ -561,12 +643,14 @@ function detectRequiredExpert(issueDescription, codeContext, labels) {
 Before generating ANY code, Cursor must validate:
 
 ## SCOPE COMPLIANCE CHECK
+
 1. ✅ Feature is within approved MVP scope (F1-F6)
 2. ✅ No scope creep or unauthorized enhancements
 3. ✅ Aligns with current Epic and Sprint goals
 4. ✅ Appropriate expert assigned and available
 
 ## TECHNICAL VALIDATION CHECK
+
 1. ✅ Uses approved technology stack only
 2. ✅ Follows established architecture patterns
 3. ✅ Meets performance requirements
@@ -574,6 +658,7 @@ Before generating ANY code, Cursor must validate:
 5. ✅ Accessibility compliance planned
 
 ## DESIGN COMPLIANCE CHECK
+
 1. ✅ Follows executive-focused design standards
 2. ✅ Uses approved color system and typography
 3. ✅ Implements responsive design patterns
@@ -581,6 +666,7 @@ Before generating ANY code, Cursor must validate:
 5. ✅ Optimized for executive user patterns
 
 ## PROCESS COMPLIANCE CHECK
+
 1. ✅ Linear issue exists and is properly configured
 2. ✅ GitHub branch created from Linear issue
 3. ✅ Appropriate expert assigned and notified
@@ -588,6 +674,7 @@ Before generating ANY code, Cursor must validate:
 5. ✅ Review process planned
 
 ## QUALITY ASSURANCE CHECK
+
 1. ✅ Test coverage strategy defined (>85%)
 2. ✅ Error handling approach planned
 3. ✅ Performance impact assessed
@@ -604,36 +691,36 @@ ONLY PROCEED if ALL checks pass. If any check fails, escalate to appropriate exp
 const QUALITY_MONITORING = {
   CONTINUOUS_CHECKS: {
     codeQuality: {
-      trigger: "on_file_save",
+      trigger: 'on_file_save',
       validations: [
-        "typescript_compilation",
-        "eslint_compliance", 
-        "prettier_formatting",
-        "test_coverage_maintained",
-        "performance_impact_assessed"
-      ]
+        'typescript_compilation',
+        'eslint_compliance',
+        'prettier_formatting',
+        'test_coverage_maintained',
+        'performance_impact_assessed',
+      ],
     },
-    
+
     scopeCompliance: {
-      trigger: "on_feature_addition",
+      trigger: 'on_feature_addition',
       validations: [
-        "feature_in_approved_scope",
-        "no_unauthorized_entities",
-        "no_complex_workflows",
-        "executive_focus_maintained"
-      ]
+        'feature_in_approved_scope',
+        'no_unauthorized_entities',
+        'no_complex_workflows',
+        'executive_focus_maintained',
+      ],
     },
-    
+
     expertAssignment: {
-      trigger: "on_work_assignment",
+      trigger: 'on_work_assignment',
       validations: [
-        "appropriate_expert_assigned",
-        "required_reviews_planned",
-        "expertise_match_validated",
-        "workload_balance_maintained"
-      ]
-    }
-  }
+        'appropriate_expert_assigned',
+        'required_reviews_planned',
+        'expertise_match_validated',
+        'workload_balance_maintained',
+      ],
+    },
+  },
 };
 ```
 
@@ -644,21 +731,25 @@ const QUALITY_MONITORING = {
 ### **Scope-Controlled Prompt Templates**
 
 #### **Input Feature Development**
+
 ```markdown
 # Input Capture Feature Implementation (F1)
 
 You are implementing the Input Capture feature for FAEVision MVP.
 
 ## SCOPE BOUNDARIES (STRICT)
+
 ✅ ALLOWED: Input creation form, strategic tagging, AI auto-tagging, duplicate detection, mobile capture
 ❌ FORBIDDEN: Advanced analytics, complex workflows, external integrations
 
 ## EXPERT ASSIGNMENT
+
 Primary: AI Architect (Dr. Priya Patel) - AI features
 Secondary: UX Expert (Maya Rodriguez) - form design
 Review: Lead Developer (Alex Thompson) - technical implementation
 
 ## IMPLEMENTATION REQUIREMENTS
+
 1. **Form Structure**: Title (5-100 chars), Description (10-2000 chars), Type (Problem/Opportunity/General)
 2. **Strategic Tagging**: Department (auto-suggested), Issue Type (dropdown), Root Cause (AI-suggested)
 3. **AI Features**: Auto-tagging with >80% accuracy, duplicate detection >85% prevention
@@ -666,6 +757,7 @@ Review: Lead Developer (Alex Thompson) - technical implementation
 5. **Mobile**: Responsive design, touch-friendly (44px targets), offline capability
 
 ## TECHNICAL STACK (ENFORCED)
+
 - Next.js 14 App Router with TypeScript
 - Tailwind CSS with executive design system
 - Prisma for database operations
@@ -674,6 +766,7 @@ Review: Lead Developer (Alex Thompson) - technical implementation
 - React Hook Form for form management
 
 ## QUALITY REQUIREMENTS
+
 - TypeScript strict mode compliance
 - 85%+ test coverage with Vitest
 - WCAG 2.1 AA accessibility compliance
@@ -685,27 +778,32 @@ Generate the implementation following these strict requirements.
 ```
 
 #### **Collaboration Feature Development**
+
 ```markdown
 # Collaborative Engagement Feature Implementation (F2)
 
 You are implementing real-time collaboration features for FAEVision MVP.
 
 ## SCOPE BOUNDARIES (STRICT)
+
 ✅ ALLOWED: Voting, commenting, @mentions, notifications, real-time updates
 ❌ FORBIDDEN: Advanced analytics, complex approval workflows, external notifications
 
 ## EXPERT ASSIGNMENT
+
 Primary: Lead Developer (Alex Thompson) - real-time features
 Secondary: UX Expert (Maya Rodriguez) - collaboration UX
 Review: AI Architect (Dr. Priya Patel) - if AI involved
 
 ## REAL-TIME REQUIREMENTS
+
 1. **Voting System**: Upvote/downvote with real-time updates <3 seconds
 2. **Comment System**: Threaded comments (2 levels max), @mentions, real-time updates
 3. **Notifications**: In-app and email notifications with user preferences
 4. **Performance**: Real-time updates without page refresh, optimistic UI updates
 
 ## TECHNICAL IMPLEMENTATION (ENFORCED)
+
 - Server-Sent Events for real-time updates (no WebSockets)
 - Zustand for real-time state management
 - React Hook Form for comment creation
@@ -713,6 +811,7 @@ Review: AI Architect (Dr. Priya Patel) - if AI involved
 - Resend for email notifications
 
 ## COLLABORATION PATTERNS
+
 - Executive-focused commenting interface
 - Professional notification templates
 - Mobile-optimized collaboration patterns
@@ -722,21 +821,25 @@ Generate the implementation following these strict collaboration requirements.
 ```
 
 #### **AI Feature Development**
+
 ```markdown
 # AI Feature Implementation (AI Components Only)
 
 You are implementing AI features for FAEVision MVP.
 
 ## MANDATORY EXPERT ASSIGNMENT
+
 PRIMARY EXPERT REQUIRED: AI Architect (Dr. Priya Patel)
 SUPPORT EXPERT: Cursor Expert (Jordan Lee)
 REVIEW REQUIRED: Lead Developer (Alex Thompson)
 
 ## AI SCOPE BOUNDARIES (STRICT)
+
 ✅ ALLOWED: Auto-tagging, duplicate detection, similarity suggestions, requirements generation, FRD generation
 ❌ FORBIDDEN: Machine learning models, complex clustering, predictive analytics, advanced AI
 
 ## AI IMPLEMENTATION REQUIREMENTS
+
 1. **Vercel AI SDK Only**: No other AI frameworks or direct API calls
 2. **OpenAI Models**: GPT-4 for documents, GPT-3.5-turbo for tagging
 3. **Confidence Scoring**: All suggestions include confidence levels
@@ -745,6 +848,7 @@ REVIEW REQUIRED: Lead Developer (Alex Thompson)
 6. **Performance**: AI processing <15 seconds with progress indicators
 
 ## AI TRANSPARENCY REQUIREMENTS
+
 - Clear indication of AI-generated content
 - Confidence indicators for all suggestions
 - Executive control over AI suggestions
@@ -752,6 +856,7 @@ REVIEW REQUIRED: Lead Developer (Alex Thompson)
 - Error handling for AI service failures
 
 ## SECURITY & PRIVACY
+
 - Input sanitization before AI processing
 - No PII sent to AI services without encryption
 - Audit logging for all AI operations
@@ -767,18 +872,21 @@ Generate AI features following these strict requirements.
 ### **Multi-File Feature Development Control**
 
 #### **Composer Session Initialization**
+
 ```markdown
 # Cursor Composer Session Control
 
 Before starting any multi-file development session:
 
 ## SESSION VALIDATION PROTOCOL
+
 1. **Scope Check**: Confirm feature is within approved MVP scope
 2. **Expert Check**: Verify appropriate expert is leading the session
 3. **Epic Check**: Confirm work aligns with current Epic goals
 4. **Quality Check**: Ensure all quality requirements understood
 
 ## COMPOSER CONTROL RULES
+
 1. **File Modification Limits**: Only modify files related to assigned Linear issue
 2. **Architecture Compliance**: Follow established patterns and conventions
 3. **Quality Gates**: Include testing and validation in all changes
@@ -786,7 +894,9 @@ Before starting any multi-file development session:
 5. **Review Planning**: Identify required expert reviews before starting
 
 ## MULTI-FILE COORDINATION
+
 When working across multiple files:
+
 - Maintain consistency in naming conventions
 - Follow established import/export patterns
 - Update related tests and documentation
@@ -794,9 +904,10 @@ When working across multiple files:
 - Plan integration testing approach
 
 ## SCOPE CREEP PREVENTION IN COMPOSER
+
 During multi-file sessions, resist temptation to:
 ❌ Add "quick improvements" outside scope
-❌ Implement "obvious enhancements" 
+❌ Implement "obvious enhancements"
 ❌ Fix "related issues" not in current Linear issue
 ❌ Add "helpful features" beyond requirements
 
@@ -806,12 +917,14 @@ During multi-file sessions, resist temptation to:
 ```
 
 #### **Feature Integration Validation**
+
 ```markdown
 # Multi-File Feature Integration Control
 
 When implementing features that span multiple files:
 
 ## INTEGRATION CHECKPOINTS
+
 1. **Component Integration**: Ensure components work together correctly
 2. **State Management**: Validate state flows and updates
 3. **API Integration**: Confirm frontend-backend integration
@@ -819,13 +932,16 @@ When implementing features that span multiple files:
 5. **Real-Time Integration**: Test real-time updates and synchronization
 
 ## CROSS-EXPERT COORDINATION
+
 Before modifying files that impact other experts:
+
 - **Database Files**: Get Database Architect approval
 - **AI Features**: Get AI Architect review
 - **Executive UI**: Get UX Expert and Visual Designer input
 - **Infrastructure**: Get Vercel Engineer or GitHub Expert approval
 
 ## QUALITY ASSURANCE FOR INTEGRATION
+
 - All integration points must include error handling
 - Cross-component communication must be typed
 - State updates must be optimistic with fallback
@@ -844,11 +960,11 @@ Before modifying files that impact other experts:
 const LINEAR_ENFORCEMENT = {
   ISSUE_VALIDATION: {
     requiredFields: [
-      "Epic assignment",
-      "Expert assignment", 
-      "Business impact",
-      "Technical complexity",
-      "Acceptance criteria"
+      'Epic assignment',
+      'Expert assignment',
+      'Business impact',
+      'Technical complexity',
+      'Acceptance criteria',
     ],
     validation: `
       Before starting work, validate Linear issue has:
@@ -859,11 +975,11 @@ const LINEAR_ENFORCEMENT = {
       ✅ Technical complexity assessed
       
       If any missing, escalate to Linear Expert (Alex Johnson)
-    `
+    `,
   },
 
   WORK_AUTHORIZATION: {
-    rule: "No code development without approved Linear issue",
+    rule: 'No code development without approved Linear issue',
     enforcement: `
       Before generating ANY code:
       1. Confirm Linear issue ID (FAE-XXX format)
@@ -878,8 +994,8 @@ const LINEAR_ENFORCEMENT = {
       2. Get appropriate expert assignment
       3. Set issue status to 'In Progress'
       4. Return with Linear issue ID for authorized development"
-    `
-  }
+    `,
+  },
 };
 ```
 
@@ -889,7 +1005,7 @@ const LINEAR_ENFORCEMENT = {
 // GitHub Process Compliance
 const GITHUB_ENFORCEMENT = {
   BRANCH_REQUIREMENTS: {
-    naming: "feature/FAE-{issue-number}-{description}",
+    naming: 'feature/FAE-{issue-number}-{description}',
     validation: `
       All development must follow GitHub workflow:
       1. Create feature branch from develop
@@ -898,11 +1014,11 @@ const GITHUB_ENFORCEMENT = {
       4. Create PR with proper template
       5. Get required expert reviews
       6. Pass all quality gates before merge
-    `
+    `,
   },
 
   COMMIT_STANDARDS: {
-    format: "Conventional Commits required",
+    format: 'Conventional Commits required',
     enforcement: `
       All commits must follow format:
       type(scope): description
@@ -913,8 +1029,8 @@ const GITHUB_ENFORCEMENT = {
       feat(input): implement AI-powered input creation form
       fix(voting): resolve real-time vote synchronization issue
       ai(tagging): add confidence scoring for tag suggestions
-    `
-  }
+    `,
+  },
 };
 ```
 
@@ -925,31 +1041,32 @@ const GITHUB_ENFORCEMENT = {
 ### **Cursor Extensions & Tools**
 
 #### **Recommended Cursor Extensions for Control**
+
 ```yaml
 Essential Extensions:
   1. Linear Integration Extension:
-     - Auto-load Linear issue context
-     - Validate issue assignment and status
-     - Update Linear progress automatically
-     - Enforce Epic and Sprint boundaries
-  
+    - Auto-load Linear issue context
+    - Validate issue assignment and status
+    - Update Linear progress automatically
+    - Enforce Epic and Sprint boundaries
+
   2. GitHub Integration Extension:
-     - Enforce branch naming conventions
-     - Validate PR requirements
-     - Auto-generate commit messages
-     - Track code review requirements
-  
+    - Enforce branch naming conventions
+    - Validate PR requirements
+    - Auto-generate commit messages
+    - Track code review requirements
+
   3. Quality Gate Extension:
-     - Real-time code quality scoring
-     - Accessibility validation
-     - Performance impact assessment
-     - Security vulnerability detection
-  
+    - Real-time code quality scoring
+    - Accessibility validation
+    - Performance impact assessment
+    - Security vulnerability detection
+
   4. Expert Assignment Extension:
-     - Route work to appropriate experts
-     - Validate expertise requirements
-     - Enforce review assignments
-     - Track expert workload and availability
+    - Route work to appropriate experts
+    - Validate expertise requirements
+    - Enforce review assignments
+    - Track expert workload and availability
 ```
 
 #### **Custom Cursor Commands**
@@ -958,48 +1075,59 @@ Essential Extensions:
 // Custom Cursor commands for FAEVision MVP
 const CURSOR_COMMANDS = {
   // Scope validation command
-  "/validate-scope": {
-    description: "Validate current work against MVP scope",
-    action: "Check current work against approved F1-F6 features",
-    response: "Provide scope compliance report with recommendations"
+  '/validate-scope': {
+    description: 'Validate current work against MVP scope',
+    action: 'Check current work against approved F1-F6 features',
+    response: 'Provide scope compliance report with recommendations',
   },
-  
+
   // Expert assignment command
-  "/assign-expert": {
-    description: "Determine appropriate expert for current work",
-    action: "Analyze work type and assign correct expert",
-    response: "Provide expert assignment with reasoning"
+  '/assign-expert': {
+    description: 'Determine appropriate expert for current work',
+    action: 'Analyze work type and assign correct expert',
+    response: 'Provide expert assignment with reasoning',
   },
-  
+
   // Quality check command
-  "/quality-check": {
-    description: "Comprehensive quality validation",
-    action: "Validate code against all quality standards",
-    response: "Provide quality score and improvement recommendations"
+  '/quality-check': {
+    description: 'Comprehensive quality validation',
+    action: 'Validate code against all quality standards',
+    response: 'Provide quality score and improvement recommendations',
   },
-  
+
   // MVP progress command
-  "/mvp-progress": {
-    description: "Check progress against MVP timeline",
-    action: "Analyze current Epic and Sprint progress",
-    response: "Provide progress report and risk assessment"
-  }
+  '/mvp-progress': {
+    description: 'Check progress against MVP timeline',
+    action: 'Analyze current Epic and Sprint progress',
+    response: 'Provide progress report and risk assessment',
+  },
 };
 ```
 
 ### **Automated Scope Creep Prevention**
 
 #### **Real-Time Scope Monitoring**
+
 ```typescript
 // Scope creep detection system
 const SCOPE_CREEP_DETECTOR = {
   FORBIDDEN_KEYWORDS: [
-    "advanced analytics", "machine learning", "predictive", "complex approval",
-    "external integration", "mobile app", "native app", "microservices",
-    "advanced clustering", "initiative management", "resource planning",
-    "complex reporting", "dashboard customization", "user customization"
+    'advanced analytics',
+    'machine learning',
+    'predictive',
+    'complex approval',
+    'external integration',
+    'mobile app',
+    'native app',
+    'microservices',
+    'advanced clustering',
+    'initiative management',
+    'resource planning',
+    'complex reporting',
+    'dashboard customization',
+    'user customization',
   ],
-  
+
   SCOPE_VIOLATION_RESPONSE: `
     🚨 SCOPE CREEP DETECTED
     
@@ -1017,12 +1145,12 @@ const SCOPE_CREEP_DETECTOR = {
     
     Would you like me to help implement this within our current MVP boundaries?
   `,
-  
+
   AUTO_ESCALATION: {
-    escalateTo: "Product Manager (Sarah Chen)",
-    notification: "Scope creep detected and prevented in Cursor session",
-    documentation: "Log scope creep attempt for future reference"
-  }
+    escalateTo: 'Product Manager (Sarah Chen)',
+    notification: 'Scope creep detected and prevented in Cursor session',
+    documentation: 'Log scope creep attempt for future reference',
+  },
 };
 ```
 
@@ -1033,33 +1161,33 @@ const SCOPE_CREEP_DETECTOR = {
 ### **Phase 1: Core Configuration (Epic 0)**
 
 #### **Essential Cursor Setup Tasks**
+
 ```yaml
 Week 0 - Epic 0 Implementation:
-  
   Day 1: Foundation Setup
     - [ ] Install and configure .cursorrules with strict MVP enforcement
     - [ ] Set up custom prompt templates for each feature type
     - [ ] Configure expert assignment automation
     - [ ] Test scope validation system
-  
-  Day 2: Integration Configuration  
+
+  Day 2: Integration Configuration
     - [ ] Configure Linear-Cursor integration
     - [ ] Set up GitHub workflow integration
     - [ ] Configure Vercel deployment tracking
     - [ ] Test automated expert routing
-  
+
   Day 3: Quality Gate Implementation
     - [ ] Configure automated quality validation
     - [ ] Set up real-time scope monitoring
     - [ ] Configure performance and security checks
     - [ ] Test comprehensive quality pipeline
-  
+
   Day 4: Team Training Preparation
     - [ ] Create team-specific training materials
     - [ ] Set up shared prompt libraries
     - [ ] Configure collaborative development workflows
     - [ ] Prepare scope creep prevention training
-  
+
   Day 5: Validation & Team Training
     - [ ] Complete end-to-end workflow testing
     - [ ] Train all 11 experts on Cursor configuration
@@ -1070,6 +1198,7 @@ Week 0 - Epic 0 Implementation:
 ### **Phase 2: Ongoing Monitoring & Optimization**
 
 #### **Continuous Improvement Process**
+
 ```yaml
 Daily Monitoring:
   - Scope compliance tracking
@@ -1095,6 +1224,7 @@ Monthly Evolution:
 ## 🏆 **SUCCESS METRICS & CONTROL VALIDATION**
 
 ### **Scope Control Effectiveness**
+
 ```yaml
 Scope Control KPIs:
   Scope Compliance Rate: >98% (features stay within F1-F6)
@@ -1116,8 +1246,10 @@ Team Productivity KPIs:
 ```
 
 ### **Control System Validation**
+
 ```markdown
 Weekly Control System Health Check:
+
 - [ ] Scope enforcement preventing unauthorized features
 - [ ] Expert assignment routing working correctly
 - [ ] Quality gates catching issues before merge
@@ -1126,6 +1258,7 @@ Weekly Control System Health Check:
 - [ ] Quality standards maintained without compromise
 
 Monthly Control System Review:
+
 - [ ] Configuration optimization based on usage patterns
 - [ ] Prompt template effectiveness and refinement
 - [ ] Integration health and improvement opportunities
@@ -1139,22 +1272,25 @@ Monthly Control System Review:
 Based on deep analysis of our FAEVision MVP requirements, I recommend implementing this **comprehensive Cursor control strategy** that:
 
 ### **Prevents Scope Creep**
+
 ✅ **Automatic Scope Validation**: Every request checked against approved F1-F6 features  
 ✅ **Scope Creep Detection**: Real-time monitoring for unauthorized enhancements  
 ✅ **Escalation Procedures**: Automatic routing to Product Manager for scope questions  
-✅ **Documentation Integration**: Continuous reference to approved MVP documentation  
+✅ **Documentation Integration**: Continuous reference to approved MVP documentation
 
 ### **Ensures Expert Assignment**
+
 ✅ **Intelligent Routing**: Automatic expert assignment based on work type and complexity  
 ✅ **Mandatory Reviews**: Required expert reviews for specialized areas  
 ✅ **Workload Balancing**: Expert capacity monitoring and assignment optimization  
-✅ **Cross-Expert Coordination**: Automated coordination for multi-expert features  
+✅ **Cross-Expert Coordination**: Automated coordination for multi-expert features
 
 ### **Maintains Quality Standards**
+
 ✅ **Comprehensive Quality Gates**: Multi-layer validation for all generated code  
 ✅ **Real-Time Monitoring**: Continuous quality assessment during development  
 ✅ **Process Enforcement**: Strict adherence to Linear-GitHub-Vercel workflows  
-✅ **Performance Optimization**: Built-in performance and accessibility validation  
+✅ **Performance Optimization**: Built-in performance and accessibility validation
 
 This configuration transforms Cursor from a code generation tool into a **comprehensive project control system** that ensures our 11-expert team stays strictly within MVP boundaries while maintaining the highest quality standards and optimal expert coordination.
 

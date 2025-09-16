@@ -27,7 +27,7 @@ jobs:
     runs-on: ubuntu-latest
     outputs:
       should-deploy: ${{ steps.quality-check.outputs.should-deploy }}
-    
+
     steps:
       - name: 📥 Checkout code
         uses: actions/checkout@v4
@@ -124,21 +124,21 @@ jobs:
         run: |
           echo "⏳ Waiting for deployment to be ready..."
           sleep 30
-          
+
           # Check main site
           status=$(curl -s -o /dev/null -w "%{http_code}" "${{ steps.deploy.outputs.deployment-url }}")
           if [ "$status" != "200" ]; then
             echo "❌ Health check failed: HTTP $status"
             exit 1
           fi
-          
+
           # Check API health
           api_status=$(curl -s -o /dev/null -w "%{http_code}" "${{ steps.deploy.outputs.deployment-url }}/api/health")
           if [ "$api_status" != "200" ]; then
             echo "❌ API health check failed: HTTP $api_status"
             exit 1
           fi
-          
+
           echo "✅ All health checks passed"
 
       - name: 🔗 Update Linear issue
@@ -182,7 +182,7 @@ jobs:
       - name: 🔍 Monitor deployment
         run: |
           echo "📊 Starting post-deployment monitoring..."
-          
+
           # Monitor for 5 minutes
           for i in {1..10}; do
             echo "📈 Health check $i/10..."
@@ -198,7 +198,7 @@ jobs:
             
             sleep 30
           done
-          
+
           echo "✅ Deployment monitoring completed"
 
       - name: 📱 Notification
@@ -234,10 +234,10 @@ jobs:
       - name: 🔄 Rollback deployment
         run: |
           echo "🚨 Initiating emergency rollback..."
-          
+
           # Get previous deployment
           previous_deployment=$(vercel ls --token=${{ secrets.VERCEL_TOKEN }} | grep "READY" | head -2 | tail -1 | awk '{print $1}')
-          
+
           if [ -n "$previous_deployment" ]; then
             vercel promote "$previous_deployment" --token=${{ secrets.VERCEL_TOKEN }}
             echo "✅ Rollback completed to: $previous_deployment"

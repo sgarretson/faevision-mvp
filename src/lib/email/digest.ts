@@ -2,13 +2,13 @@ import { Resend } from 'resend';
 
 /**
  * Executive Digest Email Service
- * 
+ *
  * Handles sending weekly executive digest emails with:
  * - Top 5 hotspots summary
  * - Weekly performance metrics
  * - Key trends and action items
  * - Mobile-optimized HTML format
- * 
+ *
  * Expert: Sarah Chen (Product Manager)
  * Integration: Resend email service (Vercel compatible)
  */
@@ -37,21 +37,24 @@ export interface DigestData {
 /**
  * Send weekly executive digest email
  */
-export async function sendExecutiveDigest(executive: ExecutiveUser, digestData: DigestData) {
+export async function sendExecutiveDigest(
+  executive: ExecutiveUser,
+  digestData: DigestData
+) {
   if (!process.env.RESEND_API_KEY) {
     console.log('⚠️ RESEND_API_KEY not configured, skipping email');
     return;
   }
 
   const emailContent = generateDigestEmail(executive, digestData);
-  
+
   try {
     const result = await resend.emails.send({
       from: 'FAEVision <digest@faevision.com>',
       to: [executive.email],
       subject: `FAEVision Weekly Digest - ${formatDate(new Date())}`,
       html: emailContent.html,
-      text: emailContent.text
+      text: emailContent.text,
     });
 
     console.log(`    📧 Email sent to ${executive.email}: ${result.data?.id}`);
@@ -68,16 +71,19 @@ export async function sendExecutiveDigest(executive: ExecutiveUser, digestData: 
 function generateDigestEmail(executive: ExecutiveUser, digestData: DigestData) {
   const html = generateHTMLDigest(executive, digestData);
   const text = generateTextDigest(executive, digestData);
-  
+
   return { html, text };
 }
 
 /**
  * Generate mobile-optimized HTML digest
  */
-function generateHTMLDigest(executive: ExecutiveUser, digestData: DigestData): string {
+function generateHTMLDigest(
+  executive: ExecutiveUser,
+  digestData: DigestData
+): string {
   const period = formatDateRange(digestData.period.from, digestData.period.to);
-  
+
   return `
 <!DOCTYPE html>
 <html lang="en">
@@ -274,29 +280,45 @@ function generateHTMLDigest(executive: ExecutiveUser, digestData: DigestData): s
             </div>
 
             <!-- Key Trends Section -->
-            ${digestData.keyTrends.length > 0 ? `
+            ${
+              digestData.keyTrends.length > 0
+                ? `
             <div class="section">
                 <h2>📈 Key Trends</h2>
-                ${digestData.keyTrends.map(trend => `
+                ${digestData.keyTrends
+                  .map(
+                    trend => `
                     <div class="trend-item">
                         <div class="trend-title">${trend.title}</div>
                         <div class="trend-description">${trend.description}</div>
                     </div>
-                `).join('')}
+                `
+                  )
+                  .join('')}
             </div>
-            ` : ''}
+            `
+                : ''
+            }
 
             <!-- Department Breakdown -->
-            ${digestData.departmentBreakdown.length > 0 ? `
+            ${
+              digestData.departmentBreakdown.length > 0
+                ? `
             <div class="section">
                 <h2>🏗️ Department Activity</h2>
-                ${digestData.departmentBreakdown.map(dept => `
+                ${digestData.departmentBreakdown
+                  .map(
+                    dept => `
                     <div class="hotspot-meta">
                         <strong>${dept.department}:</strong> ${dept.signalCount} signals
                     </div>
-                `).join('')}
+                `
+                  )
+                  .join('')}
             </div>
-            ` : ''}
+            `
+                : ''
+            }
 
             <div style="text-align: center;">
                 <a href="${process.env.NEXTAUTH_URL || 'https://faevision.com'}/hotspots" class="cta-button">
@@ -322,7 +344,9 @@ function generateHotspotsHTML(hotspots: any[]): string {
     return '<p>No active hotspots requiring attention.</p>';
   }
 
-  return hotspots.map(hotspot => `
+  return hotspots
+    .map(
+      hotspot => `
     <div class="hotspot-card">
         <div class="hotspot-title">${hotspot.title}</div>
         <div class="hotspot-meta">
@@ -332,18 +356,23 @@ function generateHotspotsHTML(hotspots: any[]): string {
         </div>
         <div class="hotspot-summary">${hotspot.summary}</div>
     </div>
-  `).join('');
+  `
+    )
+    .join('');
 }
 
 /**
  * Generate plain text digest for email clients that don't support HTML
  */
-function generateTextDigest(executive: ExecutiveUser, digestData: DigestData): string {
+function generateTextDigest(
+  executive: ExecutiveUser,
+  digestData: DigestData
+): string {
   const period = formatDateRange(digestData.period.from, digestData.period.to);
-  
+
   let text = `FAEVision Weekly Digest - ${period}\n\n`;
   text += `Good morning ${executive.name || 'Executive'},\n\n`;
-  
+
   // Top Hotspots
   text += `TOP PRIORITY HOTSPOTS:\n`;
   text += `========================\n`;
@@ -357,7 +386,7 @@ function generateTextDigest(executive: ExecutiveUser, digestData: DigestData): s
       text += `   ${hotspot.summary}\n\n`;
     });
   }
-  
+
   // Weekly Metrics
   text += `WEEKLY PERFORMANCE:\n`;
   text += `==================\n`;
@@ -365,7 +394,7 @@ function generateTextDigest(executive: ExecutiveUser, digestData: DigestData): s
   text += `• Solutions Completed: ${digestData.weeklyMetrics.completedSolutions}\n`;
   text += `• Processing Rate: ${Math.round(digestData.weeklyMetrics.processingRate)}%\n`;
   text += `• Completion Rate: ${Math.round(digestData.weeklyMetrics.completionRate)}%\n\n`;
-  
+
   // Key Trends
   if (digestData.keyTrends.length > 0) {
     text += `KEY TRENDS:\n`;
@@ -375,7 +404,7 @@ function generateTextDigest(executive: ExecutiveUser, digestData: DigestData): s
     });
     text += `\n`;
   }
-  
+
   // Department Breakdown
   if (digestData.departmentBreakdown.length > 0) {
     text += `DEPARTMENT ACTIVITY:\n`;
@@ -385,11 +414,11 @@ function generateTextDigest(executive: ExecutiveUser, digestData: DigestData): s
     });
     text += `\n`;
   }
-  
+
   text += `View full dashboard: ${process.env.NEXTAUTH_URL || 'https://faevision.com'}/hotspots\n\n`;
   text += `This digest was generated automatically by FAEVision AI.\n`;
   text += `Need help? Contact your system administrator.`;
-  
+
   return text;
 }
 
@@ -401,7 +430,7 @@ function formatDate(date: Date): string {
     weekday: 'long',
     year: 'numeric',
     month: 'long',
-    day: 'numeric'
+    day: 'numeric',
   }).format(date);
 }
 
@@ -411,17 +440,17 @@ function formatDate(date: Date): string {
 function formatDateRange(from: string, to: string): string {
   const fromDate = new Date(from);
   const toDate = new Date(to);
-  
+
   const fromFormatted = new Intl.DateTimeFormat('en-US', {
     month: 'short',
-    day: 'numeric'
+    day: 'numeric',
   }).format(fromDate);
-  
+
   const toFormatted = new Intl.DateTimeFormat('en-US', {
     month: 'short',
     day: 'numeric',
-    year: 'numeric'
+    year: 'numeric',
   }).format(toDate);
-  
+
   return `${fromFormatted} - ${toFormatted}`;
 }

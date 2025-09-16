@@ -5,7 +5,7 @@
 **Approach**: Evolutionary enhancement maintaining 100% existing stack compatibility  
 **Philosophy**: Additive development - build V2 alongside F1-F6, migrate progressively  
 **Risk Level**: LOW - No breaking changes to current working system  
-**Rollback**: Complete rollback capability at any phase  
+**Rollback**: Complete rollback capability at any phase
 
 ---
 
@@ -60,48 +60,48 @@ model Signal {
   inputId         String    @unique  // External reference ID
   timestamp       DateTime             // Original signal time
   receivedAt      DateTime  @default(now())
-  
+
   // Source Information
   sourceType      String               // webhook|email|manual|system
   sourceId        String?              // External system ID
   systemName      String?              // Source system name
-  
+
   // Core Content
   title           String?
   description     String               // Main signal content
   severity        Severity
   severityScore   Int       @default(0)
-  
+
   // Organizational Context
   departmentId    String?
   teamId          String?
   department      Department? @relation(fields: [departmentId], references: [id])
   team            Team?       @relation(fields: [teamId], references: [id])
-  
+
   // Structured Data
   metricsJson     Json?                // Quantitative metrics
   baselineJson    Json?                // Baseline comparisons
   impactJson      Json?                // Impact assessment
   tagsJson        Json?                // Structured and freeform tags
   entitiesJson    Json?                // Related entities (vendors, clients, etc.)
-  
+
   // Privacy & Security
   privacyLevel    String?              // public|internal|sensitive
   dedupeKey       String?    @unique   // Deduplication identifier
-  
+
   // AI Processing
   embedding       Bytes?               // Vector embedding (pgvector later)
   aiProcessed     Boolean   @default(false)
   aiTagsJson      Json?                // AI-generated tags and confidence
-  
+
   // Lineage & Collaboration
   lineageJson     Json?                // Processing history
   createdById     String?
   createdBy       User?     @relation(fields: [createdById], references: [id])
-  
+
   // Relationships
   hotspots        HotspotSignal[]
-  
+
   createdAt       DateTime  @default(now())
   updatedAt       DateTime  @updatedAt
   @@map("signals")
@@ -115,20 +115,20 @@ model Hotspot {
   status             HotspotStatus  @default(OPEN)
   rankScore          Float          @default(0)
   confidence         Float          @default(0)
-  
+
   // Categorization
   primaryCategoryId  String?
   linkedEntitiesJson Json?          // Key entities across signals
-  
+
   // AI Analysis
   clusteringMethod   String?        // HDBSCAN|manual|hybrid
   similarityThreshold Float?        // Clustering threshold used
-  
+
   // Relationships
   signals            HotspotSignal[]
   ideas              Idea[]
   solutions          Solution[]
-  
+
   createdAt          DateTime       @default(now())
   updatedAt          DateTime       @updatedAt
   @@map("hotspots")
@@ -141,10 +141,10 @@ model HotspotSignal {
   membershipStrength Float    @default(1.0)  // 0.0-1.0 confidence
   isOutlier          Boolean  @default(false) // <0.5 strength
   addedAt            DateTime @default(now())
-  
+
   hotspot            Hotspot  @relation(fields: [hotspotId], references: [id], onDelete: Cascade)
   signal             Signal   @relation(fields: [signalId], references: [id], onDelete: Cascade)
-  
+
   @@id([hotspotId, signalId])
   @@map("hotspot_signals")
 }
@@ -162,22 +162,22 @@ model Idea {
   origin       String   // ai|human|hybrid
   votes        Int      @default(0)
   status       String   @default("draft")
-  
+
   // Evidence & Context
   evidenceJson Json?    // Linked signals and reasoning
   tagsJson     Json?    // Categorization tags
   confidence   Float?   // AI confidence if generated
-  
+
   // Collaboration
   createdById  String?
   createdBy    User?    @relation(fields: [createdById], references: [id])
   comments     IdeaComment[]
   votes_detail IdeaVote[]
-  
+
   // Relationships
   hotspot      Hotspot  @relation(fields: [hotspotId], references: [id])
   solution     Solution? // If promoted
-  
+
   createdAt    DateTime @default(now())
   updatedAt    DateTime @updatedAt
   @@map("ideas")
@@ -188,19 +188,19 @@ model Solution {
   hotspotId          String?
   initiativeId       String?
   ideaId             String?        @unique // If promoted from idea
-  
+
   title              String
   description        String         @db.Text
   status             SolutionStatus @default(PROPOSED)
-  
+
   // Impact & Planning
   expectedImpactJson Json?          // ROI projections, metrics
   actualImpactJson   Json?          // Measured outcomes
-  
+
   // Ownership
   ownerId            String?
   owner              User?          @relation(fields: [ownerId], references: [id])
-  
+
   // Relationships
   hotspot            Hotspot?       @relation(fields: [hotspotId], references: [id])
   initiative         Initiative?    @relation(fields: [initiativeId], references: [id])
@@ -209,7 +209,7 @@ model Solution {
   tasks              ExecTask[]
   handoffPackages    HandoffPackage[]
   outcomes           Outcome[]
-  
+
   createdAt          DateTime       @default(now())
   updatedAt          DateTime       @updatedAt
   @@map("solutions")
@@ -223,19 +223,19 @@ model ExecRequirement {
   description String     @db.Text
   priority    Priority   @default(MEDIUM)
   status      WorkStatus @default(DRAFT)
-  
+
   // Executive Context
   ownerId     String?    // Executive owner
   owner       User?      @relation(fields: [ownerId], references: [id])
   duePeriod   String?    // e.g., "Q1 2025", "30 days"
-  
+
   // AI Assistance
   aiGenerated Boolean    @default(false)
   aiPrompt    String?    @db.Text
-  
+
   // Relationships
   solution    Solution   @relation(fields: [solutionId], references: [id])
-  
+
   createdAt   DateTime   @default(now())
   updatedAt   DateTime   @updatedAt
   @@map("exec_requirements")
@@ -247,21 +247,21 @@ model ExecTask {
   title             String
   description       String     @db.Text
   status            WorkStatus @default(DRAFT)
-  
+
   // Accountability
   accountableExecId String?    // Accountable executive
   accountableExec   User?      @relation("TaskAccountable", fields: [accountableExecId], references: [id])
   handoffTeamId     String?    // Receiving team
   handoffTeam       Team?      @relation(fields: [handoffTeamId], references: [id])
   duePeriod         String?
-  
+
   // AI Assistance
   aiGenerated       Boolean    @default(false)
   aiPrompt          String?    @db.Text
-  
+
   // Relationships
   solution          Solution   @relation(fields: [solutionId], references: [id])
-  
+
   createdAt         DateTime   @default(now())
   updatedAt         DateTime   @updatedAt
   @@map("exec_tasks")
@@ -277,20 +277,20 @@ model HandoffPackage {
   solutionId       String
   title            String
   payloadJson      Json     // Complete handoff data
-  
+
   // Export Targets
   exportTargetsJson Json    // csv, jira, smartsheet, pdf
   csvUrl           String?  // Generated CSV URL
   pdfUrl           String?  // Generated PDF URL
-  
+
   // External Integration Results
   jiraIssueKey     String?  // Created Jira issue
   smartsheetRowId  String?  // Created Smartsheet row
   integrationErrors Json?   // Any integration failures
-  
+
   // Relationships
   solution         Solution @relation(fields: [solutionId], references: [id])
-  
+
   createdAt        DateTime @default(now())
   @@map("handoff_packages")
 }
@@ -305,15 +305,15 @@ model Outcome {
   delta       Float    // Improvement (actual - baseline)
   confidence  Float?   // Measurement confidence
   unit        String?  // USD, hours, percentage, etc.
-  
+
   // Measurement Context
   measuredAt  DateTime @default(now())
   method      String?  // How measured
   notes       String?  @db.Text
-  
+
   // Relationships
   solution    Solution @relation(fields: [solutionId], references: [id])
-  
+
   @@map("outcomes")
 }
 
@@ -322,17 +322,17 @@ model DecisionPath {
   id              String   @id @default(cuid())
   hotspotId       String
   solutionId      String?
-  
+
   // Decision Sequence
   pathJson        Json     // Step-by-step decision sequence
   finalStatus     String?  // Final outcome status
   totalDuration   Int?     // Days from start to resolution
-  
+
   // Learning Context
   decisionFactors Json?    // Key factors in decision
   alternatives    Json?    // Other options considered
   stakeholders    Json?    // People involved
-  
+
   createdAt       DateTime @default(now())
   @@map("decision_paths")
 }
@@ -341,21 +341,21 @@ model ReinforcementSignal {
   id           String    @id @default(cuid())
   hotspotId    String
   solutionId   String?
-  
+
   // Feedback
   approval     Boolean   // Was decision approved?
   modifications String?  @db.Text // What was changed?
   success      Boolean?  // Did solution work?
   roiValue     Float?    // Measured ROI
-  
+
   // Learning Context
   lessons      String?   @db.Text // Key lessons learned
   futureActions Json?    // Recommended future actions
-  
+
   // Source
   providedById String?
   providedBy   User?     @relation(fields: [providedById], references: [id])
-  
+
   createdAt    DateTime  @default(now())
   @@map("reinforcement_signals")
 }
@@ -393,13 +393,13 @@ enum WorkStatus {
 ```typescript
 // scripts/migrate-to-v2.ts
 export async function migrateToV2() {
-  console.log('🚀 Starting FAEVision V2 Migration...')
-  
+  console.log('🚀 Starting FAEVision V2 Migration...');
+
   // Phase 1: Create new tables
-  await prisma.$executeRaw`-- V2 schema migrations will be here`
-  
+  await prisma.$executeRaw`-- V2 schema migrations will be here`;
+
   // Phase 2: Migrate existing data
-  const existingInputs = await prisma.input.findMany()
+  const existingInputs = await prisma.input.findMany();
   for (const input of existingInputs) {
     await prisma.signal.create({
       data: {
@@ -411,11 +411,11 @@ export async function migrateToV2() {
         departmentId: input.department,
         createdById: input.createdBy,
         // Map other fields...
-      }
-    })
+      },
+    });
   }
-  
-  console.log('✅ Migration complete!')
+
+  console.log('✅ Migration complete!');
 }
 ```
 
@@ -452,25 +452,25 @@ export function UniversalCard({ type, data, actions, interactive, confidenceScor
           )}
         </div>
       </CardHeader>
-      
+
       {/* Body: Title, Description, Evidence, Metrics, Tags */}
       <CardContent>
         <h3 className="card-title">{data.title}</h3>
         <p className="card-description">{data.description}</p>
-        
+
         {data.evidenceLinks && (
           <EvidenceLinks links={data.evidenceLinks} />
         )}
-        
+
         {data.metrics && (
           <MetricsDisplay metrics={data.metrics} />
         )}
-        
+
         {data.tags && (
           <TagCloud tags={data.tags} />
         )}
       </CardContent>
-      
+
       {/* Footer: Votes, Comments, AI Assist, Actions */}
       <CardFooter>
         <div className="flex items-center justify-between">
@@ -479,7 +479,7 @@ export function UniversalCard({ type, data, actions, interactive, confidenceScor
             <CommentCount entityId={data.id} />
             <AIAssistButton type={type} data={data} />
           </div>
-          
+
           <CardActions actions={actions} />
         </div>
       </CardFooter>
@@ -500,14 +500,14 @@ export default function ClusteringWorkbench() {
         <ClusterFilters />
         <ClusterList />
       </div>
-      
+
       {/* Center Pane: Hotspot Panel */}
       <div className="hotspot-panel w-1/3 border-r">
         <HotspotHeader />
         <SimilaritySlider />
         <SignalTable />
       </div>
-      
+
       {/* Right Pane: Action Builder */}
       <div className="action-builder w-1/3">
         <EvidenceTray />
@@ -533,19 +533,19 @@ export default function ClusteringWorkbench() {
 export async function POST() {
   const unprocessedSignals = await prisma.signal.findMany({
     where: { aiProcessed: false },
-    take: 10 // Process in batches
-  })
-  
+    take: 10, // Process in batches
+  });
+
   for (const signal of unprocessedSignals) {
     // Generate embeddings
-    const embedding = await generateEmbedding(signal.description)
-    
+    const embedding = await generateEmbedding(signal.description);
+
     // Extract entities (NER)
-    const entities = await extractEntities(signal.description)
-    
+    const entities = await extractEntities(signal.description);
+
     // Auto-tag
-    const aiTags = await generateTags(signal.description, entities)
-    
+    const aiTags = await generateTags(signal.description, entities);
+
     // Update signal
     await prisma.signal.update({
       where: { id: signal.id },
@@ -553,39 +553,41 @@ export async function POST() {
         embedding: Buffer.from(new Float32Array(embedding)),
         entitiesJson: entities,
         aiTagsJson: aiTags,
-        aiProcessed: true
-      }
-    })
+        aiProcessed: true,
+      },
+    });
   }
-  
-  return Response.json({ processed: unprocessedSignals.length })
+
+  return Response.json({ processed: unprocessedSignals.length });
 }
 
-// api/jobs/cluster/route.ts  
+// api/jobs/cluster/route.ts
 export async function POST() {
   const signals = await prisma.signal.findMany({
-    where: { 
+    where: {
       aiProcessed: true,
-      embedding: { not: null }
-    }
-  })
-  
+      embedding: { not: null },
+    },
+  });
+
   // Convert embeddings to clustering format
-  const embeddings = signals.map(s => Array.from(new Float32Array(s.embedding!)))
-  
+  const embeddings = signals.map(s =>
+    Array.from(new Float32Array(s.embedding!))
+  );
+
   // Run HDBSCAN clustering
   const clusters = await clusterSignals(embeddings, {
     minClusterSize: 3,
-    minSamples: 2
-  })
-  
+    minSamples: 2,
+  });
+
   // Create/update hotspots
   for (const cluster of clusters) {
-    const hotspot = await createOrUpdateHotspot(cluster, signals)
-    await updateHotspotRanking(hotspot)
+    const hotspot = await createOrUpdateHotspot(cluster, signals);
+    await updateHotspotRanking(hotspot);
   }
-  
-  return Response.json({ clusters: clusters.length })
+
+  return Response.json({ clusters: clusters.length });
 }
 ```
 
@@ -593,25 +595,28 @@ export async function POST() {
 
 ```typescript
 // api/hotspots/[id]/ideas/route.ts
-export async function POST(req: Request, { params }: { params: { id: string } }) {
-  const { evidence } = await req.json()
-  
+export async function POST(
+  req: Request,
+  { params }: { params: { id: string } }
+) {
+  const { evidence } = await req.json();
+
   // Get hotspot context
   const hotspot = await prisma.hotspot.findUnique({
     where: { id: params.id },
-    include: { signals: { include: { signal: true } } }
-  })
-  
+    include: { signals: { include: { signal: true } } },
+  });
+
   // Generate AI ideas based on evidence
   const aiIdeas = await generateIdeas({
     hotspotSummary: hotspot.summary,
     evidenceSignals: evidence,
-    context: hotspot.linkedEntitiesJson
-  })
-  
+    context: hotspot.linkedEntitiesJson,
+  });
+
   // Create idea cards
   const ideas = await Promise.all(
-    aiIdeas.map(idea => 
+    aiIdeas.map(idea =>
       prisma.idea.create({
         data: {
           hotspotId: params.id,
@@ -619,13 +624,13 @@ export async function POST(req: Request, { params }: { params: { id: string } })
           description: idea.description,
           origin: 'ai',
           confidence: idea.confidence,
-          evidenceJson: evidence
-        }
+          evidenceJson: evidence,
+        },
       })
     )
-  )
-  
-  return Response.json(ideas)
+  );
+
+  return Response.json(ideas);
 }
 ```
 
@@ -637,31 +642,31 @@ export async function POST(req: Request, { params }: { params: { id: string } })
 
 ```typescript
 // components/clustering/SimilaritySlider.tsx
-export function SimilaritySlider({ 
-  hotspotId, 
-  onThresholdChange 
+export function SimilaritySlider({
+  hotspotId,
+  onThresholdChange
 }: SimilaritySliderProps) {
   const [threshold, setThreshold] = useState(0.7)
   const [candidates, setCandidates] = useState([])
-  
+
   const handleThresholdChange = async (newThreshold: number) => {
     setThreshold(newThreshold)
-    
+
     // Fetch candidate signals at new threshold
     const response = await fetch(`/api/hotspots/${hotspotId}/candidates?threshold=${newThreshold}`)
     const newCandidates = await response.json()
-    
+
     setCandidates(newCandidates)
     onThresholdChange(newThreshold, newCandidates)
   }
-  
+
   return (
     <div className="similarity-slider">
       <div className="flex items-center justify-between mb-2">
         <Label>Similarity Threshold</Label>
         <span className="text-sm text-gray-600">{threshold.toFixed(2)}</span>
       </div>
-      
+
       <Slider
         value={[threshold]}
         onValueChange={([value]) => handleThresholdChange(value)}
@@ -670,12 +675,12 @@ export function SimilaritySlider({
         step={0.05}
         className="w-full"
       />
-      
+
       <div className="flex justify-between text-xs text-gray-500 mt-1">
         <span>Broad</span>
         <span>Tight</span>
       </div>
-      
+
       {candidates.length > 0 && (
         <div className="mt-2 text-sm text-blue-600">
           +{candidates.length} potential signals
@@ -693,14 +698,14 @@ export function EvidenceTray({ selectedSignals, onSelectionChange }: EvidenceTra
         <h3 className="font-semibold">Evidence Assembly</h3>
         <Badge variant="secondary">{selectedSignals.length} signals</Badge>
       </div>
-      
+
       <DndContext onDragEnd={handleDragEnd}>
         <Droppable id="evidence-tray">
           {selectedSignals.map(signal => (
             <Draggable key={signal.id} id={signal.id}>
               <div className="evidence-signal-card">
-                <UniversalCard 
-                  type="signal" 
+                <UniversalCard
+                  type="signal"
                   data={signal}
                   confidenceScore={signal.membershipStrength}
                   actions={[
@@ -712,7 +717,7 @@ export function EvidenceTray({ selectedSignals, onSelectionChange }: EvidenceTra
           ))}
         </Droppable>
       </DndContext>
-      
+
       {selectedSignals.length > 0 && (
         <AISummaryPanel signals={selectedSignals} />
       )}
@@ -734,7 +739,7 @@ export function EvidenceTray({ selectedSignals, onSelectionChange }: EvidenceTra
     POST /                   // Accept FAEVision Signal Input
     POST /email             // Process inbound emails
     POST /webhook           // Webhook endpoint for integrations
-  
+
   /hotspots                 // ✅ New clustering API
     GET /                   // List hotspots with filters
     GET /[id]              // Get hotspot details
@@ -742,27 +747,27 @@ export function EvidenceTray({ selectedSignals, onSelectionChange }: EvidenceTra
     POST /[id]/split       // Split hotspot
     GET /[id]/candidates   // Get similarity candidates
     POST /[id]/ideas       // Generate/add ideas
-  
+
   /clustering               // ✅ New clustering controls
     POST /recompute        // Force clustering recompute
     GET /stats             // Clustering statistics
     POST /manual           // Manual cluster adjustments
-  
+
   /workflows               // ✅ Enhanced process flows
     POST /promote          // Promote idea to solution
     POST /handoff          // Generate handoff package
     GET /templates         // Handoff templates
-  
+
   /analytics               // ✅ New analytics endpoints
     GET /outcomes          // ROI and outcome data
     GET /trends            // Trend analysis
     GET /recurring         // Recurring issues/entities
-  
+
   /learning                // ✅ New learning repository
     GET /paths             // Decision paths
     POST /reinforcement    // Record reinforcement signals
     GET /playbook          // Executive playbook data
-  
+
   /integrations            // ✅ External system integration
     POST /jira             // Jira integration
     POST /smartsheet       // Smartsheet integration
@@ -779,7 +784,7 @@ export function EvidenceTray({ selectedSignals, onSelectionChange }: EvidenceTra
 // lib/feature-flags.ts
 export const FEATURE_FLAGS = {
   V2_CLUSTERING_WORKBENCH: process.env.ENABLE_V2_WORKBENCH === 'true',
-  V2_UNIVERSAL_CARDS: process.env.ENABLE_V2_CARDS === 'true', 
+  V2_UNIVERSAL_CARDS: process.env.ENABLE_V2_CARDS === 'true',
   V2_LEARNING_REPOSITORY: process.env.ENABLE_V2_LEARNING === 'true',
   V2_EXTERNAL_INTEGRATIONS: process.env.ENABLE_V2_INTEGRATIONS === 'true'
 } as const
@@ -810,7 +815,7 @@ Phase 1: Database schema + Universal Cards (Week 1-2)
 ├── Feature flag V2_UNIVERSAL_CARDS
 └── Rollback: Disable feature flag
 
-Phase 2: Clustering + Hotspots (Week 3-4)  
+Phase 2: Clustering + Hotspots (Week 3-4)
 ├── Implement clustering pipeline
 ├── Create Hotspots interface
 ├── Feature flag V2_CLUSTERING_WORKBENCH
@@ -852,19 +857,19 @@ Phase 6: Polish & Launch (Week 11)
 const V2_METRICS = {
   // Performance
   clusteringJobDuration: '<300s',
-  apiResponseTime: '<500ms', 
+  apiResponseTime: '<500ms',
   workbenchLoadTime: '<2s',
-  
-  // Functionality  
+
+  // Functionality
   clusteringAccuracy: '>80%',
   aiIdeaRelevance: '>70%',
   handoffSuccessRate: '>95%',
-  
+
   // User Experience
   workbenchUsageRate: '>60%',
   universalCardAdoption: '>80%',
-  executiveEngagement: '>90%'
-}
+  executiveEngagement: '>90%',
+};
 ```
 
 ---
@@ -874,7 +879,7 @@ const V2_METRICS = {
 **✅ ALL EXPERT TEAM VERIFICATION:**
 
 1. **Database Architecture**: ✅ Non-breaking, additive schema
-2. **Frontend Components**: ✅ Progressive enhancement approach  
+2. **Frontend Components**: ✅ Progressive enhancement approach
 3. **AI Pipeline**: ✅ Background job scaling within Vercel limits
 4. **API Design**: ✅ RESTful, backward compatible
 5. **User Experience**: ✅ Progressive disclosure, Universal Cards

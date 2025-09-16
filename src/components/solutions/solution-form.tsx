@@ -1,17 +1,23 @@
-'use client'
+'use client';
 
-import { useState, useEffect, useCallback } from 'react'
-import { useForm } from 'react-hook-form'
-import { zodResolver } from '@hookform/resolvers/zod'
-import { z } from 'zod'
-import { useRouter, useSearchParams } from 'next/navigation'
-import { Button } from '@/components/ui/button'
-import { Input } from '@/components/ui/input'
-import { Textarea } from '@/components/ui/textarea'
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card'
-import { Badge } from '@/components/ui/badge'
-import { AlertCircle, CheckCircle, Loader2, Plus, X } from 'lucide-react'
-import { Alert, AlertDescription } from '@/components/ui/alert'
+import { useState, useEffect, useCallback } from 'react';
+import { useForm } from 'react-hook-form';
+import { zodResolver } from '@hookform/resolvers/zod';
+import { z } from 'zod';
+import { useRouter, useSearchParams } from 'next/navigation';
+import { Button } from '@/components/ui/button';
+import { Input } from '@/components/ui/input';
+import { Textarea } from '@/components/ui/textarea';
+import {
+  Card,
+  CardContent,
+  CardDescription,
+  CardHeader,
+  CardTitle,
+} from '@/components/ui/card';
+import { Badge } from '@/components/ui/badge';
+import { AlertCircle, CheckCircle, Loader2, Plus, X } from 'lucide-react';
+import { Alert, AlertDescription } from '@/components/ui/alert';
 
 const solutionSchema = z.object({
   title: z
@@ -27,30 +33,30 @@ const solutionSchema = z.object({
   estimatedHours: z.number().positive().optional(),
   targetDate: z.string().optional(),
   inputIds: z.array(z.string()).optional(),
-})
+});
 
-type SolutionFormData = z.infer<typeof solutionSchema>
+type SolutionFormData = z.infer<typeof solutionSchema>;
 
 interface SolutionFormProps {
-  onSuccess?: () => void
+  onSuccess?: () => void;
 }
 
 interface InputOption {
-  id: string
-  title: string
-  type: string
-  priority: string
-  department?: string
+  id: string;
+  title: string;
+  type: string;
+  priority: string;
+  department?: string;
 }
 
 export function SolutionForm({ onSuccess }: SolutionFormProps) {
-  const [isLoading, setIsLoading] = useState(false)
-  const [error, setError] = useState<string | null>(null)
-  const [success, setSuccess] = useState(false)
-  const [availableInputs, setAvailableInputs] = useState<InputOption[]>([])
-  const [selectedInputs, setSelectedInputs] = useState<InputOption[]>([])
-  const router = useRouter()
-  const searchParams = useSearchParams()
+  const [isLoading, setIsLoading] = useState(false);
+  const [error, setError] = useState<string | null>(null);
+  const [success, setSuccess] = useState(false);
+  const [availableInputs, setAvailableInputs] = useState<InputOption[]>([]);
+  const [selectedInputs, setSelectedInputs] = useState<InputOption[]>([]);
+  const router = useRouter();
+  const searchParams = useSearchParams();
 
   const {
     register,
@@ -65,74 +71,74 @@ export function SolutionForm({ onSuccess }: SolutionFormProps) {
       impact: 'MEDIUM',
       inputIds: [],
     },
-  })
+  });
 
-  const watchedPriority = watch('priority')
-  const watchedImpact = watch('impact')
+  const watchedPriority = watch('priority');
+  const watchedImpact = watch('impact');
 
   const fetchSpecificInput = useCallback(
     async (inputId: string) => {
       try {
-        const input = availableInputs.find((i) => i.id === inputId)
+        const input = availableInputs.find(i => i.id === inputId);
         if (input) {
-          setSelectedInputs([input])
-          setValue('inputIds', [inputId])
+          setSelectedInputs([input]);
+          setValue('inputIds', [inputId]);
         }
       } catch (error) {
-        console.error('Failed to fetch specific input:', error)
+        console.error('Failed to fetch specific input:', error);
       }
     },
     [availableInputs, setValue]
-  )
+  );
 
   // Load available inputs on mount
   useEffect(() => {
-    fetchAvailableInputs()
+    fetchAvailableInputs();
 
     // Check if we're creating a solution from a specific input
-    const inputId = searchParams.get('inputId')
+    const inputId = searchParams.get('inputId');
     if (inputId) {
-      fetchSpecificInput(inputId)
+      fetchSpecificInput(inputId);
     }
-  }, [searchParams, fetchSpecificInput])
+  }, [searchParams, fetchSpecificInput]);
 
   const fetchAvailableInputs = async () => {
     try {
-      const response = await fetch('/api/inputs?limit=100')
-      const data = await response.json()
+      const response = await fetch('/api/inputs?limit=100');
+      const data = await response.json();
 
       if (response.ok) {
-        setAvailableInputs(data.inputs || [])
+        setAvailableInputs(data.inputs || []);
       }
     } catch (error) {
-      console.error('Failed to fetch inputs:', error)
+      console.error('Failed to fetch inputs:', error);
     }
-  }
+  };
 
   const addInput = (input: InputOption) => {
-    if (!selectedInputs.find((i) => i.id === input.id)) {
-      const newSelected = [...selectedInputs, input]
-      setSelectedInputs(newSelected)
+    if (!selectedInputs.find(i => i.id === input.id)) {
+      const newSelected = [...selectedInputs, input];
+      setSelectedInputs(newSelected);
       setValue(
         'inputIds',
-        newSelected.map((i) => i.id)
-      )
+        newSelected.map(i => i.id)
+      );
     }
-  }
+  };
 
   const removeInput = (inputId: string) => {
-    const newSelected = selectedInputs.filter((i) => i.id !== inputId)
-    setSelectedInputs(newSelected)
+    const newSelected = selectedInputs.filter(i => i.id !== inputId);
+    setSelectedInputs(newSelected);
     setValue(
       'inputIds',
-      newSelected.map((i) => i.id)
-    )
-  }
+      newSelected.map(i => i.id)
+    );
+  };
 
   const onSubmit = async (data: SolutionFormData) => {
     try {
-      setIsLoading(true)
-      setError(null)
+      setIsLoading(true);
+      setError(null);
 
       const response = await fetch('/api/solutions', {
         method: 'POST',
@@ -141,31 +147,31 @@ export function SolutionForm({ onSuccess }: SolutionFormProps) {
         },
         body: JSON.stringify({
           ...data,
-          inputIds: selectedInputs.map((i) => i.id),
+          inputIds: selectedInputs.map(i => i.id),
         }),
-      })
+      });
 
-      const result = await response.json()
+      const result = await response.json();
 
       if (!response.ok) {
-        setError(result.error || 'Failed to create solution')
-        return
+        setError(result.error || 'Failed to create solution');
+        return;
       }
 
-      setSuccess(true)
+      setSuccess(true);
 
       // Redirect to solutions list after success
       setTimeout(() => {
-        router.push('/solutions')
-        onSuccess?.()
-      }, 2000)
+        router.push('/solutions');
+        onSuccess?.();
+      }, 2000);
     } catch (error) {
-      console.error('Solution creation error:', error)
-      setError('An unexpected error occurred. Please try again.')
+      console.error('Solution creation error:', error);
+      setError('An unexpected error occurred. Please try again.');
     } finally {
-      setIsLoading(false)
+      setIsLoading(false);
     }
-  }
+  };
 
   if (success) {
     return (
@@ -173,14 +179,17 @@ export function SolutionForm({ onSuccess }: SolutionFormProps) {
         <CardContent className="pt-6">
           <div className="flex items-center space-x-2 text-green-600">
             <CheckCircle className="h-5 w-5" />
-            <span className="font-semibold">Solution Created Successfully!</span>
+            <span className="font-semibold">
+              Solution Created Successfully!
+            </span>
           </div>
           <p className="text-muted-foreground mt-2 text-sm">
-            Your solution has been created and is ready for task breakdown and execution.
+            Your solution has been created and is ready for task breakdown and
+            execution.
           </p>
         </CardContent>
       </Card>
-    )
+    );
   }
 
   return (
@@ -190,15 +199,18 @@ export function SolutionForm({ onSuccess }: SolutionFormProps) {
           Create Strategic Solution
         </CardTitle>
         <CardDescription>
-          Transform strategic inputs into actionable solutions with clear execution plans and
-          measurable outcomes.
+          Transform strategic inputs into actionable solutions with clear
+          execution plans and measurable outcomes.
         </CardDescription>
       </CardHeader>
       <CardContent>
         <form onSubmit={handleSubmit(onSubmit)} className="space-y-6">
           {/* Title */}
           <div className="space-y-2">
-            <label htmlFor="title" className="text-sm font-medium text-gray-700">
+            <label
+              htmlFor="title"
+              className="text-sm font-medium text-gray-700"
+            >
               Solution Title <span className="text-red-500">*</span>
             </label>
             <Input
@@ -207,12 +219,17 @@ export function SolutionForm({ onSuccess }: SolutionFormProps) {
               placeholder="Clear, actionable solution title"
               className="text-lg"
             />
-            {errors.title && <p className="text-sm text-red-600">{errors.title.message}</p>}
+            {errors.title && (
+              <p className="text-sm text-red-600">{errors.title.message}</p>
+            )}
           </div>
 
           {/* Description */}
           <div className="space-y-2">
-            <label htmlFor="description" className="text-sm font-medium text-gray-700">
+            <label
+              htmlFor="description"
+              className="text-sm font-medium text-gray-700"
+            >
               Solution Description <span className="text-red-500">*</span>
             </label>
             <Textarea
@@ -223,7 +240,9 @@ export function SolutionForm({ onSuccess }: SolutionFormProps) {
               className="resize-none"
             />
             {errors.description && (
-              <p className="text-sm text-red-600">{errors.description.message}</p>
+              <p className="text-sm text-red-600">
+                {errors.description.message}
+              </p>
             )}
           </div>
 
@@ -236,15 +255,19 @@ export function SolutionForm({ onSuccess }: SolutionFormProps) {
             {/* Selected Inputs */}
             {selectedInputs.length > 0 && (
               <div className="space-y-2">
-                <p className="text-sm font-medium text-gray-700">Selected Inputs:</p>
+                <p className="text-sm font-medium text-gray-700">
+                  Selected Inputs:
+                </p>
                 <div className="space-y-2">
-                  {selectedInputs.map((input) => (
+                  {selectedInputs.map(input => (
                     <div
                       key={input.id}
                       className="flex items-center justify-between rounded-lg bg-blue-50 p-3"
                     >
                       <div className="flex-1">
-                        <h4 className="text-sm font-medium text-gray-900">{input.title}</h4>
+                        <h4 className="text-sm font-medium text-gray-900">
+                          {input.title}
+                        </h4>
                         <div className="mt-1 flex items-center space-x-2">
                           <Badge variant="outline" className="text-xs">
                             {input.type}
@@ -275,17 +298,21 @@ export function SolutionForm({ onSuccess }: SolutionFormProps) {
 
             {/* Add Inputs */}
             <div className="space-y-2">
-              <p className="text-sm font-medium text-gray-700">Available Inputs:</p>
+              <p className="text-sm font-medium text-gray-700">
+                Available Inputs:
+              </p>
               <div className="max-h-48 space-y-1 overflow-y-auto">
                 {availableInputs
-                  .filter((input) => !selectedInputs.find((s) => s.id === input.id))
-                  .map((input) => (
+                  .filter(input => !selectedInputs.find(s => s.id === input.id))
+                  .map(input => (
                     <div
                       key={input.id}
                       className="flex items-center justify-between rounded p-2 hover:bg-gray-50"
                     >
                       <div className="flex-1">
-                        <h4 className="text-sm font-medium text-gray-900">{input.title}</h4>
+                        <h4 className="text-sm font-medium text-gray-900">
+                          {input.title}
+                        </h4>
                         <div className="mt-1 flex items-center space-x-1">
                           <Badge variant="outline" className="text-xs">
                             {input.type}
@@ -318,30 +345,48 @@ export function SolutionForm({ onSuccess }: SolutionFormProps) {
             <div className="grid grid-cols-1 gap-4 md:grid-cols-2">
               {/* Priority */}
               <div className="space-y-2">
-                <label className="text-sm font-medium text-gray-700">Priority Level</label>
+                <label className="text-sm font-medium text-gray-700">
+                  Priority Level
+                </label>
                 <select
                   value={watchedPriority}
-                  onChange={(e) =>
-                    setValue('priority', e.target.value as 'LOW' | 'MEDIUM' | 'HIGH')
+                  onChange={e =>
+                    setValue(
+                      'priority',
+                      e.target.value as 'LOW' | 'MEDIUM' | 'HIGH'
+                    )
                   }
                   className="border-input bg-background ring-offset-background focus:ring-ring flex h-10 w-full rounded-md border px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-offset-2"
                 >
                   <option value="LOW">Low - Minor organizational impact</option>
-                  <option value="MEDIUM">Medium - Moderate organizational impact</option>
-                  <option value="HIGH">High - Significant organizational impact</option>
+                  <option value="MEDIUM">
+                    Medium - Moderate organizational impact
+                  </option>
+                  <option value="HIGH">
+                    High - Significant organizational impact
+                  </option>
                 </select>
               </div>
 
               {/* Impact */}
               <div className="space-y-2">
-                <label className="text-sm font-medium text-gray-700">Expected Impact</label>
+                <label className="text-sm font-medium text-gray-700">
+                  Expected Impact
+                </label>
                 <select
                   value={watchedImpact}
-                  onChange={(e) => setValue('impact', e.target.value as 'LOW' | 'MEDIUM' | 'HIGH')}
+                  onChange={e =>
+                    setValue(
+                      'impact',
+                      e.target.value as 'LOW' | 'MEDIUM' | 'HIGH'
+                    )
+                  }
                   className="border-input bg-background ring-offset-background focus:ring-ring flex h-10 w-full rounded-md border px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-offset-2"
                 >
                   <option value="LOW">Low - Incremental improvement</option>
-                  <option value="MEDIUM">Medium - Measurable improvement</option>
+                  <option value="MEDIUM">
+                    Medium - Measurable improvement
+                  </option>
                   <option value="HIGH">High - Transformational change</option>
                 </select>
               </div>
@@ -350,7 +395,10 @@ export function SolutionForm({ onSuccess }: SolutionFormProps) {
             <div className="grid grid-cols-1 gap-4 md:grid-cols-2">
               {/* Estimated Hours */}
               <div className="space-y-2">
-                <label htmlFor="estimatedHours" className="text-sm font-medium text-gray-700">
+                <label
+                  htmlFor="estimatedHours"
+                  className="text-sm font-medium text-gray-700"
+                >
                   Estimated Hours (Optional)
                 </label>
                 <Input
@@ -362,18 +410,29 @@ export function SolutionForm({ onSuccess }: SolutionFormProps) {
                   placeholder="e.g., 40"
                 />
                 {errors.estimatedHours && (
-                  <p className="text-sm text-red-600">{errors.estimatedHours.message}</p>
+                  <p className="text-sm text-red-600">
+                    {errors.estimatedHours.message}
+                  </p>
                 )}
               </div>
 
               {/* Target Date */}
               <div className="space-y-2">
-                <label htmlFor="targetDate" className="text-sm font-medium text-gray-700">
+                <label
+                  htmlFor="targetDate"
+                  className="text-sm font-medium text-gray-700"
+                >
                   Target Completion Date (Optional)
                 </label>
-                <Input id="targetDate" type="date" {...register('targetDate')} />
+                <Input
+                  id="targetDate"
+                  type="date"
+                  {...register('targetDate')}
+                />
                 {errors.targetDate && (
-                  <p className="text-sm text-red-600">{errors.targetDate.message}</p>
+                  <p className="text-sm text-red-600">
+                    {errors.targetDate.message}
+                  </p>
                 )}
               </div>
             </div>
@@ -405,5 +464,5 @@ export function SolutionForm({ onSuccess }: SolutionFormProps) {
         </form>
       </CardContent>
     </Card>
-  )
+  );
 }

@@ -3,12 +3,12 @@ import { prisma } from '@/lib/prisma';
 
 /**
  * Hotspots API Endpoint
- * 
+ *
  * RESTful API for hotspot management:
  * - GET: List all active hotspots with filtering
  * - POST: Create new hotspot manually
  * - Optimized for executive dashboard consumption
- * 
+ *
  * Expert: Alex Thompson (Lead Developer)
  * Support: Dr. Priya Patel (AI Architect)
  */
@@ -22,9 +22,11 @@ export async function GET(request: NextRequest) {
 
     // Try V2 Hotspot model first
     try {
-      const where = status ? { status: status.toUpperCase() } : { 
-        status: { in: ['OPEN', 'APPROVED'] } 
-      };
+      const where = status
+        ? { status: status.toUpperCase() }
+        : {
+            status: { in: ['OPEN', 'APPROVED'] },
+          };
 
       const [hotspots, totalCount] = await Promise.all([
         (prisma as any).hotspot?.findMany({
@@ -41,20 +43,17 @@ export async function GET(request: NextRequest) {
                     receivedAt: true,
                     confidence: true,
                     department: { select: { name: true } },
-                    team: { select: { name: true } }
-                  }
-                }
-              }
-            }
+                    team: { select: { name: true } },
+                  },
+                },
+              },
+            },
           },
-          orderBy: [
-            { rankScore: 'desc' },
-            { updatedAt: 'desc' }
-          ],
+          orderBy: [{ rankScore: 'desc' }, { updatedAt: 'desc' }],
           take: limit,
-          skip: offset
+          skip: offset,
         }),
-        (prisma as any).hotspot?.count({ where }) || 0
+        (prisma as any).hotspot?.count({ where }) || 0,
       ]);
 
       const formattedHotspots = (hotspots || []).map((hotspot: any) => ({
@@ -75,8 +74,8 @@ export async function GET(request: NextRequest) {
           membershipStrength: hs.membershipStrength,
           isOutlier: hs.isOutlier,
           departmentName: hs.signal.department?.name,
-          teamName: hs.signal.team?.name
-        }))
+          teamName: hs.signal.team?.name,
+        })),
       }));
 
       return NextResponse.json({
@@ -86,15 +85,14 @@ export async function GET(request: NextRequest) {
           total: totalCount,
           limit,
           offset,
-          hasMore: offset + limit < totalCount
+          hasMore: offset + limit < totalCount,
         },
-        timestamp: new Date().toISOString()
+        timestamp: new Date().toISOString(),
       });
-
     } catch (error) {
       // Fallback for legacy schema - return mock data or empty array
       console.log('⚠️ Hotspot model not available, using fallback');
-      
+
       return NextResponse.json({
         success: true,
         hotspots: [],
@@ -102,21 +100,25 @@ export async function GET(request: NextRequest) {
           total: 0,
           limit,
           offset,
-          hasMore: false
+          hasMore: false,
         },
-        message: 'Hotspot clustering not yet configured. Run clustering to generate hotspots.',
-        timestamp: new Date().toISOString()
+        message:
+          'Hotspot clustering not yet configured. Run clustering to generate hotspots.',
+        timestamp: new Date().toISOString(),
       });
     }
-
   } catch (error) {
     console.error('Error fetching hotspots:', error);
-    
-    return NextResponse.json({
-      success: false,
-      error: error instanceof Error ? error.message : 'Failed to fetch hotspots',
-      timestamp: new Date().toISOString()
-    }, { status: 500 });
+
+    return NextResponse.json(
+      {
+        success: false,
+        error:
+          error instanceof Error ? error.message : 'Failed to fetch hotspots',
+        timestamp: new Date().toISOString(),
+      },
+      { status: 500 }
+    );
   }
 }
 
@@ -126,10 +128,13 @@ export async function POST(request: NextRequest) {
     const { title, summary, signalIds } = body;
 
     if (!title || !summary) {
-      return NextResponse.json({
-        success: false,
-        error: 'Title and summary are required'
-      }, { status: 400 });
+      return NextResponse.json(
+        {
+          success: false,
+          error: 'Title and summary are required',
+        },
+        { status: 400 }
+      );
     }
 
     // Try V2 Hotspot model
@@ -143,21 +148,21 @@ export async function POST(request: NextRequest) {
           confidence: 0.8, // Manual creation confidence
           clusteringMethod: 'manual',
           similarityThreshold: null,
-          linkedEntitiesJson: []
-        }
+          linkedEntitiesJson: [],
+        },
       });
 
       // Add signal relationships if provided
       if (signalIds && Array.isArray(signalIds)) {
         await Promise.all(
-          signalIds.map((signalId: string) => 
+          signalIds.map((signalId: string) =>
             (prisma as any).hotspotSignal.create({
               data: {
                 hotspotId: hotspot.id,
                 signalId,
                 membershipStrength: 1.0, // Manual assignment = 100% strength
-                isOutlier: false
-              }
+                isOutlier: false,
+              },
             })
           )
         );
@@ -175,25 +180,30 @@ export async function POST(request: NextRequest) {
           signalCount: signalIds?.length || 0,
           linkedEntities: [],
           createdAt: hotspot.createdAt.toISOString(),
-          updatedAt: hotspot.updatedAt.toISOString()
+          updatedAt: hotspot.updatedAt.toISOString(),
         },
-        timestamp: new Date().toISOString()
+        timestamp: new Date().toISOString(),
       });
-
     } catch (error) {
       // Fallback for legacy schema
-      return NextResponse.json({
-        success: false,
-        error: 'Hotspot creation not available in current schema version'
-      }, { status: 501 });
+      return NextResponse.json(
+        {
+          success: false,
+          error: 'Hotspot creation not available in current schema version',
+        },
+        { status: 501 }
+      );
     }
-
   } catch (error) {
     console.error('Error creating hotspot:', error);
-    
-    return NextResponse.json({
-      success: false,
-      error: error instanceof Error ? error.message : 'Failed to create hotspot'
-    }, { status: 500 });
+
+    return NextResponse.json(
+      {
+        success: false,
+        error:
+          error instanceof Error ? error.message : 'Failed to create hotspot',
+      },
+      { status: 500 }
+    );
   }
 }

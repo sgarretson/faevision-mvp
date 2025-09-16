@@ -3,7 +3,7 @@
 /**
  * FAEVision Environment Variable Diagnostic Tool
  * Expert: Jordan Kim (Vercel Engineer) + Alex Thompson (Lead Developer)
- * 
+ *
  * This script helps diagnose environment variable issues in Vercel deployment
  */
 
@@ -11,46 +11,46 @@ console.log('🔍 FAEVision Environment Variable Diagnostic Tool\n');
 
 // Required environment variables for Auth.js v5
 const requiredEnvVars = {
-  'NEXTAUTH_SECRET': {
+  NEXTAUTH_SECRET: {
     description: 'Secret key for NextAuth.js JWT signing',
     example: 'your-nextauth-secret-here-32-chars-minimum',
     critical: true,
-    generate: () => require('crypto').randomBytes(32).toString('hex')
+    generate: () => require('crypto').randomBytes(32).toString('hex'),
   },
-  'NEXTAUTH_URL': {
+  NEXTAUTH_URL: {
     description: 'The canonical URL of your deployment',
     example: 'https://faevision-simplified.vercel.app',
     critical: true,
-    production: 'https://faevision-simplified.vercel.app'
+    production: 'https://faevision-simplified.vercel.app',
   },
-  'DATABASE_URL': {
+  DATABASE_URL: {
     description: 'Vercel Postgres connection string with pooling',
     example: 'postgresql://user:pass@host:port/db?sslmode=require',
     critical: true,
-    note: 'Must include pooler endpoint for Vercel serverless'
+    note: 'Must include pooler endpoint for Vercel serverless',
   },
-  'DIRECT_URL': {
+  DIRECT_URL: {
     description: 'Direct database connection for migrations',
     example: 'postgresql://user:pass@host:port/db?sslmode=require',
     critical: true,
-    note: 'Direct endpoint (no pooler) for Prisma migrations'
+    note: 'Direct endpoint (no pooler) for Prisma migrations',
   },
-  'OPENAI_API_KEY': {
+  OPENAI_API_KEY: {
     description: 'OpenAI API key for AI features',
     example: 'sk-...',
     critical: false,
-    note: 'Required for F1 auto-tagging features'
-  }
+    note: 'Required for F1 auto-tagging features',
+  },
 };
 
 // Generate secure values
 function generateSecureValues() {
   console.log('🔐 Generated Secure Values for Production:\n');
-  
+
   console.log('NEXTAUTH_SECRET (copy this to Vercel):');
   console.log(`"${requiredEnvVars.NEXTAUTH_SECRET.generate()}"`);
   console.log('');
-  
+
   console.log('NEXTAUTH_URL (copy this to Vercel):');
   console.log(`"${requiredEnvVars.NEXTAUTH_URL.production}"`);
   console.log('');
@@ -63,7 +63,7 @@ function showVercelConfiguration() {
   console.log('2. Find: "faevision-simplified" project');
   console.log('3. Navigate: Settings → Environment Variables');
   console.log('4. Add each variable below:\n');
-  
+
   Object.entries(requiredEnvVars).forEach(([key, config]) => {
     console.log(`📌 ${key}`);
     console.log(`   Description: ${config.description}`);
@@ -90,7 +90,9 @@ function showTestingSteps() {
   console.log('1. Save all environment variables in Vercel');
   console.log('2. Trigger a new deployment by pushing to main branch');
   console.log('3. Test endpoints:');
-  console.log('   curl -s "https://faevision-simplified.vercel.app/api/auth/providers"');
+  console.log(
+    '   curl -s "https://faevision-simplified.vercel.app/api/auth/providers"'
+  );
   console.log('   Should return: {"credentials":{"name":"credentials"}}');
   console.log('');
   console.log('4. Test login page:');
@@ -104,19 +106,27 @@ function showTestingSteps() {
 
 // Main diagnostic flow
 function main() {
-  console.log('Current Issue: 500 Internal Server Error on /api/auth/providers\n');
-  console.log('Root Cause: Missing or incorrect environment variables in Vercel\n');
+  console.log(
+    'Current Issue: 500 Internal Server Error on /api/auth/providers\n'
+  );
+  console.log(
+    'Root Cause: Missing or incorrect environment variables in Vercel\n'
+  );
   console.log('Solution: Configure required environment variables manually\n');
   console.log('=' * 60 + '\n');
-  
+
   generateSecureValues();
   showVercelConfiguration();
   showTestingSteps();
-  
+
   console.log('🎯 Expert Assignment:');
-  console.log('- Jordan Kim (Vercel Engineer): Environment variable configuration');
+  console.log(
+    '- Jordan Kim (Vercel Engineer): Environment variable configuration'
+  );
   console.log('- Alex Thompson (Lead Developer): Authentication testing');
-  console.log('- Morgan Smith (Database Architect): Database connection verification');
+  console.log(
+    '- Morgan Smith (Database Architect): Database connection verification'
+  );
 }
 
 if (require.main === module) {
@@ -127,5 +137,5 @@ module.exports = {
   requiredEnvVars,
   generateSecureValues,
   showVercelConfiguration,
-  showTestingSteps
+  showTestingSteps,
 };

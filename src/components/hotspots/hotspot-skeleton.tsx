@@ -2,56 +2,56 @@
 
 /**
  * Hotspot Dashboard Loading Skeleton
- * 
+ *
  * Loading state optimized for executive impatience:
  * - Realistic content structure preview
  * - Smooth animation for perceived performance
  * - Mobile-responsive skeleton layout
  * - Executive-friendly loading indicators
- * 
+ *
  * Expert: Maya Rodriguez (UX Expert)
  * Performance psychology for executive users
  */
 
 export function HotspotSkeleton() {
   return (
-    <div className="space-y-8 animate-pulse">
+    <div className="animate-pulse space-y-8">
       {/* Metrics Skeleton */}
-      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+      <div className="grid grid-cols-1 gap-6 md:grid-cols-2 lg:grid-cols-4">
         {Array.from({ length: 4 }).map((_, i) => (
           <MetricCardSkeleton key={i} />
         ))}
       </div>
 
       {/* Quick Actions Skeleton */}
-      <div className="bg-white rounded-lg border border-gray-200 p-4">
+      <div className="rounded-lg border border-gray-200 bg-white p-4">
         <div className="flex items-center justify-between">
           <div className="flex items-center space-x-4">
             <div className="hidden sm:block">
-              <div className="h-4 bg-gray-200 rounded w-24 mb-1"></div>
-              <div className="h-3 bg-gray-200 rounded w-20"></div>
+              <div className="mb-1 h-4 w-24 rounded bg-gray-200"></div>
+              <div className="h-3 w-20 rounded bg-gray-200"></div>
             </div>
-            <div className="sm:hidden h-4 bg-gray-200 rounded w-16"></div>
+            <div className="h-4 w-16 rounded bg-gray-200 sm:hidden"></div>
           </div>
           <div className="flex items-center space-x-3">
-            <div className="h-11 bg-gray-200 rounded-lg w-28"></div>
-            <div className="h-11 bg-gray-200 rounded-lg w-20"></div>
-            <div className="h-11 bg-gray-200 rounded-lg w-20"></div>
+            <div className="h-11 w-28 rounded-lg bg-gray-200"></div>
+            <div className="h-11 w-20 rounded-lg bg-gray-200"></div>
+            <div className="h-11 w-20 rounded-lg bg-gray-200"></div>
           </div>
         </div>
       </div>
 
       {/* Clustering Controls Skeleton */}
-      <div className="bg-white rounded-lg border border-gray-200 p-6">
-        <div className="flex items-center justify-between mb-6">
+      <div className="rounded-lg border border-gray-200 bg-white p-6">
+        <div className="mb-6 flex items-center justify-between">
           <div>
-            <div className="h-6 bg-gray-200 rounded w-40 mb-2"></div>
-            <div className="h-4 bg-gray-200 rounded w-64"></div>
+            <div className="mb-2 h-6 w-40 rounded bg-gray-200"></div>
+            <div className="h-4 w-64 rounded bg-gray-200"></div>
           </div>
-          <div className="h-4 bg-gray-200 rounded w-16"></div>
+          <div className="h-4 w-16 rounded bg-gray-200"></div>
         </div>
-        
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+
+        <div className="grid grid-cols-1 gap-4 md:grid-cols-3">
           {Array.from({ length: 3 }).map((_, i) => (
             <PresetCardSkeleton key={i} />
           ))}
@@ -61,8 +61,8 @@ export function HotspotSkeleton() {
       {/* Hotspot Cards Skeleton */}
       <div className="space-y-6">
         <div className="flex items-center justify-between">
-          <div className="h-6 bg-gray-200 rounded w-48"></div>
-          <div className="h-4 bg-gray-200 rounded w-32"></div>
+          <div className="h-6 w-48 rounded bg-gray-200"></div>
+          <div className="h-4 w-32 rounded bg-gray-200"></div>
         </div>
 
         <div className="grid gap-6 lg:grid-cols-1 xl:grid-cols-2">
@@ -80,14 +80,14 @@ export function HotspotSkeleton() {
  */
 function MetricCardSkeleton() {
   return (
-    <div className="bg-white rounded-lg border border-gray-200 p-6">
-      <div className="flex items-center justify-between mb-4">
-        <div className="h-4 bg-gray-200 rounded w-1/2"></div>
-        <div className="h-8 w-8 bg-gray-200 rounded-lg"></div>
+    <div className="rounded-lg border border-gray-200 bg-white p-6">
+      <div className="mb-4 flex items-center justify-between">
+        <div className="h-4 w-1/2 rounded bg-gray-200"></div>
+        <div className="h-8 w-8 rounded-lg bg-gray-200"></div>
       </div>
       <div className="space-y-2">
-        <div className="h-8 bg-gray-200 rounded w-1/3"></div>
-        <div className="h-3 bg-gray-200 rounded w-2/3"></div>
+        <div className="h-8 w-1/3 rounded bg-gray-200"></div>
+        <div className="h-3 w-2/3 rounded bg-gray-200"></div>
       </div>
     </div>
   );
@@ -98,13 +98,13 @@ function MetricCardSkeleton() {
  */
 function PresetCardSkeleton() {
   return (
-    <div className="p-4 rounded-lg border border-gray-300 bg-white">
-      <div className="flex items-center mb-2">
-        <div className="h-8 w-8 bg-gray-200 rounded mr-3"></div>
-        <div className="h-5 bg-gray-200 rounded w-20"></div>
+    <div className="rounded-lg border border-gray-300 bg-white p-4">
+      <div className="mb-2 flex items-center">
+        <div className="mr-3 h-8 w-8 rounded bg-gray-200"></div>
+        <div className="h-5 w-20 rounded bg-gray-200"></div>
       </div>
-      <div className="h-4 bg-gray-200 rounded w-full mb-2"></div>
-      <div className="h-3 bg-gray-200 rounded w-3/4"></div>
+      <div className="mb-2 h-4 w-full rounded bg-gray-200"></div>
+      <div className="h-3 w-3/4 rounded bg-gray-200"></div>
     </div>
   );
 }
@@ -114,44 +114,44 @@ function PresetCardSkeleton() {
  */
 function HotspotCardSkeleton() {
   return (
-    <div className="bg-white rounded-lg border border-gray-200">
+    <div className="rounded-lg border border-gray-200 bg-white">
       <div className="p-6">
-        <div className="flex items-start justify-between mb-3">
-          <div className="flex-1 min-w-0">
-            <div className="flex items-center space-x-3 mb-2">
-              <div className="h-5 bg-gray-200 rounded-full w-16"></div>
-              <div className="h-5 bg-gray-200 rounded-full w-12"></div>
+        <div className="mb-3 flex items-start justify-between">
+          <div className="min-w-0 flex-1">
+            <div className="mb-2 flex items-center space-x-3">
+              <div className="h-5 w-16 rounded-full bg-gray-200"></div>
+              <div className="h-5 w-12 rounded-full bg-gray-200"></div>
             </div>
-            <div className="h-6 bg-gray-200 rounded w-3/4 mb-2"></div>
+            <div className="mb-2 h-6 w-3/4 rounded bg-gray-200"></div>
           </div>
-          <div className="h-6 w-6 bg-gray-200 rounded"></div>
+          <div className="h-6 w-6 rounded bg-gray-200"></div>
         </div>
 
         {/* Metrics row */}
-        <div className="grid grid-cols-3 gap-4 mb-4">
+        <div className="mb-4 grid grid-cols-3 gap-4">
           {Array.from({ length: 3 }).map((_, i) => (
             <div key={i} className="text-center">
-              <div className="h-4 w-4 bg-gray-200 rounded mx-auto mb-1"></div>
-              <div className="h-5 bg-gray-200 rounded w-8 mx-auto mb-1"></div>
-              <div className="h-3 bg-gray-200 rounded w-12 mx-auto"></div>
+              <div className="mx-auto mb-1 h-4 w-4 rounded bg-gray-200"></div>
+              <div className="mx-auto mb-1 h-5 w-8 rounded bg-gray-200"></div>
+              <div className="mx-auto h-3 w-12 rounded bg-gray-200"></div>
             </div>
           ))}
         </div>
 
         {/* Summary */}
-        <div className="space-y-2 mb-4">
-          <div className="h-4 bg-gray-200 rounded w-full"></div>
-          <div className="h-4 bg-gray-200 rounded w-5/6"></div>
-          <div className="h-4 bg-gray-200 rounded w-4/6"></div>
+        <div className="mb-4 space-y-2">
+          <div className="h-4 w-full rounded bg-gray-200"></div>
+          <div className="h-4 w-5/6 rounded bg-gray-200"></div>
+          <div className="h-4 w-4/6 rounded bg-gray-200"></div>
         </div>
 
         {/* Actions */}
         <div className="flex items-center justify-between">
           <div className="flex space-x-2">
-            <div className="h-9 bg-gray-200 rounded w-28"></div>
-            <div className="h-9 bg-gray-200 rounded w-20"></div>
+            <div className="h-9 w-28 rounded bg-gray-200"></div>
+            <div className="h-9 w-20 rounded bg-gray-200"></div>
           </div>
-          <div className="h-4 bg-gray-200 rounded w-20"></div>
+          <div className="h-4 w-20 rounded bg-gray-200"></div>
         </div>
       </div>
     </div>
@@ -163,14 +163,14 @@ function HotspotCardSkeleton() {
  */
 export function EmptyHotspotSkeleton() {
   return (
-    <div className="text-center py-12 animate-pulse">
-      <div className="mx-auto h-24 w-24 bg-gray-200 rounded-full mb-4"></div>
-      <div className="h-6 bg-gray-200 rounded w-48 mx-auto mb-2"></div>
-      <div className="space-y-2 mb-6">
-        <div className="h-4 bg-gray-200 rounded w-64 mx-auto"></div>
-        <div className="h-4 bg-gray-200 rounded w-56 mx-auto"></div>
+    <div className="animate-pulse py-12 text-center">
+      <div className="mx-auto mb-4 h-24 w-24 rounded-full bg-gray-200"></div>
+      <div className="mx-auto mb-2 h-6 w-48 rounded bg-gray-200"></div>
+      <div className="mb-6 space-y-2">
+        <div className="mx-auto h-4 w-64 rounded bg-gray-200"></div>
+        <div className="mx-auto h-4 w-56 rounded bg-gray-200"></div>
       </div>
-      <div className="h-12 bg-gray-200 rounded w-40 mx-auto"></div>
+      <div className="mx-auto h-12 w-40 rounded bg-gray-200"></div>
     </div>
   );
 }

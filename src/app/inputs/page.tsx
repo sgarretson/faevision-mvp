@@ -1,44 +1,51 @@
-'use client'
+'use client';
 
-import { useState, useEffect, useCallback } from 'react'
-import Link from 'next/link'
-import { Button } from '@/components/ui/button'
-import { Card, CardContent } from '@/components/ui/card'
-import { Badge } from '@/components/ui/badge'
+import { useState, useEffect, useCallback } from 'react';
+import Link from 'next/link';
+import { Button } from '@/components/ui/button';
+import { Card, CardContent } from '@/components/ui/card';
+import { Badge } from '@/components/ui/badge';
 // import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select'
-import { Input } from '@/components/ui/input'
-import { Plus, MessageSquare, Eye, Filter, Search, AlertCircle } from 'lucide-react'
-import { Alert, AlertDescription } from '@/components/ui/alert'
-import { VoteButtons } from '@/components/inputs/vote-buttons'
+import { Input } from '@/components/ui/input';
+import {
+  Plus,
+  MessageSquare,
+  Eye,
+  Filter,
+  Search,
+  AlertCircle,
+} from 'lucide-react';
+import { Alert, AlertDescription } from '@/components/ui/alert';
+import { VoteButtons } from '@/components/inputs/vote-buttons';
 
 interface InputItem {
-  id: string
-  title: string
-  description: string
-  type: 'PROBLEM' | 'OPPORTUNITY' | 'GENERAL'
-  status: 'NEW' | 'DISCUSSING' | 'ORGANIZED' | 'IN_SOLUTION' | 'ARCHIVED'
-  department?: string
-  issueType?: string
-  priority: 'LOW' | 'MEDIUM' | 'HIGH'
-  createdAt: string
+  id: string;
+  title: string;
+  description: string;
+  type: 'PROBLEM' | 'OPPORTUNITY' | 'GENERAL';
+  status: 'NEW' | 'DISCUSSING' | 'ORGANIZED' | 'IN_SOLUTION' | 'ARCHIVED';
+  department?: string;
+  issueType?: string;
+  priority: 'LOW' | 'MEDIUM' | 'HIGH';
+  createdAt: string;
   creator: {
-    id: string
-    name: string
-    email: string
-    role: string
-    department?: string
-  }
+    id: string;
+    name: string;
+    email: string;
+    role: string;
+    department?: string;
+  };
   _count: {
-    comments: number
-    votes: number
-  }
+    comments: number;
+    votes: number;
+  };
 }
 
 interface PaginationInfo {
-  total: number
-  limit: number
-  offset: number
-  hasMore: boolean
+  total: number;
+  limit: number;
+  offset: number;
+  hasMore: boolean;
 }
 
 const STATUS_COLORS = {
@@ -47,78 +54,78 @@ const STATUS_COLORS = {
   ORGANIZED: 'bg-purple-100 text-purple-800',
   IN_SOLUTION: 'bg-green-100 text-green-800',
   ARCHIVED: 'bg-gray-100 text-gray-800',
-}
+};
 
 const PRIORITY_COLORS = {
   LOW: 'bg-gray-100 text-gray-800',
   MEDIUM: 'bg-blue-100 text-blue-800',
   HIGH: 'bg-red-100 text-red-800',
-}
+};
 
 const TYPE_ICONS = {
   PROBLEM: '🚨',
   OPPORTUNITY: '💡',
   GENERAL: '💭',
-}
+};
 
 export default function InputsPage() {
-  const [inputs, setInputs] = useState<InputItem[]>([])
-  const [pagination, setPagination] = useState<PaginationInfo | null>(null)
-  const [isLoading, setIsLoading] = useState(true)
-  const [error, setError] = useState<string | null>(null)
+  const [inputs, setInputs] = useState<InputItem[]>([]);
+  const [pagination, setPagination] = useState<PaginationInfo | null>(null);
+  const [isLoading, setIsLoading] = useState(true);
+  const [error, setError] = useState<string | null>(null);
 
   // Filters
-  const [statusFilter, setStatusFilter] = useState<string>('')
-  const [typeFilter, setTypeFilter] = useState<string>('')
-  const [departmentFilter, setDepartmentFilter] = useState<string>('')
-  const [searchQuery, setSearchQuery] = useState<string>('')
+  const [statusFilter, setStatusFilter] = useState<string>('');
+  const [typeFilter, setTypeFilter] = useState<string>('');
+  const [departmentFilter, setDepartmentFilter] = useState<string>('');
+  const [searchQuery, setSearchQuery] = useState<string>('');
 
   const fetchInputs = useCallback(async () => {
     try {
-      setIsLoading(true)
-      setError(null)
+      setIsLoading(true);
+      setError(null);
 
-      const params = new URLSearchParams()
-      if (statusFilter) params.append('status', statusFilter)
-      if (typeFilter) params.append('type', typeFilter)
-      if (departmentFilter) params.append('department', departmentFilter)
+      const params = new URLSearchParams();
+      if (statusFilter) params.append('status', statusFilter);
+      if (typeFilter) params.append('type', typeFilter);
+      if (departmentFilter) params.append('department', departmentFilter);
 
-      const response = await fetch(`/api/inputs?${params}`)
-      const data = await response.json()
+      const response = await fetch(`/api/inputs?${params}`);
+      const data = await response.json();
 
       if (!response.ok) {
-        setError(data.error || 'Failed to fetch inputs')
-        return
+        setError(data.error || 'Failed to fetch inputs');
+        return;
       }
 
-      setInputs(data.inputs || [])
-      setPagination(data.pagination)
+      setInputs(data.inputs || []);
+      setPagination(data.pagination);
     } catch (error) {
-      console.error('Fetch inputs error:', error)
-      setError('Failed to load inputs')
+      console.error('Fetch inputs error:', error);
+      setError('Failed to load inputs');
     } finally {
-      setIsLoading(false)
+      setIsLoading(false);
     }
-  }, [statusFilter, typeFilter, departmentFilter])
+  }, [statusFilter, typeFilter, departmentFilter]);
 
   useEffect(() => {
-    fetchInputs()
-  }, [fetchInputs])
+    fetchInputs();
+  }, [fetchInputs]);
 
   const filteredInputs = inputs.filter(
-    (input) =>
+    input =>
       !searchQuery ||
       input.title.toLowerCase().includes(searchQuery.toLowerCase()) ||
       input.description.toLowerCase().includes(searchQuery.toLowerCase())
-  )
+  );
 
   const formatDate = (dateString: string) => {
     return new Date(dateString).toLocaleDateString('en-US', {
       year: 'numeric',
       month: 'short',
       day: 'numeric',
-    })
-  }
+    });
+  };
 
   if (error) {
     return (
@@ -130,7 +137,7 @@ export default function InputsPage() {
           </Alert>
         </div>
       </div>
-    )
+    );
   }
 
   return (
@@ -139,7 +146,9 @@ export default function InputsPage() {
         {/* Header */}
         <div className="mb-8 flex flex-col sm:flex-row sm:items-center sm:justify-between">
           <div>
-            <h1 className="text-3xl font-bold text-gray-900">Strategic Inputs</h1>
+            <h1 className="text-3xl font-bold text-gray-900">
+              Strategic Inputs
+            </h1>
             <p className="mt-2 text-lg text-gray-600">
               View and collaborate on strategic inputs across the organization.
             </p>
@@ -165,7 +174,7 @@ export default function InputsPage() {
                   <Input
                     placeholder="Search inputs..."
                     value={searchQuery}
-                    onChange={(e) => setSearchQuery(e.target.value)}
+                    onChange={e => setSearchQuery(e.target.value)}
                     className="pl-10"
                   />
                 </div>
@@ -174,7 +183,7 @@ export default function InputsPage() {
               {/* Status Filter */}
               <select
                 value={statusFilter}
-                onChange={(e) => setStatusFilter(e.target.value)}
+                onChange={e => setStatusFilter(e.target.value)}
                 className="border-input bg-background ring-offset-background focus:ring-ring flex h-10 w-full rounded-md border px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-offset-2 lg:w-48"
               >
                 <option value="">All Statuses</option>
@@ -188,7 +197,7 @@ export default function InputsPage() {
               {/* Type Filter */}
               <select
                 value={typeFilter}
-                onChange={(e) => setTypeFilter(e.target.value)}
+                onChange={e => setTypeFilter(e.target.value)}
                 className="border-input bg-background ring-offset-background focus:ring-ring flex h-10 w-full rounded-md border px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-offset-2 lg:w-48"
               >
                 <option value="">All Types</option>
@@ -200,7 +209,7 @@ export default function InputsPage() {
               {/* Department Filter */}
               <select
                 value={departmentFilter}
-                onChange={(e) => setDepartmentFilter(e.target.value)}
+                onChange={e => setDepartmentFilter(e.target.value)}
                 className="border-input bg-background ring-offset-background focus:ring-ring flex h-10 w-full rounded-md border px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-offset-2 lg:w-48"
               >
                 <option value="">All Departments</option>
@@ -235,9 +244,14 @@ export default function InputsPage() {
                 <CardContent className="pt-6">
                   <div className="py-12 text-center">
                     <Filter className="mx-auto h-12 w-12 text-gray-400" />
-                    <h3 className="mt-4 text-lg font-medium text-gray-900">No inputs found</h3>
+                    <h3 className="mt-4 text-lg font-medium text-gray-900">
+                      No inputs found
+                    </h3>
                     <p className="mt-2 text-gray-600">
-                      {searchQuery || statusFilter || typeFilter || departmentFilter
+                      {searchQuery ||
+                      statusFilter ||
+                      typeFilter ||
+                      departmentFilter
                         ? 'Try adjusting your filters or search query.'
                         : 'Get started by creating your first strategic input.'}
                     </p>
@@ -253,18 +267,27 @@ export default function InputsPage() {
                 </CardContent>
               </Card>
             ) : (
-              filteredInputs.map((input) => (
-                <Card key={input.id} className="transition-shadow hover:shadow-md">
+              filteredInputs.map(input => (
+                <Card
+                  key={input.id}
+                  className="transition-shadow hover:shadow-md"
+                >
                   <CardContent className="pt-6">
                     <div className="flex flex-col lg:flex-row lg:items-start lg:justify-between">
                       <div className="flex-1">
                         <div className="flex items-start space-x-3">
-                          <span className="text-2xl" role="img" aria-label={input.type}>
+                          <span
+                            className="text-2xl"
+                            role="img"
+                            aria-label={input.type}
+                          >
                             {TYPE_ICONS[input.type]}
                           </span>
                           <div className="flex-1">
                             <h3 className="text-lg font-semibold text-gray-900 hover:text-blue-600">
-                              <Link href={`/inputs/${input.id}`}>{input.title}</Link>
+                              <Link href={`/inputs/${input.id}`}>
+                                {input.title}
+                              </Link>
                             </h3>
                             <p className="mt-1 line-clamp-2 text-sm text-gray-600">
                               {input.description}
@@ -279,13 +302,19 @@ export default function InputsPage() {
                           <Badge className={PRIORITY_COLORS[input.priority]}>
                             {input.priority}
                           </Badge>
-                          {input.department && <Badge variant="outline">{input.department}</Badge>}
-                          {input.issueType && <Badge variant="outline">{input.issueType}</Badge>}
+                          {input.department && (
+                            <Badge variant="outline">{input.department}</Badge>
+                          )}
+                          {input.issueType && (
+                            <Badge variant="outline">{input.issueType}</Badge>
+                          )}
                         </div>
 
                         <div className="mt-4 text-sm text-gray-500">
-                          Created by {input.creator.name} on {formatDate(input.createdAt)}
-                          {input.creator.department && ` • ${input.creator.department}`}
+                          Created by {input.creator.name} on{' '}
+                          {formatDate(input.createdAt)}
+                          {input.creator.department &&
+                            ` • ${input.creator.department}`}
                         </div>
                       </div>
 
@@ -330,7 +359,7 @@ export default function InputsPage() {
               variant="outline"
               onClick={() => {
                 // In a real app, this would load more data
-                console.log('Load more inputs...')
+                console.log('Load more inputs...');
               }}
             >
               Load More
@@ -339,5 +368,5 @@ export default function InputsPage() {
         )}
       </div>
     </div>
-  )
+  );
 }

@@ -5,13 +5,13 @@ import { Play, Settings, RefreshCw, Info } from 'lucide-react';
 
 /**
  * Clustering Controls Component
- * 
+ *
  * Executive-friendly controls for AI clustering:
  * - Simple presets for non-technical executives
  * - Advanced options for power users
  * - Real-time feedback and status
  * - Mobile-optimized touch targets
- * 
+ *
  * Expert: Dr. Priya Patel (AI Architect)
  * UX: Maya Rodriguez (UX Expert)
  */
@@ -28,22 +28,42 @@ interface ClusteringOptions {
   generateSolutions: boolean;
 }
 
-export function ClusteringControls({ onRunClustering, clustering }: ClusteringControlsProps) {
+export function ClusteringControls({
+  onRunClustering,
+  clustering,
+}: ClusteringControlsProps) {
   const [showAdvanced, setShowAdvanced] = useState(false);
   const [options, setOptions] = useState<ClusteringOptions>({
     minClusterSize: 3,
     minSamples: 2,
     forceReclustering: false,
-    generateSolutions: true
+    generateSolutions: true,
   });
 
-  const handleQuickRun = (preset: 'conservative' | 'balanced' | 'aggressive') => {
+  const handleQuickRun = (
+    preset: 'conservative' | 'balanced' | 'aggressive'
+  ) => {
     const presets = {
-      conservative: { minClusterSize: 5, minSamples: 3, forceReclustering: false, generateSolutions: true },
-      balanced: { minClusterSize: 3, minSamples: 2, forceReclustering: false, generateSolutions: true },
-      aggressive: { minClusterSize: 2, minSamples: 1, forceReclustering: true, generateSolutions: true }
+      conservative: {
+        minClusterSize: 5,
+        minSamples: 3,
+        forceReclustering: false,
+        generateSolutions: true,
+      },
+      balanced: {
+        minClusterSize: 3,
+        minSamples: 2,
+        forceReclustering: false,
+        generateSolutions: true,
+      },
+      aggressive: {
+        minClusterSize: 2,
+        minSamples: 1,
+        forceReclustering: true,
+        generateSolutions: true,
+      },
     };
-    
+
     onRunClustering(presets[preset]);
   };
 
@@ -52,22 +72,22 @@ export function ClusteringControls({ onRunClustering, clustering }: ClusteringCo
   };
 
   return (
-    <div className="bg-white rounded-lg border border-gray-200 p-6">
-      <div className="flex items-center justify-between mb-6">
+    <div className="rounded-lg border border-gray-200 bg-white p-6">
+      <div className="mb-6 flex items-center justify-between">
         <div>
           <h2 className="text-lg font-semibold text-gray-900">
             AI Clustering Controls
           </h2>
-          <p className="text-sm text-gray-500 mt-1">
+          <p className="mt-1 text-sm text-gray-500">
             Generate hotspots from signal patterns using machine learning
           </p>
         </div>
-        
+
         <button
           onClick={() => setShowAdvanced(!showAdvanced)}
           className="flex items-center text-sm text-blue-600 hover:text-blue-700"
         >
-          <Settings className="h-4 w-4 mr-1" />
+          <Settings className="mr-1 h-4 w-4" />
           {showAdvanced ? 'Simple' : 'Advanced'}
         </button>
       </div>
@@ -76,10 +96,10 @@ export function ClusteringControls({ onRunClustering, clustering }: ClusteringCo
       {!showAdvanced && (
         <div className="space-y-4">
           <div>
-            <h3 className="text-sm font-medium text-gray-900 mb-3">
+            <h3 className="mb-3 text-sm font-medium text-gray-900">
               Quick Clustering Presets
             </h3>
-            <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+            <div className="grid grid-cols-1 gap-4 md:grid-cols-3">
               <PresetCard
                 title="Conservative"
                 description="Fewer, high-confidence hotspots"
@@ -88,7 +108,7 @@ export function ClusteringControls({ onRunClustering, clustering }: ClusteringCo
                 disabled={clustering}
                 details="5+ signals, high confidence threshold"
               />
-              
+
               <PresetCard
                 title="Balanced"
                 description="Optimal for most scenarios"
@@ -98,7 +118,7 @@ export function ClusteringControls({ onRunClustering, clustering }: ClusteringCo
                 details="3+ signals, balanced sensitivity"
                 recommended
               />
-              
+
               <PresetCard
                 title="Aggressive"
                 description="More hotspots, including weak patterns"
@@ -115,7 +135,7 @@ export function ClusteringControls({ onRunClustering, clustering }: ClusteringCo
       {/* Advanced Controls */}
       {showAdvanced && (
         <div className="space-y-6">
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+          <div className="grid grid-cols-1 gap-6 md:grid-cols-2">
             <ControlGroup
               title="Cluster Size"
               description="Minimum signals required per hotspot"
@@ -125,11 +145,13 @@ export function ClusteringControls({ onRunClustering, clustering }: ClusteringCo
                 min="2"
                 max="10"
                 value={options.minClusterSize}
-                onChange={(e) => setOptions(prev => ({
-                  ...prev,
-                  minClusterSize: parseInt(e.target.value) || 3
-                }))}
-                className="w-full px-3 py-2 border border-gray-300 rounded-md focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
+                onChange={e =>
+                  setOptions(prev => ({
+                    ...prev,
+                    minClusterSize: parseInt(e.target.value) || 3,
+                  }))
+                }
+                className="w-full rounded-md border border-gray-300 px-3 py-2 focus:border-blue-500 focus:ring-2 focus:ring-blue-500"
                 disabled={clustering}
               />
             </ControlGroup>
@@ -143,11 +165,13 @@ export function ClusteringControls({ onRunClustering, clustering }: ClusteringCo
                 min="1"
                 max="5"
                 value={options.minSamples}
-                onChange={(e) => setOptions(prev => ({
-                  ...prev,
-                  minSamples: parseInt(e.target.value) || 2
-                }))}
-                className="w-full px-3 py-2 border border-gray-300 rounded-md focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
+                onChange={e =>
+                  setOptions(prev => ({
+                    ...prev,
+                    minSamples: parseInt(e.target.value) || 2,
+                  }))
+                }
+                className="w-full rounded-md border border-gray-300 px-3 py-2 focus:border-blue-500 focus:ring-2 focus:ring-blue-500"
                 disabled={clustering}
               />
             </ControlGroup>
@@ -158,10 +182,12 @@ export function ClusteringControls({ onRunClustering, clustering }: ClusteringCo
               label="Force Re-clustering"
               description="Re-analyze all signals, including those already in hotspots"
               checked={options.forceReclustering}
-              onChange={(checked) => setOptions(prev => ({
-                ...prev,
-                forceReclustering: checked
-              }))}
+              onChange={checked =>
+                setOptions(prev => ({
+                  ...prev,
+                  forceReclustering: checked,
+                }))
+              }
               disabled={clustering}
             />
 
@@ -169,39 +195,39 @@ export function ClusteringControls({ onRunClustering, clustering }: ClusteringCo
               label="Generate AI Solutions"
               description="Automatically create solution suggestions for new hotspots"
               checked={options.generateSolutions}
-              onChange={(checked) => setOptions(prev => ({
-                ...prev,
-                generateSolutions: checked
-              }))}
+              onChange={checked =>
+                setOptions(prev => ({
+                  ...prev,
+                  generateSolutions: checked,
+                }))
+              }
               disabled={clustering}
             />
           </div>
 
-          <div className="flex items-center justify-between pt-4 border-t border-gray-200">
+          <div className="flex items-center justify-between border-t border-gray-200 pt-4">
             <div className="flex items-center text-sm text-gray-500">
-              <Info className="h-4 w-4 mr-1" />
+              <Info className="mr-1 h-4 w-4" />
               Processing time: ~5-15 seconds
             </div>
-            
+
             <button
               onClick={handleAdvancedRun}
               disabled={clustering}
-              className={`
-                inline-flex items-center px-4 py-2 rounded-lg font-medium transition-colors
-                ${clustering 
-                  ? 'bg-gray-100 text-gray-400 cursor-not-allowed' 
+              className={`inline-flex items-center rounded-lg px-4 py-2 font-medium transition-colors ${
+                clustering
+                  ? 'cursor-not-allowed bg-gray-100 text-gray-400'
                   : 'bg-blue-600 text-white hover:bg-blue-700'
-                }
-              `}
+              } `}
             >
               {clustering ? (
                 <>
-                  <RefreshCw className="h-4 w-4 mr-2 animate-spin" />
+                  <RefreshCw className="mr-2 h-4 w-4 animate-spin" />
                   Processing...
                 </>
               ) : (
                 <>
-                  <Play className="h-4 w-4 mr-2" />
+                  <Play className="mr-2 h-4 w-4" />
                   Run Clustering
                 </>
               )}
@@ -212,9 +238,9 @@ export function ClusteringControls({ onRunClustering, clustering }: ClusteringCo
 
       {/* Status Indicator */}
       {clustering && (
-        <div className="mt-4 p-4 bg-blue-50 border border-blue-200 rounded-lg">
+        <div className="mt-4 rounded-lg border border-blue-200 bg-blue-50 p-4">
           <div className="flex items-center">
-            <RefreshCw className="h-5 w-5 text-blue-600 animate-spin mr-3" />
+            <RefreshCw className="mr-3 h-5 w-5 animate-spin text-blue-600" />
             <div>
               <p className="text-sm font-medium text-blue-900">
                 AI Clustering in Progress
@@ -240,7 +266,7 @@ function PresetCard({
   onClick,
   disabled,
   details,
-  recommended = false
+  recommended = false,
 }: {
   title: string;
   description: string;
@@ -254,29 +280,26 @@ function PresetCard({
     <button
       onClick={onClick}
       disabled={disabled}
-      className={`
-        relative p-4 text-left rounded-lg border transition-all
-        ${disabled 
-          ? 'border-gray-200 bg-gray-50 cursor-not-allowed' 
+      className={`relative rounded-lg border p-4 text-left transition-all ${
+        disabled
+          ? 'cursor-not-allowed border-gray-200 bg-gray-50'
           : 'border-gray-300 bg-white hover:border-blue-300 hover:bg-blue-50'
-        }
-        ${recommended ? 'ring-2 ring-blue-500 border-blue-500' : ''}
-      `}
+      } ${recommended ? 'border-blue-500 ring-2 ring-blue-500' : ''} `}
     >
       {recommended && (
-        <div className="absolute -top-2 left-1/2 transform -translate-x-1/2">
-          <span className="bg-blue-600 text-white text-xs px-2 py-1 rounded-full">
+        <div className="absolute -top-2 left-1/2 -translate-x-1/2 transform">
+          <span className="rounded-full bg-blue-600 px-2 py-1 text-xs text-white">
             Recommended
           </span>
         </div>
       )}
-      
-      <div className="flex items-center mb-2">
-        <span className="text-2xl mr-3">{icon}</span>
+
+      <div className="mb-2 flex items-center">
+        <span className="mr-3 text-2xl">{icon}</span>
         <h4 className="font-medium text-gray-900">{title}</h4>
       </div>
-      
-      <p className="text-sm text-gray-600 mb-2">{description}</p>
+
+      <p className="mb-2 text-sm text-gray-600">{description}</p>
       <p className="text-xs text-gray-500">{details}</p>
     </button>
   );
@@ -285,21 +308,21 @@ function PresetCard({
 /**
  * Control group component
  */
-function ControlGroup({ 
-  title, 
-  description, 
-  children 
-}: { 
-  title: string; 
-  description: string; 
-  children: React.ReactNode; 
+function ControlGroup({
+  title,
+  description,
+  children,
+}: {
+  title: string;
+  description: string;
+  children: React.ReactNode;
 }) {
   return (
     <div>
-      <label className="block text-sm font-medium text-gray-900 mb-1">
+      <label className="mb-1 block text-sm font-medium text-gray-900">
         {title}
       </label>
-      <p className="text-xs text-gray-500 mb-2">{description}</p>
+      <p className="mb-2 text-xs text-gray-500">{description}</p>
       {children}
     </div>
   );
@@ -313,7 +336,7 @@ function ToggleOption({
   description,
   checked,
   onChange,
-  disabled
+  disabled,
 }: {
   label: string;
   description: string;
@@ -326,17 +349,13 @@ function ToggleOption({
       <input
         type="checkbox"
         checked={checked}
-        onChange={(e) => onChange(e.target.checked)}
+        onChange={e => onChange(e.target.checked)}
         disabled={disabled}
-        className="mt-1 h-4 w-4 text-blue-600 border-gray-300 rounded focus:ring-blue-500 disabled:opacity-50"
+        className="mt-1 h-4 w-4 rounded border-gray-300 text-blue-600 focus:ring-blue-500 disabled:opacity-50"
       />
       <div className="ml-3">
-        <label className="text-sm font-medium text-gray-900">
-          {label}
-        </label>
-        <p className="text-xs text-gray-500">
-          {description}
-        </p>
+        <label className="text-sm font-medium text-gray-900">{label}</label>
+        <p className="text-xs text-gray-500">{description}</p>
       </div>
     </div>
   );

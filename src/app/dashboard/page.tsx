@@ -1,10 +1,16 @@
-'use client'
+'use client';
 
-import { useState, useEffect } from 'react'
-import Link from 'next/link'
-import { Button } from '@/components/ui/button'
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card'
-import { Badge } from '@/components/ui/badge'
+import { useState, useEffect } from 'react';
+import Link from 'next/link';
+import { Button } from '@/components/ui/button';
+import {
+  Card,
+  CardContent,
+  CardDescription,
+  CardHeader,
+  CardTitle,
+} from '@/components/ui/card';
+import { Badge } from '@/components/ui/badge';
 import {
   BarChart3,
   TrendingUp,
@@ -17,37 +23,37 @@ import {
   Target,
   Clock,
   CheckCircle2,
-} from 'lucide-react'
-import { Alert, AlertDescription } from '@/components/ui/alert'
+} from 'lucide-react';
+import { Alert, AlertDescription } from '@/components/ui/alert';
 
 interface DashboardStats {
-  totalInputs: number
-  newInputs: number
-  inDiscussion: number
-  organized: number
-  inSolution: number
-  totalVotes: number
-  totalComments: number
-  activeUsers: number
+  totalInputs: number;
+  newInputs: number;
+  inDiscussion: number;
+  organized: number;
+  inSolution: number;
+  totalVotes: number;
+  totalComments: number;
+  activeUsers: number;
 }
 
 interface RecentInput {
-  id: string
-  title: string
-  type: 'PROBLEM' | 'OPPORTUNITY' | 'GENERAL'
-  priority: 'LOW' | 'MEDIUM' | 'HIGH'
-  department: string
-  creator: string
-  createdAt: string
-  votesCount: number
-  commentsCount: number
+  id: string;
+  title: string;
+  type: 'PROBLEM' | 'OPPORTUNITY' | 'GENERAL';
+  priority: 'LOW' | 'MEDIUM' | 'HIGH';
+  department: string;
+  creator: string;
+  createdAt: string;
+  votesCount: number;
+  commentsCount: number;
 }
 
 interface TrendData {
-  period: string
-  inputs: number
-  votes: number
-  comments: number
+  period: string;
+  inputs: number;
+  votes: number;
+  comments: number;
 }
 
 // const STATUS_COLORS = {
@@ -61,13 +67,13 @@ const PRIORITY_COLORS = {
   LOW: 'bg-gray-100 text-gray-800',
   MEDIUM: 'bg-blue-100 text-blue-800',
   HIGH: 'bg-red-100 text-red-800',
-}
+};
 
 const TYPE_ICONS = {
   PROBLEM: '🚨',
   OPPORTUNITY: '💡',
   GENERAL: '💭',
-}
+};
 
 export default function ExecutiveDashboard() {
   const [stats, setStats] = useState<DashboardStats>({
@@ -79,20 +85,20 @@ export default function ExecutiveDashboard() {
     totalVotes: 0,
     totalComments: 0,
     activeUsers: 0,
-  })
-  const [recentInputs, setRecentInputs] = useState<RecentInput[]>([])
-  const [trends, setTrends] = useState<TrendData[]>([])
-  const [isLoading, setIsLoading] = useState(true)
-  const [error, setError] = useState<string | null>(null)
+  });
+  const [recentInputs, setRecentInputs] = useState<RecentInput[]>([]);
+  const [trends, setTrends] = useState<TrendData[]>([]);
+  const [isLoading, setIsLoading] = useState(true);
+  const [error, setError] = useState<string | null>(null);
 
   useEffect(() => {
-    fetchDashboardData()
-  }, [])
+    fetchDashboardData();
+  }, []);
 
   const fetchDashboardData = async () => {
     try {
-      setIsLoading(true)
-      setError(null)
+      setIsLoading(true);
+      setError(null);
 
       // For now, we'll use mock data since we haven't implemented the dashboard API yet
       // In production, this would fetch from /api/dashboard
@@ -105,7 +111,7 @@ export default function ExecutiveDashboard() {
         totalVotes: 156,
         totalComments: 89,
         activeUsers: 18,
-      }
+      };
 
       const mockRecentInputs: RecentInput[] = [
         {
@@ -141,36 +147,38 @@ export default function ExecutiveDashboard() {
           votesCount: 4,
           commentsCount: 2,
         },
-      ]
+      ];
 
       const mockTrends: TrendData[] = [
         { period: 'This Week', inputs: 8, votes: 45, comments: 23 },
         { period: 'Last Week', inputs: 6, votes: 38, comments: 19 },
         { period: '2 Weeks Ago', inputs: 4, votes: 28, comments: 15 },
         { period: '3 Weeks Ago', inputs: 6, votes: 45, comments: 32 },
-      ]
+      ];
 
-      setStats(mockStats)
-      setRecentInputs(mockRecentInputs)
-      setTrends(mockTrends)
+      setStats(mockStats);
+      setRecentInputs(mockRecentInputs);
+      setTrends(mockTrends);
     } catch (error) {
-      console.error('Dashboard fetch error:', error)
-      setError('Failed to load dashboard data')
+      console.error('Dashboard fetch error:', error);
+      setError('Failed to load dashboard data');
     } finally {
-      setIsLoading(false)
+      setIsLoading(false);
     }
-  }
+  };
 
   const formatTimeAgo = (dateString: string) => {
-    const now = new Date()
-    const date = new Date(dateString)
-    const diffInHours = Math.floor((now.getTime() - date.getTime()) / (1000 * 60 * 60))
+    const now = new Date();
+    const date = new Date(dateString);
+    const diffInHours = Math.floor(
+      (now.getTime() - date.getTime()) / (1000 * 60 * 60)
+    );
 
-    if (diffInHours < 1) return 'Just now'
-    if (diffInHours < 24) return `${diffInHours}h ago`
-    const diffInDays = Math.floor(diffInHours / 24)
-    return `${diffInDays}d ago`
-  }
+    if (diffInHours < 1) return 'Just now';
+    if (diffInHours < 24) return `${diffInHours}h ago`;
+    const diffInDays = Math.floor(diffInHours / 24);
+    return `${diffInDays}d ago`;
+  };
 
   if (error) {
     return (
@@ -182,7 +190,7 @@ export default function ExecutiveDashboard() {
           </Alert>
         </div>
       </div>
-    )
+    );
   }
 
   return (
@@ -191,7 +199,9 @@ export default function ExecutiveDashboard() {
         {/* Header */}
         <div className="mb-8 flex flex-col sm:flex-row sm:items-center sm:justify-between">
           <div>
-            <h1 className="text-3xl font-bold text-gray-900">Executive Dashboard</h1>
+            <h1 className="text-3xl font-bold text-gray-900">
+              Executive Dashboard
+            </h1>
             <p className="mt-2 text-lg text-gray-600">
               Strategic insights and organizational intelligence at a glance.
             </p>
@@ -225,12 +235,18 @@ export default function ExecutiveDashboard() {
                       <Target className="h-8 w-8 text-blue-600" />
                     </div>
                     <div className="ml-4">
-                      <p className="text-sm font-medium text-gray-600">Total Inputs</p>
-                      <p className="text-3xl font-bold text-gray-900">{stats.totalInputs}</p>
+                      <p className="text-sm font-medium text-gray-600">
+                        Total Inputs
+                      </p>
+                      <p className="text-3xl font-bold text-gray-900">
+                        {stats.totalInputs}
+                      </p>
                     </div>
                   </div>
                   <div className="mt-4 flex items-center text-sm">
-                    <span className="font-medium text-green-600">+{stats.newInputs}</span>
+                    <span className="font-medium text-green-600">
+                      +{stats.newInputs}
+                    </span>
                     <span className="ml-1 text-gray-500">new this week</span>
                   </div>
                 </CardContent>
@@ -243,7 +259,9 @@ export default function ExecutiveDashboard() {
                       <ThumbsUp className="h-8 w-8 text-green-600" />
                     </div>
                     <div className="ml-4">
-                      <p className="text-sm font-medium text-gray-600">Total Engagement</p>
+                      <p className="text-sm font-medium text-gray-600">
+                        Total Engagement
+                      </p>
                       <p className="text-3xl font-bold text-gray-900">
                         {stats.totalVotes + stats.totalComments}
                       </p>
@@ -264,12 +282,18 @@ export default function ExecutiveDashboard() {
                       <Users className="h-8 w-8 text-purple-600" />
                     </div>
                     <div className="ml-4">
-                      <p className="text-sm font-medium text-gray-600">Active Users</p>
-                      <p className="text-3xl font-bold text-gray-900">{stats.activeUsers}</p>
+                      <p className="text-sm font-medium text-gray-600">
+                        Active Users
+                      </p>
+                      <p className="text-3xl font-bold text-gray-900">
+                        {stats.activeUsers}
+                      </p>
                     </div>
                   </div>
                   <div className="mt-4 flex items-center text-sm">
-                    <span className="text-gray-500">participated this week</span>
+                    <span className="text-gray-500">
+                      participated this week
+                    </span>
                   </div>
                 </CardContent>
               </Card>
@@ -281,8 +305,12 @@ export default function ExecutiveDashboard() {
                       <CheckCircle2 className="h-8 w-8 text-emerald-600" />
                     </div>
                     <div className="ml-4">
-                      <p className="text-sm font-medium text-gray-600">In Solution</p>
-                      <p className="text-3xl font-bold text-gray-900">{stats.inSolution}</p>
+                      <p className="text-sm font-medium text-gray-600">
+                        In Solution
+                      </p>
+                      <p className="text-3xl font-bold text-gray-900">
+                        {stats.inSolution}
+                      </p>
                     </div>
                   </div>
                   <div className="mt-4 flex items-center text-sm">
@@ -306,24 +334,46 @@ export default function ExecutiveDashboard() {
               <CardContent>
                 <div className="grid grid-cols-1 gap-4 md:grid-cols-4">
                   <div className="rounded-lg bg-blue-50 p-4 text-center">
-                    <div className="text-2xl font-bold text-blue-600">{stats.newInputs}</div>
+                    <div className="text-2xl font-bold text-blue-600">
+                      {stats.newInputs}
+                    </div>
                     <div className="text-sm font-medium text-blue-800">New</div>
-                    <div className="mt-1 text-xs text-blue-600">Awaiting review</div>
+                    <div className="mt-1 text-xs text-blue-600">
+                      Awaiting review
+                    </div>
                   </div>
                   <div className="rounded-lg bg-yellow-50 p-4 text-center">
-                    <div className="text-2xl font-bold text-yellow-600">{stats.inDiscussion}</div>
-                    <div className="text-sm font-medium text-yellow-800">Discussing</div>
-                    <div className="mt-1 text-xs text-yellow-600">Active collaboration</div>
+                    <div className="text-2xl font-bold text-yellow-600">
+                      {stats.inDiscussion}
+                    </div>
+                    <div className="text-sm font-medium text-yellow-800">
+                      Discussing
+                    </div>
+                    <div className="mt-1 text-xs text-yellow-600">
+                      Active collaboration
+                    </div>
                   </div>
                   <div className="rounded-lg bg-purple-50 p-4 text-center">
-                    <div className="text-2xl font-bold text-purple-600">{stats.organized}</div>
-                    <div className="text-sm font-medium text-purple-800">Organized</div>
-                    <div className="mt-1 text-xs text-purple-600">Ready for action</div>
+                    <div className="text-2xl font-bold text-purple-600">
+                      {stats.organized}
+                    </div>
+                    <div className="text-sm font-medium text-purple-800">
+                      Organized
+                    </div>
+                    <div className="mt-1 text-xs text-purple-600">
+                      Ready for action
+                    </div>
                   </div>
                   <div className="rounded-lg bg-green-50 p-4 text-center">
-                    <div className="text-2xl font-bold text-green-600">{stats.inSolution}</div>
-                    <div className="text-sm font-medium text-green-800">In Solution</div>
-                    <div className="mt-1 text-xs text-green-600">Being implemented</div>
+                    <div className="text-2xl font-bold text-green-600">
+                      {stats.inSolution}
+                    </div>
+                    <div className="text-sm font-medium text-green-800">
+                      In Solution
+                    </div>
+                    <div className="mt-1 text-xs text-green-600">
+                      Being implemented
+                    </div>
                   </div>
                 </div>
               </CardContent>
@@ -349,12 +399,16 @@ export default function ExecutiveDashboard() {
                 </CardHeader>
                 <CardContent>
                   <div className="space-y-4">
-                    {recentInputs.map((input) => (
+                    {recentInputs.map(input => (
                       <div
                         key={input.id}
                         className="flex items-start space-x-3 rounded-lg bg-gray-50 p-3"
                       >
-                        <span className="text-xl" role="img" aria-label={input.type}>
+                        <span
+                          className="text-xl"
+                          role="img"
+                          aria-label={input.type}
+                        >
                           {TYPE_ICONS[input.type]}
                         </span>
                         <div className="min-w-0 flex-1">
@@ -362,14 +416,20 @@ export default function ExecutiveDashboard() {
                             {input.title}
                           </h4>
                           <div className="mt-1 flex items-center space-x-2">
-                            <Badge className={PRIORITY_COLORS[input.priority]} variant="secondary">
+                            <Badge
+                              className={PRIORITY_COLORS[input.priority]}
+                              variant="secondary"
+                            >
                               {input.priority}
                             </Badge>
-                            <span className="text-xs text-gray-500">{input.department}</span>
+                            <span className="text-xs text-gray-500">
+                              {input.department}
+                            </span>
                           </div>
                           <div className="mt-2 flex items-center justify-between">
                             <div className="text-xs text-gray-500">
-                              by {input.creator} • {formatTimeAgo(input.createdAt)}
+                              by {input.creator} •{' '}
+                              {formatTimeAgo(input.createdAt)}
                             </div>
                             <div className="flex items-center space-x-3 text-xs text-gray-500">
                               <span className="flex items-center">
@@ -402,12 +462,14 @@ export default function ExecutiveDashboard() {
                 </CardHeader>
                 <CardContent>
                   <div className="space-y-4">
-                    {trends.map((trend) => (
+                    {trends.map(trend => (
                       <div
                         key={trend.period}
                         className="flex items-center justify-between rounded-lg bg-gray-50 p-3"
                       >
-                        <div className="text-sm font-medium text-gray-900">{trend.period}</div>
+                        <div className="text-sm font-medium text-gray-900">
+                          {trend.period}
+                        </div>
                         <div className="flex items-center space-x-4 text-sm">
                           <div className="flex items-center text-blue-600">
                             <Target className="mr-1 h-4 w-4" />
@@ -433,15 +495,22 @@ export default function ExecutiveDashboard() {
             <Card className="mt-8">
               <CardHeader>
                 <CardTitle>Quick Actions</CardTitle>
-                <CardDescription>Common executive tasks and strategic operations</CardDescription>
+                <CardDescription>
+                  Common executive tasks and strategic operations
+                </CardDescription>
               </CardHeader>
               <CardContent>
                 <div className="grid grid-cols-1 gap-4 md:grid-cols-3">
                   <Link href="/inputs/create">
-                    <Button variant="outline" className="h-auto w-full justify-start p-4">
+                    <Button
+                      variant="outline"
+                      className="h-auto w-full justify-start p-4"
+                    >
                       <Plus className="mr-3 h-5 w-5" />
                       <div className="text-left">
-                        <div className="font-medium">Create Strategic Input</div>
+                        <div className="font-medium">
+                          Create Strategic Input
+                        </div>
                         <div className="text-xs text-gray-500">
                           Submit new problem or opportunity
                         </div>
@@ -450,7 +519,10 @@ export default function ExecutiveDashboard() {
                   </Link>
 
                   <Link href="/inputs?status=NEW">
-                    <Button variant="outline" className="h-auto w-full justify-start p-4">
+                    <Button
+                      variant="outline"
+                      className="h-auto w-full justify-start p-4"
+                    >
                       <Target className="mr-3 h-5 w-5" />
                       <div className="text-left">
                         <div className="font-medium">Review New Inputs</div>
@@ -462,7 +534,10 @@ export default function ExecutiveDashboard() {
                   </Link>
 
                   <Link href="/inputs?status=DISCUSSING">
-                    <Button variant="outline" className="h-auto w-full justify-start p-4">
+                    <Button
+                      variant="outline"
+                      className="h-auto w-full justify-start p-4"
+                    >
                       <MessageSquare className="mr-3 h-5 w-5" />
                       <div className="text-left">
                         <div className="font-medium">Join Discussions</div>
@@ -479,5 +554,5 @@ export default function ExecutiveDashboard() {
         )}
       </div>
     </div>
-  )
+  );
 }

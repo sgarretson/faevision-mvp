@@ -6,7 +6,7 @@ on:
   # Webhook trigger from Linear (when implemented)
   repository_dispatch:
     types: [linear-issue-assigned, linear-issue-status-changed]
-  
+
   # Manual trigger for testing
   workflow_dispatch:
     inputs:
@@ -52,18 +52,18 @@ jobs:
             BRANCH_TYPE="${{ github.event.client_payload.branch_type || 'feature' }}"
             ASSIGNEE="${{ github.event.client_payload.assignee }}"
           fi
-          
+
           echo "Linear Issue: $LINEAR_ISSUE"
           echo "Issue Title: $ISSUE_TITLE"
           echo "Branch Type: $BRANCH_TYPE"
           echo "Assignee: $ASSIGNEE"
-          
+
           # Create branch name following our convention: type/FAE-XXX-description
           SLUG=$(echo "$ISSUE_TITLE" | tr '[:upper:]' '[:lower:]' | sed 's/[^a-z0-9]/-/g' | sed 's/--*/-/g' | sed 's/^-\|-$//g' | cut -c1-50)
           BRANCH_NAME="${BRANCH_TYPE}/${LINEAR_ISSUE}-${SLUG}"
-          
+
           echo "Branch Name: $BRANCH_NAME"
-          
+
           # Export variables
           echo "linear_issue=$LINEAR_ISSUE" >> $GITHUB_OUTPUT
           echo "issue_title=$ISSUE_TITLE" >> $GITHUB_OUTPUT
@@ -82,9 +82,9 @@ jobs:
         run: |
           BRANCH_NAME="${{ steps.issue-info.outputs.branch_name }}"
           LINEAR_ISSUE="${{ steps.issue-info.outputs.linear_issue }}"
-          
+
           echo "Creating branch: $BRANCH_NAME"
-          
+
           # Check if branch already exists
           if git show-ref --verify --quiet refs/remotes/origin/$BRANCH_NAME; then
             echo "Branch $BRANCH_NAME already exists"
@@ -122,17 +122,17 @@ jobs:
             const branchName = '${{ steps.issue-info.outputs.branch_name }}';
             const branchUrl = '${{ steps.create-branch.outputs.branch_url }}';
             const assignee = '${{ steps.issue-info.outputs.assignee }}';
-            
+
             // Check if GitHub issue already exists for this Linear issue
             const existingIssues = await github.rest.search.issuesAndPullRequests({
               q: `${linearIssue} repo:${context.repo.owner}/${context.repo.repo} type:issue`
             });
-            
+
             if (existingIssues.data.items.length > 0) {
               console.log(`GitHub issue already exists for ${linearIssue}`);
               return existingIssues.data.items[0].number;
             }
-            
+
             // Create new GitHub issue
             const issueBody = `🔗 **Linear Integration**\n\n` +
                              `**Linear Issue:** ${linearIssue}\n` +
@@ -141,7 +141,7 @@ jobs:
                              `---\n\n` +
                              `${issueTitle}\n\n` +
                              `*This issue was automatically created from Linear for development tracking.*`;
-            
+
             const newIssue = await github.rest.issues.create({
               owner: context.repo.owner,
               repo: context.repo.repo,
@@ -150,7 +150,7 @@ jobs:
               labels: ['linear-sync', 'development'],
               assignees: assignee ? [assignee] : []
             });
-            
+
             console.log(`Created GitHub issue #${newIssue.data.number} for ${linearIssue}`);
             return newIssue.data.number;
 
@@ -163,7 +163,7 @@ jobs:
             const branchName = '${{ steps.issue-info.outputs.branch_name }}';
             const issueNumber = '${{ steps.create-issue.outputs.result }}';
             const branchExists = '${{ steps.create-branch.outputs.branch_exists }}' === 'true';
-            
+
             // In production, this would call Linear API to update the issue
             // For now, we'll log the sync information
             console.log('='.repeat(60));
@@ -175,7 +175,7 @@ jobs:
             console.log(`GitHub Issue: #${issueNumber || 'existing'}`);
             console.log(`Branch Status: ${branchExists ? 'existing' : 'created'}`);
             console.log('='.repeat(60));
-            
+
             // Create summary comment for tracking
             const summary = {
               linear_issue: linearIssue,
@@ -185,7 +185,7 @@ jobs:
               sync_time: new Date().toISOString(),
               status: branchExists ? 'branch_exists' : 'branch_created'
             };
-            
+
             console.log('Sync Summary:', JSON.stringify(summary, null, 2));
 
   # ============================================================================
@@ -203,7 +203,7 @@ jobs:
             const linearIssue = '${{ needs.create-branch.outputs.linear_issue }}';
             const branchName = '${{ needs.create-branch.outputs.branch_name }}';
             const assignee = '${{ needs.create-branch.outputs.assignee }}';
-            
+
             console.log(`🚀 Linear Branch Automation Complete`);
             console.log(`Linear Issue: ${linearIssue}`);
             console.log(`Branch Created: ${branchName}`);
@@ -240,11 +240,11 @@ jobs:
 # ============================================================================
 outputs:
   linear_issue:
-    description: "Linear issue ID"
+    description: 'Linear issue ID'
     value: ${{ jobs.create-branch.outputs.linear_issue }}
   branch_name:
-    description: "Created branch name"
+    description: 'Created branch name'
     value: ${{ jobs.create-branch.outputs.branch_name }}
   github_issue:
-    description: "GitHub issue number"
+    description: 'GitHub issue number'
     value: ${{ jobs.create-branch.outputs.github_issue }}

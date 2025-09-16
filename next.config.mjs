@@ -7,6 +7,6 @@ const nextConfig = {
   experimental: {
     serverComponentsExternalPackages: ['prisma'],
   },
-}
+};
 
-export default nextConfig
+export default nextConfig;

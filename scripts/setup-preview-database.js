@@ -9,8 +9,10 @@ require('dotenv').config({ path: '.env' });
 const { execSync } = require('child_process');
 
 // Preview database connection details
-const PREVIEW_DATABASE_URL = 'postgresql://neondb_owner:npg_vewQT72KgtCh@ep-round-frost-aecda5ou-pooler.c-2.us-east-2.aws.neon.tech/neondb?sslmode=require';
-const PREVIEW_DIRECT_URL = 'postgresql://neondb_owner:npg_vewQT72KgtCh@ep-round-frost-aecda5ou.c-2.us-east-2.aws.neon.tech/neondb?sslmode=require';
+const PREVIEW_DATABASE_URL =
+  'postgresql://neondb_owner:npg_vewQT72KgtCh@ep-round-frost-aecda5ou-pooler.c-2.us-east-2.aws.neon.tech/neondb?sslmode=require';
+const PREVIEW_DIRECT_URL =
+  'postgresql://neondb_owner:npg_vewQT72KgtCh@ep-round-frost-aecda5ou.c-2.us-east-2.aws.neon.tech/neondb?sslmode=require';
 
 console.log('🚀 Setting up Preview Database...');
 console.log('Database:', PREVIEW_DATABASE_URL.replace(/:[^:]*@/, ':***@'));
@@ -33,8 +35,9 @@ try {
   console.log('🔐 Test Accounts Created:');
   console.log('  Admin: admin@faevision.com / FAEVision2025!');
   console.log('  Executive: sarah.executive@faevision.com / Executive2025!');
-  console.log('  Contributor: alex.contributor@faevision.com / Contributor2025!');
-
+  console.log(
+    '  Contributor: alex.contributor@faevision.com / Contributor2025!'
+  );
 } catch (error) {
   console.error('❌ Setup failed:', error.message);
   process.exit(1);

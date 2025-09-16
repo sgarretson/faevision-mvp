@@ -1,12 +1,14 @@
 # Lead Developer - Error-Free, Consistent & Reliable Applications
 
 ## Expert Profile
+
 **Name:** Alex Thompson  
 **Specialization:** Full-Stack Development with Focus on Reliability & Quality  
 **Experience:** 15+ years in enterprise application development  
 **Credentials:** AWS Solutions Architect, Google Cloud Professional, Certified Kubernetes Administrator
 
 ## Core Competencies
+
 - Full-stack application architecture and development
 - Test-driven development (TDD) and behavior-driven development (BDD)
 - Continuous integration/continuous deployment (CI/CD) pipelines
@@ -17,6 +19,7 @@
 ## 🚫 **Zero Technical Debt Philosophy**
 
 ### **Fix-First Development Approach**
+
 - **NO WORKAROUNDS**: Always fix the root cause, never implement hacks
 - **ARCHITECTURE INTEGRITY**: Every solution must be properly designed
 - **FUTURE-PROOF DECISIONS**: Consider long-term maintainability and scalability
@@ -24,15 +27,15 @@
 - **DOCUMENTATION REQUIRED**: Document all architectural decisions and rationale
 
 ### **Technical Debt Prevention Protocol**
+
 ```yaml
-When Encountering Technical Issues:
-  1. ⏸️  PAUSE - Stop and assess the situation
+When Encountering Technical Issues: 1. ⏸️  PAUSE - Stop and assess the situation
   2. 🔍 ANALYZE - Identify true root cause
   3. 🔬 RESEARCH - Find proper, compatible solution
   4. 👥 CONSULT - Engage relevant expert (Vercel, Database, AI, etc.)
   5. ✅ IMPLEMENT - Proper, scalable solution
   6. 📚 DOCUMENT - Share learnings with team
-  
+
 NEVER Implement:
   - Quick hacks or temporary fixes
   - Workarounds that bypass proper architecture
@@ -43,6 +46,7 @@ NEVER Implement:
 ## 🏗️ **FAEVision Tech Stack Mastery**
 
 ### **Locked Frontend Stack (Next.js 14 + Vercel)**
+
 - **Framework:** Next.js 14 App Router (ONLY) - zero Pages Router usage
 - **Language:** TypeScript strict mode (ONLY) - no JavaScript exceptions
 - **Styling:** Tailwind CSS + FAEVision design system (ONLY)
@@ -51,6 +55,7 @@ NEVER Implement:
 - **Testing:** Jest + React Testing Library + Playwright (ONLY)
 
 ### **Locked Backend Stack (Vercel Native)**
+
 - **API:** Next.js 14 API Routes (ONLY) - no separate backend
 - **Database:** Prisma ORM + Vercel Postgres (ONLY)
 - **Auth:** Auth.js v5 with JWT strategy (ONLY)
@@ -59,32 +64,34 @@ NEVER Implement:
 - **Email:** Resend (ONLY)
 
 ### **Pre-Implementation Validation Protocol**
+
 ```typescript
 // MANDATORY: Run before ANY development task
 interface ImplementationValidation {
   techStackCompliance: {
-    nextjsAppRouter: boolean      // Must be true
-    typescriptStrict: boolean     // Must be true
-    vercelOptimized: boolean      // Must be true
-    prismaOrmOnly: boolean        // Must be true
-    authJsV5Pattern: boolean      // Must be true
-  }
+    nextjsAppRouter: boolean; // Must be true
+    typescriptStrict: boolean; // Must be true
+    vercelOptimized: boolean; // Must be true
+    prismaOrmOnly: boolean; // Must be true
+    authJsV5Pattern: boolean; // Must be true
+  };
   performanceTargets: {
-    pageLaoadUnder2s: boolean     // Must be true
-    coreWebVitals: boolean        // Must be true
-    bundleSizeOptimal: boolean    // Must be true
-  }
+    pageLaoadUnder2s: boolean; // Must be true
+    coreWebVitals: boolean; // Must be true
+    bundleSizeOptimal: boolean; // Must be true
+  };
   securityCompliance: {
-    zodValidation: boolean        // Must be true
-    authorizationChecks: boolean  // Must be true
-    sqlInjectionPrevention: boolean // Must be true
-  }
-  accessibilityWCAG: boolean      // Must be true
-  zeroTechnicalDebt: boolean      // Must be true
+    zodValidation: boolean; // Must be true
+    authorizationChecks: boolean; // Must be true
+    sqlInjectionPrevention: boolean; // Must be true
+  };
+  accessibilityWCAG: boolean; // Must be true
+  zeroTechnicalDebt: boolean; // Must be true
 }
 ```
 
 ### Infrastructure & DevOps
+
 - **Cloud Platforms:** AWS, Google Cloud, Azure, Vercel
 - **Containerization:** Docker, Kubernetes, Docker Compose
 - **CI/CD:** GitHub Actions, GitLab CI, Jenkins, CircleCI
@@ -115,7 +122,9 @@ interface ImplementationValidation {
 ### Quality Assurance Framework
 
 #### Testing Strategy
+
 1. **Multi-Layer Testing Pyramid**
+
    ```
    E2E Tests (10%) - Playwright/Cypress
    ├── Integration Tests (20%) - Supertest/Vitest
@@ -130,6 +139,7 @@ interface ImplementationValidation {
    - Production: Smoke tests + monitoring
 
 #### Error Handling & Resilience
+
 1. **Defensive Programming**
    - Input validation at all boundaries
    - Graceful degradation for service failures
@@ -145,16 +155,19 @@ interface ImplementationValidation {
 ### Training Curriculum (Q4 2024 - Q1 2025)
 
 #### Month 1: AI-Driven Development
+
 - Course: "GitHub Copilot for Developers" (GitHub Learning Lab)
 - Workshop: "AI Code Review and Quality Assurance"
 - Certification: "AI-Assisted Software Development" (Coursera)
 
 #### Month 2: Advanced Testing & Quality
+
 - Course: "Advanced Test-Driven Development" (Test Double)
 - Workshop: "Property-Based Testing and Fuzzing"
 - Certification: "ISTQB Advanced Level Test Analyst"
 
 #### Month 3: Performance & Scalability
+
 - Course: "Web Performance Optimization" (Frontend Masters)
 - Workshop: "Kubernetes Performance Tuning"
 - Research: "2025 Web Performance Trends and Techniques"
@@ -162,6 +175,7 @@ interface ImplementationValidation {
 ### Development Standards & Practices
 
 #### Code Organization
+
 ```
 project-structure/
 ├── apps/                    # Application entry points
@@ -179,6 +193,7 @@ project-structure/
 ```
 
 #### Code Quality Standards
+
 1. **TypeScript Configuration**
    - Strict mode enabled with no implicit any
    - Path mapping for clean imports
@@ -192,7 +207,9 @@ project-structure/
    - Commit message linting with conventional commits
 
 #### Git Workflow & Branching Strategy
+
 1. **GitFlow with Feature Branches**
+
    ```
    main (production)
    ├── develop (integration)
@@ -211,6 +228,7 @@ project-structure/
 ### Performance Optimization Strategies
 
 #### Frontend Performance
+
 1. **Core Web Vitals Optimization**
    - Largest Contentful Paint (LCP) < 2.5s
    - First Input Delay (FID) < 100ms
@@ -224,6 +242,7 @@ project-structure/
    - Critical CSS inlining and preloading
 
 #### Backend Performance
+
 1. **Database Optimization**
    - Query optimization and indexing strategies
    - Connection pooling and caching layers
@@ -239,6 +258,7 @@ project-structure/
 ### Security Best Practices
 
 #### Application Security
+
 1. **OWASP Top 10 Compliance**
    - SQL injection prevention
    - Cross-site scripting (XSS) protection
@@ -252,6 +272,7 @@ project-structure/
    - Regular security audits and penetration testing
 
 #### Infrastructure Security
+
 1. **Container Security**
    - Minimal base images and vulnerability scanning
    - Runtime security monitoring
@@ -261,6 +282,7 @@ project-structure/
 ### Team Leadership & Mentoring
 
 #### Development Team Management
+
 1. **Code Review Culture**
    - Constructive feedback and knowledge sharing
    - Pair programming and mob programming sessions
@@ -274,6 +296,7 @@ project-structure/
    - Open source contribution encouragement
 
 #### Continuous Improvement
+
 1. **Retrospectives & Process Optimization**
    - Sprint retrospectives with actionable improvements
    - Development velocity tracking and optimization
@@ -283,18 +306,21 @@ project-structure/
 ### Success Metrics & KPIs
 
 #### Code Quality Metrics
+
 - Code coverage: >90%
 - Cyclomatic complexity: <10 per function
 - Technical debt ratio: <5%
 - Code review turnaround: <24 hours
 
 #### Reliability Metrics
+
 - Application uptime: >99.9%
 - Mean time to recovery (MTTR): <30 minutes
 - Error rate: <0.1% of requests
 - Performance regression: 0 tolerance
 
 #### Team Productivity
+
 - Sprint velocity consistency: ±10%
 - Pull request merge rate: >95%
 - Developer satisfaction: >4.5/5
@@ -303,12 +329,14 @@ project-structure/
 ### Technology Roadmap & Innovation
 
 #### Emerging Technologies
+
 - WebAssembly for performance-critical components
 - Progressive Web Apps (PWA) for mobile experience
 - Edge computing with Cloudflare Workers/Vercel Edge
 - GraphQL Federation for microservices architecture
 
 #### Continuous Learning Plan
+
 - Technical blogs: Martin Fowler, Kent C. Dodds, Dan Abramov
 - Conferences: React Conf, Node.js Interactive, DockerCon
 - Podcasts: Syntax.fm, JavaScript Jabber, The Changelog

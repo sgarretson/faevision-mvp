@@ -1,7 +1,7 @@
-import { NextRequest, NextResponse } from 'next/server'
-import { auth } from '@/lib/auth'
-import { prisma } from '@/lib/prisma'
-import { z } from 'zod'
+import { NextRequest, NextResponse } from 'next/server';
+import { auth } from '@/lib/auth';
+import { prisma } from '@/lib/prisma';
+import { z } from 'zod';
 
 const createInputSchema = z.object({
   title: z
@@ -14,23 +14,28 @@ const createInputSchema = z.object({
     .max(2000, 'Description must be less than 2000 characters'),
   type: z.enum(['PROBLEM', 'OPPORTUNITY', 'GENERAL']),
   department: z.string().optional(),
-  issueType: z.enum(['PROCESS', 'TECHNOLOGY', 'COMMUNICATION', 'RESOURCE', 'OTHER']).optional(),
-  rootCause: z.string().max(500, 'Root cause must be less than 500 characters').optional(),
+  issueType: z
+    .enum(['PROCESS', 'TECHNOLOGY', 'COMMUNICATION', 'RESOURCE', 'OTHER'])
+    .optional(),
+  rootCause: z
+    .string()
+    .max(500, 'Root cause must be less than 500 characters')
+    .optional(),
   priority: z.enum(['LOW', 'MEDIUM', 'HIGH']).default('MEDIUM'),
-})
+});
 
 export async function POST(request: NextRequest) {
   try {
     // Check authentication
-    const session = await auth()
+    const session = await auth();
     if (!session?.user?.id) {
-      return NextResponse.json({ error: 'Unauthorized' }, { status: 401 })
+      return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
     }
 
-    const body = await request.json()
+    const body = await request.json();
 
     // Validate input data
-    const validatedData = createInputSchema.parse(body)
+    const validatedData = createInputSchema.parse(body);
 
     // Create the input
     const input = await prisma.input.create({
@@ -57,7 +62,7 @@ export async function POST(request: NextRequest) {
           },
         },
       },
-    })
+    });
 
     // Log the creation for audit
     await (prisma as any).auditLog.create({
@@ -72,15 +77,15 @@ export async function POST(request: NextRequest) {
           department: input.department,
         },
       },
-    })
+    });
 
     return NextResponse.json({
       success: true,
       input,
       message: 'Input created successfully',
-    })
+    });
   } catch (error) {
-    console.error('Input creation error:', error)
+    console.error('Input creation error:', error);
 
     if (error instanceof z.ZodError) {
       return NextResponse.json(
@@ -89,7 +94,7 @@ export async function POST(request: NextRequest) {
           details: error.issues,
         },
         { status: 400 }
-      )
+      );
     }
 
     return NextResponse.json(
@@ -97,30 +102,30 @@ export async function POST(request: NextRequest) {
         error: 'Internal server error',
       },
       { status: 500 }
-    )
+    );
   }
 }
 
 export async function GET(request: NextRequest) {
   try {
     // Check authentication
-    const session = await auth()
+    const session = await auth();
     if (!session?.user?.id) {
-      return NextResponse.json({ error: 'Unauthorized' }, { status: 401 })
+      return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
     }
 
-    const { searchParams } = new URL(request.url)
-    const status = searchParams.get('status')
-    const type = searchParams.get('type')
-    const department = searchParams.get('department')
-    const limit = parseInt(searchParams.get('limit') || '50')
-    const offset = parseInt(searchParams.get('offset') || '0')
+    const { searchParams } = new URL(request.url);
+    const status = searchParams.get('status');
+    const type = searchParams.get('type');
+    const department = searchParams.get('department');
+    const limit = parseInt(searchParams.get('limit') || '50');
+    const offset = parseInt(searchParams.get('offset') || '0');
 
     // Build where clause
-    const where: Record<string, unknown> = {}
-    if (status) where.status = status
-    if (type) where.type = type
-    if (department) where.department = department
+    const where: Record<string, unknown> = {};
+    if (status) where.status = status;
+    if (type) where.type = type;
+    if (department) where.department = department;
 
     // Get inputs with creator info
     const inputs = await prisma.input.findMany({
@@ -147,10 +152,10 @@ export async function GET(request: NextRequest) {
       },
       take: limit,
       skip: offset,
-    })
+    });
 
     // Get total count for pagination
-    const totalCount = await prisma.input.count({ where })
+    const totalCount = await prisma.input.count({ where });
 
     return NextResponse.json({
       inputs,
@@ -160,14 +165,14 @@ export async function GET(request: NextRequest) {
         offset,
         hasMore: offset + limit < totalCount,
       },
-    })
+    });
   } catch (error) {
-    console.error('Input fetch error:', error)
+    console.error('Input fetch error:', error);
     return NextResponse.json(
       {
         error: 'Internal server error',
       },
       { status: 500 }
-    )
+    );
   }
 }

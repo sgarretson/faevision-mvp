@@ -1,33 +1,42 @@
-'use client'
+'use client';
 
-import { useState } from 'react'
-import Link from 'next/link'
-import { usePathname } from 'next/navigation'
-import { useSession, signOut } from 'next-auth/react'
-import { Button } from '@/components/ui/button'
-import { BarChart3, Target, Plus, User, LogOut, Menu, X, Lightbulb } from 'lucide-react'
-import { cn } from '@/lib/utils'
+import { useState } from 'react';
+import Link from 'next/link';
+import { usePathname } from 'next/navigation';
+import { useSession, signOut } from 'next-auth/react';
+import { Button } from '@/components/ui/button';
+import {
+  BarChart3,
+  Target,
+  Plus,
+  User,
+  LogOut,
+  Menu,
+  X,
+  Lightbulb,
+} from 'lucide-react';
+import { cn } from '@/lib/utils';
 
 const navigation = [
   { name: 'Dashboard', href: '/dashboard', icon: BarChart3 },
   { name: 'Strategic Inputs', href: '/inputs', icon: Target },
   { name: 'Solutions', href: '/solutions', icon: Lightbulb },
   { name: 'Create Input', href: '/inputs/create', icon: Plus },
-]
+];
 
 export function Navigation() {
-  const [mobileMenuOpen, setMobileMenuOpen] = useState(false)
-  const pathname = usePathname()
-  const { data: session, status } = useSession()
+  const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
+  const pathname = usePathname();
+  const { data: session, status } = useSession();
 
   // Don't show navigation on login/signup pages or home page
   if (pathname === '/login' || pathname === '/signup' || pathname === '/') {
-    return null
+    return null;
   }
 
   const handleSignOut = async () => {
-    await signOut({ callbackUrl: '/' })
-  }
+    await signOut({ callbackUrl: '/' });
+  };
 
   return (
     <nav className="border-b bg-white shadow-sm">
@@ -46,9 +55,9 @@ export function Navigation() {
 
             {/* Desktop navigation */}
             <div className="hidden md:ml-6 md:flex md:space-x-8">
-              {navigation.map((item) => {
-                const isActive = pathname === item.href
-                const Icon = item.icon
+              {navigation.map(item => {
+                const isActive = pathname === item.href;
+                const Icon = item.icon;
 
                 return (
                   <Link
@@ -64,7 +73,7 @@ export function Navigation() {
                     <Icon className="mr-2 h-4 w-4" />
                     {item.name}
                   </Link>
-                )
+                );
               })}
             </div>
           </div>
@@ -82,8 +91,12 @@ export function Navigation() {
                     </div>
                   </div>
                   <div className="flex flex-col">
-                    <span className="text-sm font-medium text-gray-900">{session.user?.name}</span>
-                    <span className="text-xs text-gray-500">{session.user?.role}</span>
+                    <span className="text-sm font-medium text-gray-900">
+                      {session.user?.name}
+                    </span>
+                    <span className="text-xs text-gray-500">
+                      {session.user?.role}
+                    </span>
                   </div>
                 </div>
 
@@ -133,9 +146,9 @@ export function Navigation() {
       {mobileMenuOpen && (
         <div className="md:hidden">
           <div className="space-y-1 pb-3 pt-2">
-            {navigation.map((item) => {
-              const isActive = pathname === item.href
-              const Icon = item.icon
+            {navigation.map(item => {
+              const isActive = pathname === item.href;
+              const Icon = item.icon;
 
               return (
                 <Link
@@ -152,7 +165,7 @@ export function Navigation() {
                   <Icon className="mr-3 h-5 w-5" />
                   {item.name}
                 </Link>
-              )
+              );
             })}
           </div>
 
@@ -167,12 +180,20 @@ export function Navigation() {
                     </div>
                   </div>
                   <div className="ml-3">
-                    <div className="text-base font-medium text-gray-800">{session.user?.name}</div>
-                    <div className="text-sm font-medium text-gray-500">{session.user?.email}</div>
+                    <div className="text-base font-medium text-gray-800">
+                      {session.user?.name}
+                    </div>
+                    <div className="text-sm font-medium text-gray-500">
+                      {session.user?.email}
+                    </div>
                   </div>
                 </div>
 
-                <Button variant="outline" className="w-full justify-start" onClick={handleSignOut}>
+                <Button
+                  variant="outline"
+                  className="w-full justify-start"
+                  onClick={handleSignOut}
+                >
                   <LogOut className="mr-2 h-4 w-4" />
                   Sign out
                 </Button>
@@ -193,5 +214,5 @@ export function Navigation() {
         </div>
       )}
     </nav>
-  )
+  );
 }

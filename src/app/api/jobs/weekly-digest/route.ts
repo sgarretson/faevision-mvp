@@ -4,24 +4,27 @@ import { sendExecutiveDigest } from '@/lib/email/digest';
 
 /**
  * Weekly Executive Digest Background Job
- * 
+ *
  * Runs every Monday at 8am to send executive summary:
  * - Top 5 hotspots by ranking
- * - Weekly metrics and trends  
+ * - Weekly metrics and trends
  * - Key performance indicators
  * - Action items requiring executive attention
- * 
+ *
  * Expert: Sarah Chen (Product Manager)
  * Support: Dr. Priya Patel (AI Architect)
  */
 
 export async function POST(request: NextRequest) {
   console.log('📧 Starting Weekly Executive Digest Job...');
-  
+
   try {
     // Check authorization for production
     const cronSecret = request.headers.get('authorization');
-    if (process.env.VERCEL_ENV === 'production' && cronSecret !== `Bearer ${process.env.CRON_SECRET}`) {
+    if (
+      process.env.VERCEL_ENV === 'production' &&
+      cronSecret !== `Bearer ${process.env.CRON_SECRET}`
+    ) {
       return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
     }
 
@@ -31,7 +34,7 @@ export async function POST(request: NextRequest) {
     // Get executive users
     const executives = await prisma.user.findMany({
       where: { role: 'EXECUTIVE' },
-      select: { id: true, email: true, name: true, department: true }
+      select: { id: true, email: true, name: true, department: true },
     });
 
     if (executives.length === 0) {
@@ -39,14 +42,16 @@ export async function POST(request: NextRequest) {
       return NextResponse.json({
         success: true,
         sent: 0,
-        message: 'No executive users to notify'
+        message: 'No executive users to notify',
       });
     }
 
     // Gather digest data
     const digestData = await gatherDigestData(weekAgo);
-    
-    console.log(`  📊 Digest data prepared: ${digestData.topHotspots.length} hotspots, ${digestData.weeklyMetrics.newSignals} new signals`);
+
+    console.log(
+      `  📊 Digest data prepared: ${digestData.topHotspots.length} hotspots, ${digestData.weeklyMetrics.newSignals} new signals`
+    );
 
     // Send digest to each executive
     let emailsSent = 0;
@@ -54,20 +59,28 @@ export async function POST(request: NextRequest) {
 
     for (const executive of executives) {
       try {
-        await sendExecutiveDigest({
-          ...executive,
-          department: executive.department || undefined
-        }, digestData);
+        await sendExecutiveDigest(
+          {
+            ...executive,
+            department: executive.department || undefined,
+          },
+          digestData
+        );
         emailsSent++;
         console.log(`    ✅ Digest sent to ${executive.email}`);
       } catch (error) {
         failures.push(executive.email);
-        console.error(`    ❌ Failed to send digest to ${executive.email}:`, error);
+        console.error(
+          `    ❌ Failed to send digest to ${executive.email}:`,
+          error
+        );
       }
     }
 
     const duration = Date.now() - startTime;
-    console.log(`  🎉 Weekly digest complete: ${emailsSent} sent, ${failures.length} failed in ${duration}ms`);
+    console.log(
+      `  🎉 Weekly digest complete: ${emailsSent} sent, ${failures.length} failed in ${duration}ms`
+    );
 
     return NextResponse.json({
       success: true,
@@ -77,20 +90,22 @@ export async function POST(request: NextRequest) {
       digestData: {
         hotspotsCount: digestData.topHotspots.length,
         newSignals: digestData.weeklyMetrics.newSignals,
-        completedSolutions: digestData.weeklyMetrics.completedSolutions
+        completedSolutions: digestData.weeklyMetrics.completedSolutions,
       },
       duration: `${duration}ms`,
-      timestamp: new Date().toISOString()
+      timestamp: new Date().toISOString(),
     });
-
   } catch (error) {
     console.error('❌ Weekly Digest Job failed:', error);
-    
-    return NextResponse.json({
-      success: false,
-      error: error instanceof Error ? error.message : 'Unknown error',
-      timestamp: new Date().toISOString()
-    }, { status: 500 });
+
+    return NextResponse.json(
+      {
+        success: false,
+        error: error instanceof Error ? error.message : 'Unknown error',
+        timestamp: new Date().toISOString(),
+      },
+      { status: 500 }
+    );
   }
 }
 
@@ -107,7 +122,7 @@ async function gatherDigestData(weekAgo: Date) {
       take: 5,
       orderBy: { rankScore: 'desc' },
       where: {
-        status: { in: ['OPEN', 'APPROVED'] }
+        status: { in: ['OPEN', 'APPROVED'] },
       },
       include: {
         signals: {
@@ -118,12 +133,12 @@ async function gatherDigestData(weekAgo: Date) {
                 title: true,
                 description: true,
                 severity: true,
-                department: true
-              }
-            }
-          }
-        }
-      }
+                department: true,
+              },
+            },
+          },
+        },
+      },
     });
   } catch (error) {
     // Fallback for legacy schema
@@ -132,10 +147,10 @@ async function gatherDigestData(weekAgo: Date) {
 
   // Get weekly metrics
   const weeklyMetrics = await gatherWeeklyMetrics(weekAgo);
-  
+
   // Get department breakdown
   const departmentBreakdown = await gatherDepartmentBreakdown(weekAgo);
-  
+
   // Get key trends
   const keyTrends = await identifyKeyTrends(weekAgo);
 
@@ -147,8 +162,8 @@ async function gatherDigestData(weekAgo: Date) {
     generatedAt: new Date().toISOString(),
     period: {
       from: weekAgo.toISOString(),
-      to: new Date().toISOString()
-    }
+      to: new Date().toISOString(),
+    },
   };
 }
 
@@ -160,50 +175,52 @@ async function gatherWeeklyMetrics(weekAgo: Date) {
     // Try V2 Signal model first
     const [newSignals, totalSignals, processedSignals] = await Promise.all([
       (prisma as any).signal.count({
-        where: { receivedAt: { gte: weekAgo } }
+        where: { receivedAt: { gte: weekAgo } },
       }),
       (prisma as any).signal.count(),
       (prisma as any).signal.count({
-        where: { aiProcessed: true }
-      })
+        where: { aiProcessed: true },
+      }),
     ]);
 
     const [completedSolutions, totalSolutions] = await Promise.all([
       (prisma as any).solution.count({
-        where: { 
+        where: {
           status: 'IMPLEMENTED',
-          updatedAt: { gte: weekAgo }
-        }
+          updatedAt: { gte: weekAgo },
+        },
       }),
-      (prisma as any).solution.count()
+      (prisma as any).solution.count(),
     ]);
 
     return {
       newSignals,
       totalSignals,
       processedSignals,
-      processingRate: totalSignals > 0 ? (processedSignals / totalSignals) * 100 : 0,
+      processingRate:
+        totalSignals > 0 ? (processedSignals / totalSignals) * 100 : 0,
       completedSolutions,
       totalSolutions,
-      completionRate: totalSolutions > 0 ? (completedSolutions / totalSolutions) * 100 : 0
+      completionRate:
+        totalSolutions > 0 ? (completedSolutions / totalSolutions) * 100 : 0,
     };
   } catch (error) {
     // Fallback to legacy Input model
     const [newInputs, totalInputs] = await Promise.all([
       prisma.input.count({
-        where: { createdAt: { gte: weekAgo } }
+        where: { createdAt: { gte: weekAgo } },
       }),
-      prisma.input.count()
+      prisma.input.count(),
     ]);
 
     const [completedSolutions, totalSolutions] = await Promise.all([
       (prisma as any).solution.count({
-        where: { 
+        where: {
           status: 'IMPLEMENTED',
-          updatedAt: { gte: weekAgo }
-        }
+          updatedAt: { gte: weekAgo },
+        },
       }),
-      (prisma as any).solution.count()
+      (prisma as any).solution.count(),
     ]);
 
     return {
@@ -213,7 +230,8 @@ async function gatherWeeklyMetrics(weekAgo: Date) {
       processingRate: 100,
       completedSolutions,
       totalSolutions,
-      completionRate: totalSolutions > 0 ? (completedSolutions / totalSolutions) * 100 : 0
+      completionRate:
+        totalSolutions > 0 ? (completedSolutions / totalSolutions) * 100 : 0,
     };
   }
 }
@@ -227,34 +245,34 @@ async function gatherDepartmentBreakdown(weekAgo: Date) {
     const departmentStats = await (prisma as any).signal.groupBy({
       by: ['departmentId'],
       where: { receivedAt: { gte: weekAgo } },
-      _count: { id: true }
+      _count: { id: true },
     });
 
     const departments = await (prisma as any).department.findMany({
-      select: { id: true, name: true }
+      select: { id: true, name: true },
     });
 
     return departmentStats.map((stat: any) => {
       const dept = departments.find((d: any) => d.id === stat.departmentId);
       return {
         department: dept?.name || 'Unknown',
-        signalCount: stat._count.id
+        signalCount: stat._count.id,
       };
     });
   } catch (error) {
     // Fallback to legacy department field
     const departmentStats = await prisma.input.groupBy({
       by: ['department'],
-      where: { 
+      where: {
         createdAt: { gte: weekAgo },
-        department: { not: null }
+        department: { not: null },
       },
-      _count: { id: true }
+      _count: { id: true },
     });
 
     return departmentStats.map((stat: any) => ({
       department: stat.department || 'Unknown',
-      signalCount: stat._count.id
+      signalCount: stat._count.id,
     }));
   }
 }
@@ -270,18 +288,21 @@ async function identifyKeyTrends(weekAgo: Date) {
     const severityTrends = await (prisma as any).signal.groupBy({
       by: ['severity'],
       where: { receivedAt: { gte: weekAgo } },
-      _count: { id: true }
+      _count: { id: true },
     });
 
-    const criticalCount = severityTrends.find((t: any) => t.severity === 'CRITICAL')?._count.id || 0;
-    const highCount = severityTrends.find((t: any) => t.severity === 'HIGH')?._count.id || 0;
-    
+    const criticalCount =
+      severityTrends.find((t: any) => t.severity === 'CRITICAL')?._count.id ||
+      0;
+    const highCount =
+      severityTrends.find((t: any) => t.severity === 'HIGH')?._count.id || 0;
+
     if (criticalCount > 0) {
       trends.push({
         type: 'alert',
         title: 'Critical Issues Detected',
         description: `${criticalCount} critical severity signals this week`,
-        priority: 'high'
+        priority: 'high',
       });
     }
 
@@ -290,16 +311,16 @@ async function identifyKeyTrends(weekAgo: Date) {
         type: 'warning',
         title: 'High Volume of High-Priority Issues',
         description: `${highCount} high severity signals may indicate systemic issues`,
-        priority: 'medium'
+        priority: 'medium',
       });
     }
 
     // Check for clustering activity
     const activeHotspots = await (prisma as any).hotspot.count({
-      where: { 
+      where: {
         status: 'OPEN',
-        updatedAt: { gte: weekAgo }
-      }
+        updatedAt: { gte: weekAgo },
+      },
     });
 
     if (activeHotspots > 3) {
@@ -307,10 +328,9 @@ async function identifyKeyTrends(weekAgo: Date) {
         type: 'info',
         title: 'Multiple Active Hotspots',
         description: `${activeHotspots} hotspots require executive attention`,
-        priority: 'medium'
+        priority: 'medium',
       });
     }
-
   } catch (error) {
     // Fallback analysis with legacy data
     console.log('    ⚠️ Using legacy data for trend analysis');
@@ -321,5 +341,9 @@ async function identifyKeyTrends(weekAgo: Date) {
 
 // Allow manual triggering for testing
 export async function GET() {
-  return POST(new NextRequest('http://localhost/api/jobs/weekly-digest', { method: 'POST' }));
+  return POST(
+    new NextRequest('http://localhost/api/jobs/weekly-digest', {
+      method: 'POST',
+    })
+  );
 }

@@ -3,12 +3,12 @@ import { generateText, embed } from 'ai';
 
 /**
  * AI Signal Processing Utilities
- * 
+ *
  * Handles AI enhancement of signals for FAEVision V2:
  * - OpenAI embeddings for clustering
  * - Entity extraction for A&E industry
  * - Auto-tagging with confidence scoring
- * 
+ *
  * Expert: Dr. Priya Patel (AI Architect)
  * Vercel AI SDK integration for 100% platform compatibility
  */
@@ -26,7 +26,7 @@ export async function generateEmbedding(text: string): Promise<number[]> {
       model: openai.embedding('text-embedding-ada-002'),
       value: text,
     });
-    
+
     return embedding;
   } catch (error) {
     console.error('Embedding generation failed:', error);
@@ -70,12 +70,12 @@ Return format:
   {"type": "trade", "name": "electrical", "confidence": 0.95}
 ]
 
-If no entities found, return empty array []`
+If no entities found, return empty array []`,
         },
         {
           role: 'user',
-          content: `Extract entities from this A&E signal: "${description}"`
-        }
+          content: `Extract entities from this A&E signal: "${description}"`,
+        },
       ],
       temperature: 0.1, // Low temperature for consistent extraction
     });
@@ -99,7 +99,10 @@ If no entities found, return empty array []`
 /**
  * Generate AI tags for strategic categorization
  */
-export async function generateTags(description: string, entities: any[]): Promise<any> {
+export async function generateTags(
+  description: string,
+  entities: any[]
+): Promise<any> {
   try {
     const { text } = await generateText({
       model: openai('gpt-3.5-turbo'),
@@ -130,12 +133,12 @@ Return format:
   "reasoning": "Clear construction quality issue requiring immediate attention"
 }
 
-Consider the extracted entities: ${JSON.stringify(entities)}`
+Consider the extracted entities: ${JSON.stringify(entities)}`,
         },
         {
           role: 'user',
-          content: `Classify this A&E signal: "${description}"`
-        }
+          content: `Classify this A&E signal: "${description}"`,
+        },
       ],
       temperature: 0.2, // Low temperature for consistent classification
     });
@@ -193,12 +196,16 @@ export function cosineSimilarity(a: number[], b: number[]): number {
  */
 export async function analyzeHotspotPotential(signals: any[]): Promise<any> {
   if (signals.length < 2) {
-    return { shouldGroup: false, confidence: 0, reasoning: 'Insufficient signals' };
+    return {
+      shouldGroup: false,
+      confidence: 0,
+      reasoning: 'Insufficient signals',
+    };
   }
 
   try {
     const signalDescriptions = signals.map(s => s.description).join('\n---\n');
-    
+
     const { text } = await generateText({
       model: openai('gpt-3.5-turbo'),
       messages: [
@@ -222,12 +229,12 @@ Return format:
   "reasoning": "Multiple quality issues from same subcontractor indicating training gap",
   "suggested_title": "Framing Quality Control Issues - ABC Construction",
   "impact_assessment": "High - affecting multiple units and timeline"
-}`
+}`,
         },
         {
           role: 'user',
-          content: `Analyze these signals for hotspot potential:\n\n${signalDescriptions}`
-        }
+          content: `Analyze these signals for hotspot potential:\n\n${signalDescriptions}`,
+        },
       ],
       temperature: 0.3,
     });
@@ -236,11 +243,19 @@ Return format:
       return JSON.parse(text);
     } catch (parseError) {
       console.error('Hotspot analysis JSON parse failed:', parseError);
-      return { should_group: false, confidence: 0.2, reasoning: 'Analysis failed' };
+      return {
+        should_group: false,
+        confidence: 0.2,
+        reasoning: 'Analysis failed',
+      };
     }
   } catch (error) {
     console.error('Hotspot analysis failed:', error);
-    return { should_group: false, confidence: 0.1, reasoning: 'AI processing failed' };
+    return {
+      should_group: false,
+      confidence: 0.1,
+      reasoning: 'AI processing failed',
+    };
   }
 }
 
@@ -251,7 +266,10 @@ Return format:
 /**
  * Generate solution suggestions for hotspots
  */
-export async function generateSolutionSuggestions(hotspotDescription: string, signals: any[]): Promise<any> {
+export async function generateSolutionSuggestions(
+  hotspotDescription: string,
+  signals: any[]
+): Promise<any> {
   try {
     const { text } = await generateText({
       model: openai('gpt-4'),
@@ -283,12 +301,12 @@ Return format:
     }
   ],
   "overall_confidence": 0.8
-}`
+}`,
         },
         {
           role: 'user',
-          content: `Generate solutions for this hotspot: "${hotspotDescription}"\n\nRelated signals: ${JSON.stringify(signals.map(s => ({title: s.title, description: s.description})))}`
-        }
+          content: `Generate solutions for this hotspot: "${hotspotDescription}"\n\nRelated signals: ${JSON.stringify(signals.map(s => ({ title: s.title, description: s.description })))}`,
+        },
       ],
       temperature: 0.4,
     });

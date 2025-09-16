@@ -1,0 +1,46 @@
+#!/usr/bin/env sh
+. "$(dirname -- "$0")/_/husky.sh"
+
+# FAEVision Pre-Commit TypeScript Safety Hooks
+# Expert: TypeScript Expert (Morgan Taylor)
+# Mission: Prevent TypeScript strict mode violations from reaching repository
+
+echo "🔍 FAEVision Pre-Commit Validation"
+echo "👨‍💻 TypeScript Expert: Conducting safety checks..."
+
+# 1. TypeScript strict mode validation
+echo "\n🔬 Running TypeScript strict mode audit..."
+npx tsc --noEmit --strict
+if [ $? -ne 0 ]; then
+  echo "❌ TypeScript strict mode validation FAILED"
+  echo "🚨 Fix TypeScript errors before committing"
+  exit 1
+fi
+
+# 2. ESLint validation
+echo "\n🔍 Running ESLint validation..."
+npx eslint src/ --ext .ts,.tsx --max-warnings 0
+if [ $? -ne 0 ]; then
+  echo "❌ ESLint validation FAILED"
+  echo "🚨 Fix linting errors before committing"
+  exit 1
+fi
+
+# 3. Format check
+echo "\n✨ Checking code formatting..."
+npm run format:check
+if [ $? -ne 0 ]; then
+  echo "❌ Code formatting check FAILED"
+  echo "💡 Run 'npm run format' to fix formatting"
+  exit 1
+fi
+
+# 4. Quick iterator compatibility check
+echo "\n🔄 Checking for iterator compatibility issues..."
+if grep -r "for (const .* of .*\.keys())" src/ --include="*.ts" --include="*.tsx"; then
+  echo "⚠️  WARNING: Potential iterator compatibility issues found"
+  echo "💡 Consider using Array.from(obj.keys()) instead"
+fi
+
+echo "✅ All pre-commit checks passed!"
+echo "🚀 Safe to commit - TypeScript Expert approval granted"

@@ -57,7 +57,6 @@ async function seedPreviewUsers() {
 
     console.log(`✅ Created ${users.length} users successfully`);
     console.log('Users:', users.map(u => u.email).join(', '));
-
   } catch (error) {
     console.error('❌ Error seeding users:', error);
     throw error;
@@ -66,8 +65,7 @@ async function seedPreviewUsers() {
   }
 }
 
-seedPreviewUsers()
-  .catch((e) => {
-    console.error(e);
-    process.exit(1);
-  });
+seedPreviewUsers().catch(e => {
+  console.error(e);
+  process.exit(1);
+});

@@ -1,16 +1,20 @@
 import { NextRequest, NextResponse } from 'next/server';
-import { ExecutiveWorkflowTester, runPerformanceBenchmarks, generateTestReport } from '@/lib/testing/production-testing';
+import {
+  ExecutiveWorkflowTester,
+  runPerformanceBenchmarks,
+  generateTestReport,
+} from '@/lib/testing/production-testing';
 import { getCacheStats } from '@/lib/performance/optimization';
 
 /**
  * Production Readiness Check API
- * 
+ *
  * Comprehensive production deployment readiness validation:
  * - Executive workflow testing
  * - Performance benchmark validation
  * - System health verification
  * - Production configuration checks
- * 
+ *
  * Expert: Alex Thompson (Lead Developer)
  * Support: Jordan Kim (Vercel Engineer)
  */
@@ -18,7 +22,7 @@ import { getCacheStats } from '@/lib/performance/optimization';
 export async function POST(request: NextRequest) {
   try {
     console.log('🚀 Starting production readiness check...');
-    
+
     const startTime = Date.now();
     const body = await request.json().catch(() => ({}));
     const { includeFullTests = true, baseUrl = '' } = body;
@@ -35,8 +39,8 @@ export async function POST(request: NextRequest) {
       overall: {
         ready: false,
         score: 0,
-        issues: [] as string[]
-      }
+        issues: [] as string[],
+      },
     };
 
     // Run performance benchmarks
@@ -55,11 +59,15 @@ export async function POST(request: NextRequest) {
     readinessResults.overall = overallAssessment;
 
     const duration = Date.now() - startTime;
-    
+
     // Generate detailed report
-    const report = includeFullTests && readinessResults.workflowCheck
-      ? generateTestReport(readinessResults.workflowCheck, readinessResults.performanceCheck)
-      : generateBasicReport(readinessResults);
+    const report =
+      includeFullTests && readinessResults.workflowCheck
+        ? generateTestReport(
+            readinessResults.workflowCheck,
+            readinessResults.performanceCheck
+          )
+        : generateBasicReport(readinessResults);
 
     console.log(`  ✅ Production readiness check complete in ${duration}ms`);
     console.log(`  📊 Overall readiness score: ${overallAssessment.score}%`);
@@ -72,20 +80,23 @@ export async function POST(request: NextRequest) {
         ready: overallAssessment.ready,
         score: overallAssessment.score,
         duration: `${duration}ms`,
-        issues: overallAssessment.issues
+        issues: overallAssessment.issues,
       },
-      timestamp: new Date().toISOString()
+      timestamp: new Date().toISOString(),
     });
-
   } catch (error) {
     console.error('❌ Production readiness check failed:', error);
-    
-    return NextResponse.json({
-      success: false,
-      error: error instanceof Error ? error.message : 'Readiness check failed',
-      ready: false,
-      timestamp: new Date().toISOString()
-    }, { status: 500 });
+
+    return NextResponse.json(
+      {
+        success: false,
+        error:
+          error instanceof Error ? error.message : 'Readiness check failed',
+        ready: false,
+        timestamp: new Date().toISOString(),
+      },
+      { status: 500 }
+    );
   }
 }
 
@@ -101,7 +112,7 @@ async function checkProductionConfiguration() {
     databaseUrl: !!process.env.DATABASE_URL,
     openaiApiKey: !!process.env.OPENAI_API_KEY,
     resendApiKey: !!process.env.RESEND_API_KEY,
-    cronSecret: !!process.env.CRON_SECRET
+    cronSecret: !!process.env.CRON_SECRET,
   };
 
   const passed = Object.values(checks).filter(Boolean).length;
@@ -114,7 +125,7 @@ async function checkProductionConfiguration() {
     total,
     issues: Object.entries(checks)
       .filter(([_, value]) => !value)
-      .map(([key]) => `Missing or invalid: ${key}`)
+      .map(([key]) => `Missing or invalid: ${key}`),
   };
 }
 
@@ -124,16 +135,12 @@ async function checkProductionConfiguration() {
 async function checkEnvironmentVariables() {
   const requiredVars = [
     'DATABASE_URL',
-    'NEXTAUTH_SECRET', 
+    'NEXTAUTH_SECRET',
     'NEXTAUTH_URL',
-    'OPENAI_API_KEY'
+    'OPENAI_API_KEY',
   ];
 
-  const optionalVars = [
-    'RESEND_API_KEY',
-    'CRON_SECRET',
-    'VERCEL_URL'
-  ];
+  const optionalVars = ['RESEND_API_KEY', 'CRON_SECRET', 'VERCEL_URL'];
 
   const requiredMissing = requiredVars.filter(varName => !process.env[varName]);
   const optionalMissing = optionalVars.filter(varName => !process.env[varName]);
@@ -142,15 +149,17 @@ async function checkEnvironmentVariables() {
     required: {
       total: requiredVars.length,
       present: requiredVars.length - requiredMissing.length,
-      missing: requiredMissing
+      missing: requiredMissing,
     },
     optional: {
       total: optionalVars.length,
       present: optionalVars.length - optionalMissing.length,
-      missing: optionalMissing
+      missing: optionalMissing,
     },
     score: requiredMissing.length === 0 ? 100 : 0,
-    issues: requiredMissing.map(varName => `Required environment variable missing: ${varName}`)
+    issues: requiredMissing.map(
+      varName => `Required environment variable missing: ${varName}`
+    ),
   };
 }
 
@@ -165,12 +174,12 @@ async function checkDependencies() {
       'next',
       'react',
       'ai',
-      'lucide-react'
+      'lucide-react',
     ];
 
     const dependencyStatus = {
       available: [] as string[],
-      missing: [] as string[]
+      missing: [] as string[],
     };
 
     for (const dep of criticalDependencies) {
@@ -182,19 +191,21 @@ async function checkDependencies() {
       }
     }
 
-    const score = (dependencyStatus.available.length / criticalDependencies.length) * 100;
+    const score =
+      (dependencyStatus.available.length / criticalDependencies.length) * 100;
 
     return {
       dependencies: dependencyStatus,
       score,
-      issues: dependencyStatus.missing.map(dep => `Missing critical dependency: ${dep}`)
+      issues: dependencyStatus.missing.map(
+        dep => `Missing critical dependency: ${dep}`
+      ),
     };
-
   } catch (error) {
     return {
       dependencies: { available: [], missing: [] },
       score: 0,
-      issues: ['Dependency check failed']
+      issues: ['Dependency check failed'],
     };
   }
 }
@@ -205,10 +216,12 @@ async function checkDependencies() {
 async function checkSecurityConfiguration() {
   const securityChecks = {
     httpsEnforced: process.env.NEXTAUTH_URL?.startsWith('https://') || false,
-    secretsConfigured: !!(process.env.NEXTAUTH_SECRET && process.env.CRON_SECRET),
+    secretsConfigured: !!(
+      process.env.NEXTAUTH_SECRET && process.env.CRON_SECRET
+    ),
     productionEnv: process.env.NODE_ENV === 'production',
     corsConfigured: true, // Would check CORS settings in production
-    rateLimit: true // Would check rate limiting configuration
+    rateLimit: true, // Would check rate limiting configuration
   };
 
   const passed = Object.values(securityChecks).filter(Boolean).length;
@@ -220,7 +233,7 @@ async function checkSecurityConfiguration() {
     score,
     issues: Object.entries(securityChecks)
       .filter(([_, value]) => !value)
-      .map(([key]) => `Security issue: ${key}`)
+      .map(([key]) => `Security issue: ${key}`),
   };
 }
 
@@ -230,11 +243,11 @@ async function checkSecurityConfiguration() {
 function calculateReadinessScore(results: any) {
   const weights = {
     configuration: 0.25,
-    environment: 0.20,
+    environment: 0.2,
     dependencies: 0.15,
-    security: 0.20,
-    performance: 0.10,
-    workflow: 0.10
+    security: 0.2,
+    performance: 0.1,
+    workflow: 0.1,
   };
 
   let totalScore = 0;
@@ -271,13 +284,15 @@ function calculateReadinessScore(results: any) {
 
   // Performance score
   if (results.performanceCheck) {
-    const perfPassed = results.performanceCheck.filter((b: any) => b.passed).length;
+    const perfPassed = results.performanceCheck.filter(
+      (b: any) => b.passed
+    ).length;
     const perfTotal = results.performanceCheck.length;
     const perfScore = perfTotal > 0 ? (perfPassed / perfTotal) * 100 : 0;
-    
+
     totalScore += perfScore * weights.performance;
     totalWeight += weights.performance;
-    
+
     if (perfScore < 80) {
       issues.push('Performance benchmarks below 80% pass rate');
     }
@@ -285,10 +300,12 @@ function calculateReadinessScore(results: any) {
 
   // Workflow score
   if (results.workflowCheck) {
-    const workflowScore = (results.workflowCheck.passedTests / results.workflowCheck.totalTests) * 100;
+    const workflowScore =
+      (results.workflowCheck.passedTests / results.workflowCheck.totalTests) *
+      100;
     totalScore += workflowScore * weights.workflow;
     totalWeight += weights.workflow;
-    
+
     if (workflowScore < 90) {
       issues.push('Executive workflow tests below 90% pass rate');
     }
@@ -300,7 +317,7 @@ function calculateReadinessScore(results: any) {
   return {
     ready,
     score: finalScore,
-    issues: issues.slice(0, 10) // Limit to top 10 issues
+    issues: issues.slice(0, 10), // Limit to top 10 issues
   };
 }
 
@@ -332,9 +349,13 @@ function generateBasicReport(results: any): string {
 - **Overall Score:** ${results.overall.score}%
 - **Issues:** ${results.overall.issues.length}
 
-${results.overall.issues.length > 0 ? `
+${
+  results.overall.issues.length > 0
+    ? `
 ### Issues to Resolve:
 ${results.overall.issues.map((issue: string) => `- ${issue}`).join('\n')}
-` : ''}
+`
+    : ''
+}
   `;
 }

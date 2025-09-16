@@ -3,7 +3,7 @@
     {
       "email": "sarah.chen@faevision.com",
       "name": "Sarah Chen",
-      "role": "EXECUTIVE", 
+      "role": "EXECUTIVE",
       "department": "Strategy",
       "title": "Chief Strategy Officer"
     },
@@ -11,7 +11,7 @@
       "email": "marcus.rodriguez@faevision.com",
       "name": "Marcus Rodriguez",
       "role": "EXECUTIVE",
-      "department": "Operations", 
+      "department": "Operations",
       "title": "Chief Operating Officer"
     },
     {
@@ -39,7 +39,7 @@
           "businessImpact": "Reduced executive productivity and delayed strategic decision making"
         },
         {
-          "title": "Sales Process Digitization Project", 
+          "title": "Sales Process Digitization Project",
           "description": "Manual sales processes are creating bottlenecks in deal closure and forecasting accuracy",
           "department": "SALES",
           "issueType": "PROCESS",
@@ -53,7 +53,7 @@
           "department": "HR",
           "issueType": "COMMUNICATION",
           "rootCause": "Outdated policies from pre-pandemic era",
-          "priority": "MEDIUM", 
+          "priority": "MEDIUM",
           "businessImpact": "Reduced employee satisfaction and executive oversight challenges"
         }
       ]
@@ -67,7 +67,7 @@
         {
           "title": "URGENT: Customer Data Security Incident",
           "description": "Potential data breach detected in customer database requiring immediate executive response",
-          "department": "ENGINEERING", 
+          "department": "ENGINEERING",
           "issueType": "TECHNOLOGY",
           "rootCause": "Vulnerability in third-party integration",
           "priority": "CRITICAL",
@@ -94,7 +94,7 @@
           "title": "Customer Experience Platform Integration",
           "description": "Integration of customer experience tools across sales, marketing, and support requires executive coordination",
           "department": "SALES",
-          "issueType": "TECHNOLOGY", 
+          "issueType": "TECHNOLOGY",
           "rootCause": "Siloed customer data and inconsistent experience delivery",
           "priority": "HIGH",
           "businessImpact": "Inconsistent customer experience and lost revenue opportunities"
@@ -105,7 +105,7 @@
   "expectedWorkflowOutcomes": {
     "f1InputCapture": {
       "aiTaggingAccuracy": ">80%",
-      "duplicateDetectionRate": ">90%", 
+      "duplicateDetectionRate": ">90%",
       "executiveSatisfaction": ">4.0/5.0",
       "timeToComplete": "<5 minutes"
     },
@@ -130,7 +130,7 @@
     "f5Requirements": {
       "requirementQuality": "Implementation-ready specifications",
       "approvalWorkflow": "Efficient executive process",
-      "aiAssistance": ">75% acceptance rate", 
+      "aiAssistance": ">75% acceptance rate",
       "collaborationValue": "Enhanced stakeholder input"
     },
     "f6FRDGeneration": {
@@ -143,7 +143,7 @@
   "performanceBenchmarks": {
     "pageLoadTimes": {
       "dashboard": "<2000ms",
-      "inputCreation": "<1500ms", 
+      "inputCreation": "<1500ms",
       "solutionManagement": "<2000ms",
       "requirementsPage": "<1500ms",
       "frdGeneration": "<2000ms"
@@ -158,7 +158,7 @@
     "aiProcessingTimes": {
       "inputTagging": "<15000ms",
       "duplicateDetection": "<10000ms",
-      "requirementsGeneration": "<20000ms", 
+      "requirementsGeneration": "<20000ms",
       "frdGeneration": "<60000ms"
     },
     "mobilePerformance": {

@@ -1,9 +1,9 @@
-import { NextRequest, NextResponse } from 'next/server'
-import { auth } from '@/lib/auth'
-import { prisma } from '@/lib/prisma'
-import { z } from 'zod'
-import { openai } from '@ai-sdk/openai'
-import { generateObject } from 'ai'
+import { NextRequest, NextResponse } from 'next/server';
+import { auth } from '@/lib/auth';
+import { prisma } from '@/lib/prisma';
+import { z } from 'zod';
+import { openai } from '@ai-sdk/openai';
+import { generateObject } from 'ai';
 
 // ============================================================================
 // F1: AI AUTO-TAGGING FOR INPUT CREATION
@@ -17,14 +17,20 @@ const tagSuggestionsSchema = z.object({
   userDepartment: z.string().optional(),
   checkDuplicates: z.boolean().default(true),
   confidenceThreshold: z.number().min(0).max(1).default(0.7),
-})
+});
 
 const aiTaggingResponseSchema = z.object({
   suggestions: z.object({
     department: z.object({
       value: z.string().describe('Most relevant department for this input'),
-      confidence: z.number().min(0).max(1).describe('Confidence score for department suggestion'),
-      autoAccept: z.boolean().describe('Whether to auto-apply this suggestion (>80% confidence)'),
+      confidence: z
+        .number()
+        .min(0)
+        .max(1)
+        .describe('Confidence score for department suggestion'),
+      autoAccept: z
+        .boolean()
+        .describe('Whether to auto-apply this suggestion (>80% confidence)'),
     }),
     issueType: z.object({
       value: z
@@ -61,7 +67,9 @@ const aiTaggingResponseSchema = z.object({
       autoAccept: z.boolean(),
     }),
     priority: z.object({
-      value: z.enum(['Critical', 'High', 'Medium', 'Low']).describe('Suggested priority level'),
+      value: z
+        .enum(['Critical', 'High', 'Medium', 'Low'])
+        .describe('Suggested priority level'),
       confidence: z.number().min(0).max(1),
       autoAccept: z.boolean(),
     }),
@@ -71,11 +79,17 @@ const aiTaggingResponseSchema = z.object({
       autoAccept: z.boolean(),
     }),
     suggestedTags: z.array(z.string()).describe('Additional relevant tags'),
-    stakeholders: z.array(z.string()).describe('Key stakeholders who should be involved'),
+    stakeholders: z
+      .array(z.string())
+      .describe('Key stakeholders who should be involved'),
   }),
   duplicateCheck: z.object({
     isDuplicate: z.boolean().describe('Whether this appears to be a duplicate'),
-    confidence: z.number().min(0).max(1).describe('Confidence in duplicate assessment'),
+    confidence: z
+      .number()
+      .min(0)
+      .max(1)
+      .describe('Confidence in duplicate assessment'),
     similarInputs: z
       .array(
         z.object({
@@ -88,9 +102,11 @@ const aiTaggingResponseSchema = z.object({
         })
       )
       .describe('List of similar existing inputs'),
-    recommendation: z.string().describe('Recommendation for handling potential duplicates'),
+    recommendation: z
+      .string()
+      .describe('Recommendation for handling potential duplicates'),
   }),
-})
+});
 
 // ============================================================================
 // POST /api/ai/tag-suggestions - Generate AI tags and check duplicates
@@ -98,17 +114,18 @@ const aiTaggingResponseSchema = z.object({
 
 export async function POST(request: NextRequest) {
   try {
-    const session = await auth()
+    const session = await auth();
     if (!session?.user?.id) {
-      return NextResponse.json({ error: 'Unauthorized' }, { status: 401 })
+      return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
     }
 
-    const body = await request.json()
-    const validatedData = tagSuggestionsSchema.parse(body)
+    const body = await request.json();
+    const validatedData = tagSuggestionsSchema.parse(body);
 
-    const { title, description, userDepartment, checkDuplicates } = validatedData
+    const { title, description, userDepartment, checkDuplicates } =
+      validatedData;
 
-    const startTime = Date.now()
+    const startTime = Date.now();
 
     // Prepare context for AI analysis
     const availableDepartments = [
@@ -121,29 +138,31 @@ export async function POST(request: NextRequest) {
       'Finance',
       'HR',
       'IT',
-    ]
+    ];
 
     // Get similar inputs for duplicate detection if requested
     let similarInputs: Array<{
-      id: string
-      title: string
-      description: string
-      department: string | null
-      status: string
-    }> = []
+      id: string;
+      title: string;
+      description: string;
+      department: string | null;
+      status: string;
+    }> = [];
     if (checkDuplicates) {
       // Simple similarity search based on title keywords
       const titleWords = title
         .toLowerCase()
         .split(' ')
-        .filter((word) => word.length > 3)
+        .filter(word => word.length > 3);
       if (titleWords.length > 0) {
         similarInputs = await prisma.input.findMany({
           where: {
-            OR: titleWords.map((word) => ({
+            OR: titleWords.map(word => ({
               OR: [
                 { title: { contains: word, mode: 'insensitive' as const } },
-                { description: { contains: word, mode: 'insensitive' as const } },
+                {
+                  description: { contains: word, mode: 'insensitive' as const },
+                },
               ],
             })),
           },
@@ -155,17 +174,17 @@ export async function POST(request: NextRequest) {
             status: true,
           },
           take: 10, // Limit to prevent overwhelming AI analysis
-        })
+        });
       }
     }
 
-    const similarInputsContext = similarInputs.map((input) => ({
+    const similarInputsContext = similarInputs.map(input => ({
       id: input.id,
       title: input.title,
       description: input.description.substring(0, 200), // Truncate for AI efficiency
       department: input.department,
       status: input.status,
-    }))
+    }));
 
     const aiPrompt = `
 You are an expert AI assistant helping executives categorize strategic business inputs for an Architecture & Engineering firm.
@@ -208,7 +227,7 @@ REQUIREMENTS:
 6. ${checkDuplicates ? 'Analyze for potential duplicates and provide executive recommendation' : 'Skip duplicate analysis'}
 
 Focus on strategic value and executive decision-making needs.
-    `
+    `;
 
     try {
       const { object: aiResponse } = await generateObject({
@@ -216,26 +235,30 @@ Focus on strategic value and executive decision-making needs.
         schema: aiTaggingResponseSchema,
         prompt: aiPrompt,
         temperature: 0.2, // Lower temperature for consistent categorization
-      })
+      });
 
-      const processingTime = (Date.now() - startTime) / 1000
+      const processingTime = (Date.now() - startTime) / 1000;
 
       // Calculate similarity scores for duplicate detection
       const duplicateCheckResults = {
         ...aiResponse.duplicateCheck,
         similarInputs: aiResponse.duplicateCheck.similarInputs
-          .map((similar) => {
+          .map(similar => {
             // Find the actual input to get full details
-            const actualInput = similarInputs.find((input) => input.id === similar.id)
+            const actualInput = similarInputs.find(
+              input => input.id === similar.id
+            );
             return {
               ...similar,
-              description: actualInput?.description?.substring(0, 200) || similar.description,
+              description:
+                actualInput?.description?.substring(0, 200) ||
+                similar.description,
               department: actualInput?.department || similar.department,
               status: actualInput?.status || similar.status,
-            }
+            };
           })
           .slice(0, 5), // Limit to top 5 most similar
-      }
+      };
 
       // Create audit log for AI tagging
       await (prisma as any).auditLog.create({
@@ -254,7 +277,7 @@ Focus on strategic value and executive decision-making needs.
           },
           userId: session.user.id,
         },
-      })
+      });
 
       return NextResponse.json({
         suggestions: aiResponse.suggestions,
@@ -268,9 +291,9 @@ Focus on strategic value and executive decision-making needs.
           similarInputsAnalyzed: similarInputsContext.length,
           processingTimeMs: processingTime * 1000,
         },
-      })
+      });
     } catch (aiError) {
-      console.error('AI tagging error:', aiError)
+      console.error('AI tagging error:', aiError);
 
       // Fallback: Simple rule-based tagging
       const fallbackSuggestions = generateFallbackTags(
@@ -278,12 +301,12 @@ Focus on strategic value and executive decision-making needs.
         description,
         userDepartment,
         availableDepartments
-      )
+      );
 
       const fallbackDuplicateCheck = {
         isDuplicate: similarInputs.length > 0 && checkDuplicates,
         confidence: 0.6,
-        similarInputs: similarInputs.slice(0, 3).map((input) => ({
+        similarInputs: similarInputs.slice(0, 3).map(input => ({
           id: input.id,
           title: input.title,
           description: input.description.substring(0, 100),
@@ -295,31 +318,35 @@ Focus on strategic value and executive decision-making needs.
           similarInputs.length > 0
             ? 'AI analysis unavailable. Please manually review similar inputs before proceeding.'
             : 'No similar inputs found. Safe to proceed with input creation.',
-      }
+      };
 
       return NextResponse.json({
         suggestions: fallbackSuggestions,
         duplicateCheck: fallbackDuplicateCheck,
         processingTime: new Date().toISOString(),
         aiVersion: 'Fallback-Rules',
-        error: 'AI service temporarily unavailable - using rule-based suggestions',
+        error:
+          'AI service temporarily unavailable - using rule-based suggestions',
         metadata: {
           fallbackMode: true,
           processingTimeMs: Date.now() - startTime,
         },
-      })
+      });
     }
   } catch (error) {
-    console.error('Error in tag suggestions:', error)
+    console.error('Error in tag suggestions:', error);
 
     if (error instanceof z.ZodError) {
       return NextResponse.json(
         { error: 'Invalid input data', details: error.issues },
         { status: 400 }
-      )
+      );
     }
 
-    return NextResponse.json({ error: 'Failed to generate tag suggestions' }, { status: 500 })
+    return NextResponse.json(
+      { error: 'Failed to generate tag suggestions' },
+      { status: 500 }
+    );
   }
 }
 
@@ -333,57 +360,109 @@ function generateFallbackTags(
   userDepartment?: string,
   availableDepartments: string[] = []
 ) {
-  const text = (title + ' ' + description).toLowerCase()
+  const text = (title + ' ' + description).toLowerCase();
 
   // Simple keyword-based department detection
   const departmentKeywords: Record<string, string[]> = {
-    Engineering: ['engineer', 'technical', 'code', 'system', 'architecture', 'development'],
+    Engineering: [
+      'engineer',
+      'technical',
+      'code',
+      'system',
+      'architecture',
+      'development',
+    ],
     Design: ['design', 'ui', 'ux', 'visual', 'interface', 'user experience'],
-    'Project Management': ['project', 'timeline', 'schedule', 'deadline', 'milestone', 'planning'],
+    'Project Management': [
+      'project',
+      'timeline',
+      'schedule',
+      'deadline',
+      'milestone',
+      'planning',
+    ],
     Operations: ['operation', 'process', 'workflow', 'efficiency', 'procedure'],
     IT: ['technology', 'software', 'hardware', 'network', 'database', 'server'],
     HR: ['team', 'employee', 'staff', 'training', 'hiring', 'performance'],
     Finance: ['budget', 'cost', 'financial', 'expense', 'revenue', 'billing'],
-    'Business Development': ['client', 'customer', 'business', 'sales', 'growth', 'market'],
-  }
+    'Business Development': [
+      'client',
+      'customer',
+      'business',
+      'sales',
+      'growth',
+      'market',
+    ],
+  };
 
   // Find best department match
-  let suggestedDepartment = userDepartment || 'Operations'
-  let departmentConfidence = userDepartment ? 0.8 : 0.4
+  let suggestedDepartment = userDepartment || 'Operations';
+  let departmentConfidence = userDepartment ? 0.8 : 0.4;
 
   for (const [dept, keywords] of Object.entries(departmentKeywords)) {
-    const matches = keywords.filter((keyword) => text.includes(keyword)).length
+    const matches = keywords.filter(keyword => text.includes(keyword)).length;
     if (matches > 0 && availableDepartments.includes(dept)) {
-      suggestedDepartment = dept
-      departmentConfidence = 0.6 + matches * 0.1
-      break
+      suggestedDepartment = dept;
+      departmentConfidence = 0.6 + matches * 0.1;
+      break;
     }
   }
 
   // Simple issue type detection
   const issueKeywords = {
-    'Process Inefficiency': ['slow', 'inefficient', 'waste', 'bottleneck', 'delay'],
-    'Communication Gap': ['communication', 'unclear', 'confusion', 'misunderstanding'],
-    'Resource Constraint': ['resource', 'shortage', 'limited', 'capacity', 'budget'],
-    'Technology Problem': ['technology', 'system', 'software', 'hardware', 'bug'],
+    'Process Inefficiency': [
+      'slow',
+      'inefficient',
+      'waste',
+      'bottleneck',
+      'delay',
+    ],
+    'Communication Gap': [
+      'communication',
+      'unclear',
+      'confusion',
+      'misunderstanding',
+    ],
+    'Resource Constraint': [
+      'resource',
+      'shortage',
+      'limited',
+      'capacity',
+      'budget',
+    ],
+    'Technology Problem': [
+      'technology',
+      'system',
+      'software',
+      'hardware',
+      'bug',
+    ],
     'Quality Issue': ['quality', 'error', 'mistake', 'defect', 'problem'],
-  }
+  };
 
-  let suggestedIssueType = 'Process Inefficiency'
-  let issueConfidence = 0.5
+  let suggestedIssueType = 'Process Inefficiency';
+  let issueConfidence = 0.5;
 
   for (const [issue, keywords] of Object.entries(issueKeywords)) {
-    const matches = keywords.filter((keyword) => text.includes(keyword)).length
+    const matches = keywords.filter(keyword => text.includes(keyword)).length;
     if (matches > 0) {
-      suggestedIssueType = issue
-      issueConfidence = 0.6 + matches * 0.1
-      break
+      suggestedIssueType = issue;
+      issueConfidence = 0.6 + matches * 0.1;
+      break;
     }
   }
 
   // Simple priority detection
-  const urgencyKeywords = ['urgent', 'critical', 'asap', 'emergency', 'important']
-  const priority = urgencyKeywords.some((keyword) => text.includes(keyword)) ? 'High' : 'Medium'
+  const urgencyKeywords = [
+    'urgent',
+    'critical',
+    'asap',
+    'emergency',
+    'important',
+  ];
+  const priority = urgencyKeywords.some(keyword => text.includes(keyword))
+    ? 'High'
+    : 'Medium';
 
   return {
     department: {
@@ -413,5 +492,5 @@ function generateFallbackTags(
     },
     suggestedTags: ['fallback-analysis'],
     stakeholders: [],
-  }
+  };
 }

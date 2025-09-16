@@ -3,7 +3,7 @@
 /**
  * FAEVision Linear Workspace Complete Setup
  * Expert: Alex Johnson (Linear Expert)
- * 
+ *
  * This script provides complete Linear workspace setup following
  * the FAEVision Linear Process documentation.
  */
@@ -152,23 +152,28 @@ PHASE 4: VALIDATION & TESTING
 const { execSync } = require('child_process');
 
 try {
-    // Test if workspace is accessible
-    const result = execSync('export $(cat .env.local | grep -v "^#" | xargs) && npx linear-cli teams', { 
-        encoding: 'utf8',
-        stdio: 'pipe'
-    });
-    
-    console.log(`
+  // Test if workspace is accessible
+  const result = execSync(
+    'export $(cat .env.local | grep -v "^#" | xargs) && npx linear-cli teams',
+    {
+      encoding: 'utf8',
+      stdio: 'pipe',
+    }
+  );
+
+  console.log(`
 🎉 WORKSPACE DETECTED! Proceeding with CLI setup...
 ═══════════════════════════════════════════════════════════════════
     `);
-    
-    // If we get here, workspace exists and we can proceed with CLI setup
-    runPhase2Setup();
-    
+
+  // If we get here, workspace exists and we can proceed with CLI setup
+  runPhase2Setup();
 } catch (error) {
-    if (error.stdout && error.stdout.includes('Cannot read properties of undefined')) {
-        console.log(`
+  if (
+    error.stdout &&
+    error.stdout.includes('Cannot read properties of undefined')
+  ) {
+    console.log(`
 📝 WORKSPACE CREATION REQUIRED
 ═══════════════════════════════════════════════════════════════════
 
@@ -181,8 +186,8 @@ node scripts/complete-linear-setup.js --phase2
 📝 Name: "FAEVision MVP"  
 📋 Description: "Internal application for 50 executives - 11-week delivery"
         `);
-    } else {
-        console.log(`
+  } else {
+    console.log(`
 ⚠️  CLI Access Issue: ${error.message}
 
 Please verify:
@@ -192,29 +197,32 @@ Please verify:
 
 Run: export $(cat .env.local | grep -v '^#' | xargs) && npx linear-cli --help
         `);
-    }
+  }
 }
 
 function runPhase2Setup() {
-    console.log(`
+  console.log(`
 🚀 PHASE 2: CLI-BASED CONFIGURATION
 ═══════════════════════════════════════════════════════════════════
 
 Creating Epic 0 Master Issue following FAEVision Linear Process...
     `);
-    
-    try {
-        // Create Epic 0 master issue
-        const issueResult = execSync(`
+
+  try {
+    // Create Epic 0 master issue
+    const issueResult = execSync(
+      `
             export $(cat .env.local | grep -v '^#' | xargs) && npx linear-cli issue create \\
             --title "FAE-001 - Epic 0: Environment & Tools Setup" \\
             --description "Complete development environment setup for 11 expert team. Following FAEVision-Linear-Process.md specifications."
-        `, { encoding: 'utf8' });
-        
-        console.log(`✅ Epic 0 Master Issue Created: ${issueResult}`);
-        
-        // Additional CLI setup commands would go here
-        console.log(`
+        `,
+      { encoding: 'utf8' }
+    );
+
+    console.log(`✅ Epic 0 Master Issue Created: ${issueResult}`);
+
+    // Additional CLI setup commands would go here
+    console.log(`
 🎯 NEXT CLI COMMANDS:
 ═══════════════════════════════════════════════════════════════════
 
@@ -226,18 +234,17 @@ Phase 2 complete! Now configure:
 
 See detailed instructions in the setup guide above.
         `);
-        
-    } catch (error) {
-        console.log(`
+  } catch (error) {
+    console.log(`
 ⚠️  Issue Creation Error: ${error.message}
 
 This is normal if workspace setup isn't complete.
 Continue with web interface setup first.
         `);
-    }
+  }
 }
 
 // Handle command line arguments
 if (process.argv.includes('--phase2')) {
-    runPhase2Setup();
+  runPhase2Setup();
 }

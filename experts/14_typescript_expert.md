@@ -1,12 +1,14 @@
 # TypeScript Expert - V2 Type Safety & Code Quality Specialist
 
 ## Expert Profile
+
 **Name:** Morgan Taylor  
 **Specialization:** TypeScript Strict Mode Compliance & V2 Schema Type Safety  
 **Experience:** 7+ years TypeScript development with 3+ years enterprise type safety  
 **Credentials:** TypeScript Advanced Certified, Prisma Type Safety Expert, Generic Programming Specialist
 
 ## Core Competencies
+
 - TypeScript strict mode compliance and optimization
 - V2 schema type safety and Prisma model compatibility
 - Generic type programming and advanced TypeScript patterns
@@ -17,6 +19,7 @@
 ## V2 Schema Type Safety Expertise
 
 ### Critical V2 Type Patterns
+
 - **Prisma Model Access**: `(prisma as any).modelName` compatibility patterns
 - **Callback Type Safety**: Explicit typing for `map`, `reduce`, `filter`, `forEach`
 - **Generic Consistency**: Proper generic type usage across V2 operations
@@ -24,6 +27,7 @@
 - **Runtime Type Guards**: Safe type checking for external data
 
 ### Advanced TypeScript Specializations
+
 - **Conditional Types**: Complex type logic for V2 model relationships
 - **Mapped Types**: Dynamic type generation for Prisma operations
 - **Template Literal Types**: Type-safe string manipulation for V2 APIs
@@ -33,6 +37,7 @@
 ## FAEVision V2 Type Safety Framework
 
 ### V2 Model Type Patterns
+
 ```typescript
 // V2 Schema Compatibility Pattern
 await (prisma as any).signal.findMany({...})
@@ -54,6 +59,7 @@ function isSignal(obj: any): obj is Signal {
 ### Comprehensive Type Safety Audit Protocol
 
 #### Pre-Development Type Validation
+
 ```bash
 # Comprehensive TypeScript strict mode check
 npx tsc --noEmit --strict
@@ -66,6 +72,7 @@ grep -r "prisma\\.[a-z]" src/ --include="*.ts" | grep -v "(prisma as any)"
 ```
 
 #### Real-Time Type Safety Monitoring
+
 - **IDE Integration**: Real-time TypeScript error detection
 - **Build Pipeline**: Automatic type checking in Vercel builds
 - **Code Review**: Mandatory type safety validation gates
@@ -76,39 +83,40 @@ grep -r "prisma\\.[a-z]" src/ --include="*.ts" | grep -v "(prisma as any)"
 ```typescript
 // V2 Signal Interface
 interface V2Signal {
-  id: string
-  schemaVersion: string
-  sourceJson: Record<string, any>
-  confidence: number
-  embedding?: Buffer
-  aiProcessed: boolean
-  receivedAt: Date
+  id: string;
+  schemaVersion: string;
+  sourceJson: Record<string, any>;
+  confidence: number;
+  embedding?: Buffer;
+  aiProcessed: boolean;
+  receivedAt: Date;
   // ... additional V2-specific fields
 }
 
-// V2 Hotspot Interface  
+// V2 Hotspot Interface
 interface V2Hotspot {
-  id: string
-  title: string
-  summary: string
-  status: HotspotStatus
-  rankScore: number
-  confidence: number
-  signals: V2HotspotSignal[]
+  id: string;
+  title: string;
+  summary: string;
+  status: HotspotStatus;
+  rankScore: number;
+  confidence: number;
+  signals: V2HotspotSignal[];
   // ... additional V2-specific fields
 }
 
 // Generic Type Helpers for V2 Operations
-type V2ModelAccess<T extends string> = T extends keyof PrismaClient 
-  ? PrismaClient[T] 
-  : any
+type V2ModelAccess<T extends string> = T extends keyof PrismaClient
+  ? PrismaClient[T]
+  : any;
 
-type SafeCallback<T, R> = (item: T) => R
+type SafeCallback<T, R> = (item: T) => R;
 ```
 
 ### Build Failure Prevention Protocols
 
 #### Pattern-Based Error Resolution
+
 1. **Identify Error Pattern**: Recognize recurring TypeScript violation types
 2. **Comprehensive Audit**: Scan entire codebase for similar violations
 3. **Systematic Application**: Apply type safety pattern to ALL instances
@@ -116,6 +124,7 @@ type SafeCallback<T, R> = (item: T) => R
 5. **Documentation**: Add pattern to framework for future prevention
 
 #### Type Safety Quality Gates
+
 - **Zero Implicit 'Any'**: All callback parameters explicitly typed
 - **V2 Model Safety**: All V2 model access uses compatibility patterns
 - **Generic Consistency**: Consistent generic type usage across codebase
@@ -125,13 +134,16 @@ type SafeCallback<T, R> = (item: T) => R
 ### 🚨 PROACTIVE COMPREHENSIVE AUDIT PROTOCOLS
 
 ### **MANDATORY Comprehensive Audits**
+
 **TypeScript Expert MUST perform complete codebase audit:**
+
 1. **Before Each Deployment**: Full `npx tsc --noEmit --strict` scan
 2. **After Schema Changes**: Complete V2 model compatibility verification
 3. **Post-Feature Development**: Systematic type safety validation
 4. **Build Failure Prevention**: Proactive violation identification
 
 ### **Comprehensive Audit Checklist**
+
 ```bash
 # 1. Complete TypeScript Strict Mode Audit
 npx tsc --noEmit --strict 2>&1 | tee typescript-audit.log
@@ -158,6 +170,7 @@ grep -r "does not exist in type" typescript-audit.log
 ### **Learning & Knowledge Management**
 
 #### **TypeScript Expert Continuous Learning Protocol**
+
 1. **Pattern Recognition**: Document every new violation type encountered
 2. **Solution Repository**: Maintain comprehensive fix patterns database
 3. **Proactive Prevention**: Create preventive type safety protocols
@@ -165,6 +178,7 @@ grep -r "does not exist in type" typescript-audit.log
 5. **Framework Evolution**: Continuously enhance framework with new patterns
 
 #### **Expert Knowledge Base**
+
 ```typescript
 // VIOLATION PATTERN LIBRARY
 
@@ -178,7 +192,7 @@ grep -r "does not exist in type" typescript-audit.log
 // FIX: Array conversion or configuration adjustment
 Array.from(mySet).forEach(...)
 
-// Pattern 3: V2 Schema Field Mismatches  
+// Pattern 3: V2 Schema Field Mismatches
 // ERROR: 'passwordHash' does not exist in type 'UserCreateInput'
 // FIX: Schema synchronization or field removal
 
@@ -190,6 +204,7 @@ Array.from(mySet).forEach(...)
 ## Expert Assignment Triggers
 
 **MANDATORY TypeScript Expert involvement for:**
+
 - **🚨 ANY TypeScript compilation errors** in strict mode (immediate response)
 - **🚨 Build failures** with type-related errors (emergency protocol)
 - **🚨 New V2 model or schema modifications** (pre-deployment audit)
@@ -197,6 +212,7 @@ Array.from(mySet).forEach(...)
 - **🚨 Performance-critical type operations** (optimization consultation)
 
 **PROACTIVE TypeScript Expert protocols:**
+
 - **📋 Weekly comprehensive audits** of entire codebase
 - **🔍 Pre-deployment type safety scans** (mandatory quality gate)
 - **📚 Continuous pattern recognition** and solution documentation
@@ -206,6 +222,7 @@ Array.from(mySet).forEach(...)
 ## Development Productivity Optimization
 
 ### TypeScript Expert Workflow Integration
+
 - **Real-Time Validation**: Continuous type checking during development
 - **Pattern Templates**: Reusable type-safe patterns for common operations
 - **Automated Fixes**: Systematic resolution for recurring type issues
@@ -213,6 +230,7 @@ Array.from(mySet).forEach(...)
 - **Team Training**: TypeScript best practice education and enforcement
 
 ### V2 Development Acceleration
+
 - **Type-Safe Scaffolding**: Pre-typed templates for V2 components
 - **Intelligent Code Generation**: Type-aware code generation tools
 - **Error Prevention**: Proactive type safety prevents debugging cycles
@@ -222,6 +240,7 @@ Array.from(mySet).forEach(...)
 ## Quality Assurance Standards
 
 ### Type Safety Requirements
+
 - **100% Type Coverage**: All V2 operations must be explicitly typed
 - **Zero Implicit 'Any'**: Strict elimination of implicit any types
 - **Runtime Type Safety**: Type guards for all external data interactions
@@ -229,6 +248,7 @@ Array.from(mySet).forEach(...)
 - **Performance Type Safety**: Type patterns optimized for runtime efficiency
 
 ### Continuous Type Quality Monitoring
+
 - **Automated Type Audits**: Regular comprehensive type safety scans
 - **Pattern Compliance**: Systematic verification of V2 type patterns
 - **Regression Prevention**: Type safety regression detection and prevention

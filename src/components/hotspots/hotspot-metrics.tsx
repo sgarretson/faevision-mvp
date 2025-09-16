@@ -4,13 +4,13 @@ import { TrendingUp, AlertTriangle, CheckCircle, Clock } from 'lucide-react';
 
 /**
  * Executive Hotspot Metrics Component
- * 
+ *
  * Key performance indicators optimized for executive scanning:
  * - Large, bold numbers for quick comprehension
  * - Trend indicators for performance assessment
  * - Color-coded status indicators
  * - Mobile-first responsive design
- * 
+ *
  * Expert: Maya Rodriguez (UX Expert)
  * Based on Executive KPI dashboard research
  */
@@ -26,14 +26,18 @@ interface HotspotMetricsProps {
   loading?: boolean;
 }
 
-export function HotspotMetrics({ metrics, loading = false }: HotspotMetricsProps) {
+export function HotspotMetrics({
+  metrics,
+  loading = false,
+}: HotspotMetricsProps) {
   const confidencePercent = Math.round(metrics.avgConfidence * 100);
-  const criticalPercentage = metrics.totalHotspots > 0 
-    ? Math.round((metrics.criticalHotspots / metrics.totalHotspots) * 100)
-    : 0;
+  const criticalPercentage =
+    metrics.totalHotspots > 0
+      ? Math.round((metrics.criticalHotspots / metrics.totalHotspots) * 100)
+      : 0;
 
   return (
-    <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+    <div className="grid grid-cols-1 gap-6 md:grid-cols-2 lg:grid-cols-4">
       {/* Total Hotspots */}
       <MetricCard
         title="Active Hotspots"
@@ -49,7 +53,7 @@ export function HotspotMetrics({ metrics, loading = false }: HotspotMetricsProps
         title="Critical Priority"
         value={metrics.criticalHotspots}
         icon={<AlertTriangle className="h-6 w-6" />}
-        color={metrics.criticalHotspots > 0 ? "red" : "gray"}
+        color={metrics.criticalHotspots > 0 ? 'red' : 'gray'}
         subtitle={`${criticalPercentage}% of total`}
         loading={loading}
       />
@@ -59,7 +63,13 @@ export function HotspotMetrics({ metrics, loading = false }: HotspotMetricsProps
         title="AI Confidence"
         value={`${confidencePercent}%`}
         icon={<CheckCircle className="h-6 w-6" />}
-        color={confidencePercent >= 80 ? "green" : confidencePercent >= 60 ? "yellow" : "red"}
+        color={
+          confidencePercent >= 80
+            ? 'green'
+            : confidencePercent >= 60
+              ? 'yellow'
+              : 'red'
+        }
         subtitle="Average clustering quality"
         loading={loading}
       />
@@ -86,7 +96,7 @@ function MetricCard({
   icon,
   color,
   subtitle,
-  loading = false
+  loading = false,
 }: {
   title: string;
   value: string | number;
@@ -99,44 +109,38 @@ function MetricCard({
 
   if (loading) {
     return (
-      <div className="bg-white rounded-lg border border-gray-200 p-6">
+      <div className="rounded-lg border border-gray-200 bg-white p-6">
         <div className="animate-pulse">
-          <div className="flex items-center justify-between mb-4">
-            <div className="h-4 bg-gray-200 rounded w-1/2"></div>
-            <div className="h-6 w-6 bg-gray-200 rounded"></div>
+          <div className="mb-4 flex items-center justify-between">
+            <div className="h-4 w-1/2 rounded bg-gray-200"></div>
+            <div className="h-6 w-6 rounded bg-gray-200"></div>
           </div>
-          <div className="h-8 bg-gray-200 rounded w-1/3 mb-2"></div>
-          <div className="h-3 bg-gray-200 rounded w-2/3"></div>
+          <div className="mb-2 h-8 w-1/3 rounded bg-gray-200"></div>
+          <div className="h-3 w-2/3 rounded bg-gray-200"></div>
         </div>
       </div>
     );
   }
 
   return (
-    <div className="bg-white rounded-lg border border-gray-200 p-6 hover:shadow-md transition-shadow">
-      <div className="flex items-center justify-between mb-4">
+    <div className="rounded-lg border border-gray-200 bg-white p-6 transition-shadow hover:shadow-md">
+      <div className="mb-4 flex items-center justify-between">
         <h3 className="text-sm font-medium text-gray-900">{title}</h3>
-        <div className={`p-2 rounded-lg ${colorClasses.background}`}>
-          <div className={colorClasses.icon}>
-            {icon}
-          </div>
+        <div className={`rounded-lg p-2 ${colorClasses.background}`}>
+          <div className={colorClasses.icon}>{icon}</div>
         </div>
       </div>
-      
+
       <div className="space-y-2">
-        <div className={`text-3xl font-bold ${colorClasses.text}`}>
-          {value}
-        </div>
-        <p className="text-sm text-gray-500">
-          {subtitle}
-        </p>
+        <div className={`text-3xl font-bold ${colorClasses.text}`}>{value}</div>
+        <p className="text-sm text-gray-500">{subtitle}</p>
       </div>
 
       {/* Optional trend indicator */}
-      {(color === 'red' && typeof value === 'number' && value > 0) && (
+      {color === 'red' && typeof value === 'number' && value > 0 && (
         <div className="mt-3 flex items-center text-sm">
-          <TrendingUp className="h-4 w-4 text-red-500 mr-1" />
-          <span className="text-red-600 font-medium">Needs attention</span>
+          <TrendingUp className="mr-1 h-4 w-4 text-red-500" />
+          <span className="font-medium text-red-600">Needs attention</span>
         </div>
       )}
     </div>
@@ -151,33 +155,33 @@ function getColorClasses(color: string) {
     blue: {
       background: 'bg-blue-50',
       icon: 'text-blue-600',
-      text: 'text-blue-600'
+      text: 'text-blue-600',
     },
     red: {
       background: 'bg-red-50',
       icon: 'text-red-600',
-      text: 'text-red-600'
+      text: 'text-red-600',
     },
     green: {
       background: 'bg-green-50',
       icon: 'text-green-600',
-      text: 'text-green-600'
+      text: 'text-green-600',
     },
     yellow: {
       background: 'bg-yellow-50',
       icon: 'text-yellow-600',
-      text: 'text-yellow-600'
+      text: 'text-yellow-600',
     },
     purple: {
       background: 'bg-purple-50',
       icon: 'text-purple-600',
-      text: 'text-purple-600'
+      text: 'text-purple-600',
     },
     gray: {
       background: 'bg-gray-50',
       icon: 'text-gray-600',
-      text: 'text-gray-600'
-    }
+      text: 'text-gray-600',
+    },
   };
 
   return colorMap[color as keyof typeof colorMap] || colorMap.gray;
@@ -188,11 +192,13 @@ function getColorClasses(color: string) {
  */
 function formatLastRun(timestamp: string): string {
   if (!timestamp) return 'Never run';
-  
+
   const date = new Date(timestamp);
   const now = new Date();
-  const diffInMinutes = Math.floor((now.getTime() - date.getTime()) / (1000 * 60));
-  
+  const diffInMinutes = Math.floor(
+    (now.getTime() - date.getTime()) / (1000 * 60)
+  );
+
   if (diffInMinutes < 1) return 'Just now';
   if (diffInMinutes < 60) return `${diffInMinutes}m ago`;
   if (diffInMinutes < 1440) return `${Math.floor(diffInMinutes / 60)}h ago`;

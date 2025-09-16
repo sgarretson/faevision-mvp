@@ -30,6 +30,7 @@ Our technical architecture prioritizes **simplicity, performance, and developer 
 ### Frontend Architecture
 
 #### Core Framework
+
 ```typescript
 // Next.js 14 with App Router
 "next": "^14.0.0"
@@ -38,6 +39,7 @@ Our technical architecture prioritizes **simplicity, performance, and developer 
 ```
 
 #### UI & Styling
+
 ```typescript
 // Tailwind CSS + Headless UI for design system
 "tailwindcss": "^3.4.0"
@@ -47,6 +49,7 @@ Our technical architecture prioritizes **simplicity, performance, and developer 
 ```
 
 #### State Management & Data
+
 ```typescript
 // Zustand for global state, SWR for server state
 "zustand": "^4.4.0"
@@ -58,6 +61,7 @@ Our technical architecture prioritizes **simplicity, performance, and developer 
 ### Backend Architecture
 
 #### API & Database
+
 ```typescript
 // Next.js API Routes + Prisma + PostgreSQL
 "prisma": "^5.7.0"
@@ -66,6 +70,7 @@ Our technical architecture prioritizes **simplicity, performance, and developer 
 ```
 
 #### Authentication & Security
+
 ```typescript
 // NextAuth.js for authentication
 "next-auth": "^5.0.0-beta.4"
@@ -74,6 +79,7 @@ Our technical architecture prioritizes **simplicity, performance, and developer 
 ```
 
 #### AI Integration
+
 ```typescript
 // Vercel AI SDK + OpenAI
 "ai": "^2.2.0"
@@ -84,6 +90,7 @@ Our technical architecture prioritizes **simplicity, performance, and developer 
 ### Infrastructure & Deployment
 
 #### Vercel Platform Services
+
 - **Hosting**: Vercel Edge Network with global CDN
 - **Database**: Vercel Postgres (managed PostgreSQL)
 - **Storage**: Vercel Blob for file attachments
@@ -92,6 +99,7 @@ Our technical architecture prioritizes **simplicity, performance, and developer 
 - **Monitoring**: Built-in performance and error monitoring
 
 #### Development & CI/CD
+
 ```yaml
 # GitHub Actions + Vercel Integration
 - Source Control: GitHub with branch protection
@@ -108,6 +116,7 @@ Our technical architecture prioritizes **simplicity, performance, and developer 
 ### Frontend Architecture (Next.js 14 App Router)
 
 #### Directory Structure
+
 ```
 src/
 ├── app/                    # App Router pages and layouts
@@ -133,6 +142,7 @@ src/
 ```
 
 #### Component Architecture
+
 ```typescript
 // Example component structure
 interface InputCardProps {
@@ -154,6 +164,7 @@ export function InputCard({ input, currentUser, onVote, onComment }: InputCardPr
 ### Backend Architecture (Next.js API Routes)
 
 #### API Route Structure
+
 ```
 src/app/api/
 ├── auth/                  # Authentication endpoints
@@ -174,6 +185,7 @@ src/app/api/
 ```
 
 #### Database Schema (Prisma)
+
 ```prisma
 // prisma/schema.prisma
 generator client {
@@ -194,13 +206,13 @@ model User {
   department  String?
   createdAt   DateTime @default(now())
   updatedAt   DateTime @updatedAt
-  
+
   inputs      Input[]
   comments    Comment[]
   votes       Vote[]
   solutions   Solution[]
   requirements Requirement[]
-  
+
   @@map("users")
 }
 
@@ -216,13 +228,13 @@ model Input {
   userId      String
   createdAt   DateTime    @default(now())
   updatedAt   DateTime    @updatedAt
-  
+
   user        User        @relation(fields: [userId], references: [id])
   comments    Comment[]
   votes       Vote[]
   groups      GroupInput[]
   solutions   SolutionInput[]
-  
+
   @@map("inputs")
 }
 
@@ -235,13 +247,13 @@ model Solution {
   ownerId      String
   createdAt    DateTime       @default(now())
   updatedAt    DateTime       @updatedAt
-  
+
   owner        User           @relation(fields: [ownerId], references: [id])
   inputs       SolutionInput[]
   tasks        Task[]
   requirements Requirement[]
   documents    FRDDocument[]
-  
+
   @@map("solutions")
 }
 
@@ -256,12 +268,12 @@ model Requirement {
   approvedBy  String?
   createdAt   DateTime          @default(now())
   approvedAt  DateTime?
-  
+
   solution    Solution          @relation(fields: [solutionId], references: [id])
   creator     User              @relation(fields: [createdBy], references: [id])
   comments    Comment[]
   votes       Vote[]
-  
+
   @@map("requirements")
 }
 
@@ -271,51 +283,53 @@ model Requirement {
 ### Real-Time Architecture
 
 #### Server-Sent Events Implementation
+
 ```typescript
 // src/app/api/realtime/inputs/route.ts
 export async function GET(request: Request) {
   const { searchParams } = new URL(request.url);
   const userId = searchParams.get('userId');
-  
+
   const stream = new ReadableStream({
     start(controller) {
       // Setup real-time input updates
       const sendUpdate = (data: any) => {
         controller.enqueue(`data: ${JSON.stringify(data)}\n\n`);
       };
-      
+
       // Database change listeners
       setupInputChangeListener(sendUpdate);
-    }
+    },
   });
 
   return new Response(stream, {
     headers: {
       'Content-Type': 'text/event-stream',
       'Cache-Control': 'no-cache',
-      'Connection': 'keep-alive',
+      Connection: 'keep-alive',
     },
   });
 }
 ```
 
 #### Client-Side Real-Time Integration
+
 ```typescript
 // hooks/useRealTimeInputs.ts
 export function useRealTimeInputs() {
   const [inputs, setInputs] = useState<Input[]>([]);
-  
+
   useEffect(() => {
     const eventSource = new EventSource('/api/realtime/inputs');
-    
-    eventSource.onmessage = (event) => {
+
+    eventSource.onmessage = event => {
       const update = JSON.parse(event.data);
       setInputs(prev => updateInputsArray(prev, update));
     };
-    
+
     return () => eventSource.close();
   }, []);
-  
+
   return inputs;
 }
 ```
@@ -327,6 +341,7 @@ export function useRealTimeInputs() {
 ### Vercel AI SDK Implementation
 
 #### AI Service Configuration
+
 ```typescript
 // lib/ai/config.ts
 import { openai } from '@ai-sdk/openai';
@@ -340,6 +355,7 @@ export const ai = createAI({
 ```
 
 #### Auto-Tagging Implementation
+
 ```typescript
 // lib/ai/tagging.ts
 import { generateObject } from 'ai';
@@ -347,7 +363,13 @@ import { z } from 'zod';
 
 const TaggingSchema = z.object({
   department: z.string().describe('Most relevant department'),
-  issueType: z.enum(['Process', 'Technology', 'Communication', 'Resource', 'Other']),
+  issueType: z.enum([
+    'Process',
+    'Technology',
+    'Communication',
+    'Resource',
+    'Other',
+  ]),
   rootCause: z.string().describe('Likely root cause of the issue'),
   confidence: z.number().min(0).max(1),
 });
@@ -360,17 +382,21 @@ export async function generateTags(title: string, description: string) {
              Title: ${title}
              Description: ${description}`,
   });
-  
+
   return object;
 }
 ```
 
 #### Document Generation System
+
 ```typescript
 // lib/ai/document-generation.ts
 import { streamText } from 'ai';
 
-export async function generateFRD(solution: Solution, requirements: Requirement[]) {
+export async function generateFRD(
+  solution: Solution,
+  requirements: Requirement[]
+) {
   const prompt = `Generate a professional Functional Requirements Document for:
     Solution: ${solution.title}
     Description: ${solution.description}
@@ -408,6 +434,7 @@ export async function generateFRD(solution: Solution, requirements: Requirement[
 ### Prisma Schema Design
 
 #### Core Entity Models
+
 ```prisma
 enum Role {
   ADMIN
@@ -461,16 +488,17 @@ enum Priority {
 ```
 
 #### Relationship Design
+
 ```prisma
 // Many-to-many relationships for flexibility
 model SolutionInput {
   solutionId String
   inputId    String
   createdAt  DateTime @default(now())
-  
+
   solution   Solution @relation(fields: [solutionId], references: [id])
   input      Input    @relation(fields: [inputId], references: [id])
-  
+
   @@id([solutionId, inputId])
   @@map("solution_inputs")
 }
@@ -484,11 +512,11 @@ model Comment {
   userId     String
   parentId   String?     // For threaded comments
   createdAt  DateTime    @default(now())
-  
+
   user       User        @relation(fields: [userId], references: [id])
   parent     Comment?    @relation("CommentThread", fields: [parentId], references: [id])
   replies    Comment[]   @relation("CommentThread")
-  
+
   @@map("comments")
 }
 ```
@@ -496,6 +524,7 @@ model Comment {
 ### Database Performance Optimization
 
 #### Indexing Strategy
+
 ```sql
 -- Performance indexes for common queries
 CREATE INDEX CONCURRENTLY idx_inputs_status_department ON inputs(status, department);
@@ -511,6 +540,7 @@ CREATE INDEX CONCURRENTLY idx_inputs_search ON inputs USING GIN (
 ```
 
 #### Connection Management
+
 ```typescript
 // lib/db/connection.ts
 import { PrismaClient } from '@prisma/client';
@@ -519,14 +549,16 @@ const globalForPrisma = globalThis as unknown as {
   prisma: PrismaClient | undefined;
 };
 
-export const prisma = globalForPrisma.prisma ?? new PrismaClient({
-  log: ['query', 'error', 'warn'],
-  datasources: {
-    db: {
-      url: process.env.POSTGRES_PRISMA_URL,
+export const prisma =
+  globalForPrisma.prisma ??
+  new PrismaClient({
+    log: ['query', 'error', 'warn'],
+    datasources: {
+      db: {
+        url: process.env.POSTGRES_PRISMA_URL,
+      },
     },
-  },
-});
+  });
 
 if (process.env.NODE_ENV !== 'production') globalForPrisma.prisma = prisma;
 ```
@@ -538,6 +570,7 @@ if (process.env.NODE_ENV !== 'production') globalForPrisma.prisma = prisma;
 ### NextAuth.js Configuration
 
 #### Authentication Setup
+
 ```typescript
 // lib/auth/config.ts
 import { NextAuthConfig } from 'next-auth';
@@ -549,14 +582,17 @@ export const authConfig: NextAuthConfig = {
     CredentialsProvider({
       credentials: {
         email: { type: 'email' },
-        password: { type: 'password' }
+        password: { type: 'password' },
       },
       async authorize(credentials) {
         const user = await prisma.user.findUnique({
-          where: { email: credentials.email as string }
+          where: { email: credentials.email as string },
         });
-        
-        if (user && await compare(credentials.password as string, user.password)) {
+
+        if (
+          user &&
+          (await compare(credentials.password as string, user.password))
+        ) {
           return {
             id: user.id,
             email: user.email,
@@ -566,8 +602,8 @@ export const authConfig: NextAuthConfig = {
           };
         }
         return null;
-      }
-    })
+      },
+    }),
   ],
   callbacks: {
     jwt({ token, user }) {
@@ -582,25 +618,26 @@ export const authConfig: NextAuthConfig = {
       session.user.role = token.role as Role;
       session.user.department = token.department as string;
       return session;
-    }
+    },
   },
   pages: {
     signIn: '/auth/signin',
     signUp: '/auth/signup',
-  }
+  },
 };
 ```
 
 #### Role-Based Access Control
+
 ```typescript
 // lib/auth/permissions.ts
 export const permissions = {
   inputs: {
     create: ['ADMIN', 'EXECUTIVE', 'CONTRIBUTOR'],
     read: ['ADMIN', 'EXECUTIVE', 'CONTRIBUTOR'],
-    update: (user: User, input: Input) => 
-      user.role === 'ADMIN' || 
-      user.role === 'EXECUTIVE' || 
+    update: (user: User, input: Input) =>
+      user.role === 'ADMIN' ||
+      user.role === 'EXECUTIVE' ||
       user.id === input.userId,
     delete: ['ADMIN'],
   },
@@ -618,13 +655,14 @@ export const permissions = {
     update: (user: User, requirement: Requirement) =>
       user.role === 'ADMIN' ||
       (user.role === 'EXECUTIVE' && requirement.status !== 'APPROVED'),
-  }
+  },
 } as const;
 ```
 
 ### Security Implementation
 
 #### Input Validation & Sanitization
+
 ```typescript
 // lib/validation/schemas.ts
 import { z } from 'zod';
@@ -634,7 +672,9 @@ export const CreateInputSchema = z.object({
   description: z.string().min(10).max(2000),
   type: z.enum(['PROBLEM', 'OPPORTUNITY', 'GENERAL']),
   department: z.string().optional(),
-  issueType: z.enum(['PROCESS', 'TECHNOLOGY', 'COMMUNICATION', 'RESOURCE', 'OTHER']).optional(),
+  issueType: z
+    .enum(['PROCESS', 'TECHNOLOGY', 'COMMUNICATION', 'RESOURCE', 'OTHER'])
+    .optional(),
   rootCause: z.string().max(500).optional(),
 });
 
@@ -647,6 +687,7 @@ export const CreateCommentSchema = z.object({
 ```
 
 #### API Security Middleware
+
 ```typescript
 // lib/auth/middleware.ts
 import { getServerSession } from 'next-auth';
@@ -654,11 +695,11 @@ import { NextRequest, NextResponse } from 'next/server';
 
 export async function requireAuth(request: NextRequest) {
   const session = await getServerSession(authConfig);
-  
+
   if (!session) {
     return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
   }
-  
+
   return session;
 }
 
@@ -666,11 +707,11 @@ export function requireRole(roles: Role[]) {
   return async (request: NextRequest) => {
     const session = await requireAuth(request);
     if (session instanceof NextResponse) return session;
-    
+
     if (!roles.includes(session.user.role)) {
       return NextResponse.json({ error: 'Forbidden' }, { status: 403 });
     }
-    
+
     return session;
   };
 }
@@ -683,22 +724,23 @@ export function requireRole(roles: Role[]) {
 ### Server-Sent Events Implementation
 
 #### Real-Time Service
+
 ```typescript
 // lib/realtime/service.ts
 class RealTimeService {
   private connections = new Map<string, Response>();
-  
+
   addConnection(userId: string, response: Response) {
     this.connections.set(userId, response);
   }
-  
+
   removeConnection(userId: string) {
     this.connections.delete(userId);
   }
-  
+
   broadcast(event: string, data: any, userIds?: string[]) {
     const targetUsers = userIds || Array.from(this.connections.keys());
-    
+
     targetUsers.forEach(userId => {
       const connection = this.connections.get(userId);
       if (connection) {
@@ -706,7 +748,7 @@ class RealTimeService {
       }
     });
   }
-  
+
   private sendEvent(response: Response, event: string, data: any) {
     const message = `event: ${event}\ndata: ${JSON.stringify(data)}\n\n`;
     response.write(message);
@@ -717,26 +759,27 @@ export const realTimeService = new RealTimeService();
 ```
 
 #### Real-Time Hooks
+
 ```typescript
 // hooks/useRealTimeUpdates.ts
 export function useRealTimeUpdates(entityType: string, entityId?: string) {
   const [updates, setUpdates] = useState<any[]>([]);
-  
+
   useEffect(() => {
-    const url = entityId 
+    const url = entityId
       ? `/api/realtime/${entityType}?entityId=${entityId}`
       : `/api/realtime/${entityType}`;
-      
+
     const eventSource = new EventSource(url);
-    
-    eventSource.onmessage = (event) => {
+
+    eventSource.onmessage = event => {
       const update = JSON.parse(event.data);
       setUpdates(prev => [...prev, update]);
     };
-    
+
     return () => eventSource.close();
   }, [entityType, entityId]);
-  
+
   return updates;
 }
 ```
@@ -748,6 +791,7 @@ export function useRealTimeUpdates(entityType: string, entityId?: string) {
 ### Component Library Structure
 
 #### Base UI Components
+
 ```typescript
 // components/ui/button.tsx
 interface ButtonProps extends React.ButtonHTMLAttributes<HTMLButtonElement> {
@@ -756,12 +800,12 @@ interface ButtonProps extends React.ButtonHTMLAttributes<HTMLButtonElement> {
   loading?: boolean;
 }
 
-export function Button({ 
-  variant = 'primary', 
-  size = 'md', 
-  loading, 
-  children, 
-  ...props 
+export function Button({
+  variant = 'primary',
+  size = 'md',
+  loading,
+  children,
+  ...props
 }: ButtonProps) {
   return (
     <button
@@ -783,6 +827,7 @@ export function Button({
 ```
 
 #### Collaboration Components
+
 ```typescript
 // components/collaboration/VotingButton.tsx
 interface VotingButtonProps {
@@ -795,7 +840,7 @@ interface VotingButtonProps {
 
 export function VotingButton({ entityId, currentVote, voteCount, onVote }: VotingButtonProps) {
   const [isLoading, setIsLoading] = useState(false);
-  
+
   const handleVote = async (voteType: 'UP' | 'DOWN') => {
     setIsLoading(true);
     try {
@@ -804,7 +849,7 @@ export function VotingButton({ entityId, currentVote, voteCount, onVote }: Votin
       setIsLoading(false);
     }
   };
-  
+
   return (
     <div className="flex items-center space-x-2">
       <Button
@@ -832,20 +877,21 @@ export function VotingButton({ entityId, currentVote, voteCount, onVote }: Votin
 ### State Management Architecture
 
 #### Zustand Store Structure
+
 ```typescript
 // stores/useInputStore.ts
 interface InputStore {
   inputs: Input[];
   filters: InputFilters;
   selectedInput: Input | null;
-  
+
   // Actions
   setInputs: (inputs: Input[]) => void;
   addInput: (input: Input) => void;
   updateInput: (id: string, updates: Partial<Input>) => void;
   setFilters: (filters: Partial<InputFilters>) => void;
   selectInput: (input: Input | null) => void;
-  
+
   // Real-time updates
   handleRealTimeUpdate: (update: RealTimeUpdate) => void;
 }
@@ -854,22 +900,25 @@ export const useInputStore = create<InputStore>((set, get) => ({
   inputs: [],
   filters: {},
   selectedInput: null,
-  
-  setInputs: (inputs) => set({ inputs }),
-  addInput: (input) => set((state) => ({ 
-    inputs: [input, ...state.inputs] 
-  })),
-  updateInput: (id, updates) => set((state) => ({
-    inputs: state.inputs.map(input => 
-      input.id === id ? { ...input, ...updates } : input
-    )
-  })),
-  setFilters: (filters) => set((state) => ({
-    filters: { ...state.filters, ...filters }
-  })),
-  selectInput: (input) => set({ selectedInput: input }),
-  
-  handleRealTimeUpdate: (update) => {
+
+  setInputs: inputs => set({ inputs }),
+  addInput: input =>
+    set(state => ({
+      inputs: [input, ...state.inputs],
+    })),
+  updateInput: (id, updates) =>
+    set(state => ({
+      inputs: state.inputs.map(input =>
+        input.id === id ? { ...input, ...updates } : input
+      ),
+    })),
+  setFilters: filters =>
+    set(state => ({
+      filters: { ...state.filters, ...filters },
+    })),
+  selectInput: input => set({ selectedInput: input }),
+
+  handleRealTimeUpdate: update => {
     const { type, data } = update;
     switch (type) {
       case 'INPUT_CREATED':
@@ -882,7 +931,7 @@ export const useInputStore = create<InputStore>((set, get) => ({
         get().updateInput(data.inputId, { voteCount: data.newCount });
         break;
     }
-  }
+  },
 }));
 ```
 
@@ -893,6 +942,7 @@ export const useInputStore = create<InputStore>((set, get) => ({
 ### Vercel Configuration
 
 #### Project Configuration
+
 ```javascript
 // vercel.json
 {
@@ -918,6 +968,7 @@ export const useInputStore = create<InputStore>((set, get) => ({
 ```
 
 #### Environment Configuration
+
 ```bash
 # .env.local
 # Database
@@ -944,6 +995,7 @@ SENTRY_DSN="https://..."
 ### CI/CD Pipeline
 
 #### GitHub Actions Workflow
+
 ```yaml
 # .github/workflows/quality-check.yml
 name: Quality Check
@@ -956,28 +1008,28 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
-      
+
       - name: Setup Node.js
         uses: actions/setup-node@v4
         with:
           node-version: '18'
           cache: 'npm'
-          
+
       - name: Install dependencies
         run: npm ci
-        
+
       - name: Type checking
         run: npm run type-check
-        
+
       - name: Linting
         run: npm run lint
-        
+
       - name: Unit tests
         run: npm run test
-        
+
       - name: E2E tests
         run: npm run test:e2e
-        
+
       - name: Build verification
         run: npm run build
 
@@ -995,6 +1047,7 @@ jobs:
 ### Performance Monitoring
 
 #### Monitoring Stack
+
 ```typescript
 // lib/monitoring/setup.ts
 import { withSentryConfig } from '@sentry/nextjs';
@@ -1023,6 +1076,7 @@ export default withSentryConfig(
 ### Testing Strategy
 
 #### Unit Testing (Vitest)
+
 ```typescript
 // __tests__/components/InputCard.test.tsx
 import { render, screen, fireEvent } from '@testing-library/react';
@@ -1041,7 +1095,7 @@ describe('InputCard', () => {
 
   it('renders input information correctly', () => {
     render(<InputCard input={mockInput} onVote={jest.fn()} />);
-    
+
     expect(screen.getByText('Test Input')).toBeInTheDocument();
     expect(screen.getByText('Test description')).toBeInTheDocument();
     expect(screen.getByText('5')).toBeInTheDocument(); // vote count
@@ -1050,7 +1104,7 @@ describe('InputCard', () => {
   it('handles voting interactions', async () => {
     const onVote = jest.fn();
     render(<InputCard input={mockInput} onVote={onVote} />);
-    
+
     fireEvent.click(screen.getByLabelText('Upvote'));
     expect(onVote).toHaveBeenCalledWith('1', 'UP');
   });
@@ -1058,6 +1112,7 @@ describe('InputCard', () => {
 ```
 
 #### E2E Testing (Playwright)
+
 ```typescript
 // tests/e2e/input-creation.spec.ts
 import { test, expect } from '@playwright/test';
@@ -1065,20 +1120,26 @@ import { test, expect } from '@playwright/test';
 test.describe('Input Creation', () => {
   test('should create input with AI tagging', async ({ page }) => {
     await page.goto('/dashboard');
-    
+
     // Click create input button
     await page.click('[data-testid="create-input-btn"]');
-    
+
     // Fill form
-    await page.fill('[data-testid="input-title"]', 'Network connectivity issue');
-    await page.fill('[data-testid="input-description"]', 'WiFi keeps dropping in conference room');
-    
+    await page.fill(
+      '[data-testid="input-title"]',
+      'Network connectivity issue'
+    );
+    await page.fill(
+      '[data-testid="input-description"]',
+      'WiFi keeps dropping in conference room'
+    );
+
     // Wait for AI tagging suggestions
     await expect(page.locator('[data-testid="ai-suggestions"]')).toBeVisible();
-    
+
     // Submit form
     await page.click('[data-testid="submit-btn"]');
-    
+
     // Verify success
     await expect(page.locator('[data-testid="success-message"]')).toBeVisible();
   });
@@ -1092,6 +1153,7 @@ test.describe('Input Creation', () => {
 ### Optimization Strategy
 
 #### Frontend Performance
+
 ```typescript
 // next.config.js
 /** @type {import('next').NextConfig} */
@@ -1106,7 +1168,7 @@ const nextConfig = {
   compress: true,
   poweredByHeader: false,
   generateEtags: false,
-  webpack: (config) => {
+  webpack: config => {
     config.externals.push('@node-rs/argon2', '@node-rs/bcrypt');
     return config;
   },
@@ -1114,6 +1176,7 @@ const nextConfig = {
 ```
 
 #### Caching Strategy
+
 ```typescript
 // lib/cache/strategy.ts
 import { unstable_cache } from 'next/cache';
@@ -1149,6 +1212,7 @@ export const getCachedUserPermissions = unstable_cache(
 ### Local Development Setup
 
 #### Development Scripts
+
 ```json
 {
   "scripts": {
@@ -1169,6 +1233,7 @@ export const getCachedUserPermissions = unstable_cache(
 ```
 
 #### Development Environment
+
 ```typescript
 // lib/env.ts
 import { z } from 'zod';
@@ -1188,13 +1253,14 @@ export const env = envSchema.parse(process.env);
 ### Code Quality Configuration
 
 #### ESLint Configuration
+
 ```javascript
 // .eslintrc.js
 module.exports = {
   extends: [
     'next/core-web-vitals',
     '@typescript-eslint/recommended',
-    'prettier'
+    'prettier',
   ],
   rules: {
     '@typescript-eslint/no-unused-vars': 'error',
@@ -1212,6 +1278,7 @@ module.exports = {
 ```
 
 #### TypeScript Configuration
+
 ```json
 {
   "compilerOptions": {
@@ -1251,12 +1318,14 @@ module.exports = {
 ### Scaling Strategy
 
 #### Current Architecture Limits
+
 - **Users**: 50 (well within Vercel Postgres limits)
 - **Concurrent**: 20 active users (easily handled)
 - **Storage**: 10GB (Vercel Blob supports much more)
 - **Database**: 100MB+ (Vercel Postgres handles GB scale)
 
 #### Future Scaling Options
+
 1. **User Growth**: Vercel scales automatically to hundreds of users
 2. **Database Growth**: Upgrade Vercel Postgres plan or migrate to dedicated
 3. **Global Distribution**: Vercel edge functions for international expansion
@@ -1265,6 +1334,7 @@ module.exports = {
 ### Migration Path
 
 #### Phase 2 Enhancements
+
 - **Advanced Analytics**: Add specialized analytics services
 - **External Integrations**: Connect with existing business tools
 - **Mobile Apps**: React Native with shared API
@@ -1275,29 +1345,34 @@ module.exports = {
 ## 🎯 Implementation Timeline
 
 ### Week 1-2: Foundation Setup
+
 - **Environment Setup**: Vercel project, GitHub integration, database
 - **Authentication**: NextAuth.js configuration and user management
 - **Base Components**: UI library and design system
 - **Database Schema**: Prisma setup and initial migrations
 
 ### Week 3-4: Core Features
+
 - **Input Management**: CRUD operations with real-time updates
 - **Collaboration**: Voting and commenting systems
 - **AI Integration**: Tagging and duplicate detection
 - **Admin Panel**: User and system management
 
 ### Week 5-6: Advanced Features
+
 - **Group Management**: Drag-and-drop organization with AI suggestions
 - **Solution Management**: Task breakdown and progress tracking
 - **Real-Time Optimization**: Performance tuning for collaboration features
 
 ### Week 7-8: Requirements System
+
 - **Requirements CRUD**: Executive requirements management
 - **Collaboration**: Voting and commenting on requirements
 - **Approval Workflow**: Executive approval processes
 - **AI Assistance**: Requirements generation from solution data
 
 ### Week 9-10: FRD Generation & Launch
+
 - **Document Generation**: AI-powered FRD creation
 - **Template System**: Professional document templates
 - **Executive Review**: Document approval workflow
@@ -1319,17 +1394,17 @@ module.exports = {
 
 ### Individual Expert Sign-Off
 
-- ✅ **Jordan Kim (Vercel Engineer)**: *"Perfect utilization of Vercel ecosystem for our requirements"*
-- ✅ **Morgan Smith (Database Architect)**: *"Vercel Postgres provides everything we need with zero ops overhead"*
-- ✅ **Dr. Priya Patel (AI Architect)**: *"Vercel AI SDK is purpose-built for our AI integration needs"*
-- ✅ **Alex Thompson (Lead Developer)**: *"Excellent developer experience enabling quality delivery"*
-- ✅ **Jordan Lee (Cursor Expert)**: *"Optimal stack for AI-assisted development productivity"*
-- ✅ **Taylor Morgan (GitHub Expert)**: *"Seamless CI/CD and quality assurance integration"*
-- ✅ **Alex Johnson (Linear Expert)**: *"Simple stack reduces project complexity and risk"*
-- ✅ **Maya Rodriguez (IA/UX Expert)**: *"Next.js provides excellent foundation for responsive, accessible design"*
-- ✅ **David Chen (Visual Designer)**: *"Tailwind + Headless UI enables rapid, consistent design implementation"*
-- ✅ **Sarah Chen (Product Manager)**: *"Stack optimizes for speed to market and minimal operational burden"*
-- ✅ **Marcus Rodriguez (Strategic Consultant)**: *"Enterprise-grade capabilities without enterprise complexity"*
+- ✅ **Jordan Kim (Vercel Engineer)**: _"Perfect utilization of Vercel ecosystem for our requirements"_
+- ✅ **Morgan Smith (Database Architect)**: _"Vercel Postgres provides everything we need with zero ops overhead"_
+- ✅ **Dr. Priya Patel (AI Architect)**: _"Vercel AI SDK is purpose-built for our AI integration needs"_
+- ✅ **Alex Thompson (Lead Developer)**: _"Excellent developer experience enabling quality delivery"_
+- ✅ **Jordan Lee (Cursor Expert)**: _"Optimal stack for AI-assisted development productivity"_
+- ✅ **Taylor Morgan (GitHub Expert)**: _"Seamless CI/CD and quality assurance integration"_
+- ✅ **Alex Johnson (Linear Expert)**: _"Simple stack reduces project complexity and risk"_
+- ✅ **Maya Rodriguez (IA/UX Expert)**: _"Next.js provides excellent foundation for responsive, accessible design"_
+- ✅ **David Chen (Visual Designer)**: _"Tailwind + Headless UI enables rapid, consistent design implementation"_
+- ✅ **Sarah Chen (Product Manager)**: _"Stack optimizes for speed to market and minimal operational burden"_
+- ✅ **Marcus Rodriguez (Strategic Consultant)**: _"Enterprise-grade capabilities without enterprise complexity"_
 
 ---
 
@@ -1338,24 +1413,28 @@ module.exports = {
 **FAEVision MVP Technical Architecture** represents the unanimous consensus of 11 specialized experts on a **Vercel-first technology stack** that:
 
 ### ✅ Delivers Technical Excellence
+
 - Modern, type-safe development with Next.js 14 + TypeScript
 - Managed PostgreSQL with Prisma for data integrity
 - Real-time collaboration with Server-Sent Events
 - Comprehensive AI integration with Vercel AI SDK
 
 ### ✅ Ensures Operational Simplicity
+
 - Zero infrastructure management with Vercel platform
 - Automatic scaling and performance optimization
 - Built-in monitoring, analytics, and error tracking
 - Seamless CI/CD with GitHub integration
 
 ### ✅ Optimizes for Development Velocity
+
 - AI-assisted development with Cursor integration
 - Excellent developer experience with modern tooling
 - Rapid UI development with Tailwind CSS
 - Comprehensive testing with Vitest and Playwright
 
 ### ✅ Enables Future Growth
+
 - Scalable architecture supporting growth to hundreds of users
 - Clear migration path for advanced features
 - Integration-ready for external systems
@@ -1369,4 +1448,4 @@ module.exports = {
 
 ---
 
-*This document represents the final, unanimous consensus of the FAEVision expert team on the optimal technology stack for MVP development and deployment.*
+_This document represents the final, unanimous consensus of the FAEVision expert team on the optimal technology stack for MVP development and deployment._

@@ -4,13 +4,15 @@
 **Priority: URGENT - Required for authentication to work**
 
 ## 🚨 Current Issue
-- Production site loads: ✅ https://faevision-simplified.vercel.app  
+
+- Production site loads: ✅ https://faevision-simplified.vercel.app
 - Authentication fails: ❌ `/api/auth/providers` returns 500 error
 - Root cause: Missing environment variables in Production environment
 
 ## 🔧 Vercel Dashboard Configuration (IMMEDIATE ACTION)
 
 ### **Step 1: Access Vercel Dashboard**
+
 1. Go to: https://vercel.com/dashboard
 2. Find: `faevision-simplified` project
 3. Navigate: **Settings** → **Environment Variables**
@@ -20,25 +22,27 @@
 **Environment Scope: `Production`**  
 **Branch Pattern: `main`**
 
-| Variable | Value | Notes |
-|----------|--------|-------|
-| `NEXTAUTH_SECRET` | `dabc0c10bf1d6e4d1a481c3b8fdaf3ace2111a806570d46e147eb25424f36692` | Generated secure 64-char hex |
-| `NEXTAUTH_URL` | `https://faevision-simplified.vercel.app` | Production domain |
-| `DATABASE_URL` | `[PRODUCTION_DATABASE_POOLER_URL]` | **REQUIRED: Production Postgres pooler** |
-| `DIRECT_URL` | `[PRODUCTION_DATABASE_DIRECT_URL]` | **REQUIRED: Production Postgres direct** |
-| `OPENAI_API_KEY` | `[PRODUCTION_OPENAI_KEY]` | For AI features (F1 auto-tagging) |
-| `NODE_ENV` | `production` | Environment identifier |
+| Variable          | Value                                                              | Notes                                    |
+| ----------------- | ------------------------------------------------------------------ | ---------------------------------------- |
+| `NEXTAUTH_SECRET` | `dabc0c10bf1d6e4d1a481c3b8fdaf3ace2111a806570d46e147eb25424f36692` | Generated secure 64-char hex             |
+| `NEXTAUTH_URL`    | `https://faevision-simplified.vercel.app`                          | Production domain                        |
+| `DATABASE_URL`    | `[PRODUCTION_DATABASE_POOLER_URL]`                                 | **REQUIRED: Production Postgres pooler** |
+| `DIRECT_URL`      | `[PRODUCTION_DATABASE_DIRECT_URL]`                                 | **REQUIRED: Production Postgres direct** |
+| `OPENAI_API_KEY`  | `[PRODUCTION_OPENAI_KEY]`                                          | For AI features (F1 auto-tagging)        |
+| `NODE_ENV`        | `production`                                                       | Environment identifier                   |
 
 ### **Step 3: Production Database Setup**
 
 **CRITICAL: We need a production database separate from Preview/Development**
 
 Current databases:
+
 - 🔵 Preview: `ep-round-frost-aecda5ou` (configured)
-- 🟢 Development: `ep-lingering-queen-ae13d5gh` (configured)  
+- 🟢 Development: `ep-lingering-queen-ae13d5gh` (configured)
 - 🟡 **Production: MISSING** ← **CREATE THIS**
 
 **Action Required:**
+
 1. Create new Vercel Postgres database for Production
 2. Get connection strings (pooler + direct)
 3. Add to environment variables above
@@ -67,12 +71,12 @@ Test these endpoints after deployment:
 curl -s "https://faevision-simplified.vercel.app/api/auth/providers"
 # Expected: {"credentials":{"name":"credentials"}}
 
-# 2. Login page (should load without errors)  
+# 2. Login page (should load without errors)
 curl -I "https://faevision-simplified.vercel.app/login"
 # Expected: 200 OK
 
 # 3. Dashboard (should redirect to login if not authenticated)
-curl -I "https://faevision-simplified.vercel.app/dashboard"  
+curl -I "https://faevision-simplified.vercel.app/dashboard"
 # Expected: 302 redirect to /login
 ```
 
@@ -102,4 +106,4 @@ curl -I "https://faevision-simplified.vercel.app/dashboard"
 
 **Status**: Ready for immediate Vercel Dashboard configuration  
 **Blocking**: Manual environment variable setup required  
-**Impact**: Authentication will work once configured  
+**Impact**: Authentication will work once configured
