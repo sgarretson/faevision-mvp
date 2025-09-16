@@ -177,7 +177,7 @@ export async function POST(request: NextRequest) {
           status: hotspot.status,
           rankScore: hotspot.rankScore,
           confidence: hotspot.confidence,
-          signalCount: signalIds?.length || 0,
+          // signalCount is calculated from relationships, not stored
           linkedEntities: [],
           createdAt: hotspot.createdAt.toISOString(),
           updatedAt: hotspot.updatedAt.toISOString(),

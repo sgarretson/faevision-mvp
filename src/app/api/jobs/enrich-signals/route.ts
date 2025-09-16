@@ -95,12 +95,12 @@ export async function POST(request: NextRequest) {
             },
           });
         } else {
-          // Legacy Input model
+          // Legacy Input model - only update valid fields
           await (prisma as any).input.update({
             where: { id: signal.id },
             data: {
               aiTags: aiTags,
-              aiProcessed: true,
+              // Note: Input model doesn't have aiProcessed field
               aiSuggestions: entities,
             },
           });
