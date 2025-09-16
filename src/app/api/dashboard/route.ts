@@ -69,13 +69,9 @@ export async function GET(request: NextRequest) {
       }) || 0,
 
       // Signals in discussion (have comments)
-      (prisma as any).signal?.count({
+      (prisma as any).comment?.count({
         where: {
-          AND: [
-            {
-              OR: [{ status: 'ACTIVE' }, { status: 'DISCUSSING' }],
-            },
-          ],
+          entityType: 'SIGNAL',
         },
       }) || 0,
 
@@ -142,6 +138,11 @@ export async function GET(request: NextRequest) {
               name: true,
             },
           },
+          department: {
+            select: {
+              name: true,
+            },
+          },
         },
       })) || [];
 
@@ -165,10 +166,10 @@ export async function GET(request: NextRequest) {
 
         return {
           id: signal.id,
-          title: signal.title,
-          type: signal.type,
-          priority: signal.priority,
-          department: signal.department,
+          title: signal.title || 'Untitled Signal',
+          type: 'GENERAL' as const, // Default type since Signal model doesn't have type field
+          priority: signal.severity || 'MEDIUM', // Map severity to priority
+          department: signal.department?.name || 'Unknown',
           creator: signal.creator?.name || 'Unknown',
           createdAt: signal.createdAt.toISOString(),
           votesCount,
