@@ -29,13 +29,13 @@ interface InputItem {
   issueType?: string;
   priority: 'LOW' | 'MEDIUM' | 'HIGH';
   createdAt: string;
-  creator: {
+  creator?: {
     id: string;
-    name: string;
+    name?: string;
     email: string;
     role: string;
     department?: string;
-  };
+  } | null;
   _count: {
     comments: number;
     votes: number;
@@ -123,8 +123,10 @@ export default function InputsPage() {
   const filteredInputs = inputs.filter(
     input =>
       !searchQuery ||
-      input.title.toLowerCase().includes(searchQuery.toLowerCase()) ||
-      input.description.toLowerCase().includes(searchQuery.toLowerCase())
+      (input.title || '').toLowerCase().includes(searchQuery.toLowerCase()) ||
+      (input.description || '')
+        .toLowerCase()
+        .includes(searchQuery.toLowerCase())
   );
 
   const formatDate = (dateString: string) => {
@@ -324,11 +326,11 @@ export default function InputsPage() {
                           <div className="flex-1">
                             <h3 className="text-lg font-semibold text-gray-900 hover:text-blue-600">
                               <Link href={`/inputs/${input.id}`}>
-                                {input.title}
+                                {input.title || 'Untitled Input'}
                               </Link>
                             </h3>
                             <p className="mt-1 line-clamp-2 text-sm text-gray-600">
-                              {input.description}
+                              {input.description || 'No description available'}
                             </p>
                           </div>
                         </div>
@@ -349,9 +351,12 @@ export default function InputsPage() {
                         </div>
 
                         <div className="mt-4 text-sm text-gray-500">
-                          Created by {input.creator.name} on{' '}
-                          {formatDate(input.createdAt)}
-                          {input.creator.department &&
+                          Created by{' '}
+                          {input.creator?.name ||
+                            input.creator?.email ||
+                            'Unknown User'}{' '}
+                          on {formatDate(input.createdAt)}
+                          {input.creator?.department &&
                             ` • ${input.creator.department}`}
                         </div>
                       </div>
