@@ -15,6 +15,7 @@ const { URL } = require('url');
 
 // Preview URL (will be updated when known)
 const PREVIEW_URLS = [
+  'https://faevision-simplified-git-preview-scott-garretsons-projects.vercel.app',
   'https://faevision-simplified-git-preview.vercel.app',
   'https://faevision-mvp-git-preview.vercel.app',
   'https://faevision-simplified-preview.vercel.app'
