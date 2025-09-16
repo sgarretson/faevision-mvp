@@ -3,6 +3,8 @@ import { auth } from '@/lib/auth';
 import { prisma } from '@/lib/prisma';
 import { z } from 'zod';
 
+// Force redeploy - v2.1 Signal Model Integration
+
 const createInputSchema = z.object({
   title: z
     .string()
