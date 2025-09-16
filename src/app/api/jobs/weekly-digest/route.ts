@@ -169,13 +169,13 @@ async function gatherWeeklyMetrics(weekAgo: Date) {
     ]);
 
     const [completedSolutions, totalSolutions] = await Promise.all([
-      prisma.solution.count({
+      (prisma as any).solution.count({
         where: { 
           status: 'IMPLEMENTED',
           updatedAt: { gte: weekAgo }
         }
       }),
-      prisma.solution.count()
+      (prisma as any).solution.count()
     ]);
 
     return {
@@ -197,13 +197,13 @@ async function gatherWeeklyMetrics(weekAgo: Date) {
     ]);
 
     const [completedSolutions, totalSolutions] = await Promise.all([
-      prisma.solution.count({
+      (prisma as any).solution.count({
         where: { 
           status: 'IMPLEMENTED',
           updatedAt: { gte: weekAgo }
         }
       }),
-      prisma.solution.count()
+      (prisma as any).solution.count()
     ]);
 
     return {
@@ -230,7 +230,7 @@ async function gatherDepartmentBreakdown(weekAgo: Date) {
       _count: { id: true }
     });
 
-    const departments = await prisma.department.findMany({
+    const departments = await (prisma as any).department.findMany({
       select: { id: true, name: true }
     });
 

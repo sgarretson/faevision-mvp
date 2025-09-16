@@ -76,7 +76,7 @@ export async function POST(request: NextRequest) {
     const downVotes = votes.filter((v) => v.value < 0).length
 
     // Log the action for audit
-    await prisma.auditLog.create({
+    await (prisma as any).auditLog.create({
       data: {
         userId: session.user.id,
         action: `VOTE_${action.toUpperCase()}`,

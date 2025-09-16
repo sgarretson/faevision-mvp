@@ -33,7 +33,7 @@ export async function GET(request: NextRequest) {
     }
 
     const [solutions, totalCount] = await Promise.all([
-      prisma.solution.findMany({
+      (prisma as any).solution.findMany({
         where,
         include: {
           creator: {
@@ -75,7 +75,7 @@ export async function GET(request: NextRequest) {
         take: limit,
         skip: offset
       }),
-      prisma.solution.count({ where })
+      (prisma as any).solution.count({ where })
     ]);
 
     const formattedSolutions = solutions.map(solution => ({
@@ -174,7 +174,7 @@ export async function POST(request: NextRequest) {
     }
 
     // Create solution
-    const solution = await prisma.solution.create({
+    const solution = await (prisma as any).solution.create({
       data: {
         title,
         description,

@@ -238,7 +238,7 @@ Focus on strategic value and executive decision-making needs.
       }
 
       // Create audit log for AI tagging
-      await prisma.auditLog.create({
+      await (prisma as any).auditLog.create({
         data: {
           action: 'AI_AUTO_TAGGING',
           entityType: 'input_suggestion',

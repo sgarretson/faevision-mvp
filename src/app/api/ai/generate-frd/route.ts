@@ -24,7 +24,7 @@ export async function POST(request: NextRequest) {
     const body = await request.json()
     const { solutionId } = body
 
-    const solution = await prisma.solution.findUnique({
+    const solution = await (prisma as any).solution.findUnique({
       where: { id: solutionId },
       include: {
         inputs: true,
@@ -61,7 +61,7 @@ export async function POST(request: NextRequest) {
       aiConfidence: 0.85,
     }
 
-    const createdFRD = await prisma.fRDDocument.create({
+    const createdFRD = await (prisma as any).fRDDocument.create({
       data: {
         ...aiGeneratedFRD,
         solutionId,

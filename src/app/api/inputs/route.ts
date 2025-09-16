@@ -60,7 +60,7 @@ export async function POST(request: NextRequest) {
     })
 
     // Log the creation for audit
-    await prisma.auditLog.create({
+    await (prisma as any).auditLog.create({
       data: {
         userId: session.user.id,
         action: 'CREATE_INPUT',

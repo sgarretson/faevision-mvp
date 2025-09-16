@@ -37,7 +37,7 @@ export async function GET(request: NextRequest) {
     const limit = parseInt(searchParams.get('limit') || '20')
     const offset = parseInt(searchParams.get('offset') || '0')
 
-    const frdDocuments = await prisma.fRDDocument.findMany({
+    const frdDocuments = await (prisma as any).fRDDocument.findMany({
       include: {
         solution: { select: { id: true, title: true, status: true } },
         creator: { select: { id: true, name: true, email: true } },
@@ -71,7 +71,7 @@ export async function POST(request: NextRequest) {
     const body = await request.json()
     const validatedData = createFRDSchema.parse(body)
 
-    const newFRD = await prisma.fRDDocument.create({
+    const newFRD = await (prisma as any).fRDDocument.create({
       data: {
         ...validatedData,
         createdBy: session.user.id,
