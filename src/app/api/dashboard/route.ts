@@ -2,6 +2,9 @@ import { NextRequest, NextResponse } from 'next/server';
 import { auth } from '@/lib/auth';
 import { prisma } from '@/lib/prisma';
 
+// Force dynamic rendering for auth
+export const dynamic = 'force-dynamic';
+
 /**
  * Dashboard API Route
  *

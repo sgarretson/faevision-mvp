@@ -1,6 +1,9 @@
 import { NextResponse } from 'next/server';
 import { auth } from '@/lib/auth';
 
+// Force dynamic rendering for auth
+export const dynamic = 'force-dynamic';
+
 /**
  * Debug endpoint to check session state
  * For troubleshooting authentication issues

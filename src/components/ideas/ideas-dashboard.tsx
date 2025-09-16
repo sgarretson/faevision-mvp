@@ -179,6 +179,15 @@ export function IdeasDashboard() {
 
   // Handle loading authentication
   if (status === 'loading') {
+    // During build time, show a different message
+    if (typeof window === 'undefined') {
+      return (
+        <div className="py-12 text-center">
+          <div className="mx-auto h-8 w-8 animate-spin rounded-full border-b-2 border-purple-600"></div>
+          <p className="mt-4 text-gray-600">Building application...</p>
+        </div>
+      );
+    }
     return (
       <div className="py-12 text-center">
         <div className="mx-auto h-8 w-8 animate-spin rounded-full border-b-2 border-purple-600"></div>

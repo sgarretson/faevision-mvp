@@ -82,7 +82,13 @@ async function getClusteringPerformance() {
         createdAt: true,
         confidence: true,
         clusteringMethod: true,
-        signals: { select: { id: true } },
+        signals: {
+          select: {
+            hotspotId: true,
+            signalId: true,
+            membershipStrength: true,
+          },
+        },
       },
     });
 
