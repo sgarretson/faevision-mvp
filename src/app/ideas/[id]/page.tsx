@@ -17,7 +17,6 @@ import {
   AlertCircle,
   User,
   Calendar,
-  Tag,
   Lightbulb,
   Zap,
   Target,
@@ -324,7 +323,7 @@ export default function IdeaDetailPage() {
           <CardHeader>
             <div className="flex items-start justify-between">
               <div className="flex items-start space-x-3">
-                <span className="text-3xl" role="img" aria-label={idea.origin}>
+                <span className="text-3xl" aria-label={`${idea.origin} origin`}>
                   {ORIGIN_ICONS[idea.origin]}
                 </span>
                 <div>
@@ -471,17 +470,18 @@ export default function IdeaDetailPage() {
                           Tags
                         </h3>
                         <div className="mt-2 flex flex-wrap gap-2">
-                          {Array.isArray(idea.tagsJson) ? (
-                            idea.tagsJson.map((tag: string, index: number) => (
-                              <Badge key={index} variant="outline">
-                                {tag}
-                              </Badge>
-                            ))
-                          ) : (
-                            <Badge variant="outline">
-                              {String(idea.tagsJson)}
-                            </Badge>
-                          )}
+                          {Array.isArray(idea.tagsJson) &&
+                          idea.tagsJson.length > 0
+                            ? idea.tagsJson.map((tag: string) => (
+                                <Badge key={`tag-${tag}`} variant="outline">
+                                  {tag}
+                                </Badge>
+                              ))
+                            : idea.tagsJson && (
+                                <Badge variant="outline">
+                                  {String(idea.tagsJson)}
+                                </Badge>
+                              )}
                         </div>
                       </div>
                     )}
@@ -497,7 +497,7 @@ export default function IdeaDetailPage() {
           <CardHeader>
             <CardTitle className="flex items-center">
               <MessageSquare className="mr-2 h-5 w-5" />
-              Comments ({comments.length})
+              Comments ({comments?.length || 0})
             </CardTitle>
           </CardHeader>
           <CardContent>
@@ -524,12 +524,12 @@ export default function IdeaDetailPage() {
 
               {/* Comments List */}
               <div className="space-y-4">
-                {comments.length === 0 ? (
+                {!comments || comments.length === 0 ? (
                   <p className="py-8 text-center text-gray-500">
                     No comments yet. Be the first to comment!
                   </p>
                 ) : (
-                  comments.map(comment => (
+                  comments.map((comment: any) => (
                     <div key={comment.id} className="rounded-lg bg-gray-50 p-4">
                       <div className="flex items-start justify-between">
                         <div className="flex items-center space-x-2">
