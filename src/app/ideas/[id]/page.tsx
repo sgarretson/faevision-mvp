@@ -11,8 +11,6 @@ import { Textarea } from '@/components/ui/textarea';
 import {
   ArrowLeft,
   MessageSquare,
-  TrendingUp,
-  TrendingDown,
   Send,
   AlertCircle,
   User,
@@ -21,6 +19,8 @@ import {
   Zap,
   Target,
 } from 'lucide-react';
+import { IdeaVoting } from '@/components/ideas/idea-voting';
+import { IdeaApproval } from '@/components/ideas/idea-approval';
 import { Alert, AlertDescription } from '@/components/ui/alert';
 
 interface IdeaDetail {
@@ -345,30 +345,28 @@ export default function IdeaDetailPage() {
                   </div>
                 </div>
               </div>
-              <div className="flex items-center space-x-4">
-                <div className="text-right">
-                  <div className="flex items-center space-x-2">
-                    <TrendingUp className="h-4 w-4 text-green-600" />
-                    <span className="text-sm font-medium">
-                      {idea._count.upVotes}
-                    </span>
-                  </div>
-                  <div className="mt-1 flex items-center space-x-2">
-                    <TrendingDown className="h-4 w-4 text-red-600" />
-                    <span className="text-sm font-medium">
-                      {idea._count.downVotes}
-                    </span>
-                  </div>
-                </div>
-                {/* Create Solution Button */}
-                <Button
-                  onClick={() => handleCreateSolution()}
-                  className="bg-blue-600 hover:bg-blue-700"
-                  disabled={isCreatingSolution}
-                >
-                  <Target className="mr-2 h-4 w-4" />
-                  {isCreatingSolution ? 'Creating...' : 'Create Solution'}
-                </Button>
+              <div className="flex flex-col space-y-4">
+                {/* Voting Section */}
+                <IdeaVoting
+                  ideaId={idea.id}
+                  initialVotes={{
+                    up: idea._count.upVotes,
+                    down: idea._count.downVotes,
+                    total: idea._count.upVotes + idea._count.downVotes,
+                  }}
+                />
+
+                {/* Create Solution Button - Only show if approved */}
+                {idea.status === 'approved' && (
+                  <Button
+                    onClick={() => handleCreateSolution()}
+                    className="bg-blue-600 hover:bg-blue-700"
+                    disabled={isCreatingSolution}
+                  >
+                    <Target className="mr-2 h-4 w-4" />
+                    {isCreatingSolution ? 'Creating...' : 'Create Solution'}
+                  </Button>
+                )}
               </div>
             </div>
           </CardHeader>
@@ -413,6 +411,26 @@ export default function IdeaDetailPage() {
                   </div>
                 </div>
               )}
+
+              <hr className="border-gray-200" />
+
+              {/* Approval Workflow */}
+              <div>
+                <h3 className="text-lg font-semibold text-gray-900">
+                  Approval Status
+                </h3>
+                <div className="mt-2">
+                  <IdeaApproval
+                    ideaId={idea.id}
+                    currentStatus={idea.status as any}
+                    votes={{
+                      up: idea._count.upVotes,
+                      down: idea._count.downVotes,
+                      total: idea._count.upVotes + idea._count.downVotes,
+                    }}
+                  />
+                </div>
+              </div>
 
               <hr className="border-gray-200" />
 
