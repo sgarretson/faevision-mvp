@@ -7,18 +7,8 @@
 import NextAuth from "next-auth"
 import Credentials from "next-auth/providers/credentials"
 import { compare } from "bcryptjs"
-import { PrismaClient } from "../../src/generated/prisma"
+import { prisma } from "./prisma"
 import type { UserRole } from "../generated/prisma"
-
-// Create dedicated Prisma client for Auth.js to avoid serverless issues
-const authPrisma = new PrismaClient({
-  log: process.env.VERCEL_ENV === 'preview' ? ['query', 'info', 'warn', 'error'] : ['warn', 'error'],
-  datasources: {
-    db: {
-      url: process.env.DATABASE_URL,
-    },
-  },
-})
 
 // ============================================================================
 // TYPESCRIPT DECLARATIONS
@@ -99,8 +89,7 @@ export const { handlers, auth, signIn, signOut } = NextAuth({
           }
 
           console.log('🗄️ Looking up user in database...')
-          console.log('🔍 Using dedicated Auth.js Prisma client')
-          const user = await authPrisma.user.findUnique({
+          const user = await prisma.user.findUnique({
             where: { email: String(credentials.email).toLowerCase() }
           })
 

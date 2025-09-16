@@ -1,14 +1,10 @@
-import { PrismaClient } from '../../src/generated/prisma'
+import { PrismaClient } from '../generated/prisma'
+import { withAccelerate } from '@prisma/extension-accelerate'
 
 const prismaClientSingleton = () => {
   return new PrismaClient({
     log: process.env.VERCEL_ENV === 'preview' ? ['query', 'info', 'warn', 'error'] : ['warn', 'error'],
-    datasources: {
-      db: {
-        url: process.env.DATABASE_URL,
-      },
-    },
-  })
+  }).$extends(withAccelerate())
 }
 
 declare global {
