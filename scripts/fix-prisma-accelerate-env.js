@@ -23,7 +23,7 @@ console.log('2. Select project: faevision-simplified');
 console.log('3. Navigate: Settings → Environment Variables');
 console.log('4. UPDATE/ADD these variables for PREVIEW environment:\n');
 
-console.log('   Variable: DATABASE_URL');
+console.log('   Variable: POSTGRES_URL');
 console.log(
   '   Value: postgres://f279b9e46e7c0166b4949c4f910079cd6f0cbb7ae03a783a14b933638f1ba0ce:sk_paIQiDGXmKNC6q0ngZD0i@db.prisma.io:5432/postgres?sslmode=require'
 );
@@ -43,6 +43,12 @@ console.log('   Environment: Preview\n');
 
 console.log('5. Click "Save" for each variable');
 console.log('6. Force redeploy Preview environment\n');
+
+console.log('🎯 CRITICAL: ONLY PREVIEW ENVIRONMENT');
+console.log('====================================');
+console.log('✅ Only Preview environment exists - no Development/Production');
+console.log('✅ Use POSTGRES_URL (not DATABASE_URL) to match schema');
+console.log('✅ Prisma Accelerate is the ONLY database for Preview\n');
 
 console.log('🔄 DEPLOYMENT COMMAND:');
 console.log('======================\n');

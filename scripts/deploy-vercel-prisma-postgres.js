@@ -11,22 +11,22 @@ import { PrismaClient } from '../src/generated/prisma/index.js';
 console.log('🚀 VERCEL PRISMA POSTGRES DEPLOYMENT');
 console.log('=====================================');
 
-// Use the actual Vercel Prisma Postgres URL from environment
-const VERCEL_PRISMA_URL =
-  process.env.DATABASE_URL ||
+// Use the actual Prisma Accelerate URL for Preview environment
+const PRISMA_ACCELERATE_URL =
+  process.env.POSTGRES_URL ||
   'postgres://f279b9e46e7c0166b4949c4f910079cd6f0cbb7ae03a783a14b933638f1ba0ce:sk_paIQiDGXmKNC6q0ngZD0i@db.prisma.io:5432/postgres?sslmode=require';
 
 async function deploySchema() {
   console.log('1. 📊 Pushing schema to Vercel Prisma Postgres...');
 
   try {
-    // Set the DATABASE_URL for this deployment
-    process.env.DATABASE_URL = VERCEL_PRISMA_URL;
+    // Set the POSTGRES_URL for this deployment
+    process.env.POSTGRES_URL = PRISMA_ACCELERATE_URL;
 
-    // Push schema to Vercel Prisma Postgres
+    // Push schema to Prisma Accelerate
     execSync('npx prisma db push', {
       stdio: 'inherit',
-      env: { ...process.env, DATABASE_URL: VERCEL_PRISMA_URL },
+      env: { ...process.env, POSTGRES_URL: PRISMA_ACCELERATE_URL },
     });
 
     console.log('✅ Schema pushed successfully!');
@@ -41,13 +41,13 @@ async function seedDatabase() {
 
   try {
     // Set environment for seeding
-    process.env.DATABASE_URL = VERCEL_PRISMA_URL;
+    process.env.POSTGRES_URL = PRISMA_ACCELERATE_URL;
     process.env.VERCEL_ENV = 'preview';
 
     // Run TypeScript seed script
     execSync('npx tsx prisma/seed.ts', {
       stdio: 'inherit',
-      env: { ...process.env, DATABASE_URL: VERCEL_PRISMA_URL },
+      env: { ...process.env, POSTGRES_URL: PRISMA_ACCELERATE_URL },
     });
 
     console.log('✅ Database seeded successfully!');
@@ -63,7 +63,7 @@ async function verifyDeployment() {
   try {
     const prisma = new PrismaClient({
       datasources: {
-        db: { url: VERCEL_PRISMA_URL },
+        db: { url: PRISMA_ACCELERATE_URL },
       },
     });
 
@@ -94,9 +94,9 @@ async function verifyDeployment() {
 
 async function main() {
   try {
-    console.log('🎯 Target: Vercel Prisma Postgres');
+    console.log('🎯 Target: Prisma Accelerate (Preview Only)');
     console.log(
-      `🗄️ Database: ${VERCEL_PRISMA_URL.split('@')[1]?.split('/')[0]}`
+      `🗄️ Database: ${PRISMA_ACCELERATE_URL.split('@')[1]?.split('/')[0]}`
     );
     console.log('');
 
@@ -105,16 +105,18 @@ async function main() {
     await verifyDeployment();
 
     console.log('');
-    console.log('🎉 VERCEL PRISMA POSTGRES DEPLOYMENT COMPLETE!');
-    console.log('=========================================');
+    console.log('🎉 PRISMA ACCELERATE DEPLOYMENT COMPLETE!');
+    console.log('========================================');
     console.log('');
     console.log('✅ Next Steps:');
     console.log(
-      '1. Test Preview environment: https://faevision-simplified-git-preview.vercel.app'
+      '1. Test Preview environment: https://faevision-simplified-git-preview-scott-garretsons-projects.vercel.app'
     );
-    console.log('2. Login with: admin@faevision.com / FAEVision2025!');
-    console.log('3. Verify CSS styling works correctly');
-    console.log('4. Confirm no authentication errors');
+    console.log('2. Login with: sarah.martinez@aetech.com');
+    console.log(
+      '3. Verify all V2 features work (20 signals, 3 hotspots, 5 ideas)'
+    );
+    console.log('4. Test Ideas "View Details" functionality');
     console.log('');
   } catch (error) {
     console.error('');
