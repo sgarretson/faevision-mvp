@@ -37,8 +37,11 @@ export async function POST(request: NextRequest) {
       // Try V2 Signal model
       unprocessedSignals = await (prisma as any).signal.findMany({
         where: {
-          aiProcessed: false,
-          confidence: null,
+          OR: [
+            { aiProcessed: false },
+            { confidence: null },
+            { embedding: null },
+          ],
         },
         take: 10, // Process in batches for performance
         orderBy: { receivedAt: 'asc' },
