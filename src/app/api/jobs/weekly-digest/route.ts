@@ -54,7 +54,10 @@ export async function POST(request: NextRequest) {
 
     for (const executive of executives) {
       try {
-        await sendExecutiveDigest(executive, digestData);
+        await sendExecutiveDigest({
+          ...executive,
+          department: executive.department || undefined
+        }, digestData);
         emailsSent++;
         console.log(`    ✅ Digest sent to ${executive.email}`);
       } catch (error) {

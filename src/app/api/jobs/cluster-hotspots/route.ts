@@ -46,7 +46,7 @@ export async function POST(request: NextRequest) {
       // Fallback to legacy Input model
       processedSignals = await prisma.input.findMany({
         where: {
-          aiConfidence: { not: null }
+          aiProcessed: true
         },
         orderBy: { createdAt: 'asc' }
       });
@@ -65,7 +65,7 @@ export async function POST(request: NextRequest) {
     console.log(`  📊 Clustering ${processedSignals.length} signals...`);
 
     // Extract embeddings for clustering
-    const embeddings = processedSignals.map(signal => {
+    const embeddings = processedSignals.map((signal: any) => {
       if (signal.embedding) {
         // V2 Signal model with Bytes embedding
         return Array.from(new Float32Array(signal.embedding));

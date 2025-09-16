@@ -40,7 +40,7 @@ export async function POST(request: NextRequest) {
       // Fallback to legacy Input model
       unprocessedSignals = await prisma.input.findMany({
         where: { 
-          aiConfidence: null 
+          aiProcessed: { not: true } 
         },
         take: 10,
         orderBy: { createdAt: 'asc' }
@@ -93,7 +93,7 @@ export async function POST(request: NextRequest) {
             where: { id: signal.id },
             data: {
               aiTags: aiTags,
-              aiConfidence: confidence,
+              aiProcessed: true,
               aiSuggestions: entities
             }
           });
