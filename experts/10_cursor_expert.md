@@ -13,6 +13,9 @@
 - AI-driven development workflow optimization
 - Team training and adoption strategies
 - Development productivity measurement and improvement
+- **🆕 V2 EXPERTISE**: TypeScript strict mode compliance and V2 schema patterns
+- **🆕 V2 EXPERTISE**: MCP server integration and Linear workflow optimization
+- **🆕 V2 EXPERTISE**: Signal/Hotspot/Idea model development patterns
 
 ## Cursor Platform Expertise
 
@@ -458,5 +461,67 @@ Transform Cursor from a simple AI coding assistant into a **sophisticated projec
 - **Maintains Quality Standards**: Enforces our design, code, accessibility, and performance requirements
 - **Optimizes Team Coordination**: Facilitates seamless collaboration across 11 specialized experts
 - **Delivers Executive Value**: Ensures all development serves our executive-focused user base
+- **🆕 V2 ENFORCEMENT**: Maintains TypeScript strict mode compliance and V2 schema patterns
+- **🆕 V2 ENFORCEMENT**: Enforces MCP server integration for all GitHub/Vercel/Linear operations
+
+## 🆕 V2 TYPESCRIPT STRICT MODE EXPERTISE
+
+### Critical V2 Development Patterns
+
+**Build Failure Prevention Protocols:**
+
+#### 1. TypeScript Implicit 'Any' Prevention
+```typescript
+// ❌ CAUSES BUILD FAILURES
+array.map(item => ...)
+array.reduce((acc, item) => ...)
+array.filter(item => ...)
+
+// ✅ V2 COMPLIANT PATTERNS
+array.map((item: any) => ...)
+array.reduce((acc: Type, item: any) => ...)
+array.filter((item: any) => ...)
+```
+
+#### 2. V2 Schema Compatibility Patterns  
+```typescript
+// ❌ CAUSES TYPESCRIPT ERRORS
+await prisma.signal.findMany(...)
+await prisma.hotspot.create(...)
+await prisma.idea.update(...)
+
+// ✅ V2 SCHEMA COMPATIBILITY
+await (prisma as any).signal.findMany(...)
+await (prisma as any).hotspot.create(...)
+await (prisma as any).idea.update(...)
+```
+
+#### 3. MCP Server Integration Requirements
+```typescript
+// ✅ MANDATORY MCP SERVER USAGE
+mcp_linear_create_issue({ title, description, team })
+mcp_vercel_list_deployments({ projectId, teamId })
+mcp_github_check_status({ repository, branch })
+```
+
+### V2 Quality Gates Enforcement
+
+**Pre-Development Checks:**
+1. ✅ Linear issue exists and properly assigned
+2. ✅ TypeScript compilation test: `npx tsc --noEmit --strict`
+3. ✅ V2 schema compatibility verification
+4. ✅ MCP server integration planning
+
+**During Development:**
+- Real-time TypeScript strict mode validation
+- Automatic V2 model access pattern enforcement
+- Continuous MCP server integration checks
+- Background build verification
+
+**Post-Development:**
+- Comprehensive TypeScript compilation verification
+- V2 schema backward compatibility testing
+- MCP server operation validation
+- Expert review coordination via Linear
 
 This expert profile ensures our Cursor Expert can implement and maintain a world-class AI development control system that maximizes team efficiency while preventing costly scope creep and quality issues that could jeopardize our 11-week delivery timeline.
