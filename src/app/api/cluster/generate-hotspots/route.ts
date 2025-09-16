@@ -33,53 +33,25 @@ export async function POST(request: NextRequest) {
 
     console.log(`  ⚙️ Clustering options:`, options);
 
-    // Get signals for clustering
-    let signals;
-    try {
-      // Try V2 Signal model first
-      const signalModel = (prisma as any).signal;
-      if (signalModel) {
-        signals = await signalModel.findMany({
-          where: {
-            aiProcessed: true,
-            embedding: { not: null },
-            ...(options.forceReclustering ? {} : {
-              hotspots: { none: {} } // Only unassigned signals unless forcing
-            })
-          },
-          include: {
-            hotspots: {
-              include: { hotspot: true }
-            },
-            department: true,
-            team: true
-          },
-          orderBy: { receivedAt: 'desc' },
-          take: 200 // Limit for performance
-        });
-      } else {
-        // Use legacy Input model
-        signals = await prisma.input.findMany({
-          where: {
-            // Basic filtering for legacy model
-          },
-          orderBy: { createdAt: 'desc' },
-          take: 50 // Smaller limit for legacy
-        });
-      }
-    } catch (error) {
-      // Fallback to legacy Input model
-      signals = await prisma.input.findMany({
-        where: {
-          aiProcessed: true
+    // Get signals for clustering using V2 Signal model
+    const signals = await prisma.signal.findMany({
+      where: {
+        aiProcessed: true,
+        embedding: { not: null },
+        ...(options.forceReclustering ? {} : {
+          hotspots: { none: {} } // Only unassigned signals unless forcing
+        })
+      },
+      include: {
+        hotspots: {
+          include: { hotspot: true }
         },
-        include: {
-          creator: true
-        },
-        orderBy: { createdAt: 'desc' },
-        take: 200
-      });
-    }
+        department: true,
+        team: true
+      },
+      orderBy: { receivedAt: 'desc' },
+      take: 200 // Limit for performance
+    });
 
     console.log(`  📊 Processing ${signals.length} signals for clustering...`);
 
@@ -205,23 +177,8 @@ async function createHotspotFromCluster(signals: any[], cluster: any, analysis: 
   const rankScore = calculateAdvancedHotspotRank(signals, analysis, cluster);
   
   try {
-    // Try V2 Hotspot model
-    const hotspotModel = (prisma as any).hotspot;
-    if (!hotspotModel) {
-      // Return simple legacy response if V2 models not available
-      return {
-        id: `legacy-cluster-${Date.now()}`,
-        title: analysis.suggested_title || `${analysis.common_theme}`,
-        summary: analysis.reasoning || 'AI-identified pattern requiring attention',
-        confidence: 0.8,
-        signalIds: cluster.map((idx: number) => signals[idx].id),
-        membershipStrengths: cluster.map(() => 1.0),
-        clusteringMethod: 'LEGACY_HDBSCAN',
-        status: 'ACTIVE'
-      };
-    }
-    
-    const hotspot = await hotspotModel.create({
+    // Create V2 Hotspot
+    const hotspot = await prisma.hotspot.create({
       data: {
         title: analysis.suggested_title || `${analysis.common_theme}`,
         summary: analysis.reasoning || 'AI-identified pattern requiring attention',

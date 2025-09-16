@@ -436,7 +436,7 @@ async function createUsers() {
   ];
   
   for (const userData of allUsers) {
-    const hashedPassword = await bcrypt.hash(userData.password || 'defaultpass123', 12);
+    const hashedPassword = await bcrypt.hash((userData as any).password || 'defaultpass123', 12);
     
     await prisma.user.upsert({
       where: { email: userData.email },
