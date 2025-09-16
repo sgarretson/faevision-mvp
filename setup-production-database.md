@@ -87,3 +87,4 @@ If you encounter issues:
 4. **Seeding**: Check if sample data was created
 
 **Next Steps**: After manual database creation, FAEVision will be fully operational for executive testing!
+

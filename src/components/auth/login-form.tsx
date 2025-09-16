@@ -70,7 +70,7 @@ export function LoginForm() {
           {...register('email')}
           type="email"
           id="email"
-          className="input-executive"
+          className="w-full rounded-lg border border-neutral-300 px-4 py-3 text-neutral-900 placeholder-neutral-500 focus:border-blue-500 focus:outline-none focus:ring-2 focus:ring-blue-500"
           placeholder="Enter your email"
           disabled={isLoading}
         />
@@ -85,7 +85,7 @@ export function LoginForm() {
           {...register('password')}
           type="password"
           id="password"
-          className="input-executive"
+          className="w-full rounded-lg border border-neutral-300 px-4 py-3 text-neutral-900 placeholder-neutral-500 focus:border-blue-500 focus:outline-none focus:ring-2 focus:ring-blue-500"
           placeholder="Enter your password"
           disabled={isLoading}
         />
@@ -93,7 +93,7 @@ export function LoginForm() {
       </div>
 
       <div>
-        <button type="submit" disabled={isLoading} className="btn-primary w-full">
+        <button type="submit" disabled={isLoading} className="w-full rounded-lg bg-blue-600 px-4 py-3 font-medium text-white transition-colors hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50">
           {isLoading ? (
             <div className="flex items-center justify-center">
               <div className="mr-2 h-4 w-4 animate-spin rounded-full border-b-2 border-white"></div>

@@ -293,3 +293,4 @@ curl -H "Authorization: token $GITHUB_PERSONAL_ACCESS_TOKEN" \
 ---
 
 **Quick Start:** Install Docker, get a GitHub token, configure Cursor settings, and start using AI-enhanced GitHub operations immediately!
+
