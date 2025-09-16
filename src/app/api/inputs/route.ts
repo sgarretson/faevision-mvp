@@ -140,12 +140,6 @@ export async function GET(request: NextRequest) {
             department: true,
           },
         },
-        _count: {
-          select: {
-            comments: true,
-            votes: true,
-          },
-        },
       },
       orderBy: {
         createdAt: 'desc',
@@ -154,11 +148,39 @@ export async function GET(request: NextRequest) {
       skip: offset,
     });
 
+    // Add computed counts for comments and votes (polymorphic relationships)
+    const inputsWithCounts = await Promise.all(
+      inputs.map(async (input: any) => {
+        const [commentCount, voteCount] = await Promise.all([
+          (prisma as any).comment?.count?.({
+            where: {
+              entityType: 'INPUT',
+              entityId: input.id,
+            },
+          }) || 0,
+          (prisma as any).vote?.count?.({
+            where: {
+              entityType: 'INPUT',
+              entityId: input.id,
+            },
+          }) || 0,
+        ]);
+
+        return {
+          ...input,
+          _count: {
+            comments: commentCount,
+            votes: voteCount,
+          },
+        };
+      })
+    );
+
     // Get total count for pagination
     const totalCount = await (prisma as any).input.count({ where });
 
     return NextResponse.json({
-      inputs,
+      inputs: inputsWithCounts,
       pagination: {
         total: totalCount,
         limit,

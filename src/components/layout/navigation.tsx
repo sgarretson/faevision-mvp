@@ -15,12 +15,14 @@ import {
   X,
   Lightbulb,
   Zap,
+  Brain,
 } from 'lucide-react';
 import { cn } from '@/lib/utils';
 
 const navigation = [
   { name: 'Dashboard', href: '/dashboard', icon: BarChart3 },
   { name: 'Signal Hotspots', href: '/hotspots', icon: Zap },
+  { name: 'Ideas', href: '/ideas', icon: Brain },
   { name: 'Strategic Inputs', href: '/inputs', icon: Target },
   { name: 'Solutions', href: '/solutions', icon: Lightbulb },
   { name: 'Create Input', href: '/inputs/create', icon: Plus },

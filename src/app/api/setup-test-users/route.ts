@@ -5,10 +5,16 @@ import { prisma } from '@/lib/prisma';
 export async function POST() {
   try {
     // Check if we're in a safe environment
-    if (process.env.NODE_ENV === 'production' && process.env.VERCEL_ENV === 'production') {
-      return NextResponse.json({
-        error: 'Cannot create test users in production',
-      }, { status: 403 });
+    if (
+      process.env.NODE_ENV === 'production' &&
+      process.env.VERCEL_ENV === 'production'
+    ) {
+      return NextResponse.json(
+        {
+          error: 'Cannot create test users in production',
+        },
+        { status: 403 }
+      );
     }
 
     const testUsers = [
@@ -20,7 +26,7 @@ export async function POST() {
         department: 'Executive',
       },
       {
-        email: 'exec@faevision.com', 
+        email: 'exec@faevision.com',
         name: 'Executive User',
         role: 'EXECUTIVE',
         password: 'exec123',
@@ -94,15 +100,21 @@ export async function POST() {
       testCredentials: [
         { email: 'admin@faevision.com', password: 'admin123', role: 'ADMIN' },
         { email: 'exec@faevision.com', password: 'exec123', role: 'EXECUTIVE' },
-        { email: 'user@faevision.com', password: 'user123', role: 'CONTRIBUTOR' },
+        {
+          email: 'user@faevision.com',
+          password: 'user123',
+          role: 'CONTRIBUTOR',
+        },
       ],
     });
-
   } catch (error) {
     console.error('Setup test users error:', error);
-    return NextResponse.json({
-      success: false,
-      error: error instanceof Error ? error.message : 'Unknown error',
-    }, { status: 500 });
+    return NextResponse.json(
+      {
+        success: false,
+        error: error instanceof Error ? error.message : 'Unknown error',
+      },
+      { status: 500 }
+    );
   }
 }

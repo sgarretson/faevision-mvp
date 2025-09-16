@@ -50,7 +50,11 @@ export async function GET(request: NextRequest) {
               title: true,
               summary: true,
               confidence: true,
-              signalCount: true,
+              _count: {
+                select: {
+                  signals: true,
+                },
+              },
             },
           },
           input: {
