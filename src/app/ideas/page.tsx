@@ -85,7 +85,7 @@ export default function IdeasPage() {
 
               <div className="rounded-lg bg-gray-50 p-6">
                 <div className="mb-3 text-2xl">🚀</div>
-                <h3 className="font-semibite mb-2 text-gray-900">
+                <h3 className="mb-2 font-semibold text-gray-900">
                   Solution Pipeline
                 </h3>
                 <p className="text-sm text-gray-600">
