@@ -1,0 +1,342 @@
+/**
+ * Mobile Executive CSS Utilities
+ * 
+ * Mobile-specific styles optimized for executive usage patterns:
+ * - Safe area handling for iPhone notch/home indicator
+ * - Touch-friendly interaction zones
+ * - Executive-focused visual hierarchy
+ * - Performance-optimized animations
+ * 
+ * Expert: Maya Rodriguez (UX Expert)
+ * Design: David Chen (Visual Designer)
+ */
+
+/* ============================================================================
+   SAFE AREA UTILITIES (iPhone/Android compatibility)
+   ============================================================================ */
+
+.safe-area-pt {
+  padding-top: env(safe-area-inset-top);
+}
+
+.safe-area-pb {
+  padding-bottom: env(safe-area-inset-bottom);
+}
+
+.safe-area-pl {
+  padding-left: env(safe-area-inset-left);
+}
+
+.safe-area-pr {
+  padding-right: env(safe-area-inset-right);
+}
+
+/* ============================================================================
+   EXECUTIVE TOUCH TARGETS (Apple HIG Compliant)
+   ============================================================================ */
+
+.touch-target {
+  min-height: 44px;
+  min-width: 44px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.touch-target-large {
+  min-height: 60px;
+  min-width: 60px;
+}
+
+/* Primary action buttons - thumb-friendly */
+.executive-button {
+  @apply touch-target bg-blue-600 text-white rounded-lg font-medium transition-colors;
+  @apply hover:bg-blue-700 active:bg-blue-800;
+  @apply focus:ring-2 focus:ring-blue-500 focus:ring-offset-2;
+  touch-action: manipulation; /* Prevents zoom on double-tap */
+}
+
+.executive-button:disabled {
+  @apply bg-gray-300 text-gray-500 cursor-not-allowed;
+}
+
+/* Secondary action buttons */
+.executive-button-secondary {
+  @apply touch-target bg-white text-gray-700 border border-gray-300 rounded-lg font-medium transition-colors;
+  @apply hover:bg-gray-50 active:bg-gray-100;
+  @apply focus:ring-2 focus:ring-blue-500 focus:ring-offset-2;
+  touch-action: manipulation;
+}
+
+/* ============================================================================
+   MOBILE LAYOUT UTILITIES
+   ============================================================================ */
+
+/* Executive card layout - optimized for scanning */
+.executive-card {
+  @apply bg-white rounded-lg border border-gray-200 shadow-sm;
+  @apply transition-shadow duration-200;
+}
+
+.executive-card:hover {
+  @apply shadow-md;
+}
+
+.executive-card:active {
+  @apply shadow-sm scale-[0.98];
+  transition: all 0.1s ease-in-out;
+}
+
+/* Mobile-optimized grid */
+.mobile-grid {
+  display: grid;
+  gap: 1rem;
+  grid-template-columns: 1fr;
+}
+
+@media (min-width: 640px) {
+  .mobile-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+@media (min-width: 1024px) {
+  .mobile-grid {
+    grid-template-columns: repeat(3, 1fr);
+  }
+}
+
+/* ============================================================================
+   EXECUTIVE TYPOGRAPHY SCALE
+   ============================================================================ */
+
+/* Executive headlines - large, scannable */
+.executive-headline {
+  @apply text-2xl font-bold text-gray-900 leading-tight;
+}
+
+@media (min-width: 640px) {
+  .executive-headline {
+    @apply text-3xl;
+  }
+}
+
+/* Executive metrics - prominent numbers */
+.executive-metric {
+  @apply text-4xl font-bold text-gray-900 leading-none;
+}
+
+@media (min-width: 640px) {
+  .executive-metric {
+    @apply text-5xl;
+  }
+}
+
+/* Executive body text - optimized for mobile reading */
+.executive-body {
+  @apply text-base text-gray-700 leading-relaxed;
+  line-height: 1.6; /* Optimal for mobile reading */
+}
+
+/* Executive labels - clear hierarchy */
+.executive-label {
+  @apply text-sm font-medium text-gray-600 uppercase tracking-wide;
+}
+
+/* ============================================================================
+   STATUS INDICATORS (Executive-friendly colors)
+   ============================================================================ */
+
+.status-critical {
+  @apply bg-red-100 text-red-800 border border-red-200;
+}
+
+.status-warning {
+  @apply bg-yellow-100 text-yellow-800 border border-yellow-200;
+}
+
+.status-success {
+  @apply bg-green-100 text-green-800 border border-green-200;
+}
+
+.status-info {
+  @apply bg-blue-100 text-blue-800 border border-blue-200;
+}
+
+.status-neutral {
+  @apply bg-gray-100 text-gray-800 border border-gray-200;
+}
+
+/* ============================================================================
+   PROGRESSIVE DISCLOSURE ANIMATIONS
+   ============================================================================ */
+
+.disclosure-enter {
+  opacity: 0;
+  max-height: 0;
+  overflow: hidden;
+  transition: all 0.3s ease-in-out;
+}
+
+.disclosure-enter-active {
+  opacity: 1;
+  max-height: 500px; /* Adjust based on content */
+}
+
+.disclosure-exit {
+  opacity: 1;
+  max-height: 500px;
+  overflow: hidden;
+  transition: all 0.3s ease-in-out;
+}
+
+.disclosure-exit-active {
+  opacity: 0;
+  max-height: 0;
+}
+
+/* ============================================================================
+   EXECUTIVE SCANNING PATTERNS
+   ============================================================================ */
+
+/* F-pattern layout optimization */
+.f-pattern-container {
+  display: grid;
+  grid-template-areas: 
+    "header header"
+    "primary secondary"
+    "details details";
+  gap: 1rem;
+}
+
+.f-pattern-header {
+  grid-area: header;
+}
+
+.f-pattern-primary {
+  grid-area: primary;
+}
+
+.f-pattern-secondary {
+  grid-area: secondary;
+}
+
+.f-pattern-details {
+  grid-area: details;
+}
+
+/* Executive attention flow - left to right priority */
+.attention-flow {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+}
+
+.attention-flow > *:first-child {
+  @apply font-semibold; /* Primary information gets more weight */
+}
+
+/* ============================================================================
+   MOBILE PERFORMANCE OPTIMIZATIONS
+   ============================================================================ */
+
+/* Hardware acceleration for smooth animations */
+.hw-accelerated {
+  transform: translateZ(0);
+  will-change: transform;
+}
+
+/* Optimize touch scrolling */
+.touch-scroll {
+  -webkit-overflow-scrolling: touch;
+  scroll-behavior: smooth;
+}
+
+/* Prevent text selection on interactive elements */
+.no-select {
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
+}
+
+/* ============================================================================
+   ACCESSIBILITY ENHANCEMENTS
+   ============================================================================ */
+
+/* High contrast mode support */
+@media (prefers-contrast: high) {
+  .executive-card {
+    @apply border-2 border-gray-900;
+  }
+  
+  .executive-button {
+    @apply border-2 border-blue-800;
+  }
+}
+
+/* Reduced motion support */
+@media (prefers-reduced-motion: reduce) {
+  .disclosure-enter,
+  .disclosure-exit,
+  .executive-card,
+  .hw-accelerated {
+    transition: none !important;
+    animation: none !important;
+  }
+}
+
+/* Dark mode considerations (for executive preference) */
+@media (prefers-color-scheme: dark) {
+  .executive-card {
+    @apply bg-gray-800 border-gray-700 text-white;
+  }
+  
+  .executive-headline,
+  .executive-metric {
+    @apply text-white;
+  }
+  
+  .executive-body {
+    @apply text-gray-300;
+  }
+  
+  .executive-label {
+    @apply text-gray-400;
+  }
+}
+
+/* ============================================================================
+   LOADING STATES (Executive patience optimization)
+   ============================================================================ */
+
+.executive-skeleton {
+  @apply bg-gray-200 rounded animate-pulse;
+}
+
+.executive-skeleton-text {
+  @apply executive-skeleton h-4;
+}
+
+.executive-skeleton-metric {
+  @apply executive-skeleton h-8;
+}
+
+.executive-skeleton-button {
+  @apply executive-skeleton h-11 w-32;
+}
+
+/* ============================================================================
+   FOCUS MANAGEMENT (Keyboard navigation)
+   ============================================================================ */
+
+.focus-visible {
+  @apply outline-none ring-2 ring-blue-500 ring-offset-2;
+}
+
+/* Skip to content for accessibility */
+.skip-to-content {
+  @apply sr-only focus:not-sr-only focus:absolute focus:top-4 focus:left-4;
+  @apply bg-blue-600 text-white px-4 py-2 rounded-lg font-medium;
+  @apply focus:ring-2 focus:ring-blue-500 focus:ring-offset-2;
+}
