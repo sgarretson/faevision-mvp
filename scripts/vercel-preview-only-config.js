@@ -1,10 +1,13 @@
 #!/usr/bin/env node
 
 /**
- * FAEVision: Vercel Preview Environment ONLY Configuration
+ * FAEVision: AUTHORITATIVE Vercel Preview Configuration
  *
- * CRITICAL: Only Preview environment exists - no Development/Production
- * USER CONFIRMED: Use Prisma Accelerate URLs for Preview environment
+ * THIS IS THE ONLY DEPLOYMENT SCRIPT NEEDED
+ *
+ * SETUP: Only Preview environment exists - no Development/Production
+ * DATABASE: Prisma Accelerate ONLY for Preview environment
+ * VARIABLES: User-confirmed correct URLs and configuration
  */
 
 console.log('🎯 FAEVision: Preview Environment ONLY Configuration');
