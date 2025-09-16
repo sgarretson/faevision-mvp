@@ -1,9 +1,5 @@
-// This is your Prisma schema file,
-// learn more about it in the docs: https://pris.ly/d/prisma-schema
-
 generator client {
   provider = "prisma-client-js"
-  output   = "../src/generated/prisma"
 }
 
 datasource db {
@@ -11,364 +7,286 @@ datasource db {
   url      = env("DATABASE_URL")
 }
 
-// ============================================================================
-// USER MANAGEMENT & AUTHENTICATION
-// ============================================================================
-
 model User {
-  id           String   @id @default(cuid())
-  email        String   @unique
-  name         String
-  role         UserRole @default(CONTRIBUTOR)
-  department   String?
-  avatar       String?
-  passwordHash String?
-  createdAt    DateTime @default(now())
-  updatedAt    DateTime @updatedAt
-
-  // Relationships for all F1-F6 features
-  inputs       Input[]
-  solutions    Solution[]
-  comments     Comment[]
-  votes        Vote[]
-  requirements Requirement[]
-  frdDocuments FRDDocument[] @relation("FRDCreator")
-  approvedFRDs FRDDocument[] @relation("FRDApprover")
-  auditLogs    AuditLog[]
+  id            String         @id @default(cuid())
+  email         String         @unique
+  name          String
+  role          UserRole       @default(CONTRIBUTOR)
+  department    String?
+  avatar        String?
+  passwordHash  String?
+  createdAt     DateTime       @default(now())
+  updatedAt     DateTime       @updatedAt
+  auditLogs     AuditLog[]
+  comments      Comment[]
+  approvedFRDs  FRDDocument[]  @relation("FRDApprover")
+  frdDocuments  FRDDocument[]  @relation("FRDCreator")
+  input_groups  InputGroup[]
+  inputs        Input[]
   notifications Notification[]
-  inputGroups  InputGroup[]
-  tasks        Task[] @relation("TaskAssignee")
+  requirements  Requirement[]
+  solutions     Solution[]
+  tasks         tasks[]
+  votes         Vote[]
+
   @@map("users")
 }
 
-// ============================================================================
-// F1: INPUT CAPTURE & STRATEGIC TAGGING
-// ============================================================================
-
 model Input {
-  id          String   @id @default(cuid())
-  title       String
-  description String   @db.Text
-  type        InputType
-  status      InputStatus @default(NEW)
-  createdBy   String
-  createdAt   DateTime @default(now())
-  updatedAt   DateTime @updatedAt
+  id                String              @id @default(cuid())
+  title             String
+  description       String
+  type              InputType
+  status            InputStatus         @default(NEW)
+  createdBy         String
+  createdAt         DateTime            @default(now())
+  updatedAt         DateTime            @updatedAt
+  department        String?
+  issueType         IssueType?
+  rootCause         String?
+  priority          Priority            @default(MEDIUM)
+  aiProcessed       Boolean             @default(false)
+  aiTags            Json?
+  aiSuggestions     Json?
+  InputToInputGroup InputToInputGroup[]
+  comments          Comment[]
+  creator           User                @relation(fields: [createdBy], references: [id])
+  votes             Vote[]
+  solutions         Solution[]          @relation("InputToSolution")
 
-  // Strategic Tagging (F1 Core Feature)
-  department  String?
-  issueType   IssueType?
-  rootCause   String?  @db.Text
-  priority    Priority @default(MEDIUM)
-
-  // AI Processing
-  aiProcessed    Boolean @default(false)
-  aiTags         Json?   // AI-generated tags and confidence scores
-  aiSuggestions  Json?   // AI suggestions for improvements
-
-  // Relationships
-  creator   User         @relation(fields: [createdBy], references: [id])
-  solutions Solution[]
-  comments  Comment[]
-  votes     Vote[]
-  groups    InputGroup[]
-
-  @@map("inputs")
   @@index([createdBy])
-  @@index([status])
-  @@index([type])
   @@index([department])
-  @@index([issueType])
   @@index([priority])
-  @@index([aiProcessed])
-}
-
-// ============================================================================
-// F2: COLLABORATION FEATURES (Polymorphic Comments and Votes)
-// ============================================================================
-
-model Comment {
-  id        String   @id @default(cuid())
-  content   String   @db.Text
-  authorId  String
-  createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
-
-  // Polymorphic relationships
-  inputId     String?
-  solutionId  String?
-  requirementId String?
-
-  // Threading support
-  parentId String?
-  replies  Comment[] @relation("CommentReplies")
-
-  // Relationships
-  author   User      @relation(fields: [authorId], references: [id])
-  input    Input?    @relation(fields: [inputId], references: [id])
-  solution Solution? @relation(fields: [solutionId], references: [id])
-  requirement Requirement? @relation(fields: [requirementId], references: [id])
-  parent   Comment?  @relation("CommentReplies", fields: [parentId], references: [id])
-
-  @@map("comments")
-  @@index([authorId])
-  @@index([inputId])
-  @@index([solutionId])
-  @@index([requirementId])
-  @@index([parentId])
-}
-
-model Vote {
-  id        String   @id @default(cuid())
-  userId    String
-  value     Int      // 1 for upvote, -1 for downvote
-  createdAt DateTime @default(now())
-
-  // Polymorphic relationships
-  inputId     String?
-  solutionId  String?
-
-  // Relationships
-  user     User      @relation(fields: [userId], references: [id])
-  input    Input?    @relation(fields: [inputId], references: [id])
-  solution Solution? @relation(fields: [solutionId], references: [id])
-
-  @@unique([userId, inputId])
-  @@unique([userId, solutionId])
-  @@map("votes")
-  @@index([userId])
-  @@index([inputId])
-  @@index([solutionId])
-}
-
-// ============================================================================
-// F3: ORGANIZATION & GROUPING
-// ============================================================================
-
-model InputGroup {
-  id          String   @id @default(cuid())
-  name        String
-  description String?  @db.Text
-  ownerId     String
-  status      GroupStatus @default(ACTIVE)
-  createdAt   DateTime @default(now())
-  updatedAt   DateTime @updatedAt
-
-  // AI Organization Features
-  aiSuggested    Boolean @default(false)
-  aiSimilarity   Float?
-  aiTheme        String?
-
-  // Relationships
-  owner  User    @relation(fields: [ownerId], references: [id])
-  inputs Input[]
-
-  @@map("input_groups")
-  @@index([ownerId])
   @@index([status])
-  @@index([aiSuggested])
+  @@index([aiProcessed])
+  @@index([issueType])
+  @@index([type])
+  @@map("inputs")
 }
-
-// ============================================================================
-// F4: SOLUTION EXECUTION & TASK MANAGEMENT
-// ============================================================================
 
 model Solution {
-  id          String   @id @default(cuid())
-  title       String
-  description String   @db.Text
-  ownerId     String
-  status      SolutionStatus @default(PLANNING)
-  priority    Priority @default(MEDIUM)
-  createdAt   DateTime @default(now())
-  updatedAt   DateTime @updatedAt
-
-  // Solution Planning
-  estimatedEffort String?
+  id               String         @id @default(cuid())
+  title            String
+  description      String
+  ownerId          String
+  status           SolutionStatus @default(PLANNING)
+  priority         Priority       @default(MEDIUM)
+  createdAt        DateTime       @default(now())
+  updatedAt        DateTime       @updatedAt
+  estimatedEffort  String?
   targetCompletion DateTime?
   actualCompletion DateTime?
+  successCriteria  Json?
+  comments         Comment[]
+  frdDocuments     FRDDocument[]
+  requirements     Requirement[]
+  users            User           @relation(fields: [ownerId], references: [id])
+  tasks            tasks[]
+  votes            Vote[]
+  inputs           Input[]        @relation("InputToSolution")
 
-  // Success Criteria
-  successCriteria Json? // Array of measurable outcomes
-
-  // Relationships
-  owner        User         @relation(fields: [ownerId], references: [id])
-  inputs       Input[]
-  tasks        Task[]
-  comments     Comment[]
-  votes        Vote[]
-  requirements Requirement[]
-  frdDocuments FRDDocument[]
-
-  @@map("solutions")
+  @@index([status])
   @@index([ownerId])
-  @@index([status])
   @@index([priority])
+  @@map("solutions")
 }
-
-model Task {
-  id          String   @id @default(cuid())
-  title       String
-  description String?  @db.Text
-  solutionId  String
-  assigneeId  String?
-  status      TaskStatus @default(NOT_STARTED)
-  priority    Priority @default(MEDIUM)
-  createdAt   DateTime @default(now())
-  updatedAt   DateTime @updatedAt
-
-  // Task Details
-  estimatedHours Float?
-  actualHours    Float?
-  dueDate        DateTime?
-  dependencies   Json? // Array of task IDs this depends on
-
-  // Relationships
-  solution Solution @relation(fields: [solutionId], references: [id])
-  assignee User?    @relation("TaskAssignee", fields: [assigneeId], references: [id])
-
-  @@map("tasks")
-  @@index([solutionId])
-  @@index([assigneeId])
-  @@index([status])
-  @@index([priority])
-  @@index([dueDate])
-}
-
-// ============================================================================
-// F5: EXECUTIVE REQUIREMENTS MANAGEMENT
-// ============================================================================
 
 model Requirement {
-  id                String            @id @default(cuid())
-  title             String
-  description       String            @db.Text
-  acceptanceCriteria Json             // Array of acceptance criteria
-  priority          Priority          @default(MEDIUM)
-  status            RequirementStatus @default(DRAFT)
+  id                 String            @id @default(cuid())
+  title              String
+  description        String
+  acceptanceCriteria Json
+  priority           Priority          @default(MEDIUM)
+  status             RequirementStatus @default(DRAFT)
+  estimatedEffort    String?
+  dependencies       Json?
+  businessValue      String?
+  riskAssessment     String?
+  stakeholders       Json?
+  approvedBy         String?
+  approvedAt         DateTime?
+  rejectionReason    String?
+  solutionId         String
+  createdBy          String
+  createdAt          DateTime          @default(now())
+  updatedAt          DateTime          @updatedAt
+  comments           Comment[]
+  creator            User              @relation(fields: [createdBy], references: [id])
+  solution           Solution          @relation(fields: [solutionId], references: [id])
 
-  // Executive Requirements (F5 Core Feature)
-  estimatedEffort  String?
-  dependencies     Json?   // Array of requirement dependencies
-  businessValue    String?
-  riskAssessment   String?
-  stakeholders     Json?   // Involved stakeholders
-
-  // Approval Workflow
-  approvedBy       String?
-  approvedAt       DateTime?
-  rejectionReason  String?
-
-  // Relationships
-  solutionId String
-  createdBy  String
-  createdAt  DateTime @default(now())
-  updatedAt  DateTime @updatedAt
-
-  solution Solution @relation(fields: [solutionId], references: [id])
-  creator  User     @relation(fields: [createdBy], references: [id])
-  comments Comment[]
-  @@map("requirements")
   @@index([solutionId])
   @@index([createdBy])
   @@index([status])
   @@index([priority])
+  @@map("requirements")
 }
 
-// ============================================================================
-// F6: AI-GENERATED FRD HANDOFF DOCUMENTS
-// ============================================================================
-
 model FRDDocument {
-  id             String    @id @default(cuid())
-  title          String
-  content        Json      // Complete FRD structure
-  aiGenerated    Boolean   @default(false)
-  aiConfidence   Float?
-  aiPromptUsed   String?   @db.Text
-
-  // Document Management (F6 Core Feature)
-  version           String  @default("1.0")
+  id                String    @id @default(cuid())
+  title             String
+  content           Json
+  aiGenerated       Boolean   @default(false)
+  aiConfidence      Float?
+  aiPromptUsed      String?
+  version           String    @default("1.0")
   status            FRDStatus @default(DRAFT)
-  executiveApproved Boolean @default(false)
-  exportFormats     Json?   // Available export formats ["PDF", "CSV", "Word"]
+  executiveApproved Boolean   @default(false)
+  exportFormats     Json?
+  templateUsed      String?
+  generationTime    Float?
+  wordCount         Int?
+  lastExportedAt    DateTime?
+  solutionId        String
+  createdBy         String
+  approvedBy        String?
+  createdAt         DateTime  @default(now())
+  updatedAt         DateTime  @updatedAt
+  approver          User?     @relation("FRDApprover", fields: [approvedBy], references: [id])
+  creator           User      @relation("FRDCreator", fields: [createdBy], references: [id])
+  solution          Solution  @relation(fields: [solutionId], references: [id])
 
-  // Document Metadata
-  templateUsed    String?
-  generationTime  Float?    // Time taken to generate (seconds)
-  wordCount       Int?
-  lastExportedAt  DateTime?
-
-  // Relationships
-  solutionId  String
-  createdBy   String
-  approvedBy  String?
-  createdAt   DateTime @default(now())
-  updatedAt   DateTime @updatedAt
-
-  solution  Solution @relation(fields: [solutionId], references: [id])
-  creator   User     @relation("FRDCreator", fields: [createdBy], references: [id])
-  approver  User?    @relation("FRDApprover", fields: [approvedBy], references: [id])
-
-  @@map("frd_documents")
   @@index([solutionId])
   @@index([createdBy])
   @@index([status])
   @@index([aiGenerated])
+  @@map("frd_documents")
 }
 
-// ============================================================================
-// AUDIT LOGGING & COMPLIANCE
-// ============================================================================
+model Comment {
+  id            String       @id @default(cuid())
+  content       String
+  authorId      String
+  createdAt     DateTime     @default(now())
+  updatedAt     DateTime     @updatedAt
+  inputId       String?
+  solutionId    String?
+  requirementId String?
+  parentId      String?
+  users         User         @relation(fields: [authorId], references: [id])
+  inputs        Input?       @relation(fields: [inputId], references: [id])
+  thread        Comment?     @relation("CommentThread", fields: [parentId], references: [id])
+  replies       Comment[]    @relation("CommentThread")
+  requirements  Requirement? @relation(fields: [requirementId], references: [id])
+  solutions     Solution?    @relation(fields: [solutionId], references: [id])
+
+  @@index([parentId])
+  @@index([authorId])
+  @@index([inputId])
+  @@index([requirementId])
+  @@index([solutionId])
+  @@map("comments")
+}
+
+model Vote {
+  id         String    @id @default(cuid())
+  userId     String
+  value      Int
+  createdAt  DateTime  @default(now())
+  inputId    String?
+  solutionId String?
+  inputs     Input?    @relation(fields: [inputId], references: [id])
+  solutions  Solution? @relation(fields: [solutionId], references: [id])
+  users      User      @relation(fields: [userId], references: [id])
+
+  @@unique([userId, inputId])
+  @@unique([userId, solutionId])
+  @@index([inputId])
+  @@index([solutionId])
+  @@index([userId])
+  @@map("votes")
+}
+
+model InputGroup {
+  id                String              @id @default(cuid())
+  name              String
+  description       String?
+  ownerId           String
+  status            GroupStatus         @default(ACTIVE)
+  createdAt         DateTime            @default(now())
+  updatedAt         DateTime            @updatedAt
+  aiSuggested       Boolean             @default(false)
+  aiSimilarity      Float?
+  aiTheme           String?
+  InputToInputGroup InputToInputGroup[]
+  users             User                @relation(fields: [ownerId], references: [id])
+
+  @@index([aiSuggested])
+  @@index([ownerId])
+  @@index([status])
+  @@map("input_groups")
+}
 
 model AuditLog {
-  id        String   @id @default(cuid())
-  userId    String
-  action    String   // CREATE, UPDATE, DELETE, etc.
-  entityType String  // User, Input, Solution, etc.
-  entityId  String
-  changes   Json?    // Before/after values for updates
-  metadata  Json?    // Additional context
-  ipAddress String?
-  userAgent String?
-  createdAt DateTime @default(now())
+  id         String   @id @default(cuid())
+  userId     String
+  action     String
+  entityType String
+  entityId   String
+  changes    Json?
+  metadata   Json?
+  ipAddress  String?
+  userAgent  String?
+  createdAt  DateTime @default(now())
+  user       User     @relation(fields: [userId], references: [id])
 
-  // Relationships
-  user User @relation(fields: [userId], references: [id])
-
-  @@map("audit_logs")
   @@index([userId])
-  @@index([entityType])
-  @@index([entityId])
   @@index([createdAt])
+  @@index([entityId])
+  @@index([entityType])
+  @@map("audit_logs")
 }
 
-// ============================================================================
-// NOTIFICATION SYSTEM
-// ============================================================================
-
 model Notification {
-  id        String   @id @default(cuid())
+  id        String           @id @default(cuid())
   userId    String
   type      NotificationType
   title     String
-  message   String   @db.Text
+  message   String
   readAt    DateTime?
-  data      Json?    // Additional notification data
-  createdAt DateTime @default(now())
+  data      Json?
+  createdAt DateTime         @default(now())
+  users     User             @relation(fields: [userId], references: [id])
 
-  // Relationships
-  user User @relation(fields: [userId], references: [id])
-
-  @@map("notifications")
-  @@index([userId])
-  @@index([readAt])
   @@index([createdAt])
+  @@index([readAt])
+  @@index([userId])
+  @@map("notifications")
 }
 
-// ============================================================================
-// ENUMS & TYPES
-// ============================================================================
+model InputToInputGroup {
+  A            String
+  B            String
+  inputs       Input      @relation(fields: [A], references: [id], onDelete: Cascade)
+  input_groups InputGroup @relation(fields: [B], references: [id], onDelete: Cascade)
+
+  @@id([A, B], map: "_InputToInputGroup_AB_pkey")
+  @@index([B], map: "_InputToInputGroup_B_index")
+  @@map("_InputToInputGroup")
+}
+
+model tasks {
+  id             String     @id
+  title          String
+  description    String?
+  solutionId     String
+  assigneeId     String?
+  status         TaskStatus @default(NOT_STARTED)
+  priority       Priority   @default(MEDIUM)
+  createdAt      DateTime   @default(now())
+  updatedAt      DateTime
+  estimatedHours Float?
+  actualHours    Float?
+  dueDate        DateTime?
+  dependencies   Json?
+  users          User?      @relation(fields: [assigneeId], references: [id])
+  solutions      Solution   @relation(fields: [solutionId], references: [id])
+
+  @@index([assigneeId])
+  @@index([dueDate])
+  @@index([priority])
+  @@index([solutionId])
+  @@index([status])
+}
 
 enum UserRole {
   ADMIN
@@ -382,6 +300,12 @@ enum InputType {
   GENERAL
 }
 
+enum Priority {
+  LOW
+  MEDIUM
+  HIGH
+}
+
 enum InputStatus {
   NEW
   DISCUSSING
@@ -390,39 +314,12 @@ enum InputStatus {
   ARCHIVED
 }
 
-enum IssueType {
-  PROCESS
-  TECHNOLOGY
-  COMMUNICATION
-  RESOURCE
-  OTHER
-}
-
-enum Priority {
-  LOW
-  MEDIUM
-  HIGH
-}
-
-enum GroupStatus {
-  ACTIVE
-  ARCHIVED
-  CONVERTED_TO_SOLUTION
-}
-
 enum SolutionStatus {
   PLANNING
   ACTIVE
   ON_HOLD
   COMPLETED
   CANCELLED
-}
-
-enum TaskStatus {
-  NOT_STARTED
-  IN_PROGRESS
-  COMPLETED
-  BLOCKED
 }
 
 enum RequirementStatus {
@@ -447,4 +344,25 @@ enum NotificationType {
   ASSIGNMENT
   DEADLINE
   SYSTEM
+}
+
+enum GroupStatus {
+  ACTIVE
+  ARCHIVED
+  CONVERTED_TO_SOLUTION
+}
+
+enum IssueType {
+  PROCESS
+  TECHNOLOGY
+  COMMUNICATION
+  RESOURCE
+  OTHER
+}
+
+enum TaskStatus {
+  NOT_STARTED
+  IN_PROGRESS
+  COMPLETED
+  BLOCKED
 }
