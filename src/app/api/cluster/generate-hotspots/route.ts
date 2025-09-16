@@ -407,7 +407,7 @@ async function getHotspotsForDashboard() {
       take: 20
     });
 
-    return hotspots.map(hotspot => ({
+    return hotspots.map((hotspot: any) => ({
       id: hotspot.id,
       title: hotspot.title,
       summary: hotspot.summary,
