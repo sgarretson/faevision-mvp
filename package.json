@@ -87,6 +87,6 @@
     "vitest": "^3.2.4"
   },
   "prisma": {
-    "seed": "node prisma/seed.js"
+    "seed": "npx tsx prisma/seed.ts"
   }
 }
