@@ -6,14 +6,11 @@ import {
   TrendingUp,
   AlertTriangle,
   CheckCircle,
-  Clock,
   ChevronDown,
   ChevronUp,
   ExternalLink,
-  Play,
   Plus,
 } from 'lucide-react';
-import { SolutionCreator } from '@/components/solutions/solution-creator';
 
 /**
  * Executive Hotspot Card Component
@@ -52,11 +49,46 @@ export function HotspotCard({
   onAction,
 }: HotspotCardProps) {
   const [showDetails, setShowDetails] = useState(false);
-  const [showSolutionCreator, setShowSolutionCreator] = useState(false);
+  const [isCreatingIdea, setIsCreatingIdea] = useState(false);
 
   const priorityLevel = getPriorityLevel(hotspot.rankScore);
   const priorityColor = getPriorityColor(priorityLevel);
   const statusColor = getStatusColor(hotspot.status);
+
+  const handleCreateIdea = async () => {
+    if (isCreatingIdea) return;
+
+    try {
+      setIsCreatingIdea(true);
+
+      // Create idea from hotspot
+      const response = await fetch('/api/ideas', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          title: `Idea: ${hotspot.title}`,
+          description: `Generated from hotspot: ${hotspot.summary}`,
+          hotspotId: hotspot.id,
+          origin: 'human', // Executive-initiated from hotspot
+          status: 'draft',
+        }),
+      });
+
+      if (response.ok) {
+        const data = await response.json();
+        // Navigate to the new idea detail page
+        window.open(`/ideas/${data.idea.id}`, '_blank');
+        onAction('idea-created');
+      } else {
+        throw new Error('Failed to create idea');
+      }
+    } catch (error) {
+      console.error('Error creating idea:', error);
+      // TODO: Show error toast
+    } finally {
+      setIsCreatingIdea(false);
+    }
+  };
 
   return (
     <div
@@ -117,9 +149,10 @@ export function HotspotCard({
           <div className="flex space-x-2">
             <QuickActionButton
               icon={<Plus className="h-4 w-4" />}
-              label="Create Solution"
-              onClick={() => setShowSolutionCreator(true)}
+              label={isCreatingIdea ? 'Creating...' : 'Create Idea'}
+              onClick={() => handleCreateIdea()}
               variant="primary"
+              disabled={isCreatingIdea}
             />
             <QuickActionButton
               icon={<CheckCircle className="h-4 w-4" />}
@@ -171,7 +204,12 @@ export function HotspotCard({
                   <SignalPreview key={signal.id || index} signal={signal} />
                 ))}
                 {hotspot.signalCount > 3 && (
-                  <button className="flex items-center text-sm font-medium text-blue-600 hover:text-blue-700">
+                  <button
+                    onClick={() =>
+                      window.open(`/hotspots/${hotspot.id}`, '_blank')
+                    }
+                    className="flex items-center text-sm font-medium text-blue-600 hover:text-blue-700"
+                  >
                     View all {hotspot.signalCount} signals
                     <ExternalLink className="ml-1 h-3 w-3" />
                   </button>
@@ -202,35 +240,6 @@ export function HotspotCard({
           </div>
         </div>
       )}
-
-      {/* Solution Creator Modal */}
-      <SolutionCreator
-        hotspot={hotspot}
-        open={showSolutionCreator}
-        onSave={async solution => {
-          try {
-            const response = await fetch('/api/solutions', {
-              method: 'POST',
-              headers: { 'Content-Type': 'application/json' },
-              body: JSON.stringify({
-                ...solution,
-                createdBy: 'current-user-id', // TODO: Get from auth context
-              }),
-            });
-
-            if (response.ok) {
-              setShowSolutionCreator(false);
-              onAction('solution-created');
-            } else {
-              throw new Error('Failed to create solution');
-            }
-          } catch (error) {
-            console.error('Error creating solution:', error);
-            // TODO: Show error toast
-          }
-        }}
-        onCancel={() => setShowSolutionCreator(false)}
-      />
     </div>
   );
 }
@@ -298,21 +307,31 @@ function QuickActionButton({
   label,
   onClick,
   variant = 'secondary',
+  disabled = false,
 }: {
   icon: React.ReactNode;
   label: string;
   onClick: () => void;
   variant?: 'primary' | 'secondary';
+  disabled?: boolean;
 }) {
   const baseClasses =
     'inline-flex items-center px-3 py-2 rounded-md text-sm font-medium transition-colors';
   const variantClasses =
     variant === 'primary'
-      ? 'bg-blue-600 text-white hover:bg-blue-700'
-      : 'bg-gray-100 text-gray-700 hover:bg-gray-200';
+      ? disabled
+        ? 'bg-blue-400 text-white cursor-not-allowed'
+        : 'bg-blue-600 text-white hover:bg-blue-700'
+      : disabled
+        ? 'bg-gray-200 text-gray-500 cursor-not-allowed'
+        : 'bg-gray-100 text-gray-700 hover:bg-gray-200';
 
   return (
-    <button onClick={onClick} className={`${baseClasses} ${variantClasses}`}>
+    <button
+      onClick={disabled ? undefined : onClick}
+      disabled={disabled}
+      className={`${baseClasses} ${variantClasses}`}
+    >
       {icon}
       <span className="ml-2">{label}</span>
     </button>
