@@ -13,7 +13,10 @@ import { Resend } from 'resend';
  * Integration: Resend email service (Vercel compatible)
  */
 
-const resend = new Resend(process.env.RESEND_API_KEY);
+// Initialize Resend with proper error handling for missing API key
+const resend = process.env.RESEND_API_KEY
+  ? new Resend(process.env.RESEND_API_KEY)
+  : null;
 
 export interface ExecutiveUser {
   id: string;
@@ -49,6 +52,10 @@ export async function sendExecutiveDigest(
   const emailContent = generateDigestEmail(executive, digestData);
 
   try {
+    if (!resend) {
+      throw new Error('Resend API key not configured');
+    }
+
     const result = await resend.emails.send({
       from: 'FAEVision <digest@faevision.com>',
       to: [executive.email],

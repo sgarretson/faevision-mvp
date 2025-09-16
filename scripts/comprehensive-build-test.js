@@ -223,6 +223,23 @@ class BuildTestFramework {
       'Prisma Client Generation Check'
     );
 
+    // Check Prisma binary targets for Vercel compatibility
+    this.info('Checking Prisma binary targets for Vercel deployment');
+    const schemaContent = require('fs').readFileSync(
+      'prisma/schema.prisma',
+      'utf8'
+    );
+    if (schemaContent.includes('rhel-openssl-3.0.x')) {
+      this.success('Vercel binary target (rhel-openssl-3.0.x) configured');
+    } else {
+      this.warning(
+        'Prisma schema missing Vercel binary target - may cause deployment failures'
+      );
+      this.info(
+        'Add binaryTargets = ["native", "rhel-openssl-3.0.x"] to generator client'
+      );
+    }
+
     return schemaResult && generateResult;
   }
 
@@ -269,11 +286,23 @@ class BuildTestFramework {
       'OPENAI_API_KEY',
     ];
 
+    const optionalEnvVars = ['RESEND_API_KEY'];
+
     requiredEnvVars.forEach(envVar => {
       if (process.env[envVar]) {
         this.success(`${envVar} is set`);
       } else {
         this.warning(`${envVar} is not set - may cause runtime issues`);
+      }
+    });
+
+    optionalEnvVars.forEach(envVar => {
+      if (process.env[envVar]) {
+        this.success(`${envVar} is set (optional)`);
+      } else {
+        this.info(
+          `${envVar} not set (optional - some features may be disabled)`
+        );
       }
     });
 
