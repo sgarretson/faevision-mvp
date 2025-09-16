@@ -103,6 +103,7 @@ export default function IdeaDetailPage() {
   const [newComment, setNewComment] = useState('');
   const [isLoading, setIsLoading] = useState(true);
   const [isSubmittingComment, setIsSubmittingComment] = useState(false);
+  const [isCreatingSolution, setIsCreatingSolution] = useState(false);
   const [error, setError] = useState<string | null>(null);
 
   const fetchIdeaDetail = useCallback(async () => {
@@ -179,6 +180,47 @@ export default function IdeaDetailPage() {
       );
     } finally {
       setIsSubmittingComment(false);
+    }
+  };
+
+  const handleCreateSolution = async () => {
+    if (!idea || !session?.user?.id || isCreatingSolution) return;
+
+    try {
+      setIsCreatingSolution(true);
+      setError(null);
+
+      const response = await fetch('/api/solutions', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          title: `Solution: ${idea.title}`,
+          description: `Solution created from idea: ${idea.description}`,
+          hotspotId: idea.hotspot?.id || null,
+          createdBy: session.user.id,
+          priority: 'MEDIUM',
+          businessValue: 'TBD',
+          estimatedEffort: 'TBD',
+        }),
+      });
+
+      const data = await response.json();
+
+      if (!response.ok) {
+        throw new Error(data.error || 'Failed to create solution');
+      }
+
+      // Redirect to solutions page (individual solution pages not yet implemented)
+      router.push('/solutions');
+    } catch (error) {
+      console.error('Create solution error:', error);
+      setError(
+        error instanceof Error ? error.message : 'Failed to create solution'
+      );
+    } finally {
+      setIsCreatingSolution(false);
     }
   };
 
@@ -319,6 +361,15 @@ export default function IdeaDetailPage() {
                     </span>
                   </div>
                 </div>
+                {/* Create Solution Button */}
+                <Button
+                  onClick={() => handleCreateSolution()}
+                  className="bg-blue-600 hover:bg-blue-700"
+                  disabled={isCreatingSolution}
+                >
+                  <Target className="mr-2 h-4 w-4" />
+                  {isCreatingSolution ? 'Creating...' : 'Create Solution'}
+                </Button>
               </div>
             </div>
           </CardHeader>
