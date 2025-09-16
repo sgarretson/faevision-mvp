@@ -214,7 +214,7 @@ export async function POST(request: NextRequest) {
     let aiSuggestions = null;
     if (hotspotId) {
       try {
-        const hotspot = await prisma.hotspot.findUnique({
+        const hotspot = await (prisma as any).hotspot?.findUnique({
           where: { id: hotspotId },
           include: {
             signals: {
@@ -225,7 +225,7 @@ export async function POST(request: NextRequest) {
           }
         });
 
-        if (hotspot) {
+        if (hotspot && hotspot.signals) {
           aiSuggestions = await generateSolutionSuggestions(
             hotspot.summary,
             hotspot.signals.map(hs => hs.signal)
