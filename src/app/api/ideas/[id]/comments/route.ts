@@ -48,25 +48,30 @@ export async function GET(
     }
 
     // Get comments for this idea
-    const comments = await (prisma as any).comment?.findMany({
-      where: {
-        entityType: 'IDEA',
-        entityId: id,
-      },
-      include: {
-        createdBy: {
-          select: {
-            id: true,
-            name: true,
-            email: true,
-            role: true,
+    const comments = await (prisma as any).comment
+      ?.findMany({
+        where: {
+          entityType: 'IDEA',
+          entityId: id,
+        },
+        include: {
+          createdBy: {
+            select: {
+              id: true,
+              name: true,
+              email: true,
+              role: true,
+            },
           },
         },
-      },
-      orderBy: {
-        createdAt: 'desc',
-      },
-    });
+        orderBy: {
+          createdAt: 'desc',
+        },
+      })
+      .catch((error: any) => {
+        console.warn('Comment model not found, returning empty array:', error);
+        return [];
+      });
 
     return NextResponse.json({
       comments: comments || [],
