@@ -46,13 +46,13 @@ export async function GET(request: NextRequest) {
 
     console.log('👥 All users in runtime database:', allUsers);
 
-    // Check for V1 and V2 data counts
+    // Check for V2 data counts only (V1 models deprecated)
     const dataCounts = {
       v1: {
-        inputs: (await (prisma as any).input?.count()) || 0,
-        solutions: (await (prisma as any).solution?.count()) || 0,
-        comments: (await (prisma as any).comment?.count()) || 0,
-        votes: (await (prisma as any).vote?.count()) || 0,
+        inputs: 0, // V1 Input model deprecated
+        solutions: 0, // V1 Solution model deprecated
+        comments: 0, // V1 Comment model deprecated
+        votes: 0, // V1 Vote model deprecated
       },
       v2: {
         signals: (await (prisma as any).signal?.count()) || 0,

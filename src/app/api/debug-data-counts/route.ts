@@ -8,13 +8,13 @@ import { prisma } from '@/lib/prisma';
 
 export async function GET(request: NextRequest) {
   try {
-    // Check V1 model counts (Input, Solution, etc.)
+    // V1 models are deprecated - all data should be V2
     const v1Counts = {
-      inputs: (await (prisma as any).input?.count()) || 0,
-      solutions: (await (prisma as any).solution?.count()) || 0,
-      comments: (await (prisma as any).comment?.count()) || 0,
-      votes: (await (prisma as any).vote?.count()) || 0,
-      users: (await (prisma as any).user?.count()) || 0,
+      inputs: 0, // V1 Input model deprecated - use Signal
+      solutions: 0, // V1 Solution model deprecated - use V2 Solution
+      comments: 0, // V1 Comment model deprecated - use V2 Comment
+      votes: 0, // V1 Vote model deprecated - use V2 Vote
+      users: (await (prisma as any).user?.count()) || 0, // User model still used
     };
 
     // Check V2 model counts (Signal, Hotspot, Idea, etc.)
@@ -53,17 +53,8 @@ export async function GET(request: NextRequest) {
         },
       })) || [];
 
-    const sampleInputs =
-      (await (prisma as any).input?.findMany({
-        take: 3,
-        select: {
-          id: true,
-          title: true,
-          description: true,
-          status: true,
-          createdAt: true,
-        },
-      })) || [];
+    // V1 Input model deprecated - no sample data needed
+    const sampleInputs: any[] = [];
 
     return NextResponse.json({
       success: true,
