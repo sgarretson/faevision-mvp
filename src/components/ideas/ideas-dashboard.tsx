@@ -145,6 +145,9 @@ export function IdeasDashboard() {
 
       const data = await response.json();
       console.log('📡 Response data:', data);
+      console.log('📡 Ideas array:', data.ideas);
+      console.log('📡 Ideas length:', data.ideas?.length || 'N/A');
+      console.log('📡 Pagination:', data.pagination);
 
       if (!response.ok) {
         setError(data.error || 'Failed to fetch ideas');

@@ -31,6 +31,8 @@ export async function GET(request: NextRequest) {
     if (status) where.status = status;
     if (origin) where.origin = origin;
 
+    console.log('🔍 Ideas API - Starting query...');
+
     // Fetch ideas with hotspot and creator info
     const [ideas, totalCount] = await Promise.all([
       (prisma as any).idea?.findMany({
@@ -69,6 +71,20 @@ export async function GET(request: NextRequest) {
       (prisma as any).idea?.count({ where }) || 0,
     ]);
 
+    console.log('🔍 Ideas API - Query results:', {
+      ideasFound: ideas.length,
+      totalCount,
+      firstIdea: ideas[0]
+        ? {
+            id: ideas[0].id,
+            title: ideas[0].title,
+            hotspotId: ideas[0].hotspotId,
+            hasHotspot: !!ideas[0].hotspot,
+            hasCreatedBy: !!ideas[0].createdBy,
+          }
+        : null,
+    });
+
     // Add computed vote and comment counts for each idea
     const ideasWithCounts = await Promise.all(
       ideas.map(async (idea: any) => {
@@ -106,7 +122,7 @@ export async function GET(request: NextRequest) {
       })
     );
 
-    return NextResponse.json({
+    const responseData = {
       ideas: ideasWithCounts,
       pagination: {
         total: totalCount,
@@ -115,7 +131,15 @@ export async function GET(request: NextRequest) {
         hasMore: offset + limit < totalCount,
       },
       timestamp: new Date().toISOString(),
+    };
+
+    console.log('🔍 Ideas API - Final response:', {
+      ideasCount: ideasWithCounts.length,
+      totalCount,
+      pagination: responseData.pagination,
     });
+
+    return NextResponse.json(responseData);
   } catch (error) {
     console.error('Ideas fetch error:', error);
     return NextResponse.json(
