@@ -48,7 +48,7 @@ export async function POST(request: NextRequest) {
         issueType: validatedData.issueType,
         rootCause: validatedData.rootCause,
         priority: validatedData.priority,
-        aiProcessed: false, // Will be processed later by AI
+        // Note: AI processing will be triggered via background job
         createdBy: session.user.id,
       },
       include: {
