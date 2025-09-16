@@ -10,7 +10,9 @@ export async function GET(request: NextRequest) {
       NODE_ENV: process.env.NODE_ENV,
       VERCEL_ENV: process.env.VERCEL_ENV,
       DATABASE_URL_exists: !!process.env.DATABASE_URL,
-      DATABASE_URL_partial: process.env.DATABASE_URL?.substring(0, 50) + '...',
+      PRISMA_DATABASE_URL_exists: !!process.env.PRISMA_DATABASE_URL,
+      PRISMA_DATABASE_URL_partial:
+        process.env.PRISMA_DATABASE_URL?.substring(0, 50) + '...',
       DIRECT_URL_exists: !!process.env.DIRECT_URL,
     };
 
