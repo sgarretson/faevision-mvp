@@ -96,16 +96,40 @@ export function IdeasDashboard() {
   const [isLoading, setIsLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
 
+  // Debug session state
+  console.log('🔍 IdeasDashboard - Session Debug:', {
+    status,
+    hasSession: !!session,
+    user: session?.user
+      ? {
+          id: session.user.id,
+          email: session.user.email,
+          name: session.user.name,
+        }
+      : null,
+    timestamp: new Date().toISOString(),
+  });
+
   // Filters
   const [statusFilter, setStatusFilter] = useState<string>('');
   const [originFilter, setOriginFilter] = useState<string>('');
 
   const fetchIdeas = useCallback(async () => {
+    console.log(
+      '🔍 fetchIdeas called with status:',
+      status,
+      'session:',
+      !!session
+    );
+
     // Don't fetch if not authenticated
     if (status !== 'authenticated' || !session) {
+      console.log('❌ Not fetching - status:', status, 'session:', !!session);
       setIsLoading(false);
       return;
     }
+
+    console.log('✅ Fetching ideas - authenticated');
 
     try {
       setIsLoading(true);
@@ -115,8 +139,12 @@ export function IdeasDashboard() {
       if (statusFilter) params.append('status', statusFilter);
       if (originFilter) params.append('origin', originFilter);
 
+      console.log('📡 Making request to:', `/api/ideas?${params}`);
       const response = await fetch(`/api/ideas?${params}`);
+      console.log('📡 Response status:', response.status);
+
       const data = await response.json();
+      console.log('📡 Response data:', data);
 
       if (!response.ok) {
         setError(data.error || 'Failed to fetch ideas');
