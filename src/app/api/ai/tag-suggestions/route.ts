@@ -142,8 +142,8 @@ export async function POST(request: NextRequest) {
           where: {
             OR: titleWords.map((word) => ({
               OR: [
-                { title: { contains: word, mode: 'insensitive' } },
-                { description: { contains: word, mode: 'insensitive' } },
+                { title: { contains: word, mode: 'insensitive' as const } },
+                { description: { contains: word, mode: 'insensitive' as const } },
               ],
             })),
           },
