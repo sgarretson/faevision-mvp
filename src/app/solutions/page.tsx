@@ -392,9 +392,9 @@ export default function SolutionsPage() {
                         )}
 
                         <div className="mt-4 text-sm text-gray-500">
-                          Created by {solution.creator.name} on{' '}
-                          {formatDate(solution.createdAt)}
-                          {solution.creator.department &&
+                          Created by {solution.creator?.name || 'Unknown User'}{' '}
+                          on {formatDate(solution.createdAt)}
+                          {solution.creator?.department &&
                             ` • ${solution.creator.department}`}
                         </div>
                       </div>

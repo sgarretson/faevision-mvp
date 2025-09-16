@@ -146,7 +146,7 @@ export default function FRDDashboardPage() {
                 Solution: {frd.solution.title}
               </p>
               <p className="text-sm text-gray-500">
-                Created by {frd.creator.name} on{' '}
+                Created by {frd.creator?.name || 'Unknown User'} on{' '}
                 {new Date(frd.createdAt).toLocaleDateString()}
               </p>
             </CardContent>
