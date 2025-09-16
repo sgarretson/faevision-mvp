@@ -54,7 +54,7 @@ export async function GET(
         entityId: id,
       },
       include: {
-        author: {
+        createdBy: {
           select: {
             id: true,
             name: true,
@@ -123,10 +123,10 @@ export async function POST(
         content: validatedData.content,
         entityType: 'SIGNAL',
         entityId: id,
-        authorId: session.user.id,
+        createdById: session.user.id,
       },
       include: {
-        author: {
+        createdBy: {
           select: {
             id: true,
             name: true,

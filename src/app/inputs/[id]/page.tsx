@@ -51,7 +51,7 @@ interface Comment {
   id: string;
   content: string;
   createdAt: string;
-  author?: {
+  createdBy?: {
     id: string;
     name?: string;
     email: string;
@@ -397,15 +397,15 @@ export default function InputDetailPage() {
                         <div className="flex items-center space-x-2">
                           <div className="flex h-8 w-8 items-center justify-center rounded-full bg-blue-600">
                             <span className="text-sm font-medium text-white">
-                              {(comment.author?.name ||
-                                comment.author?.email ||
+                              {(comment.createdBy?.name ||
+                                comment.createdBy?.email ||
                                 'U')[0].toUpperCase()}
                             </span>
                           </div>
                           <div>
                             <p className="text-sm font-medium text-gray-900">
-                              {comment.author?.name ||
-                                comment.author?.email ||
+                              {comment.createdBy?.name ||
+                                comment.createdBy?.email ||
                                 'Unknown User'}
                             </p>
                             <p className="text-xs text-gray-500">

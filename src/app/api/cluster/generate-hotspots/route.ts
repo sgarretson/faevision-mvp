@@ -43,8 +43,7 @@ export async function POST(request: NextRequest) {
       if ('signal' in prisma) {
         signals = await (prisma as any).signal.findMany({
           where: {
-            aiProcessed: true,
-            embedding: { not: null },
+            // For testing: include all signals, not just AI processed
             ...(options.forceReclustering
               ? {}
               : {
