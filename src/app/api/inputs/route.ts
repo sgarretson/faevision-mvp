@@ -63,7 +63,7 @@ export async function POST(request: NextRequest) {
         // Note: AI processing will be triggered via background job
       },
       include: {
-        creator: {
+        createdBy: {
           select: {
             id: true,
             name: true,
@@ -171,7 +171,7 @@ export async function GET(request: NextRequest) {
       (await (prisma as any).signal?.findMany({
         where,
         include: {
-          creator: {
+          createdBy: {
             select: {
               id: true,
               name: true,
