@@ -1,6 +1,9 @@
 import { Suspense } from 'react';
 import { IdeasDashboard } from '@/components/ideas/ideas-dashboard';
 
+// Force dynamic rendering to prevent build-time database calls
+export const dynamic = 'force-dynamic';
+
 /**
  * Ideas Dashboard Page
  *

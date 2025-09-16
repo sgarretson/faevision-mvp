@@ -1,5 +1,8 @@
 import { Suspense } from 'react';
 import { HotspotDashboard } from '@/components/hotspots/hotspot-dashboard';
+
+// Force dynamic rendering to prevent build-time database calls
+export const dynamic = 'force-dynamic';
 import { HotspotSkeleton } from '@/components/hotspots/hotspot-skeleton';
 
 /**

@@ -1,5 +1,8 @@
 'use client';
 
+// Force dynamic rendering to prevent build-time database calls
+export const dynamic = 'force-dynamic';
+
 import { useState, useEffect, useCallback } from 'react';
 import { useSession } from 'next-auth/react';
 import Link from 'next/link';
