@@ -103,7 +103,7 @@ async function gatherDigestData(weekAgo: Date) {
   // Get top hotspots by ranking
   let topHotspots = [];
   try {
-    topHotspots = await prisma.hotspot.findMany({
+    topHotspots = await (prisma as any).hotspot.findMany({
       take: 5,
       orderBy: { rankScore: 'desc' },
       where: {
@@ -159,11 +159,11 @@ async function gatherWeeklyMetrics(weekAgo: Date) {
   try {
     // Try V2 Signal model first
     const [newSignals, totalSignals, processedSignals] = await Promise.all([
-      prisma.signal.count({
+      (prisma as any).signal.count({
         where: { receivedAt: { gte: weekAgo } }
       }),
-      prisma.signal.count(),
-      prisma.signal.count({
+      (prisma as any).signal.count(),
+      (prisma as any).signal.count({
         where: { aiProcessed: true }
       })
     ]);
@@ -224,7 +224,7 @@ async function gatherWeeklyMetrics(weekAgo: Date) {
 async function gatherDepartmentBreakdown(weekAgo: Date) {
   try {
     // Try V2 Signal model with department relationships
-    const departmentStats = await prisma.signal.groupBy({
+    const departmentStats = await (prisma as any).signal.groupBy({
       by: ['departmentId'],
       where: { receivedAt: { gte: weekAgo } },
       _count: { id: true }
@@ -267,7 +267,7 @@ async function identifyKeyTrends(weekAgo: Date) {
 
   try {
     // Analyze severity trends
-    const severityTrends = await prisma.signal.groupBy({
+    const severityTrends = await (prisma as any).signal.groupBy({
       by: ['severity'],
       where: { receivedAt: { gte: weekAgo } },
       _count: { id: true }
@@ -295,7 +295,7 @@ async function identifyKeyTrends(weekAgo: Date) {
     }
 
     // Check for clustering activity
-    const activeHotspots = await prisma.hotspot.count({
+    const activeHotspots = await (prisma as any).hotspot.count({
       where: { 
         status: 'OPEN',
         updatedAt: { gte: weekAgo }

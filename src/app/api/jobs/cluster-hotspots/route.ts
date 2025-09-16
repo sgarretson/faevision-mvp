@@ -229,7 +229,7 @@ async function updateExistingHotspot(hotspot: any, signals: any[], cluster: any,
     const signal = signals[i];
     const membershipStrength = cluster.membershipStrengths?.[i] || 0.8;
     
-    await prisma.hotspotSignal.upsert({
+    await (prisma as any).hotspotSignal.upsert({
       where: {
         hotspotId_signalId: {
           hotspotId: hotspot.id,
