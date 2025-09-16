@@ -63,7 +63,7 @@ export async function POST(request: NextRequest) {
         });
       } else {
         // Fallback to V1 Input model
-        signals = await prisma.input.findMany({
+        signals = await (prisma as any).input.findMany({
           where: {
             aiProcessed: true,
           },

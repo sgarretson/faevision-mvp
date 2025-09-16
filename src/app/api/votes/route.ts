@@ -8,10 +8,9 @@ const voteSchema = z.object({
   type: z.enum(['UP', 'DOWN']),
 });
 
-// Helper function to convert type to value
-const typeToValue = (type: 'UP' | 'DOWN'): number => (type === 'UP' ? 1 : -1);
-const valueToType = (value: number): 'UP' | 'DOWN' =>
-  value > 0 ? 'UP' : 'DOWN';
+// Helper function to convert type to value (V2 uses direct enum values)
+const typeToValue = (type: 'UP' | 'DOWN'): 'UP' | 'DOWN' => type;
+const valueToType = (value: 'UP' | 'DOWN'): 'UP' | 'DOWN' => value;
 
 export async function POST(request: NextRequest) {
   try {
@@ -25,12 +24,11 @@ export async function POST(request: NextRequest) {
     const validatedData = voteSchema.parse(body);
 
     // Check if user already voted on this input
-    const existingVote = await prisma.vote.findUnique({
+    const existingVote = await (prisma as any).vote.findFirst({
       where: {
-        userId_inputId: {
-          userId: session.user.id,
-          inputId: validatedData.inputId,
-        },
+        entityType: 'INPUT',
+        entityId: validatedData.inputId,
+        createdBy: session.user.id,
       },
     });
 
@@ -42,14 +40,14 @@ export async function POST(request: NextRequest) {
     if (existingVote) {
       if (existingVote.value === newValue) {
         // Remove vote if clicking same type
-        await prisma.vote.delete({
+        await (prisma as any).vote.delete({
           where: { id: existingVote.id },
         });
         action = 'removed';
         vote = null;
       } else {
         // Update vote type if clicking different type
-        vote = await prisma.vote.update({
+        vote = await (prisma as any).vote.update({
           where: { id: existingVote.id },
           data: { value: newValue },
         });
@@ -57,24 +55,28 @@ export async function POST(request: NextRequest) {
       }
     } else {
       // Create new vote
-      vote = await prisma.vote.create({
+      vote = await (prisma as any).vote.create({
         data: {
           value: newValue,
-          userId: session.user.id,
-          inputId: validatedData.inputId,
+          entityType: 'INPUT',
+          entityId: validatedData.inputId,
+          createdBy: session.user.id,
         },
       });
       action = 'created';
     }
 
     // Get updated vote counts
-    const votes = await prisma.vote.findMany({
-      where: { inputId: validatedData.inputId },
+    const votes = await (prisma as any).vote.findMany({
+      where: {
+        entityType: 'INPUT',
+        entityId: validatedData.inputId,
+      },
       select: { value: true },
     });
 
-    const upVotes = votes.filter(v => v.value > 0).length;
-    const downVotes = votes.filter(v => v.value < 0).length;
+    const upVotes = votes.filter((v: any) => v.value === 'UP').length;
+    const downVotes = votes.filter((v: any) => v.value === 'DOWN').length;
 
     // Log the action for audit
     await (prisma as any).auditLog.create({
@@ -139,16 +141,19 @@ export async function GET(request: NextRequest) {
     }
 
     // Get vote counts for the input
-    const votes = await prisma.vote.findMany({
-      where: { inputId },
-      select: { value: true, userId: true },
+    const votes = await (prisma as any).vote.findMany({
+      where: {
+        entityType: 'INPUT',
+        entityId: inputId,
+      },
+      select: { value: true, createdBy: true },
     });
 
     // Get current user's vote if any
-    const userVote = votes.find(v => v.userId === session.user.id);
+    const userVote = votes.find((v: any) => v.createdBy === session.user.id);
 
-    const upVotes = votes.filter(v => v.value > 0).length;
-    const downVotes = votes.filter(v => v.value < 0).length;
+    const upVotes = votes.filter((v: any) => v.value === 'UP').length;
+    const downVotes = votes.filter((v: any) => v.value === 'DOWN').length;
 
     return NextResponse.json({
       voteCounts: {

@@ -131,8 +131,8 @@ async function getSignalMetrics() {
     // Fallback to legacy Input model
     try {
       const [totalInputs, recentInputs] = await Promise.all([
-        prisma.input.count(),
-        prisma.input.count({
+        (prisma as any).input.count(),
+        (prisma as any).input.count({
           where: {
             createdAt: {
               gte: new Date(Date.now() - 24 * 60 * 60 * 1000),
@@ -200,7 +200,7 @@ async function getClusteringMetrics() {
       (await (prisma as any).hotspotSignal?.count()) || 0;
     const totalSignals = await (prisma as any).signal
       ?.count()
-      .catch(() => prisma.input.count().catch(() => 0));
+      .catch(() => (prisma as any).input.count().catch(() => 0));
 
     const clusteringEfficiency =
       totalSignals > 0 ? totalSignalsInHotspots / totalSignals : 0;

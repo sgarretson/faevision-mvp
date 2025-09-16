@@ -38,12 +38,12 @@ export async function POST(request: NextRequest) {
     const validatedData = createInputSchema.parse(body);
 
     // Create the input
-    const input = await prisma.input.create({
+    const input = await (prisma as any).input.create({
       data: {
         title: validatedData.title,
         description: validatedData.description,
         type: validatedData.type,
-        status: 'NEW', // All new inputs start as NEW
+        status: 'ACTIVE', // All new inputs start as ACTIVE
         department: validatedData.department,
         issueType: validatedData.issueType,
         rootCause: validatedData.rootCause,
@@ -128,7 +128,7 @@ export async function GET(request: NextRequest) {
     if (department) where.department = department;
 
     // Get inputs with creator info
-    const inputs = await prisma.input.findMany({
+    const inputs = await (prisma as any).input.findMany({
       where,
       include: {
         creator: {
@@ -155,7 +155,7 @@ export async function GET(request: NextRequest) {
     });
 
     // Get total count for pagination
-    const totalCount = await prisma.input.count({ where });
+    const totalCount = await (prisma as any).input.count({ where });
 
     return NextResponse.json({
       inputs,

@@ -50,7 +50,7 @@ export async function POST(request: NextRequest) {
       });
     } catch (error) {
       // Fallback to legacy Input model
-      processedSignals = await prisma.input.findMany({
+      processedSignals = await (prisma as any).input.findMany({
         where: {
           aiProcessed: true,
         },

@@ -45,7 +45,7 @@ export async function POST(request: NextRequest) {
       });
     } catch (error) {
       // Fallback to legacy Input model
-      unprocessedSignals = await prisma.input.findMany({
+      unprocessedSignals = await (prisma as any).input.findMany({
         where: {
           aiProcessed: { not: true },
         },
@@ -96,7 +96,7 @@ export async function POST(request: NextRequest) {
           });
         } else {
           // Legacy Input model
-          await prisma.input.update({
+          await (prisma as any).input.update({
             where: { id: signal.id },
             data: {
               aiTags: aiTags,

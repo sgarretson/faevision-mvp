@@ -207,10 +207,10 @@ async function gatherWeeklyMetrics(weekAgo: Date) {
   } catch (error) {
     // Fallback to legacy Input model
     const [newInputs, totalInputs] = await Promise.all([
-      prisma.input.count({
+      (prisma as any).input.count({
         where: { createdAt: { gte: weekAgo } },
       }),
-      prisma.input.count(),
+      (prisma as any).input.count(),
     ]);
 
     const [completedSolutions, totalSolutions] = await Promise.all([
@@ -261,7 +261,7 @@ async function gatherDepartmentBreakdown(weekAgo: Date) {
     });
   } catch (error) {
     // Fallback to legacy department field
-    const departmentStats = await prisma.input.groupBy({
+    const departmentStats = await (prisma as any).input.groupBy({
       by: ['department'],
       where: {
         createdAt: { gte: weekAgo },
