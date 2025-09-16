@@ -185,7 +185,7 @@ async function getClusteringMetrics() {
       _count: { id: true }
     });
 
-    const methodDistribution = clusteringMethods.reduce((acc, method) => {
+    const methodDistribution = clusteringMethods.reduce((acc: Record<string, number>, method: any) => {
       acc[method.clusteringMethod || 'unknown'] = method._count.id;
       return acc;
     }, {} as Record<string, number>);
@@ -237,7 +237,7 @@ async function getExecutiveMetrics() {
     });
 
     const avgResolutionTime = recentResolvedHotspots.length > 0
-      ? recentResolvedHotspots.reduce((sum, hotspot) => {
+      ? recentResolvedHotspots.reduce((sum: number, hotspot: any) => {
           const resolutionTime = hotspot.updatedAt.getTime() - hotspot.createdAt.getTime();
           return sum + resolutionTime;
         }, 0) / recentResolvedHotspots.length
