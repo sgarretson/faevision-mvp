@@ -46,6 +46,41 @@ export async function GET(request: NextRequest) {
 
     console.log('👥 All users in runtime database:', allUsers);
 
+    // Check for V1 and V2 data counts
+    const dataCounts = {
+      v1: {
+        inputs: (await (prisma as any).input?.count()) || 0,
+        solutions: (await (prisma as any).solution?.count()) || 0,
+        comments: (await (prisma as any).comment?.count()) || 0,
+        votes: (await (prisma as any).vote?.count()) || 0,
+      },
+      v2: {
+        signals: (await (prisma as any).signal?.count()) || 0,
+        hotspots: (await (prisma as any).hotspot?.count()) || 0,
+        ideas: (await (prisma as any).idea?.count()) || 0,
+        departments: (await (prisma as any).department?.count()) || 0,
+        teams: (await (prisma as any).team?.count()) || 0,
+        categories: (await (prisma as any).category?.count()) || 0,
+        initiatives: (await (prisma as any).initiative?.count()) || 0,
+      },
+    };
+
+    // Get some sample data
+    const sampleSignals =
+      (await (prisma as any).signal?.findMany({
+        take: 2,
+        select: {
+          id: true,
+          title: true,
+          description: true,
+          severity: true,
+          createdAt: true,
+        },
+      })) || [];
+
+    console.log('📊 Data counts:', dataCounts);
+    console.log('📝 Sample signals:', sampleSignals);
+
     return Response.json({
       success: true,
       environment,
@@ -53,6 +88,12 @@ export async function GET(request: NextRequest) {
       adminFound: !!adminUser,
       adminUser,
       allUsers,
+      dataCounts,
+      sampleSignals,
+      hasV2Data:
+        dataCounts.v2.signals > 0 ||
+        dataCounts.v2.hotspots > 0 ||
+        dataCounts.v2.ideas > 0,
       timestamp: new Date().toISOString(),
     });
   } catch (error) {
