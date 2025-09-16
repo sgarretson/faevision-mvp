@@ -11,17 +11,16 @@ import { Textarea } from '@/components/ui/textarea';
 import {
   ArrowLeft,
   MessageSquare,
-  TrendingUp,
-  TrendingDown,
   Send,
   AlertCircle,
   User,
   Calendar,
-  Tag,
   Lightbulb,
   Zap,
   Target,
 } from 'lucide-react';
+import { IdeaVoting } from '@/components/ideas/idea-voting';
+import { IdeaApproval } from '@/components/ideas/idea-approval';
 import { Alert, AlertDescription } from '@/components/ui/alert';
 
 interface IdeaDetail {
@@ -103,6 +102,7 @@ export default function IdeaDetailPage() {
   const [newComment, setNewComment] = useState('');
   const [isLoading, setIsLoading] = useState(true);
   const [isSubmittingComment, setIsSubmittingComment] = useState(false);
+  const [isCreatingSolution, setIsCreatingSolution] = useState(false);
   const [error, setError] = useState<string | null>(null);
 
   const fetchIdeaDetail = useCallback(async () => {
@@ -179,6 +179,47 @@ export default function IdeaDetailPage() {
       );
     } finally {
       setIsSubmittingComment(false);
+    }
+  };
+
+  const handleCreateSolution = async () => {
+    if (!idea || !session?.user?.id || isCreatingSolution) return;
+
+    try {
+      setIsCreatingSolution(true);
+      setError(null);
+
+      const response = await fetch('/api/solutions', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          title: `Solution: ${idea.title}`,
+          description: `Solution created from idea: ${idea.description}`,
+          hotspotId: idea.hotspot?.id || null,
+          createdBy: session.user.id,
+          priority: 'MEDIUM',
+          businessValue: 'TBD',
+          estimatedEffort: 'TBD',
+        }),
+      });
+
+      const data = await response.json();
+
+      if (!response.ok) {
+        throw new Error(data.error || 'Failed to create solution');
+      }
+
+      // Redirect to solutions page (individual solution pages not yet implemented)
+      router.push('/solutions');
+    } catch (error) {
+      console.error('Create solution error:', error);
+      setError(
+        error instanceof Error ? error.message : 'Failed to create solution'
+      );
+    } finally {
+      setIsCreatingSolution(false);
     }
   };
 
@@ -282,7 +323,7 @@ export default function IdeaDetailPage() {
           <CardHeader>
             <div className="flex items-start justify-between">
               <div className="flex items-start space-x-3">
-                <span className="text-3xl" role="img" aria-label={idea.origin}>
+                <span className="text-3xl" aria-label={`${idea.origin} origin`}>
                   {ORIGIN_ICONS[idea.origin]}
                 </span>
                 <div>
@@ -304,21 +345,28 @@ export default function IdeaDetailPage() {
                   </div>
                 </div>
               </div>
-              <div className="flex items-center space-x-4">
-                <div className="text-right">
-                  <div className="flex items-center space-x-2">
-                    <TrendingUp className="h-4 w-4 text-green-600" />
-                    <span className="text-sm font-medium">
-                      {idea._count.upVotes}
-                    </span>
-                  </div>
-                  <div className="mt-1 flex items-center space-x-2">
-                    <TrendingDown className="h-4 w-4 text-red-600" />
-                    <span className="text-sm font-medium">
-                      {idea._count.downVotes}
-                    </span>
-                  </div>
-                </div>
+              <div className="flex flex-col space-y-4">
+                {/* Voting Section */}
+                <IdeaVoting
+                  ideaId={idea.id}
+                  initialVotes={{
+                    up: idea._count.upVotes,
+                    down: idea._count.downVotes,
+                    total: idea._count.upVotes + idea._count.downVotes,
+                  }}
+                />
+
+                {/* Create Solution Button - Only show if approved */}
+                {idea.status === 'approved' && (
+                  <Button
+                    onClick={() => handleCreateSolution()}
+                    className="bg-blue-600 hover:bg-blue-700"
+                    disabled={isCreatingSolution}
+                  >
+                    <Target className="mr-2 h-4 w-4" />
+                    {isCreatingSolution ? 'Creating...' : 'Create Solution'}
+                  </Button>
+                )}
               </div>
             </div>
           </CardHeader>
@@ -363,6 +411,26 @@ export default function IdeaDetailPage() {
                   </div>
                 </div>
               )}
+
+              <hr className="border-gray-200" />
+
+              {/* Approval Workflow */}
+              <div>
+                <h3 className="text-lg font-semibold text-gray-900">
+                  Approval Status
+                </h3>
+                <div className="mt-2">
+                  <IdeaApproval
+                    ideaId={idea.id}
+                    currentStatus={idea.status as any}
+                    votes={{
+                      up: idea._count.upVotes,
+                      down: idea._count.downVotes,
+                      total: idea._count.upVotes + idea._count.downVotes,
+                    }}
+                  />
+                </div>
+              </div>
 
               <hr className="border-gray-200" />
 
@@ -420,17 +488,18 @@ export default function IdeaDetailPage() {
                           Tags
                         </h3>
                         <div className="mt-2 flex flex-wrap gap-2">
-                          {Array.isArray(idea.tagsJson) ? (
-                            idea.tagsJson.map((tag: string, index: number) => (
-                              <Badge key={index} variant="outline">
-                                {tag}
-                              </Badge>
-                            ))
-                          ) : (
-                            <Badge variant="outline">
-                              {String(idea.tagsJson)}
-                            </Badge>
-                          )}
+                          {Array.isArray(idea.tagsJson) &&
+                          idea.tagsJson.length > 0
+                            ? idea.tagsJson.map((tag: string) => (
+                                <Badge key={`tag-${tag}`} variant="outline">
+                                  {tag}
+                                </Badge>
+                              ))
+                            : idea.tagsJson && (
+                                <Badge variant="outline">
+                                  {String(idea.tagsJson)}
+                                </Badge>
+                              )}
                         </div>
                       </div>
                     )}
@@ -446,7 +515,7 @@ export default function IdeaDetailPage() {
           <CardHeader>
             <CardTitle className="flex items-center">
               <MessageSquare className="mr-2 h-5 w-5" />
-              Comments ({comments.length})
+              Comments ({comments?.length || 0})
             </CardTitle>
           </CardHeader>
           <CardContent>
@@ -473,12 +542,12 @@ export default function IdeaDetailPage() {
 
               {/* Comments List */}
               <div className="space-y-4">
-                {comments.length === 0 ? (
+                {!comments || comments.length === 0 ? (
                   <p className="py-8 text-center text-gray-500">
                     No comments yet. Be the first to comment!
                   </p>
                 ) : (
-                  comments.map(comment => (
+                  comments.map((comment: any) => (
                     <div key={comment.id} className="rounded-lg bg-gray-50 p-4">
                       <div className="flex items-start justify-between">
                         <div className="flex items-center space-x-2">

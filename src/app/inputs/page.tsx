@@ -19,6 +19,7 @@ import {
   Search,
   AlertCircle,
 } from 'lucide-react';
+import { InputsBulkSelection } from '@/components/inputs/inputs-bulk-selection';
 import { Alert, AlertDescription } from '@/components/ui/alert';
 import { VoteButtons } from '@/components/inputs/vote-buttons';
 
@@ -279,123 +280,34 @@ export default function InputsPage() {
           </div>
         )}
 
-        {/* Inputs List */}
-        {!isLoading && (
-          <div className="space-y-4">
-            {filteredInputs.length === 0 ? (
-              <Card>
-                <CardContent className="pt-6">
-                  <div className="py-12 text-center">
-                    <Filter className="mx-auto h-12 w-12 text-gray-400" />
-                    <h3 className="mt-4 text-lg font-medium text-gray-900">
-                      No inputs found
-                    </h3>
-                    <p className="mt-2 text-gray-600">
-                      {searchQuery ||
-                      statusFilter ||
-                      typeFilter ||
-                      departmentFilter
-                        ? 'Try adjusting your filters or search query.'
-                        : 'Get started by creating your first strategic input.'}
-                    </p>
-                    <div className="mt-6">
-                      <Link href="/inputs/create">
-                        <Button>
-                          <Plus className="mr-2 h-4 w-4" />
-                          Create First Input
-                        </Button>
-                      </Link>
-                    </div>
-                  </div>
-                </CardContent>
-              </Card>
-            ) : (
-              filteredInputs.map(input => (
-                <Card
-                  key={input.id}
-                  className="transition-shadow hover:shadow-md"
-                >
-                  <CardContent className="pt-6">
-                    <div className="flex flex-col lg:flex-row lg:items-start lg:justify-between">
-                      <div className="flex-1">
-                        <div className="flex items-start space-x-3">
-                          <span
-                            className="text-2xl"
-                            role="img"
-                            aria-label={input.type}
-                          >
-                            {TYPE_ICONS[input.type]}
-                          </span>
-                          <div className="flex-1">
-                            <h3 className="text-lg font-semibold text-gray-900 hover:text-blue-600">
-                              <Link href={`/inputs/${input.id}`}>
-                                {input.title || 'Untitled Input'}
-                              </Link>
-                            </h3>
-                            <p className="mt-1 line-clamp-2 text-sm text-gray-600">
-                              {input.description || 'No description available'}
-                            </p>
-                          </div>
-                        </div>
+        {/* Inputs List with Bulk Selection */}
+        {!isLoading && <InputsBulkSelection inputs={filteredInputs} />}
 
-                        <div className="mt-4 flex flex-wrap gap-2">
-                          <Badge className={STATUS_COLORS[input.status]}>
-                            {input.status.replace('_', ' ')}
-                          </Badge>
-                          <Badge className={PRIORITY_COLORS[input.priority]}>
-                            {input.priority}
-                          </Badge>
-                          {input.department && (
-                            <Badge variant="outline">{input.department}</Badge>
-                          )}
-                          {input.issueType && (
-                            <Badge variant="outline">{input.issueType}</Badge>
-                          )}
-                        </div>
-
-                        <div className="mt-4 text-sm text-gray-500">
-                          Created by{' '}
-                          {input.creator?.name ||
-                            input.creator?.email ||
-                            'Unknown User'}{' '}
-                          on {formatDate(input.createdAt)}
-                          {input.creator?.department &&
-                            ` • ${input.creator.department}`}
-                        </div>
-                      </div>
-
-                      <div className="mt-4 flex items-center space-x-4 lg:ml-6 lg:mt-0">
-                        <div className="flex items-center space-x-4">
-                          {/* Vote Buttons */}
-                          <VoteButtons
-                            inputId={input.id}
-                            initialVoteCounts={{
-                              up: 0, // Will be fetched by component
-                              down: 0,
-                              total: input._count.votes,
-                            }}
-                          />
-
-                          {/* Comments Count */}
-                          <div className="flex items-center space-x-1 text-sm text-gray-600">
-                            <MessageSquare className="h-4 w-4" />
-                            <span>{input._count.comments}</span>
-                          </div>
-                        </div>
-
-                        <Link href={`/inputs/${input.id}`}>
-                          <Button variant="outline" size="sm">
-                            <Eye className="mr-2 h-4 w-4" />
-                            View
-                          </Button>
-                        </Link>
-                      </div>
-                    </div>
-                  </CardContent>
-                </Card>
-              ))
-            )}
-          </div>
+        {/* Fallback for Empty State */}
+        {!isLoading && filteredInputs.length === 0 && (
+          <Card>
+            <CardContent className="pt-6">
+              <div className="py-12 text-center">
+                <Filter className="mx-auto h-12 w-12 text-gray-400" />
+                <h3 className="mt-4 text-lg font-medium text-gray-900">
+                  No inputs found
+                </h3>
+                <p className="mt-2 text-gray-600">
+                  {searchQuery || statusFilter || typeFilter || departmentFilter
+                    ? 'Try adjusting your filters or search query.'
+                    : 'Get started by creating your first strategic input.'}
+                </p>
+                <div className="mt-6">
+                  <Link href="/inputs/create">
+                    <Button>
+                      <Plus className="mr-2 h-4 w-4" />
+                      Create First Input
+                    </Button>
+                  </Link>
+                </div>
+              </div>
+            </CardContent>
+          </Card>
         )}
 
         {/* Pagination */}
