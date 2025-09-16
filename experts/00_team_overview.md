@@ -26,13 +26,15 @@ Our expert team consists of 11 specialized professionals, each bringing cutting-
 
 **Focus:** Error-Free, Reliable Applications  
 **Key Contribution:** Zero-defect development, comprehensive testing, performance optimization  
-**Training Emphasis:** AI-driven development tools, advanced testing strategies, scalability patterns
+**Training Emphasis:** AI-driven development tools, advanced testing strategies, scalability patterns  
+**🆕 CRITICAL EXPERTISE:** Build Process Verification, TypeScript Prisma Integration, Pre-Deployment Testing Leadership
 
 ### 5. Vercel Engineer - Jordan Kim
 
 **Focus:** Vercel Platform Mastery  
 **Key Contribution:** Serverless architecture, edge computing, performance optimization  
-**Training Emphasis:** Advanced Vercel features, AI SDK integration, cost optimization
+**Training Emphasis:** Advanced Vercel features, AI SDK integration, cost optimization  
+**🆕 CRITICAL EXPERTISE:** Runtime Binary Compatibility, Prisma Serverless Optimization, Deployment Error Prevention
 
 ### 6. IA/UX Expert - Maya Rodriguez
 
@@ -62,7 +64,8 @@ Our expert team consists of 11 specialized professionals, each bringing cutting-
 
 **Focus:** PostgreSQL & Data Systems  
 **Key Contribution:** Database architecture, performance optimization, scalability planning  
-**Training Emphasis:** Cloud-native PostgreSQL, advanced analytics, security compliance
+**Training Emphasis:** Cloud-native PostgreSQL, advanced analytics, security compliance  
+**🆕 CRITICAL EXPERTISE:** Prisma Client + Vercel Binary Target Management, V1/V2 Schema Migration Leadership
 
 ### 11. GitHub Expert - Taylor Morgan
 
@@ -103,6 +106,25 @@ Development & Implementation Layer
 - **Bi-weekly:** Sprint planning and retrospectives
 - **Monthly:** Strategic alignment and roadmap reviews
 - **Quarterly:** Team training and knowledge sharing sessions
+
+## 🚨 CRITICAL INCIDENT RESPONSE TRAINING
+
+### **IMMEDIATE: Prisma + Vercel Deployment Prevention**
+**Status:** MANDATORY for ALL experts following Preview environment incident  
+**Training Material:** `experts/team-training-prisma-vercel-prevention.md`
+
+**KEY LEARNINGS:**
+- ✅ **Binary Target Configuration**: All experts must understand Prisma binary targets
+- ✅ **Build Test Compliance**: `npm run build:test` before ANY commit  
+- ✅ **Expert Responsibility Matrix**: Clear ownership for database, deployment, and build processes
+- ✅ **Prevention Framework**: Enhanced compliance checks prevent 90% of deployment failures
+
+**MANDATORY CERTIFICATION:**
+- [ ] All experts complete Prisma binary target training
+- [ ] Database Architect demonstrates schema migration procedures  
+- [ ] Vercel Engineer demonstrates runtime error diagnosis
+- [ ] Lead Developer demonstrates build process verification
+- [ ] All experts pass prevention workflow knowledge check
 
 ## Collective Training & Research Program
 

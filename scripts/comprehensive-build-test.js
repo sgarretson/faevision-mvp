@@ -238,6 +238,75 @@ class BuildTestFramework {
       this.info(
         'Add binaryTargets = ["native", "rhel-openssl-3.0.x"] to generator client'
       );
+      criticalErrors.push('Prisma schema missing Vercel binary targets');
+    }
+
+    // Verify generated client exists and has correct binaries
+    this.info('Verifying generated Prisma client binary files');
+    try {
+      const fs = require('fs');
+      const path = require('path');
+      
+      const clientPath = 'src/generated/prisma';
+      const vercelBinary = 'libquery_engine-rhel-openssl-3.0.x.so.node';
+      const localBinary = 'libquery_engine-darwin-arm64.dylib.node';
+      
+      if (!fs.existsSync(clientPath)) {
+        this.error('Generated Prisma client directory missing');
+        criticalErrors.push('Prisma client not generated - run npx prisma generate');
+      } else {
+        const clientFiles = fs.readdirSync(clientPath);
+        
+        if (clientFiles.includes(vercelBinary)) {
+          this.success(`Vercel binary found: ${vercelBinary}`);
+        } else {
+          this.error(`Vercel binary missing: ${vercelBinary}`);
+          criticalErrors.push('Vercel-compatible Prisma binary missing');
+        }
+        
+        if (clientFiles.includes(localBinary)) {
+          this.success(`Local binary found: ${localBinary}`);
+        } else {
+          this.warning(`Local binary missing: ${localBinary} (development only)`);
+        }
+        
+        // Check for output path configuration
+        const schemaHasOutput = schemaContent.includes('output');
+        if (schemaHasOutput) {
+          this.success('Prisma output path configured for custom client generation');
+        } else {
+          this.warning('Prisma output path not configured - may cause import issues');
+        }
+      }
+    } catch (error) {
+      this.error(`Prisma client verification failed: ${error.message}`);
+      criticalErrors.push('Prisma client verification failed');
+    }
+
+    // Schema Migration Compatibility Check
+    this.info('Checking V1/V2 schema migration compatibility');
+    try {
+      const codeReferencesV1 = await this.runCommand(
+        'grep -r "prisma\\.input\\." src/ --include="*.ts" --include="*.tsx" | wc -l',
+        'V1 Input Model References'
+      );
+      
+      const codeReferencesV2 = await this.runCommand(
+        'grep -r "(prisma as any)\\.signal\\." src/ --include="*.ts" --include="*.tsx" | wc -l',
+        'V2 Signal Model References'
+      );
+      
+      if (codeReferencesV1.stdout.trim() !== '0') {
+        this.warning(`Found ${codeReferencesV1.stdout.trim()} V1 'prisma.input' references that need V2 migration`);
+        this.info('Consider updating to (prisma as any).signal for V2 compatibility');
+      }
+      
+      if (codeReferencesV2.stdout.trim() !== '0') {
+        this.success(`Found ${codeReferencesV2.stdout.trim()} V2 'signal' model references`);
+      }
+      
+    } catch (error) {
+      this.warning(`Schema migration check failed: ${error.message}`);
     }
 
     return schemaResult && generateResult;
