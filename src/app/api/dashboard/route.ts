@@ -133,7 +133,7 @@ export async function GET(request: NextRequest) {
           createdAt: 'desc',
         },
         include: {
-          creator: {
+          createdBy: {
             select: {
               name: true,
             },
@@ -170,7 +170,7 @@ export async function GET(request: NextRequest) {
           type: 'GENERAL' as const, // Default type since Signal model doesn't have type field
           priority: signal.severity || 'MEDIUM', // Map severity to priority
           department: signal.department?.name || 'Unknown',
-          creator: signal.creator?.name || 'Unknown',
+          creator: signal.createdBy?.name || 'Unknown',
           createdAt: signal.createdAt.toISOString(),
           votesCount,
           commentsCount,
