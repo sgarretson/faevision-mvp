@@ -99,14 +99,14 @@ export async function GET(request: NextRequest) {
             where: {
               entityType: 'IDEA',
               entityId: idea.id,
-              type: 'UP',
+              value: 'UP',
             },
           }) || 0,
           (prisma as any).vote?.count?.({
             where: {
               entityType: 'IDEA',
               entityId: idea.id,
-              type: 'DOWN',
+              value: 'DOWN',
             },
           }) || 0,
         ]);
