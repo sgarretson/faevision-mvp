@@ -57,7 +57,7 @@ export async function GET(request: NextRequest) {
         (prisma as any).hotspot?.count({ where }) || 0
       ]);
 
-      const formattedHotspots = (hotspots || []).map(hotspot => ({
+      const formattedHotspots = (hotspots || []).map((hotspot: any) => ({
         id: hotspot.id,
         title: hotspot.title,
         summary: hotspot.summary,
@@ -70,7 +70,7 @@ export async function GET(request: NextRequest) {
         similarityThreshold: hotspot.similarityThreshold,
         createdAt: hotspot.createdAt.toISOString(),
         updatedAt: hotspot.updatedAt.toISOString(),
-        signals: hotspot.signals.map(hs => ({
+        signals: hotspot.signals.map((hs: any) => ({
           ...hs.signal,
           membershipStrength: hs.membershipStrength,
           isOutlier: hs.isOutlier,
