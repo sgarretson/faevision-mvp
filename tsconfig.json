@@ -26,6 +26,7 @@
     "node_modules",
     "prisma/seed.ts",
     "prisma/seed-complex.ts",
+    "prisma/seed-comprehensive.ts",
     "scripts/**/*.ts",
     "tests/**/*.ts"
   ]

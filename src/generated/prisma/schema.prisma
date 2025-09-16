@@ -21,29 +21,48 @@ datasource db {
 // ============================================================================
 
 model User {
-  id           String   @id @default(cuid())
-  email        String   @unique
-  name         String
-  role         UserRole @default(CONTRIBUTOR)
-  department   String?
-  avatar       String?
-  passwordHash String? // For credentials authentication
-  createdAt    DateTime @default(now())
-  updatedAt    DateTime @updatedAt
+  id                String    @id @default(cuid())
+  email             String    @unique
+  name              String
+  role              UserRole  @default(CONTRIBUTOR)
+  department        String?
+  title             String? // Professional title
+  managerId         String?
+  manager           User?     @relation("UserManager", fields: [managerId], references: [id])
+  reports           User[]    @relation("UserManager")
+  utilizationRate   Float? // Current utilization percentage (0.0-1.0)
+  targetUtilization Float? // Target billable percentage (0.0-1.0)
+  billableRate      Float? // Hourly billing rate
+  costCenter        String?
+  location          String?
+  isActive          Boolean   @default(true)
+  lastLoginAt       DateTime?
+  avatar            String?
+  passwordHash      String? // For credentials authentication
+  profileJson       Json? // Additional profile data
+  createdAt         DateTime  @default(now())
+  updatedAt         DateTime  @updatedAt
 
-  // Relationships for all F1-F6 features + V2 enhancements
-  inputs       Input[]
-  signals      Signal[] // V2: Enhanced signal model
-  initiatives  Initiative[] // V2: Strategic initiatives
-  ideas        Idea[] // V2: Ideas from hotspots
-  solutions    Solution[]
-  comments     Comment[]
-  votes        Vote[]
-  requirements Requirement[]
-  frdDocuments FRDDocument[] @relation("FRDCreator")
-  approvedFRDs FRDDocument[] @relation("FRDApprover")
-  auditLogs    AuditLog[]
-  inputGroups  InputGroup[]
+  // Enhanced Relationships for all F1-F6 features + V2 enhancements
+  inputs           Input[]
+  signals          Signal[] // V2: Enhanced signal model
+  ownedInitiatives Initiative[]  @relation("InitiativeOwner") // V2: Strategic initiatives
+  ideas            Idea[] // V2: Ideas from hotspots
+  solutions        Solution[]
+  comments         Comment[]
+  votes            Vote[]
+  requirements     Requirement[]
+  frdDocuments     FRDDocument[] @relation("FRDCreator")
+  approvedFRDs     FRDDocument[] @relation("FRDApprover")
+  auditLogs        AuditLog[]
+  inputGroups      InputGroup[]
+
+  // New Professional Relationships
+  departmentManaged Department[] @relation("DepartmentManager")
+  departmentObjId   String?
+  departmentObj     Department?  @relation("DepartmentUsers", fields: [departmentObjId], references: [id])
+  ledTeams          Team[]       @relation("TeamLeader")
+  teamMemberships   Team[]       @relation("TeamMembers")
 
   @@map("users")
 }
@@ -53,47 +72,101 @@ model User {
 // ============================================================================
 
 model Department {
-  id        String   @id @default(cuid())
-  name      String   @unique
-  teams     Team[]
-  signals   Signal[]
-  createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
+  id                String   @id @default(cuid())
+  name              String   @unique
+  description       String?  @db.Text
+  headCount         Int      @default(0)
+  budgetAllocation  Float    @default(0)
+  managerId         String?
+  manager           User?    @relation("DepartmentManager", fields: [managerId], references: [id])
+  costCenter        String?
+  location          String?
+  isActive          Boolean  @default(true)
+  utilizationTarget Float? // Target billable percentage (0.0-1.0)
+  actualUtilization Float? // Current billable percentage (0.0-1.0)
+  createdAt         DateTime @default(now())
+  updatedAt         DateTime @updatedAt
+
+  // Relationships
+  teams   Team[]
+  signals Signal[]
+  users   User[]   @relation("DepartmentUsers")
 
   @@map("departments")
 }
 
 model Team {
-  id           String      @id @default(cuid())
-  name         String
-  departmentId String?
-  department   Department? @relation(fields: [departmentId], references: [id])
-  signals      Signal[]
-  createdAt    DateTime    @default(now())
-  updatedAt    DateTime    @updatedAt
+  id               String      @id @default(cuid())
+  name             String
+  description      String?     @db.Text
+  departmentId     String?
+  department       Department? @relation(fields: [departmentId], references: [id])
+  leaderId         String?
+  leader           User?       @relation("TeamLeader", fields: [leaderId], references: [id])
+  memberCount      Int         @default(0)
+  maxCapacity      Int?
+  isActive         Boolean     @default(true)
+  teamType         String? // "Project", "Functional", "Specialty"
+  currentProjects  Int         @default(0)
+  budgetAllocation Float       @default(0)
+  utilizationRate  Float? // Team utilization percentage (0.0-1.0)
+  createdAt        DateTime    @default(now())
+  updatedAt        DateTime    @updatedAt
+
+  // Relationships
+  signals Signal[]
+  members User[]   @relation("TeamMembers")
 
   @@map("teams")
 }
 
 model Initiative {
-  id          String     @id @default(cuid())
-  name        String     @unique
-  description String?    @db.Text
-  ownerId     String?
-  owner       User?      @relation(fields: [ownerId], references: [id])
-  goalJson    Json? // Strategic goals and metrics
-  roiJson     Json? // ROI tracking data
-  solutions   Solution[]
-  createdAt   DateTime   @default(now())
-  updatedAt   DateTime   @updatedAt
+  id             String           @id @default(cuid())
+  name           String           @unique
+  description    String?          @db.Text
+  status         InitiativeStatus @default(PLANNING)
+  priority       Priority         @default(MEDIUM)
+  ownerId        String?
+  owner          User?            @relation("InitiativeOwner", fields: [ownerId], references: [id])
+  budget         Float            @default(0)
+  actualSpend    Float            @default(0)
+  startDate      DateTime?
+  targetDate     DateTime?
+  completionDate DateTime?
+  expectedROI    Float? // Expected return on investment
+  actualROI      Float? // Actual return on investment
+  riskLevel      RiskLevel        @default(MEDIUM)
+  goalJson       Json? // Strategic goals and KPIs
+  roiJson        Json? // Detailed ROI calculations
+  milestonesJson Json? // Project milestones
+  createdAt      DateTime         @default(now())
+  updatedAt      DateTime         @updatedAt
+
+  // Relationships
+  solutions Solution[]
+  ideas     Idea[]
 
   @@map("initiatives")
 }
 
 model Category {
-  id        String   @id @default(cuid())
-  name      String   @unique
-  createdAt DateTime @default(now())
+  id          String     @id @default(cuid())
+  name        String     @unique
+  description String?    @db.Text
+  color       String? // Hex color for visual organization
+  icon        String? // Icon identifier
+  parentId    String?
+  parent      Category?  @relation("CategoryHierarchy", fields: [parentId], references: [id])
+  children    Category[] @relation("CategoryHierarchy")
+  isActive    Boolean    @default(true)
+  sortOrder   Int        @default(0)
+  usageCount  Int        @default(0) // Track how often used
+  isSystem    Boolean    @default(false) // System vs. user categories
+  createdAt   DateTime   @default(now())
+  updatedAt   DateTime   @updatedAt
+
+  // Relationships
+  signals Signal[]
 
   @@map("categories")
 }
@@ -128,8 +201,10 @@ model Signal {
   // Organizational Context
   departmentId String?
   teamId       String?
+  categoryId   String?
   department   Department? @relation(fields: [departmentId], references: [id])
   team         Team?       @relation(fields: [teamId], references: [id])
+  category     Category?   @relation(fields: [categoryId], references: [id])
 
   // Structured Data (PHQ Standard)
   metricsJson  Json? // Quantitative metrics
@@ -244,8 +319,10 @@ model Idea {
   // Note: Comments and votes use polymorphic relations via EntityType.IDEA
 
   // Relationships
-  hotspot  Hotspot   @relation(fields: [hotspotId], references: [id])
-  solution Solution? // If promoted
+  hotspot      Hotspot     @relation(fields: [hotspotId], references: [id])
+  solution     Solution? // If promoted
+  initiativeId String?
+  initiative   Initiative? @relation(fields: [initiativeId], references: [id])
 
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
@@ -597,7 +674,29 @@ enum Priority {
   LOW
   MEDIUM
   HIGH
+  URGENT
   CRITICAL
+
+  @@map("priority")
+}
+
+enum InitiativeStatus {
+  PLANNING
+  ACTIVE
+  ON_HOLD
+  COMPLETED
+  CANCELLED
+
+  @@map("initiative_status")
+}
+
+enum RiskLevel {
+  LOW
+  MEDIUM
+  HIGH
+  CRITICAL
+
+  @@map("risk_level")
 }
 
 enum InputStatus {
