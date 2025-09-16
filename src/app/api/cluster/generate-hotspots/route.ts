@@ -416,7 +416,7 @@ async function getHotspotsForDashboard() {
       confidence: hotspot.confidence,
       signalCount: hotspot.signals.length,
       linkedEntities: hotspot.linkedEntitiesJson,
-      signals: hotspot.signals.map(hs => ({
+      signals: hotspot.signals.map((hs: any) => ({
         ...hs.signal,
         membershipStrength: hs.membershipStrength,
         isOutlier: hs.isOutlier
