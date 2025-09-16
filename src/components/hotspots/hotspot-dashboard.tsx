@@ -5,7 +5,8 @@ import { HotspotCard } from './hotspot-card';
 import { ClusteringControls } from './clustering-controls';
 import { HotspotMetrics } from './hotspot-metrics';
 import { QuickActions } from './quick-actions';
-import { AlertTriangle, TrendingUp, Users, Clock } from 'lucide-react';
+import { PerformanceDashboard } from '@/components/monitoring/performance-dashboard';
+import { AlertTriangle, TrendingUp, Users, Clock, BarChart3 } from 'lucide-react';
 
 /**
  * Executive Hotspot Dashboard Component
@@ -49,6 +50,7 @@ export function HotspotDashboard() {
   const [clustering, setClustering] = useState(false);
   const [error, setError] = useState<string | null>(null);
   const [selectedHotspot, setSelectedHotspot] = useState<string | null>(null);
+  const [showPerformance, setShowPerformance] = useState(false);
 
   // Load initial data
   useEffect(() => {
@@ -176,6 +178,24 @@ export function HotspotDashboard() {
         onRunClustering={handleRunClustering}
         clustering={clustering}
       />
+
+      {/* Performance Monitoring Toggle */}
+      <div className="flex items-center justify-between">
+        <button
+          onClick={() => setShowPerformance(!showPerformance)}
+          className="flex items-center text-sm text-blue-600 hover:text-blue-700 font-medium"
+        >
+          <BarChart3 className="h-4 w-4 mr-1" />
+          {showPerformance ? 'Hide Performance' : 'Show Performance'}
+        </button>
+      </div>
+
+      {/* Performance Dashboard */}
+      {showPerformance && (
+        <div className="bg-gray-50 rounded-lg p-6">
+          <PerformanceDashboard />
+        </div>
+      )}
 
       {/* Main Hotspot Grid */}
       <div className="space-y-6">

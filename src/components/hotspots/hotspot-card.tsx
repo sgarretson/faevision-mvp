@@ -10,8 +10,10 @@ import {
   ChevronDown,
   ChevronUp,
   ExternalLink,
-  Play
+  Play,
+  Plus
 } from 'lucide-react';
+import { SolutionCreator } from '@/components/solutions/solution-creator';
 
 /**
  * Executive Hotspot Card Component
@@ -45,6 +47,7 @@ interface HotspotCardProps {
 
 export function HotspotCard({ hotspot, isSelected, onSelect, onAction }: HotspotCardProps) {
   const [showDetails, setShowDetails] = useState(false);
+  const [showSolutionCreator, setShowSolutionCreator] = useState(false);
 
   const priorityLevel = getPriorityLevel(hotspot.rankScore);
   const priorityColor = getPriorityColor(priorityLevel);
@@ -109,9 +112,9 @@ export function HotspotCard({ hotspot, isSelected, onSelect, onAction }: Hotspot
         <div className="flex items-center justify-between">
           <div className="flex space-x-2">
             <QuickActionButton
-              icon={<Play className="h-4 w-4" />}
+              icon={<Plus className="h-4 w-4" />}
               label="Create Solution"
-              onClick={() => onAction('create-solution')}
+              onClick={() => setShowSolutionCreator(true)}
               variant="primary"
             />
             <QuickActionButton
@@ -202,6 +205,35 @@ export function HotspotCard({ hotspot, isSelected, onSelect, onAction }: Hotspot
           </div>
         </div>
       )}
+
+      {/* Solution Creator Modal */}
+      <SolutionCreator
+        hotspot={hotspot}
+        open={showSolutionCreator}
+        onSave={async (solution) => {
+          try {
+            const response = await fetch('/api/solutions', {
+              method: 'POST',
+              headers: { 'Content-Type': 'application/json' },
+              body: JSON.stringify({
+                ...solution,
+                createdBy: 'current-user-id' // TODO: Get from auth context
+              })
+            });
+
+            if (response.ok) {
+              setShowSolutionCreator(false);
+              onAction('solution-created');
+            } else {
+              throw new Error('Failed to create solution');
+            }
+          } catch (error) {
+            console.error('Error creating solution:', error);
+            // TODO: Show error toast
+          }
+        }}
+        onCancel={() => setShowSolutionCreator(false)}
+      />
     </div>
   );
 }
