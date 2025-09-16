@@ -59,7 +59,7 @@ export async function GET(request: NextRequest) {
     return NextResponse.json({
       success: true,
       environment: process.env.VERCEL_ENV || 'development',
-      database: process.env.DATABASE_URL ? 'Connected' : 'Not configured',
+      database: process.env.POSTGRES_URL ? 'Connected' : 'Not configured',
       v1Counts,
       v2Counts,
       totalCounts: {

@@ -50,7 +50,7 @@ console.log('  - NODE_ENV:', process.env.NODE_ENV);
 console.log('  - VERCEL_ENV:', process.env.VERCEL_ENV);
 console.log('  - NEXTAUTH_SECRET exists:', !!process.env.NEXTAUTH_SECRET);
 console.log('  - NEXTAUTH_URL:', process.env.NEXTAUTH_URL);
-console.log('  - DATABASE_URL exists:', !!process.env.DATABASE_URL);
+console.log('  - POSTGRES_URL exists:', !!process.env.POSTGRES_URL);
 
 if (!process.env.NEXTAUTH_SECRET) {
   console.error('❌ NEXTAUTH_SECRET is missing!');
@@ -125,7 +125,7 @@ export const { handlers, auth, signIn, signOut } = NextAuth({
           };
         } catch (error) {
           console.error('💥 Auth error:', error);
-          console.error('Database URL exists:', !!process.env.DATABASE_URL);
+          console.error('Postgres URL exists:', !!process.env.POSTGRES_URL);
           console.error(
             'NEXTAUTH_SECRET exists:',
             !!process.env.NEXTAUTH_SECRET
