@@ -424,7 +424,7 @@ async function getHotspotsForDashboard() {
     }));
   } catch (error) {
     // Fallback for legacy schema - return empty hotspots for now
-    console.log('  ⚠️ V2 hotspot retrieval failed, using legacy fallback:', error.message);
+    console.log('  ⚠️ V2 hotspot retrieval failed, using legacy fallback:', error instanceof Error ? error.message : String(error));
     return [];
   }
 }
