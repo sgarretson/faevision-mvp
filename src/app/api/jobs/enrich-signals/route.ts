@@ -44,13 +44,11 @@ export async function POST(request: NextRequest) {
         orderBy: { receivedAt: 'asc' },
       });
     } catch (error) {
-      // Fallback to legacy Input model
-      unprocessedSignals = await (prisma as any).input.findMany({
-        where: {
-          aiProcessed: { not: true },
-        },
-        take: 10,
-        orderBy: { createdAt: 'asc' },
+      console.warn('Signal model not available, skipping enrichment');
+      return NextResponse.json({
+        success: false,
+        message: 'Signal model not available - V2 migration required',
+        processed: 0,
       });
     }
 
@@ -95,15 +93,7 @@ export async function POST(request: NextRequest) {
             },
           });
         } else {
-          // Legacy Input model - only update valid fields
-          await (prisma as any).input.update({
-            where: { id: signal.id },
-            data: {
-              aiTags: aiTags,
-              // Note: Input model doesn't have aiProcessed field
-              aiSuggestions: entities,
-            },
-          });
+          console.warn('Unknown signal model type - skipping');
         }
 
         processedCount++;

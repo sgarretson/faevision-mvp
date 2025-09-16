@@ -49,12 +49,11 @@ export async function POST(request: NextRequest) {
         orderBy: { receivedAt: 'asc' },
       });
     } catch (error) {
-      // Fallback to legacy Input model
-      processedSignals = await (prisma as any).input.findMany({
-        where: {
-          aiProcessed: true,
-        },
-        orderBy: { createdAt: 'asc' },
+      console.warn('Signal model not available for clustering');
+      return NextResponse.json({
+        success: false,
+        message: 'Signal model not available - V2 migration required',
+        clustered: 0,
       });
     }
 
@@ -66,7 +65,7 @@ export async function POST(request: NextRequest) {
         success: true,
         clustered: 0,
         message: 'Insufficient signals for clustering',
-        signalCount: processedSignals.length,
+        // signalCount calculated from relationships
       });
     }
 

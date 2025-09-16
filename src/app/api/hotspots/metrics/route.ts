@@ -128,33 +128,14 @@ async function getSignalMetrics() {
       signalsInPipeline: totalSignals - processedSignals,
     };
   } catch (error) {
-    // Fallback to legacy Input model
-    try {
-      const [totalInputs, recentInputs] = await Promise.all([
-        (prisma as any).input.count(),
-        (prisma as any).input.count({
-          where: {
-            createdAt: {
-              gte: new Date(Date.now() - 24 * 60 * 60 * 1000),
-            },
-          },
-        }),
-      ]);
-
-      return {
-        signalsProcessed: totalInputs,
-        signalsProcessedToday: recentInputs,
-        processingRate: 1.0, // Assume all legacy inputs are "processed"
-        signalsInPipeline: 0,
-      };
-    } catch (legacyError) {
-      return {
-        signalsProcessed: 0,
-        signalsProcessedToday: 0,
-        processingRate: 0,
-        signalsInPipeline: 0,
-      };
-    }
+    // V2 Signal model is required
+    console.warn('Signal model not available for metrics');
+    return {
+      signalsProcessed: 0,
+      signalsProcessedToday: 0,
+      processingRate: 0,
+      signalsInPipeline: 0,
+    };
   }
 }
 
@@ -198,9 +179,7 @@ async function getClusteringMetrics() {
     // Calculate clustering efficiency
     const totalSignalsInHotspots =
       (await (prisma as any).hotspotSignal?.count()) || 0;
-    const totalSignals = await (prisma as any).signal
-      ?.count()
-      .catch(() => (prisma as any).input.count().catch(() => 0));
+    const totalSignals = (await (prisma as any).signal?.count()) || 0;
 
     const clusteringEfficiency =
       totalSignals > 0 ? totalSignalsInHotspots / totalSignals : 0;

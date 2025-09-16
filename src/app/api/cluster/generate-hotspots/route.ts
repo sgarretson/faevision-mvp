@@ -62,31 +62,12 @@ export async function POST(request: NextRequest) {
           take: 200, // Limit for performance
         });
       } else {
-        // Fallback to V1 Input model
-        signals = await (prisma as any).input.findMany({
-          where: {
-            aiProcessed: true,
-          },
-          include: {
-            creator: true,
-          },
-          orderBy: { createdAt: 'desc' },
-          take: 200,
+        console.warn('Signal model not available');
+        return NextResponse.json({
+          success: false,
+          message: 'Signal model not available - V2 migration required',
+          signalCount: 0,
         });
-
-        // Transform V1 data to V2 format
-        signals = signals.map((input: any) => ({
-          id: input.id,
-          title: input.title,
-          description: input.description,
-          severity: input.priority || 'MEDIUM',
-          confidence: 0.8,
-          receivedAt: input.createdAt,
-          embedding: null, // V1 doesn't have embeddings
-          departmentId: null,
-          teamId: null,
-          createdBy: input.creatorId,
-        }));
       }
     } catch (error) {
       console.error('Error fetching signals:', error);

@@ -155,7 +155,7 @@ export async function POST(request: NextRequest) {
         .split(' ')
         .filter(word => word.length > 3);
       if (titleWords.length > 0) {
-        similarInputs = await (prisma as any).input.findMany({
+        similarInputs = await (prisma as any).signal?.findMany({
           where: {
             OR: titleWords.map(word => ({
               OR: [

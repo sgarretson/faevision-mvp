@@ -205,13 +205,9 @@ async function gatherWeeklyMetrics(weekAgo: Date) {
         totalSolutions > 0 ? (completedSolutions / totalSolutions) * 100 : 0,
     };
   } catch (error) {
-    // Fallback to legacy Input model
-    const [newInputs, totalInputs] = await Promise.all([
-      (prisma as any).input.count({
-        where: { createdAt: { gte: weekAgo } },
-      }),
-      (prisma as any).input.count(),
-    ]);
+    // V2 Signal model is required for weekly digest
+    console.warn('Signal model not available for weekly digest');
+    const [newInputs, totalInputs] = [0, 0];
 
     const [completedSolutions, totalSolutions] = await Promise.all([
       (prisma as any).solution.count({
@@ -260,20 +256,9 @@ async function gatherDepartmentBreakdown(weekAgo: Date) {
       };
     });
   } catch (error) {
-    // Fallback to legacy department field
-    const departmentStats = await (prisma as any).input.groupBy({
-      by: ['department'],
-      where: {
-        createdAt: { gte: weekAgo },
-        department: { not: null },
-      },
-      _count: { id: true },
-    });
-
-    return departmentStats.map((stat: any) => ({
-      department: stat.department || 'Unknown',
-      signalCount: stat._count.id,
-    }));
+    // V2 Signal model is required
+    console.warn('Signal model not available for department analysis');
+    return [];
   }
 }
 

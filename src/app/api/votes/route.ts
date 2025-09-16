@@ -26,7 +26,7 @@ export async function POST(request: NextRequest) {
     // Check if user already voted on this input
     const existingVote = await (prisma as any).vote.findFirst({
       where: {
-        entityType: 'INPUT',
+        entityType: 'SIGNAL',
         entityId: validatedData.inputId,
         createdBy: session.user.id,
       },
@@ -58,7 +58,7 @@ export async function POST(request: NextRequest) {
       vote = await (prisma as any).vote.create({
         data: {
           value: newValue,
-          entityType: 'INPUT',
+          entityType: 'SIGNAL',
           entityId: validatedData.inputId,
           createdBy: session.user.id,
         },
@@ -69,7 +69,7 @@ export async function POST(request: NextRequest) {
     // Get updated vote counts
     const votes = await (prisma as any).vote.findMany({
       where: {
-        entityType: 'INPUT',
+        entityType: 'SIGNAL',
         entityId: validatedData.inputId,
       },
       select: { value: true },
@@ -143,7 +143,7 @@ export async function GET(request: NextRequest) {
     // Get vote counts for the input
     const votes = await (prisma as any).vote.findMany({
       where: {
-        entityType: 'INPUT',
+        entityType: 'SIGNAL',
         entityId: inputId,
       },
       select: { value: true, createdBy: true },
