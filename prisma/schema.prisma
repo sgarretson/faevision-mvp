@@ -25,6 +25,7 @@ model User {
   role        UserRole @default(CONTRIBUTOR)
   department  String?
   avatar      String?
+  passwordHash String?   // For credentials authentication
   createdAt   DateTime @default(now())
   updatedAt   DateTime @updatedAt
 
