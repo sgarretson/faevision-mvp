@@ -60,16 +60,16 @@ async function getHotspotMetrics() {
   try {
     // Try V2 Hotspot model
     const [totalHotspots, criticalHotspots, hotspotStats] = await Promise.all([
-      prisma.hotspot.count({
+      (prisma as any).hotspot?.count({
         where: { status: { in: ['OPEN', 'APPROVED'] } }
       }),
-      prisma.hotspot.count({
+      (prisma as any).hotspot?.count({
         where: { 
           status: { in: ['OPEN', 'APPROVED'] },
           rankScore: { gte: 0.8 } // Critical threshold
         }
       }),
-      prisma.hotspot.aggregate({
+      (prisma as any).hotspot?.aggregate({
         where: { status: { in: ['OPEN', 'APPROVED'] } },
         _avg: { confidence: true, rankScore: true },
         _count: { id: true }
@@ -103,11 +103,11 @@ async function getSignalMetrics() {
   try {
     // Try V2 Signal model first
     const [totalSignals, processedSignals, recentSignals] = await Promise.all([
-      prisma.signal.count(),
-      prisma.signal.count({
+      (prisma as any).signal?.count() || 0,
+      (prisma as any).signal?.count({
         where: { aiProcessed: true }
-      }),
-      prisma.signal.count({
+      }) || 0,
+      (prisma as any).signal?.count({
         where: {
           receivedAt: {
             gte: new Date(Date.now() - 24 * 60 * 60 * 1000) // Last 24 hours
@@ -163,7 +163,7 @@ async function getSignalMetrics() {
 async function getClusteringMetrics() {
   try {
     // Check for recent clustering activity by looking at hotspot creation times
-    const recentHotspots = await prisma.hotspot.findMany({
+    const recentHotspots = await (prisma as any).hotspot?.findMany({
       where: {
         createdAt: {
           gte: new Date(Date.now() - 7 * 24 * 60 * 60 * 1000) // Last 7 days
@@ -179,7 +179,7 @@ async function getClusteringMetrics() {
       : new Date(0).toISOString(); // Epoch if never run
 
     // Get clustering method distribution
-    const clusteringMethods = await prisma.hotspot.groupBy({
+    const clusteringMethods = await (prisma as any).hotspot?.groupBy({
       by: ['clusteringMethod'],
       where: { status: { in: ['OPEN', 'APPROVED'] } },
       _count: { id: true }
@@ -191,8 +191,8 @@ async function getClusteringMetrics() {
     }, {} as Record<string, number>);
 
     // Calculate clustering efficiency
-    const totalSignalsInHotspots = await prisma.hotspotSignal.count();
-    const totalSignals = await prisma.signal.count().catch(() => 
+    const totalSignalsInHotspots = await (prisma as any).hotspotSignal?.count() || 0;
+    const totalSignals = await (prisma as any).signal?.count().catch(() => 
       prisma.input.count().catch(() => 0)
     );
     
@@ -221,12 +221,12 @@ async function getClusteringMetrics() {
 async function getExecutiveMetrics() {
   try {
     // Resolution rate metrics
-    const resolvedHotspots = await prisma.hotspot.count({
+    const resolvedHotspots = await (prisma as any).hotspot?.count({
       where: { status: 'RESOLVED' }
     });
 
     // Time-to-resolution metrics
-    const recentResolvedHotspots = await prisma.hotspot.findMany({
+    const recentResolvedHotspots = await (prisma as any).hotspot?.findMany({
       where: {
         status: 'RESOLVED',
         updatedAt: {

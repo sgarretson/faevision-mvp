@@ -27,7 +27,7 @@ export async function GET(request: NextRequest) {
       };
 
       const [hotspots, totalCount] = await Promise.all([
-        prisma.hotspot.findMany({
+        (prisma as any).hotspot?.findMany({
           where,
           include: {
             signals: {
@@ -54,10 +54,10 @@ export async function GET(request: NextRequest) {
           take: limit,
           skip: offset
         }),
-        prisma.hotspot.count({ where })
+        (prisma as any).hotspot?.count({ where }) || 0
       ]);
 
-      const formattedHotspots = hotspots.map(hotspot => ({
+      const formattedHotspots = (hotspots || []).map(hotspot => ({
         id: hotspot.id,
         title: hotspot.title,
         summary: hotspot.summary,
@@ -134,7 +134,7 @@ export async function POST(request: NextRequest) {
 
     // Try V2 Hotspot model
     try {
-      const hotspot = await prisma.hotspot.create({
+      const hotspot = await (prisma as any).hotspot.create({
         data: {
           title,
           summary,
@@ -151,7 +151,7 @@ export async function POST(request: NextRequest) {
       if (signalIds && Array.isArray(signalIds)) {
         await Promise.all(
           signalIds.map((signalId: string) => 
-            prisma.hotspotSignal.create({
+            (prisma as any).hotspotSignal.create({
               data: {
                 hotspotId: hotspot.id,
                 signalId,
