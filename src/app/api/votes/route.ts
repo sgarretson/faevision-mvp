@@ -85,7 +85,7 @@ export async function POST(request: NextRequest) {
         action: `VOTE_${action.toUpperCase()}`,
         entityType: 'vote',
         entityId: vote?.id || existingVote?.id || '',
-        metadata: {
+        changes: {
           inputId: validatedData.inputId,
           voteType: validatedData.type,
           action,

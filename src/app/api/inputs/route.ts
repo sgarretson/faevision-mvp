@@ -37,19 +37,28 @@ export async function POST(request: NextRequest) {
     // Validate input data
     const validatedData = createInputSchema.parse(body);
 
-    // Create the input
-    const input = await (prisma as any).input.create({
+    // Create the signal (V2 model)
+    const input = await (prisma as any).signal.create({
       data: {
+        inputId: `AE-SIGNAL-${Date.now()}-${Math.random().toString(36).substr(2, 9)}`,
+        timestamp: new Date(),
         title: validatedData.title,
         description: validatedData.description,
-        type: validatedData.type,
-        status: 'ACTIVE', // All new inputs start as ACTIVE
-        department: validatedData.department,
-        issueType: validatedData.issueType,
-        rootCause: validatedData.rootCause,
-        priority: validatedData.priority,
+        severity:
+          validatedData.priority === 'HIGH'
+            ? 'HIGH'
+            : validatedData.priority === 'LOW'
+              ? 'LOW'
+              : 'MEDIUM',
+        severityScore:
+          validatedData.priority === 'HIGH'
+            ? 4
+            : validatedData.priority === 'LOW'
+              ? 2
+              : 3,
+        sourceType: 'manual',
+        createdById: session.user.id,
         // Note: AI processing will be triggered via background job
-        createdBy: session.user.id,
       },
       include: {
         creator: {
@@ -68,10 +77,10 @@ export async function POST(request: NextRequest) {
     await (prisma as any).auditLog.create({
       data: {
         userId: session.user.id,
-        action: 'CREATE_INPUT',
-        entityType: 'input',
+        action: 'CREATE_SIGNAL',
+        entityType: 'signal',
         entityId: input.id,
-        metadata: {
+        changes: {
           title: input.title,
           type: input.type,
           department: input.department,
@@ -82,7 +91,7 @@ export async function POST(request: NextRequest) {
     return NextResponse.json({
       success: true,
       input,
-      message: 'Input created successfully',
+      message: 'Strategic input created successfully',
     });
   } catch (error) {
     console.error('Input creation error:', error);
@@ -127,26 +136,39 @@ export async function GET(request: NextRequest) {
     if (type) where.type = type;
     if (department) where.department = department;
 
-    // Get inputs with creator info
-    const inputs = await (prisma as any).input.findMany({
-      where,
-      include: {
-        creator: {
-          select: {
-            id: true,
-            name: true,
-            email: true,
-            role: true,
-            department: true,
+    // Get signals (V2 model) with creator info
+    const inputs =
+      (await (prisma as any).signal?.findMany({
+        where,
+        include: {
+          creator: {
+            select: {
+              id: true,
+              name: true,
+              email: true,
+              role: true,
+              department: true,
+            },
+          },
+          department: {
+            select: {
+              id: true,
+              name: true,
+            },
+          },
+          team: {
+            select: {
+              id: true,
+              name: true,
+            },
           },
         },
-      },
-      orderBy: {
-        createdAt: 'desc',
-      },
-      take: limit,
-      skip: offset,
-    });
+        orderBy: {
+          createdAt: 'desc',
+        },
+        take: limit,
+        skip: offset,
+      })) || [];
 
     // Add computed counts for comments and votes (polymorphic relationships)
     const inputsWithCounts = await Promise.all(
@@ -154,13 +176,13 @@ export async function GET(request: NextRequest) {
         const [commentCount, voteCount] = await Promise.all([
           (prisma as any).comment?.count?.({
             where: {
-              entityType: 'INPUT',
+              entityType: 'SIGNAL',
               entityId: input.id,
             },
           }) || 0,
           (prisma as any).vote?.count?.({
             where: {
-              entityType: 'INPUT',
+              entityType: 'SIGNAL',
               entityId: input.id,
             },
           }) || 0,
@@ -177,7 +199,7 @@ export async function GET(request: NextRequest) {
     );
 
     // Get total count for pagination
-    const totalCount = await (prisma as any).input.count({ where });
+    const totalCount = (await (prisma as any).signal?.count({ where })) || 0;
 
     return NextResponse.json({
       inputs: inputsWithCounts,
