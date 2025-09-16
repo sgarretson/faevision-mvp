@@ -31,7 +31,7 @@ export async function GET() {
       userCount: users.length,
       users: userSummary,
       environment: process.env.VERCEL_ENV || 'development',
-      databaseUrl: process.env.POSTGRES_URL ? 'Set' : 'Not set',
+      databaseUrl: process.env.DATABASE_URL ? 'Set' : 'Not set',
     });
   } catch (error) {
     console.error('Debug users error:', error);

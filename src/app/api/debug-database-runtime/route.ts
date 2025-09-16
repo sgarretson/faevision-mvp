@@ -9,8 +9,8 @@ export async function GET(request: NextRequest) {
     const environment = {
       NODE_ENV: process.env.NODE_ENV,
       VERCEL_ENV: process.env.VERCEL_ENV,
-      POSTGRES_URL_exists: !!process.env.POSTGRES_URL,
-      POSTGRES_URL_partial: process.env.POSTGRES_URL?.substring(0, 50) + '...',
+      DATABASE_URL_exists: !!process.env.DATABASE_URL,
+      DATABASE_URL_partial: process.env.DATABASE_URL?.substring(0, 50) + '...',
       DIRECT_URL_exists: !!process.env.DIRECT_URL,
     };
 
@@ -105,7 +105,7 @@ export async function GET(request: NextRequest) {
         environment: {
           NODE_ENV: process.env.NODE_ENV,
           VERCEL_ENV: process.env.VERCEL_ENV,
-          POSTGRES_URL_exists: !!process.env.POSTGRES_URL,
+          DATABASE_URL_exists: !!process.env.DATABASE_URL,
         },
       },
       { status: 500 }
