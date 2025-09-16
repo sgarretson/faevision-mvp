@@ -1,25 +1,25 @@
-'use client'
+'use client';
 
-import { useState, useEffect, useCallback } from 'react'
-import { ThumbsUp, ThumbsDown, Loader2 } from 'lucide-react'
-import { Button } from '@/components/ui/button'
-import { cn } from '@/lib/utils'
+import { useState, useEffect, useCallback } from 'react';
+import { ThumbsUp, ThumbsDown, Loader2 } from 'lucide-react';
+import { Button } from '@/components/ui/button';
+import { cn } from '@/lib/utils';
 
 interface VoteButtonsProps {
-  inputId: string
+  inputId: string;
   initialVoteCounts?: {
-    up: number
-    down: number
-    total: number
-  }
-  initialUserVote?: 'UP' | 'DOWN' | null
-  className?: string
+    up: number;
+    down: number;
+    total: number;
+  };
+  initialUserVote?: 'UP' | 'DOWN' | null;
+  className?: string;
 }
 
 interface VoteCounts {
-  up: number
-  down: number
-  total: number
+  up: number;
+  down: number;
+  total: number;
 }
 
 export function VoteButtons({
@@ -28,65 +28,73 @@ export function VoteButtons({
   initialUserVote = null,
   className,
 }: VoteButtonsProps) {
-  const [voteCounts, setVoteCounts] = useState<VoteCounts>(initialVoteCounts)
-  const [userVote, setUserVote] = useState<'UP' | 'DOWN' | null>(initialUserVote)
-  const [isLoading, setIsLoading] = useState(false)
-  const [error, setError] = useState<string | null>(null)
+  const [voteCounts, setVoteCounts] = useState<VoteCounts>(initialVoteCounts);
+  const [userVote, setUserVote] = useState<'UP' | 'DOWN' | null>(
+    initialUserVote
+  );
+  const [isLoading, setIsLoading] = useState(false);
+  const [error, setError] = useState<string | null>(null);
 
   const fetchVoteData = useCallback(async () => {
     try {
-      const response = await fetch(`/api/votes?inputId=${inputId}`)
-      const data = await response.json()
+      const response = await fetch(`/api/votes?inputId=${inputId}`);
+      const data = await response.json();
 
       if (response.ok) {
-        setVoteCounts(data.voteCounts)
-        setUserVote(data.userVote)
+        setVoteCounts(data.voteCounts);
+        setUserVote(data.userVote);
       }
     } catch (error) {
-      console.error('Failed to fetch vote data:', error)
+      console.error('Failed to fetch vote data:', error);
     }
-  }, [inputId])
+  }, [inputId]);
 
   // Fetch current vote data on mount
   useEffect(() => {
-    fetchVoteData()
-  }, [fetchVoteData])
+    fetchVoteData();
+  }, [fetchVoteData]);
 
   const handleVote = async (type: 'UP' | 'DOWN') => {
-    if (isLoading) return
+    if (isLoading) return;
 
-    setIsLoading(true)
-    setError(null)
+    setIsLoading(true);
+    setError(null);
 
     // Optimistic update
-    const wasCurrentVote = userVote === type
-    const oldVoteCounts = { ...voteCounts }
-    const oldUserVote = userVote
+    const wasCurrentVote = userVote === type;
+    const oldVoteCounts = { ...voteCounts };
+    const oldUserVote = userVote;
 
     if (wasCurrentVote) {
       // Removing vote
-      setUserVote(null)
-      setVoteCounts((prev) => ({
+      setUserVote(null);
+      setVoteCounts(prev => ({
         ...prev,
-        [type.toLowerCase()]: Math.max(0, prev[type.toLowerCase() as keyof VoteCounts] - 1),
+        [type.toLowerCase()]: Math.max(
+          0,
+          prev[type.toLowerCase() as keyof VoteCounts] - 1
+        ),
         total: Math.max(0, prev.total - 1),
-      }))
+      }));
     } else if (userVote) {
       // Changing vote
-      setUserVote(type)
-      setVoteCounts((prev) => ({
+      setUserVote(type);
+      setVoteCounts(prev => ({
         ...prev,
-        [userVote.toLowerCase()]: Math.max(0, prev[userVote.toLowerCase() as keyof VoteCounts] - 1),
+        [userVote.toLowerCase()]: Math.max(
+          0,
+          prev[userVote.toLowerCase() as keyof VoteCounts] - 1
+        ),
         [type.toLowerCase()]: prev[type.toLowerCase() as keyof VoteCounts] + 1,
-      }))
+      }));
     } else {
       // New vote
-      setUserVote(type)
-      setVoteCounts((prev) => ({
+      setUserVote(type);
+      setVoteCounts(prev => ({
         ...prev,
         [type.toLowerCase()]: prev[type.toLowerCase() as keyof VoteCounts] + 1,
         total: prev.total + 1,
-      }))
+      }));
     }
 
     try {
@@ -99,28 +107,28 @@ export function VoteButtons({
           inputId,
           type,
         }),
-      })
+      });
 
-      const data = await response.json()
+      const data = await response.json();
 
       if (!response.ok) {
-        throw new Error(data.error || 'Failed to vote')
+        throw new Error(data.error || 'Failed to vote');
       }
 
       // Update with actual data from server
-      setVoteCounts(data.voteCounts)
-      setUserVote(data.vote?.type || null)
+      setVoteCounts(data.voteCounts);
+      setUserVote(data.vote?.type || null);
     } catch (error) {
-      console.error('Vote error:', error)
+      console.error('Vote error:', error);
 
       // Revert optimistic update
-      setVoteCounts(oldVoteCounts)
-      setUserVote(oldUserVote)
-      setError(error instanceof Error ? error.message : 'Failed to vote')
+      setVoteCounts(oldVoteCounts);
+      setUserVote(oldUserVote);
+      setError(error instanceof Error ? error.message : 'Failed to vote');
     } finally {
-      setIsLoading(false)
+      setIsLoading(false);
     }
-  }
+  };
 
   return (
     <div className={cn('flex items-center space-x-2', className)}>
@@ -172,5 +180,5 @@ export function VoteButtons({
       {/* Error Display */}
       {error && <span className="ml-2 text-sm text-red-600">{error}</span>}
     </div>
-  )
+  );
 }

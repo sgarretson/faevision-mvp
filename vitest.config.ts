@@ -1,5 +1,5 @@
-import { defineConfig } from 'vitest/config'
-import { resolve } from 'path'
+import { defineConfig } from 'vitest/config';
+import { resolve } from 'path';
 
 export default defineConfig({
   test: {
@@ -11,7 +11,7 @@ export default defineConfig({
       '**/dist/**',
       '**/tests/e2e/**',
       '**/*.e2e.spec.ts',
-      '**/*.spec.ts'
+      '**/*.spec.ts',
     ],
     coverage: {
       provider: 'v8',
@@ -38,4 +38,4 @@ export default defineConfig({
       '@': resolve(__dirname, './src'),
     },
   },
-})
+});

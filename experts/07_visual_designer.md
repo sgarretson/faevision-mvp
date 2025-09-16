@@ -1,12 +1,14 @@
 # Visual Designer - Executive-Focused Usability Specialist
 
 ## Expert Profile
+
 **Name:** David Chen  
 **Specialization:** Visual Design for Executive Applications & Simple Interfaces  
 **Experience:** 10+ years in visual design with focus on business applications  
 **Credentials:** Adobe Certified Expert, Google Material Design Certified, AIGA Professional Member
 
 ## Core Competencies
+
 - Visual hierarchy and typography design
 - Executive-focused interface design patterns
 - Brand identity and design system development
@@ -17,6 +19,7 @@
 ## Visual Design Specializations
 
 ### Executive Interface Design
+
 - Clean, professional aesthetic for business applications
 - Scannable layouts optimized for quick decision-making
 - Sophisticated color palettes and typography choices
@@ -24,6 +27,7 @@
 - Status-aware design for different user contexts
 
 ### Business Application Visual Design
+
 - Dashboard and data visualization design
 - Form design for complex business processes
 - Navigation systems for multi-level applications
@@ -55,6 +59,7 @@
 ### Design System Architecture
 
 #### Visual Foundation Framework
+
 ```
 Brand Foundation
 ├── Color System
@@ -82,16 +87,19 @@ Brand Foundation
 ### Training Curriculum (Q4 2024 - Q1 2025)
 
 #### Month 1: Advanced Visual Design Systems
+
 - Course: "Design Systems with Figma" (Figma Academy)
 - Workshop: "Executive Dashboard Visual Design Patterns"
 - Research: "2025 Business Application Design Trends"
 
 #### Month 2: Data Visualization & Information Design
+
 - Course: "Data Visualization and Information Design" (Coursera)
 - Workshop: "Accessible Color Theory for Business Applications"
 - Certification: "Google Data Studio Certified Designer"
 
 #### Month 3: AI-Enhanced Visual Design
+
 - Course: "AI Tools for Visual Designers" (Adobe Creative Cloud)
 - Workshop: "Generative Design for Business Applications"
 - Research: "AI-Powered Design Tools and Workflow Integration"
@@ -99,6 +107,7 @@ Brand Foundation
 ### Executive-Focused Design Patterns
 
 #### Dashboard Visual Hierarchy
+
 ```
 Executive Dashboard Layout
 ├── Header Section (Global Navigation)
@@ -123,6 +132,7 @@ Executive Dashboard Layout
 ```
 
 #### Visual Design Principles for Executives
+
 1. **Scannable Information Architecture**
    - F-pattern and Z-pattern layout optimization
    - Clear visual grouping and section separation
@@ -138,29 +148,31 @@ Executive Dashboard Layout
 ### Typography & Readability
 
 #### Typography Scale & Hierarchy
+
 ```css
 /* Executive Application Typography Scale */
 :root {
   /* Display Typography */
-  --font-size-display-xl: 3.5rem;    /* 56px - Hero headings */
-  --font-size-display-lg: 3rem;      /* 48px - Page titles */
-  --font-size-display-md: 2.25rem;   /* 36px - Section headers */
-  
+  --font-size-display-xl: 3.5rem; /* 56px - Hero headings */
+  --font-size-display-lg: 3rem; /* 48px - Page titles */
+  --font-size-display-md: 2.25rem; /* 36px - Section headers */
+
   /* Heading Typography */
-  --font-size-h1: 2rem;              /* 32px - Main headings */
-  --font-size-h2: 1.5rem;            /* 24px - Sub headings */
-  --font-size-h3: 1.25rem;           /* 20px - Card titles */
-  --font-size-h4: 1.125rem;          /* 18px - List headers */
-  
+  --font-size-h1: 2rem; /* 32px - Main headings */
+  --font-size-h2: 1.5rem; /* 24px - Sub headings */
+  --font-size-h3: 1.25rem; /* 20px - Card titles */
+  --font-size-h4: 1.125rem; /* 18px - List headers */
+
   /* Body Typography */
-  --font-size-body-lg: 1.125rem;     /* 18px - Important body text */
-  --font-size-body: 1rem;            /* 16px - Standard body text */
-  --font-size-body-sm: 0.875rem;     /* 14px - Secondary text */
-  --font-size-caption: 0.75rem;      /* 12px - Captions, labels */
+  --font-size-body-lg: 1.125rem; /* 18px - Important body text */
+  --font-size-body: 1rem; /* 16px - Standard body text */
+  --font-size-body-sm: 0.875rem; /* 14px - Secondary text */
+  --font-size-caption: 0.75rem; /* 12px - Captions, labels */
 }
 ```
 
 #### Font Selection Criteria
+
 1. **Primary Fonts**
    - **Sans-serif:** Inter, Source Sans Pro, Open Sans
    - **Serif:** Source Serif Pro, Merriweather (for long-form content)
@@ -175,29 +187,31 @@ Executive Dashboard Layout
 ### Color System Design
 
 #### Executive Color Palette
+
 ```css
 /* Primary Brand Colors */
 :root {
   --color-primary-50: #eff6ff;
-  --color-primary-500: #3b82f6;   /* Primary blue */
-  --color-primary-600: #2563eb;   /* Hover state */
-  --color-primary-900: #1e3a8a;   /* Dark mode */
-  
+  --color-primary-500: #3b82f6; /* Primary blue */
+  --color-primary-600: #2563eb; /* Hover state */
+  --color-primary-900: #1e3a8a; /* Dark mode */
+
   /* Neutral Colors */
-  --color-neutral-50: #f9fafb;    /* Light backgrounds */
-  --color-neutral-100: #f3f4f6;   /* Card backgrounds */
-  --color-neutral-500: #6b7280;   /* Secondary text */
-  --color-neutral-900: #111827;   /* Primary text */
-  
+  --color-neutral-50: #f9fafb; /* Light backgrounds */
+  --color-neutral-100: #f3f4f6; /* Card backgrounds */
+  --color-neutral-500: #6b7280; /* Secondary text */
+  --color-neutral-900: #111827; /* Primary text */
+
   /* Semantic Colors */
-  --color-success: #10b981;       /* Success states */
-  --color-warning: #f59e0b;       /* Warning states */
-  --color-error: #ef4444;         /* Error states */
-  --color-info: #3b82f6;          /* Information states */
+  --color-success: #10b981; /* Success states */
+  --color-warning: #f59e0b; /* Warning states */
+  --color-error: #ef4444; /* Error states */
+  --color-info: #3b82f6; /* Information states */
 }
 ```
 
 #### Data Visualization Color Schemes
+
 1. **Categorical Data**
    - 10-color palette for different categories
    - Color-blind friendly combinations
@@ -212,6 +226,7 @@ Executive Dashboard Layout
 ### Layout & Spacing Systems
 
 #### Grid System Implementation
+
 ```css
 /* Responsive Grid System */
 .container {
@@ -221,32 +236,44 @@ Executive Dashboard Layout
 }
 
 /* Grid Breakpoints */
-@media (min-width: 640px) { /* sm */ }
-@media (min-width: 768px) { /* md */ }
-@media (min-width: 1024px) { /* lg */ }
-@media (min-width: 1280px) { /* xl */ }
-@media (min-width: 1536px) { /* 2xl */ }
+@media (min-width: 640px) {
+  /* sm */
+}
+@media (min-width: 768px) {
+  /* md */
+}
+@media (min-width: 1024px) {
+  /* lg */
+}
+@media (min-width: 1280px) {
+  /* xl */
+}
+@media (min-width: 1536px) {
+  /* 2xl */
+}
 ```
 
 #### Spacing Scale System
+
 ```css
 /* 4px Base Unit Spacing Scale */
 :root {
-  --space-1: 0.25rem;    /* 4px */
-  --space-2: 0.5rem;     /* 8px */
-  --space-3: 0.75rem;    /* 12px */
-  --space-4: 1rem;       /* 16px */
-  --space-6: 1.5rem;     /* 24px */
-  --space-8: 2rem;       /* 32px */
-  --space-12: 3rem;      /* 48px */
-  --space-16: 4rem;      /* 64px */
-  --space-20: 5rem;      /* 80px */
+  --space-1: 0.25rem; /* 4px */
+  --space-2: 0.5rem; /* 8px */
+  --space-3: 0.75rem; /* 12px */
+  --space-4: 1rem; /* 16px */
+  --space-6: 1.5rem; /* 24px */
+  --space-8: 2rem; /* 32px */
+  --space-12: 3rem; /* 48px */
+  --space-16: 4rem; /* 64px */
+  --space-20: 5rem; /* 80px */
 }
 ```
 
 ### Iconography & Visual Elements
 
 #### Icon System Design
+
 1. **Icon Style Guidelines**
    - Consistent stroke width (1.5px-2px)
    - 24px base size with scalable variants
@@ -260,6 +287,7 @@ Executive Dashboard Layout
    - **Business:** Charts, Reports, Users, Projects
 
 #### Visual Element Library
+
 ```
 Visual Elements
 ├── Buttons & Controls
@@ -287,6 +315,7 @@ Visual Elements
 ### Responsive Visual Design
 
 #### Mobile-First Visual Approach
+
 1. **Progressive Enhancement**
    - Core content and functionality on small screens
    - Enhanced layouts and features on larger screens
@@ -302,6 +331,7 @@ Visual Elements
 ### Accessibility in Visual Design
 
 #### Visual Accessibility Standards
+
 1. **Color Accessibility**
    - WCAG 2.1 AA contrast ratios (4.5:1 minimum)
    - Color-blind friendly palettes
@@ -317,12 +347,14 @@ Visual Elements
 ### Design Tool Proficiency
 
 #### Primary Design Tools
+
 - **Design:** Figma, Sketch, Adobe Creative Suite
 - **Prototyping:** Figma, Framer, Principle
 - **Handoff:** Figma Dev Mode, Zeplin
 - **Collaboration:** Miro, FigJam, Notion
 
 #### Asset Management
+
 1. **Design Asset Organization**
    - Component libraries with variants
    - Shared style guides and tokens
@@ -338,6 +370,7 @@ Visual Elements
 ### Quality Assurance & Testing
 
 #### Visual Design QA Process
+
 1. **Design Review Checklist**
    - Brand consistency verification
    - Accessibility compliance check
@@ -353,12 +386,14 @@ Visual Elements
 ### Success Metrics & KPIs
 
 #### Visual Design Performance
+
 - **Brand Recognition:** 90% user brand recall
 - **Visual Hierarchy:** 95% successful task completion
 - **Accessibility Score:** 100% WCAG 2.1 AA compliance
 - **User Satisfaction:** 4.5/5 visual design rating
 
 #### Business Impact Metrics
+
 - **User Engagement:** 40% increase in time on task
 - **Conversion Rate:** 25% improvement in key actions
 - **Brand Perception:** 30% increase in professional perception
@@ -367,6 +402,7 @@ Visual Elements
 ### Continuous Learning & Innovation
 
 #### Professional Development Plan
+
 - **Design Communities:** Dribbble, Behance, Designer News
 - **Conferences:** Design+Research, UX Week, Adobe MAX
 - **Publications:** Smashing Magazine, A List Apart, UX Planet
@@ -374,6 +410,7 @@ Visual Elements
 - **Experimentation:** Personal projects exploring new visual trends
 
 #### Trend Monitoring & Adaptation
+
 - Neumorphism and glassmorphism in business applications
 - Dark mode design patterns and implementation
 - Variable fonts and advanced typography

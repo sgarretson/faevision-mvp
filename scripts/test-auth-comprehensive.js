@@ -3,18 +3,19 @@
 /**
  * 🚨 COMPREHENSIVE AUTHENTICATION TESTING SCRIPT
  * Expert Team: All-Expert Emergency Response
- * 
+ *
  * Tests every layer of the authentication stack to identify failure points
  */
 
-import https from 'https'
-import { URL } from 'url'
+import https from 'https';
+import { URL } from 'url';
 
 // Test configuration
-const PREVIEW_URL = 'https://faevision-simplified-2vik0k2kd-scott-garretsons-projects.vercel.app';
+const PREVIEW_URL =
+  'https://faevision-simplified-2vik0k2kd-scott-garretsons-projects.vercel.app';
 const TEST_CREDENTIALS = {
   email: 'admin@faevision.com',
-  password: 'FAEVision2025!'
+  password: 'FAEVision2025!',
 };
 
 console.log('🚨 EMERGENCY AUTHENTICATION TESTING');
@@ -25,7 +26,7 @@ console.log('');
 async function makeRequest(url, options = {}) {
   return new Promise((resolve, reject) => {
     const urlObj = new URL(url);
-    
+
     const requestOptions = {
       hostname: urlObj.hostname,
       port: urlObj.port || 443,
@@ -33,33 +34,35 @@ async function makeRequest(url, options = {}) {
       method: options.method || 'GET',
       headers: {
         'User-Agent': 'FAEVision-Auth-Test/1.0',
-        ...options.headers
-      }
+        ...options.headers,
+      },
     };
 
     if (options.body) {
       requestOptions.headers['Content-Type'] = 'application/json';
-      requestOptions.headers['Content-Length'] = Buffer.byteLength(options.body);
+      requestOptions.headers['Content-Length'] = Buffer.byteLength(
+        options.body
+      );
     }
 
-    const req = https.request(requestOptions, (res) => {
+    const req = https.request(requestOptions, res => {
       let data = '';
-      
-      res.on('data', (chunk) => {
+
+      res.on('data', chunk => {
         data += chunk;
       });
-      
+
       res.on('end', () => {
         resolve({
           status: res.statusCode,
           statusText: res.statusMessage,
           headers: res.headers,
-          body: data
+          body: data,
         });
       });
     });
 
-    req.on('error', (error) => {
+    req.on('error', error => {
       reject(error);
     });
 
@@ -87,136 +90,155 @@ async function comprehensiveAuthTest() {
   const results = [];
 
   // Layer 1: Basic connectivity
-  results.push(await testLayer('Basic Connectivity', async () => {
-    const response = await makeRequest(PREVIEW_URL);
-    if (response.status !== 200) {
-      throw new Error(`HTTP ${response.status}: ${response.statusText}`);
-    }
-    return `Site accessible (${response.status})`;
-  }));
+  results.push(
+    await testLayer('Basic Connectivity', async () => {
+      const response = await makeRequest(PREVIEW_URL);
+      if (response.status !== 200) {
+        throw new Error(`HTTP ${response.status}: ${response.statusText}`);
+      }
+      return `Site accessible (${response.status})`;
+    })
+  );
 
   // Layer 2: Login page accessibility
-  results.push(await testLayer('Login Page Access', async () => {
-    const response = await makeRequest(`${PREVIEW_URL}/login`);
-    if (response.status !== 200) {
-      throw new Error(`HTTP ${response.status}: ${response.statusText}`);
-    }
-    if (!response.body.includes('FAEVision')) {
-      throw new Error('Login page content invalid');
-    }
-    return 'Login page loads correctly';
-  }));
+  results.push(
+    await testLayer('Login Page Access', async () => {
+      const response = await makeRequest(`${PREVIEW_URL}/login`);
+      if (response.status !== 200) {
+        throw new Error(`HTTP ${response.status}: ${response.statusText}`);
+      }
+      if (!response.body.includes('FAEVision')) {
+        throw new Error('Login page content invalid');
+      }
+      return 'Login page loads correctly';
+    })
+  );
 
   // Layer 3: NextAuth configuration endpoint
-  results.push(await testLayer('NextAuth Configuration', async () => {
-    const response = await makeRequest(`${PREVIEW_URL}/api/auth/session`);
-    if (response.status !== 200) {
-      throw new Error(`HTTP ${response.status}: ${response.statusText}`);
-    }
-    try {
-      const session = JSON.parse(response.body);
-      return `NextAuth responding (session: ${session ? 'active' : 'inactive'})`;
-    } catch
-      throw new Error('Invalid JSON response from NextAuth');
-    }
-  }));
+  results.push(
+    await testLayer('NextAuth Configuration', async () => {
+      const response = await makeRequest(`${PREVIEW_URL}/api/auth/session`);
+      if (response.status !== 200) {
+        throw new Error(`HTTP ${response.status}: ${response.statusText}`);
+      }
+      try {
+        const session = JSON.parse(response.body);
+        return `NextAuth responding (session: ${session ? 'active' : 'inactive'})`;
+      } catch (error) {
+        throw new Error('Invalid JSON response from NextAuth');
+      }
+    })
+  );
 
   // Layer 4: Authentication endpoint availability
-  results.push(await testLayer('Auth Endpoint Availability', async () => {
-    const response = await makeRequest(`${PREVIEW_URL}/api/auth/providers`);
-    if (response.status !== 200) {
-      throw new Error(`HTTP ${response.status}: ${response.statusText}`);
-    }
-    try {
-      const providers = JSON.parse(response.body);
-      if (!providers.credentials) {
-        throw new Error('Credentials provider not found');
+  results.push(
+    await testLayer('Auth Endpoint Availability', async () => {
+      const response = await makeRequest(`${PREVIEW_URL}/api/auth/providers`);
+      if (response.status !== 200) {
+        throw new Error(`HTTP ${response.status}: ${response.statusText}`);
       }
-      return 'Credentials provider available';
-    } catch
-      throw new Error('Providers endpoint invalid');
-    }
-  }));
+      try {
+        const providers = JSON.parse(response.body);
+        if (!providers.credentials) {
+          throw new Error('Credentials provider not found');
+        }
+        return 'Credentials provider available';
+      } catch (error) {
+        throw new Error('Providers endpoint invalid');
+      }
+    })
+  );
 
   // Layer 5: CSRF token retrieval
-  results.push(await testLayer('CSRF Token', async () => {
-    const response = await makeRequest(`${PREVIEW_URL}/api/auth/csrf`);
-    if (response.status !== 200) {
-      throw new Error(`HTTP ${response.status}: ${response.statusText}`);
-    }
-    try {
-      const csrf = JSON.parse(response.body);
-      if (!csrf.csrfToken) {
-        throw new Error('CSRF token missing');
+  results.push(
+    await testLayer('CSRF Token', async () => {
+      const response = await makeRequest(`${PREVIEW_URL}/api/auth/csrf`);
+      if (response.status !== 200) {
+        throw new Error(`HTTP ${response.status}: ${response.statusText}`);
       }
-      return `CSRF token available (${csrf.csrfToken.substring(0, 8)}...)`;
-    } catch
-      throw new Error('CSRF endpoint invalid');
-    }
-  }));
+      try {
+        const csrf = JSON.parse(response.body);
+        if (!csrf.csrfToken) {
+          throw new Error('CSRF token missing');
+        }
+        return `CSRF token available (${csrf.csrfToken.substring(0, 8)}...)`;
+      } catch (error) {
+        throw new Error('CSRF endpoint invalid');
+      }
+    })
+  );
 
   // Layer 6: Database connectivity test (indirect)
-  results.push(await testLayer('Database Connectivity', async () => {
-    // Test by attempting to access a protected API endpoint
-    const response = await makeRequest(`${PREVIEW_URL}/api/inputs`);
-    if (response.status === 401) {
-      return 'Database reachable (401 expected without auth)';
-    } else if (response.status === 500) {
-      throw new Error('Database connection error (500)');
-    } else {
-      return `Unexpected response: ${response.status}`;
-    }
-  }));
+  results.push(
+    await testLayer('Database Connectivity', async () => {
+      // Test by attempting to access a protected API endpoint
+      const response = await makeRequest(`${PREVIEW_URL}/api/inputs`);
+      if (response.status === 401) {
+        return 'Database reachable (401 expected without auth)';
+      } else if (response.status === 500) {
+        throw new Error('Database connection error (500)');
+      } else {
+        return `Unexpected response: ${response.status}`;
+      }
+    })
+  );
 
   // Layer 7: Actual authentication attempt
-  results.push(await testLayer('Authentication Attempt', async () => {
-    // First get CSRF token
-    const csrfResponse = await makeRequest(`${PREVIEW_URL}/api/auth/csrf`);
-    const csrfData = JSON.parse(csrfResponse.body);
-    
-    // Attempt authentication
-    const authResponse = await makeRequest(`${PREVIEW_URL}/api/auth/callback/credentials`, {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/x-www-form-urlencoded',
-      },
-      body: new URLSearchParams({
-        email: TEST_CREDENTIALS.email,
-        password: TEST_CREDENTIALS.password,
-        csrfToken: csrfData.csrfToken,
-        callbackUrl: PREVIEW_URL,
-        json: 'true'
-      }).toString()
-    });
+  results.push(
+    await testLayer('Authentication Attempt', async () => {
+      // First get CSRF token
+      const csrfResponse = await makeRequest(`${PREVIEW_URL}/api/auth/csrf`);
+      const csrfData = JSON.parse(csrfResponse.body);
 
-    if (authResponse.status === 200) {
-      try {
-        const authResult = JSON.parse(authResponse.body);
-        if (authResult.url) {
-          return 'Authentication successful (redirect)';
-        } else if (authResult.error) {
-          throw new Error(`Auth error: ${authResult.error}`);
-        } else {
-          return 'Authentication response unclear';
+      // Attempt authentication
+      const authResponse = await makeRequest(
+        `${PREVIEW_URL}/api/auth/callback/credentials`,
+        {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/x-www-form-urlencoded',
+          },
+          body: new URLSearchParams({
+            email: TEST_CREDENTIALS.email,
+            password: TEST_CREDENTIALS.password,
+            csrfToken: csrfData.csrfToken,
+            callbackUrl: PREVIEW_URL,
+            json: 'true',
+          }).toString(),
         }
-      } catch
-        return 'Authentication succeeded (non-JSON response)';
+      );
+
+      if (authResponse.status === 200) {
+        try {
+          const authResult = JSON.parse(authResponse.body);
+          if (authResult.url) {
+            return 'Authentication successful (redirect)';
+          } else if (authResult.error) {
+            throw new Error(`Auth error: ${authResult.error}`);
+          } else {
+            return 'Authentication response unclear';
+          }
+        } catch (error) {
+          return 'Authentication succeeded (non-JSON response)';
+        }
+      } else {
+        throw new Error(`Auth failed: HTTP ${authResponse.status}`);
       }
-    } else {
-      throw new Error(`Auth failed: HTTP ${authResponse.status}`);
-    }
-  }));
+    })
+  );
 
   // Generate report
   console.log('\n📊 COMPREHENSIVE TEST RESULTS');
   console.log('==============================');
-  
+
   const passed = results.filter(r => r.status === 'PASS').length;
   const failed = results.filter(r => r.status === 'FAIL').length;
-  
+
   console.log(`✅ Passed: ${passed}`);
   console.log(`❌ Failed: ${failed}`);
-  console.log(`📊 Success Rate: ${Math.round((passed / results.length) * 100)}%`);
+  console.log(
+    `📊 Success Rate: ${Math.round((passed / results.length) * 100)}%`
+  );
   console.log('');
 
   results.forEach(result => {
@@ -225,7 +247,7 @@ async function comprehensiveAuthTest() {
   });
 
   console.log('\n🔧 RECOMMENDED ACTIONS:');
-  
+
   const failedLayers = results.filter(r => r.status === 'FAIL');
   if (failedLayers.length === 0) {
     console.log('✅ All tests passed! Authentication should be working.');

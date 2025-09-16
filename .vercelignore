@@ -1,0 +1,12 @@
+# Allow necessary scripts for V2 features
+# scripts/
+scripts/legacy-seed-data/
+scripts/audit-auth-complete.js
+scripts/check-env.js
+scripts/complete-linear-setup.js
+scripts/configure-preview-database.js
+scripts/cursor-mcp-activation-guide.js
+scripts/deploy-production.sh
+scripts/deploy-vercel-prisma-postgres.js
+scripts/diagnose-vercel-branches.js
+scripts/diagnose-vercel-environment.js

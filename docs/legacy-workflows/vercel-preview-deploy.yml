@@ -10,25 +10,25 @@ jobs:
   deploy-and-seed:
     runs-on: ubuntu-latest
     environment: preview
-    
+
     steps:
       - name: Checkout code
         uses: actions/checkout@v4
-        
+
       - name: Setup Node.js
         uses: actions/setup-node@v4
         with:
           node-version: '22'
           cache: 'npm'
-          
+
       - name: Install dependencies
         run: npm ci
-        
+
       - name: Generate Prisma Client
         run: npx prisma generate
         env:
           DATABASE_URL: ${{ secrets.DATABASE_URL }}
-          
+
       - name: Deploy to Vercel
         id: deploy
         env:
@@ -40,14 +40,14 @@ jobs:
           DEPLOYMENT_URL=$(npx vercel --token $VERCEL_TOKEN --confirm --yes)
           echo "deployment_url=$DEPLOYMENT_URL" >> $GITHUB_OUTPUT
           echo "Deployed to: $DEPLOYMENT_URL"
-          
+
       - name: Run Database Migrations
         env:
           DATABASE_URL: ${{ secrets.DATABASE_URL }}
         run: |
           echo "Running database migrations..."
           npx prisma db push --accept-data-loss
-          
+
       - name: Seed Database
         env:
           DATABASE_URL: ${{ secrets.DATABASE_URL }}
@@ -55,7 +55,7 @@ jobs:
         run: |
           echo "Seeding database with comprehensive test data..."
           node prisma/simple-seed.js
-          
+
       - name: Validate Deployment
         env:
           DEPLOYMENT_URL: ${{ steps.deploy.outputs.deployment_url }}
@@ -65,7 +65,7 @@ jobs:
           sleep 30
           # Test deployment accessibility
           curl -I "$DEPLOYMENT_URL" || echo "Deployment validation completed"
-          
+
       - name: Update Linear Issue
         if: always()
         env:

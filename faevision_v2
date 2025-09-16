@@ -1,0 +1,515 @@
+Below is a single, combined, delivery-grade PRD for your Cursor project faevision, created after a detailed review of:
+	•	your FAEVision Complete Tech Stack Summary (current stack, patterns, design system, and team conventions), and
+	•	the PHQ Vision overview/PRD (process + product requirements we’ve been developing together).
+
+Where relevant, we explicitly align decisions to the existing stack/design standards and point out deltas we’re locking in.  ￼  ￼
+
+⸻
+
+FAEVision (PHQ Vision concept) — MVP Product Requirements Document (PRD)
+
+0) Expert Review & Alignment (short)
+	•	Stack & conventions (FAEVision): Next.js 14 (App Router), TS strict, Tailwind + custom executive palette, Radix, Zustand, SWR, Prisma 6.x on Vercel Postgres, NextAuth v5 Credentials (bcrypt), Zod, Resend (present/ready), Vercel AI SDK + OpenAI, Vitest/Playwright, Sentry, Linear/GitHub automation. This is stable, macOS-friendly, and 100% Vercel-ready—we will keep it and avoid introducing multi-tenant, SSO, or heavy infra.  ￼
+	•	Product concept (PHQ Vision): single-tenant SMB executive tool that turns signals into action via clustering (“Hotspots”), universal Cards (Signals, Ideas, Solutions, Requirements, Executive Tasks), a Clustering Workbench to assemble evidence, and a Learning Repository for reinforced executive + AI learning. We adopt this whole model.  ￼
+
+Locked-in deltas vs. prior drafts
+	•	Auth remains Credentials (username/password + bcrypt) per current code; magic-link is optional later.  ￼
+	•	Database: Vercel Postgres (already migrated) with Prisma Accelerate; we’ll add pgvector later if/when required (Prisma supports vector via extensions, but MVP can start with cosine over normalized arrays in DB or compute in memory).  ￼
+	•	AI: Vercel AI SDK + OpenAI per your F1–F6 structure; we wire our Workbench + Card flows to those capabilities.  ￼
+
+⸻
+
+1) Scope Snapshot
+	•	Audience: SMB Executive leadership (primary), Admin (setup), Contributor (report signals).
+	•	Tenancy: Single tenant.
+	•	Roles: Admin, Executive, Contributor.
+	•	App Name: FAEVision (implements the PHQ Vision model).
+	•	Primary promise: “See hotspots. Approve fixes. Align teams. Prove ROI. Build a living executive playbook.”  ￼
+	•	Stack: Next.js 14, TypeScript (strict), Tailwind + Radix, Zustand + SWR, Prisma 6 (Vercel Postgres), NextAuth v5 Credentials, Zod, Vercel AI SDK + OpenAI, Vitest/Playwright, Sentry, Vercel.  ￼
+
+⸻
+
+2) Goals & Non-Goals
+
+Goals
+	•	Deliver the full loop: Signals → Hotspots → Ideas → Solutions → Executive Requirements & Tasks → Handoff → Outcomes → Analytics → Learning.  ￼
+	•	Clustering Workbench that lets execs “assemble evidence → approve → handoff” in ≤ 3 steps.
+	•	Universal Card Model for consistent interactions across objects.
+	•	Store decision paths + reinforcement signals (success/failure/ROI) to improve future suggestions.
+
+Non-Goals (MVP)
+	•	Multi-tenant, SSO/SCIM, complex RBAC.
+	•	Full execution tracking (handoff only).
+	•	Heavy BI/report builder (curated analytics only).  ￼
+
+⸻
+
+3) Information Architecture (IA) & Navigation
+	•	Hotspots (default) — ranked clusters.
+	•	Clustering Workbench — tri-pane: Cluster List (left), Hotspot Panel (center), Action Builder (right).
+	•	Ideas & Solutions — card workspace.
+	•	Initiatives — strategic buckets with ROI rollups.
+	•	Outcomes & Analytics — trends, recurring causes, initiative ROI.
+	•	Signals (raw) — audit + manual entry.
+	•	Learning Repository (Executive Playbook) — decision paths + reinforcement.
+	•	Settings (Admin) — Departments, Teams, Initiatives, Categories, Tags, Users, Integrations.  ￼
+
+⸻
+
+4) Roles & Permissions (RBAC)
+
+Capability	Admin	Executive	Contributor
+Ingest signals (webhook/email/manual)	✓	✓ (manual)	✓
+View hotspots & details	✓	✓	✓
+Assemble signals (Workbench)	✓	✓	–
+Merge/Split hotspots	✓	✓	–
+Add ideas / vote / comment	✓	✓	✓
+Promote idea → solution	–	✓	–
+Create/edit exec requirements & exec tasks	–	✓	–
+Generate handoff (CSV/Jira/Smartsheet)	–	✓	–
+Outcomes/Analytics/Learning	✓	✓	–
+Manage org config & integrations	✓	–	–
+
+
+⸻
+
+5) Universal Card Model (applies everywhere)
+
+Shared frame (all Cards):
+	•	Header: Type icon + Status badge.
+	•	Body: Title, Description, Evidence links, Metrics (if any), Tags (structured + freeform).
+	•	Footer: Votes (👍/👎), Comments, AI Assist (contextual), Promote/Convert/Archive.
+	•	History: changes, comments, state transitions → Learning Repository. (Drives reinforced learning and future agentization).  ￼
+
+Card types & specifics
+	•	Signal Card: raw input; fields include source, severity, metrics, tags, membership strength; actions: Add to Evidence / Exclude; AI: summarize, suggest tags.
+	•	Idea Card: proposals tied to evidence; votes/comments; AI: improve, variations, summarize comments; action: Promote to Solution.
+	•	Solution Card: approved approach; links Requirements/Tasks; AI: refine ROI, draft reqs/tasks; action: Generate Handoff.
+	•	Requirement Card: “what must be true”; priority, owner exec, due period; AI: suggest acceptance criteria.
+	•	Executive Task Card: “who aligns execution”; accountable exec, team, due period; AI: clarify owner/dates. (Consistent interactions = lower cognitive load for execs.)  ￼
+
+⸻
+
+6) Clustering Workbench — detailed wireframe & interactions
+
+Layout
+	1.	Cluster List (left): search + filters (category, dept/team, initiative, vendor/client, severity); cards show title, severity, impact, confidence, entities, count; quick actions: Assemble, Merge, Split.
+	2.	Hotspot Panel (center): header (title, “Why grouped”, confidence), Similarity slider (tight↔broad), table of Signal Cards with membership strength (0–1), Outlier chip if < 0.5, checkboxes for selection.
+	3.	Action Builder (right): Evidence tray (selected Signals), AI Summary, Idea Cards (+ add/vote/edit), Promote to Solution, draft Requirement/Exec Task, Generate Handoff (CSV + Jira/Smartsheet).  ￼
+
+Key interactions
+	•	Assemble Mode: toggle; select/drag Signal Cards into Evidence tray; AI summary re-generates (debounced).
+	•	Similarity slider: expands/restricts membership; shows added/removed counts.
+	•	Outlier rationale: tooltip explains distance/why flagged.
+	•	Merge/Split: preflight with overlap/similarity; confirm to adjust clusters.
+	•	Promote → Handoff: single flow; preview package; export CSV always; push Jira/Smartsheet if tokens exist.  ￼
+
+⸻
+
+7) Process (end-to-end)
+	1.	Capture: webhook + email + manual form (Contributor).
+	2.	Analyze: enrich (NER/tags), embed (OpenAI), cluster (HDBSCAN or nearest-neighbor fallback), rank.
+	3.	Plan: curate Signals, generate Idea Cards (AI + human), vote/comment.
+	4.	Decide: promote to Solution Card, add Requirement/Exec Task cards (AI-drafts editable).
+	5.	Handoff: generate package; export CSV + adapters (Jira/Smartsheet).
+	6.	Track: outcomes via follow-up signals; compute deltas vs. baseline.
+	7.	Learn: store decision_path + reinforcement_signal (approved? edits? success? ROI).  ￼
+
+⸻
+
+8) Input Standard (FAEVision Signal Input Standard)
+
+Why: unify diverse sources; be AI-ready; support clustering, RCA hints, collaboration, and outcomes.
+
+Mandatory
+	•	input_id (UUID)
+	•	timestamp (ISO 8601)
+	•	source { type, id, system_name, details? }
+	•	description (Markdown allowed)
+	•	severity (low|medium|high|critical)
+
+Recommended
+	•	metrics[] ({name,value,unit}), baseline_metrics[]
+	•	tags{} (structured: category, initiative; freeform key:value)
+	•	process_context {process_type, process_id, step_id}
+	•	department, team
+	•	related_entities[] ({type,id,relation})
+	•	attachments[] ({type,url|base64})
+	•	correlations[]
+	•	privacy_level (public|internal|sensitive)
+	•	vector_embedding (float[]) optional if computed on ingest
+	•	custom{}
+	•	collaboration_metadata{origin_type, status}
+
+Example (A&E overrun)
+
+{
+  "input_id": "uuid-ghi789",
+  "timestamp": "2025-09-11T13:45:00Z",
+  "source": { "type": "system", "id": "Deltek_Budget_Module", "system_name": "Deltek Vantagepoint", "details": {"module": "ERP"} },
+  "description": "Foundation phase over budget due to supplier price hikes.",
+  "severity": "critical",
+  "metrics": [{ "name": "variance_amount", "value": 85000, "unit": "USD" }],
+  "tags": { "category": "cost_overrun", "initiative": "Procurement Efficiency" },
+  "related_entities": [{ "type": "vendor", "id": "VEN-012", "relation": "caused_by" }],
+  "privacy_level": "internal"
+}
+
+Validation: Zod schema at the API boundary; reject if mandatory fields missing; attach server metadata (receivedAt, ingestChannel). (This pattern matches your current Zod usage and API route style.)  ￼
+
+⸻
+
+9) Domain Logic & Scoring
+
+Hotspot state: open → approved → handed_off → monitoring → resolved | closed_no_action
+Solution state: proposed → under_review → approved → handed_off → monitoring → retired
+Req/Task state: draft → approved → handed_off → acknowledged (optional) → complete (external)
+Resolve heuristic (MVP): improvement threshold hit (e.g., 80% reduction) or no new signals in 30 days.
+Ranking formula (hotspots):
+rank = 0.3*severity_norm + 0.35*impact_norm + 0.2*confidence + 0.1*trend_boost + 0.05*exec_priority  ￼
+
+Clustering: embeddings via Vercel AI SDK + OpenAI; HDBSCAN default; nearest-neighbor merge fallback for small datasets; compute membership_strength (0–1) per signal; mark outlier if <0.5. (Fits your F3 AI Similarity Grouping capability.)  ￼
+
+⸻
+
+10) UX Interaction Principles (exec-first)
+	•	Digest-first: Top 5 hotspots, clear severity/impact/confidence.
+	•	Minimal input burden: AI drafts Requirements/Tasks; edit in place.
+	•	Evidence-first: Every decision shows linked Signal Cards.
+	•	Explainability: “Why grouped”, outlier rationale, confidence.
+	•	Consistency: Universal Card Model across the app (same controls).
+	•	Accessibility: Radix + keyboard flows; WCAG AA; mobile digest quick-scan.  ￼  ￼
+
+⸻
+
+11) Data Model (Prisma models — MVP)
+
+The snippet below aligns with your current Prisma conventions (cuid ids, timestamps, enums), and extends your User model.  ￼
+
+enum UserRole { ADMIN EXECUTIVE CONTRIBUTOR }
+enum Severity { LOW MEDIUM HIGH CRITICAL }
+enum HotspotStatus { OPEN APPROVED HANDED_OFF MONITORING RESOLVED CLOSED_NO_ACTION }
+enum SolutionStatus { PROPOSED UNDER_REVIEW APPROVED HANDED_OFF MONITORING RETIRED }
+enum WorkStatus { DRAFT APPROVED HANDED_OFF ACKNOWLEDGED } // for Req/Task
+
+model User {
+  id           String   @id @default(cuid())
+  email        String   @unique
+  name         String?
+  role         UserRole @default(CONTRIBUTOR)
+  department   String?
+  avatar       String?
+  passwordHash String?  // using NextAuth Credentials
+  createdAt    DateTime @default(now())
+  updatedAt    DateTime @updatedAt
+}
+
+model Department { id String @id @default(cuid()); name String @unique }
+model Team { id String @id @default(cuid()); name String; departmentId String? @db.VarChar; department Department? @relation(fields: [departmentId], references: [id]) }
+
+model Initiative { id String @id @default(cuid()); name String @unique; ownerId String?; owner User? @relation(fields:[ownerId], references:[id]); goalJson Json?; roiJson Json? }
+
+model Category { id String @id @default(cuid()); name String @unique }
+
+model Signal {
+  id           String   @id @default(cuid())
+  inputId      String   @unique
+  timestamp    DateTime
+  receivedAt   DateTime @default(now())
+  sourceType   String
+  sourceId     String?
+  systemName   String?
+  description  String
+  severity     Severity
+  severityScore Int     @default(0)
+  departmentId String?  @db.VarChar
+  teamId       String?  @db.VarChar
+  metricsJson  Json?
+  baselineJson Json?
+  impactJson   Json?
+  tagsJson     Json?
+  entitiesJson Json?
+  privacyLevel String?  // public|internal|sensitive
+  dedupeKey    String?  @unique
+  lineageJson  Json?
+  embedding    Bytes?   // optional MVP; pgvector later
+  createdById  String?
+  createdBy    User?    @relation(fields: [createdById], references: [id])
+  createdAt    DateTime @default(now())
+}
+
+model Hotspot {
+  id           String   @id @default(cuid())
+  title        String
+  summary      String
+  status       HotspotStatus @default(OPEN)
+  rankScore    Float    @default(0)
+  confidence   Float    @default(0)
+  primaryCategoryId String?
+  linkedEntitiesJson Json?
+  createdAt    DateTime @default(now())
+  updatedAt    DateTime @updatedAt
+  signals      HotspotSignal[]
+}
+
+model HotspotSignal {
+  hotspotId String
+  signalId  String
+  membershipStrength Float @default(1)
+  @@id([hotspotId, signalId])
+  hotspot Hotspot @relation(fields: [hotspotId], references: [id])
+  signal  Signal  @relation(fields: [signalId], references: [id])
+}
+
+model Idea {
+  id          String   @id @default(cuid())
+  hotspotId   String
+  description String
+  title       String?
+  origin      String   // ai|human
+  votes       Int      @default(0)
+  status      String   @default("draft")
+  evidenceJson Json?
+  tagsJson    Json?
+  createdById String?
+  createdAt   DateTime @default(now())
+  hotspot     Hotspot  @relation(fields: [hotspotId], references: [id])
+}
+
+model Solution {
+  id          String   @id @default(cuid())
+  hotspotId   String
+  initiativeId String?
+  description String
+  expectedImpactJson Json?
+  status      SolutionStatus @default(PROPOSED)
+  ownerId     String?
+  createdAt   DateTime @default(now())
+}
+
+model ExecRequirement {
+  id          String @id @default(cuid())
+  solutionId  String
+  description String
+  priority    String? // low|med|high
+  ownerId     String?
+  duePeriod   String?
+  status      WorkStatus @default(DRAFT)
+}
+
+model ExecTask {
+  id          String @id @default(cuid())
+  solutionId  String
+  description String
+  accountableExecId String?
+  handoffTeamId String?
+  duePeriod   String?
+  status      WorkStatus @default(DRAFT)
+}
+
+model HandoffPackage {
+  id          String @id @default(cuid())
+  solutionId  String
+  payloadJson Json
+  exportTargetsJson Json
+  pdfUrl      String?
+  createdAt   DateTime @default(now())
+}
+
+model Outcome {
+  id          String @id @default(cuid())
+  solutionId  String
+  metric      String
+  baseline    Float
+  actual      Float
+  delta       Float
+  confidence  Float?
+  measuredAt  DateTime @default(now())
+}
+
+model DecisionPath {
+  id          String @id @default(cuid())
+  hotspotId   String
+  pathJson    Json
+  finalStatus String?
+  createdAt   DateTime @default(now())
+}
+
+model ReinforcementSignal {
+  id          String @id @default(cuid())
+  hotspotId   String
+  approval    Boolean
+  modifications String?
+  success     Boolean?
+  roiValue    Float?
+  createdAt   DateTime @default(now())
+}
+
+
+⸻
+
+12) API Surface (Next.js Route Handlers)
+
+Ingestion
+	•	POST /api/ingest → accepts FAEVision Signal Input (Zod-validated). Returns {id, deduped}.
+	•	POST /api/email-inbound → maps inbound email to Signal; stores attachments (Vercel Blob/R2). (Aligns with your existing server route patterns.)  ￼
+
+Hotspots
+	•	GET /api/hotspots?status=&category=&dept=&team=&q=&page=
+	•	GET /api/hotspots/:id
+	•	POST /api/hotspots/:id/merge { targetHotspotId }
+	•	POST /api/hotspots/:id/split { signalIds: [] }  ￼
+
+Ideas/Solutions (Cards)
+	•	POST /api/hotspots/:id/ideas { title?, description, origin, evidence? }
+	•	POST /api/ideas/:id/vote { direction: 1|-1 }
+	•	POST /api/solutions { hotspotId, initiativeId?, description, expectedImpactJson? }
+	•	POST /api/solutions/:id/requirements
+	•	POST /api/solutions/:id/exec-tasks
+	•	POST /api/solutions/:id/handoff { targets: ['csv','jira','smartsheet'] } → { packageId, links }  ￼
+
+Analytics/Learning
+	•	GET /api/outcomes/summary?range=90d
+	•	GET /api/trends/summary?range=90d
+	•	GET /api/learning/paths?q=  ￼
+
+Admin
+	•	GET/POST /api/settings/departments|teams|initiatives|categories|tags|users|integrations
+
+⸻
+
+13) Background Jobs (Vercel Cron + Upstash)
+	•	/api/jobs/embed-enrich (every 2 min): embeddings, NER, auto-tagging.
+	•	/api/jobs/cluster (every 5 min): cluster + rank.
+	•	/api/jobs/digest-weekly (Mon 8am): Top 5 hotspots email to execs.
+	•	/api/jobs/outcomes-refresh (hourly): recompute deltas.
+	•	/api/jobs/analyzers (daily): cache trends and initiative ROI.  ￼
+
+⸻
+
+14) Security, Auth, and Compliance
+	•	Auth: NextAuth v5 Credentials (bcrypt), JWT sessions, CSRF, secure cookies; RBAC guards on route handlers and server actions. (Matches your auth config + hashing.)  ￼
+	•	Validation: Zod everywhere (API & forms).
+	•	Storage: Signed URLs for files; tokens in Vercel env vars; masked in UI.
+	•	Privacy: privacy_level respected; sensitive attachments not shown to non-execs.
+	•	Audit: log important actions (promotions, handoffs, merges/splits) to DecisionPath/Reinforcement tables.
+
+⸻
+
+15) Analytics & Learning Repository
+	•	Trends (90d): stacked area for categories; recurring entities (vendor/client/department) with counts and total impact.
+	•	Initiative ROI: baseline vs. actual savings/hours; admin set blended rate.
+	•	Learning Repository (Playbook): time-ordered DecisionPaths; searchable by tags/entities; entry shows Hotspot → Solution (+ Req/Task) → Outcome + ROI → Reinforcement. (This pairs with F6 AI Document Generation where needed.)  ￼  ￼
+
+⸻
+
+16) Acceptance Criteria (MVP)
+
+Ingestion
+	•	Webhook, email, manual form all create Signals; dedupe (input_id/dedupe_key) works; attachments stored; validation errors return 400.
+
+Clustering & Workbench
+	•	Signals appear in a Hotspot within ≤ 10 minutes; membership_strength computed; outliers flagged.
+	•	Assemble Mode lets users select ≥1 signals; Evidence tray updates AI Summary/Ideas (debounced ≤400ms).
+	•	Similarity slider adds/removes candidates and shows delta counts; Merge/Split adjusts clusters and audit logs are written.  ￼
+
+Cards & Decisions
+	•	Idea Cards: create (manual + AI), vote, comment, edit.
+	•	Promote to Solution: requires ≥1 Requirement or Executive Task before handoff.
+	•	Handoff: always CSV; Jira/Smartsheet links returned if tokens configured.
+
+Outcomes & Analytics
+	•	Outcomes calculate deltas vs baseline when new Signals arrive; Resolved heuristic fires automatically when thresholds met.
+	•	Analytics shows trends/recurring entities; initiative ROI view aggregates correctly.
+
+Learning
+	•	DecisionPath saved on handoff; Reinforcement saved on success/failure marking; visible in Playbook.
+
+Admin
+	•	CRUD Departments, Teams, Initiatives, Categories, Users; configure integrations (webhook URL, email alias, Jira/Smartsheet tokens).
+
+⸻
+
+17) Implementation Plan for Cursor (repo structure & tasks)
+
+Recommended folders
+
+/app
+  /hotspots
+  /workbench
+  /ideas
+  /solutions
+  /initiatives
+  /analytics
+  /signals
+  /learning
+  /settings
+/api
+  /ingest
+  /email-inbound
+  /hotspots
+  /ideas
+  /solutions
+  /outcomes
+  /trends
+  /learning
+  /settings
+/lib (zod schemas, prisma, ai prompts, clustering)
+/components (Card*, Table*, Drawer*, Dialog*, Charts*)
+
+Design system
+	•	Tailwind + Radix; use the executive palette defined in your stack doc; ensure consistent icons with Lucide.  ￼
+
+Cursor prompts/modules to seed
+	•	AI Summary prompt (short, exec tone, include confidence).
+	•	Ideas generation prompt (3 concise options + “why this”).
+	•	Requirement/Task drafting prompt (role-aware, due period suggestion).
+	•	Handoff package prompt (rationale + mapping to CSV/Jira fields).
+
+⸻
+
+18) Sprint Plan (8–10 weeks, Linear epics)
+	1.	Foundation & Auth — app shell, RBAC guards, Sentry, envs.
+	2.	Ingestion — /api/ingest, /api/email-inbound, manual form + Zod.
+	3.	Enrichment/Clustering — embeddings job, HDBSCAN service, ranking.
+	4.	Hotspots UI — digest list + filters + detail.
+	5.	Workbench — Assemble Mode, similarity slider, outlier chips, Evidence tray, AI Summary/Ideas.
+	6.	Universal Cards — Idea/Solution/Req/Task/Signal cards with comments/votes.
+	7.	Handoff — CSV generator, Jira adapter (choose first), Smartsheet optional.
+	8.	Outcomes & Analytics — deltas, trends, recurring causes, ROI.
+	9.	Learning Repository — DecisionPath + Reinforcement; Playbook view.
+	10.	Admin Settings — org config, categories, integrations; weekly digest.  ￼
+
+⸻
+
+19) Testing & Quality
+	•	Unit: Zod schemas, adapters (CSV/Jira), ranker, clustering adapter.
+	•	E2E (Playwright): Assemble→Promote→Handoff happy path; auth; admin CRUD; email inbound.
+	•	Perf gates: P95 page loads <1.5s; API avg <500ms (you’re already meeting this).  ￼
+	•	Accessibility: keyboard traversal, ARIA on dialogs/drawers, color contrast.
+
+⸻
+
+20) Risks & Mitigations
+	•	Sparse data → weak clusters: provide manual Assemble across clusters, Merge/Split, nearest-neighbor fallback.
+	•	Exec overload: digest-first + universal cards + 1-click Promote/Handoff.
+	•	Adapter friction: CSV always on; clear setup for tokens; robust error surfaces.
+	•	AI hallucination: confidence badges; evidence chips; everything editable.
+
+⸻
+
+21) Open Decisions (pick now or during iteration)
+	•	Handoff adapter to ship first: Jira (recommended) or Smartsheet?
+	•	Include PDF handoff in MVP or post-MVP?
+	•	Default blended hourly rate for ROI (e.g., $150/hr) location in Settings.
+	•	Add pgvector now vs. later (Prisma extension) — recommend “post-MVP” unless clustering quality requires it.
+
+⸻
+
+Final note
+
+This PRD is aligned to your current project and stack (naming, auth, database, AI SDK, design, tooling) and the PHQ Vision process model. It’s ready to drop into Linear as epics/stories and into Cursor for implementation.
+
+If you want, I can generate the Linear epics/stories from this PRD (copy-paste ready) and a repo scaffold PR (folders, initial Prisma models, Zod schemas, and placeholder routes) to kick off sprint 1 immediately.
+
+Sources reviewed: stack & environment, AI features (F1–F6), design system, deployment posture; and the PHQ Vision end-to-end process/IA/workbench model we’ve been iterating on.  ￼  ￼

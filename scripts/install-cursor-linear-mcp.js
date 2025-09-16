@@ -3,7 +3,7 @@
 /**
  * Cursor Linear MCP Installation & Configuration
  * Expert: Jordan Lee (Cursor Expert)
- * 
+ *
  * Implements advanced Cursor-Linear integration following Jordan Lee's
  * sophisticated AI development control system for FAEVision MVP
  */
@@ -34,10 +34,10 @@ Following Jordan Lee's advanced Cursor control framework:
 `);
 
 try {
-    // Check if we have the LINEAR_TOKEN configured
-    const envPath = '.env.local';
-    if (!fs.existsSync(envPath)) {
-        console.log(`
+  // Check if we have the LINEAR_TOKEN configured
+  const envPath = '.env.local';
+  if (!fs.existsSync(envPath)) {
+    console.log(`
 ❌ ERROR: .env.local file not found
    
    Required for Linear MCP authentication.
@@ -45,21 +45,21 @@ try {
    
    Run: node scripts/linear-workspace-manual-setup.js
         `);
-        process.exit(1);
-    }
+    process.exit(1);
+  }
 
-    // Verify Node.js and npm are available
-    try {
-        const nodeVersion = execSync('node --version', { encoding: 'utf8' }).trim();
-        const npmVersion = execSync('npm --version', { encoding: 'utf8' }).trim();
-        console.log(`✅ Node.js: ${nodeVersion}`);
-        console.log(`✅ npm: ${npmVersion}`);
-    } catch (error) {
-        console.log(`❌ Node.js/npm not available: ${error.message}`);
-        process.exit(1);
-    }
+  // Verify Node.js and npm are available
+  try {
+    const nodeVersion = execSync('node --version', { encoding: 'utf8' }).trim();
+    const npmVersion = execSync('npm --version', { encoding: 'utf8' }).trim();
+    console.log(`✅ Node.js: ${nodeVersion}`);
+    console.log(`✅ npm: ${npmVersion}`);
+  } catch (error) {
+    console.log(`❌ Node.js/npm not available: ${error.message}`);
+    process.exit(1);
+  }
 
-    console.log(`
+  console.log(`
 📋 CURSOR MCP CONFIGURATION STATUS
 ═══════════════════════════════════════════════════════════════════════════
 
@@ -103,30 +103,30 @@ npx -y mcp-remote https://mcp.linear.app/sse --test
 ═══════════════════════════════════════════════════════════════════════════
 `);
 
-    // Test MCP remote connection
-    console.log(`Testing Linear MCP remote connection...`);
-    
-    try {
-        // Load environment variables
-        const envContent = fs.readFileSync(envPath, 'utf8');
-        const linearToken = envContent.match(/LINEAR_TOKEN=(.+)/)?.[1];
-        
-        if (!linearToken) {
-            console.log(`
+  // Test MCP remote connection
+  console.log(`Testing Linear MCP remote connection...`);
+
+  try {
+    // Load environment variables
+    const envContent = fs.readFileSync(envPath, 'utf8');
+    const linearToken = envContent.match(/LINEAR_TOKEN=(.+)/)?.[1];
+
+    if (!linearToken) {
+      console.log(`
 ⚠️  LINEAR_TOKEN not found in .env.local
    
    Linear MCP requires authentication.
    Please configure Linear token first.
             `);
-        } else {
-            console.log(`✅ LINEAR_TOKEN configured`);
-            
-            // Test the MCP remote package
-            try {
-                execSync('npx -y mcp-remote --version', { encoding: 'utf8' });
-                console.log(`✅ mcp-remote package available`);
-                
-                console.log(`
+    } else {
+      console.log(`✅ LINEAR_TOKEN configured`);
+
+      // Test the MCP remote package
+      try {
+        execSync('npx -y mcp-remote --version', { encoding: 'utf8' });
+        console.log(`✅ mcp-remote package available`);
+
+        console.log(`
 🎯 CURSOR MCP INTEGRATION READY
 ═══════════════════════════════════════════════════════════════════════════
 
@@ -175,23 +175,20 @@ Expected Efficiency Gains:
 🎉 CURSOR LINEAR MCP READY FOR ACTIVATION!
 ═══════════════════════════════════════════════════════════════════════════
                 `);
-                
-            } catch (error) {
-                console.log(`
+      } catch (error) {
+        console.log(`
 ⚠️  mcp-remote package test failed: ${error.message}
 
    This is normal - the package will be installed when needed.
    Cursor MCP configuration is ready for activation.
                 `);
-            }
-        }
-        
-    } catch (error) {
-        console.log(`❌ Environment file read error: ${error.message}`);
+      }
     }
-
+  } catch (error) {
+    console.log(`❌ Environment file read error: ${error.message}`);
+  }
 } catch (error) {
-    console.log(`
+  console.log(`
 ❌ Installation Error: ${error.message}
 
 Troubleshooting:

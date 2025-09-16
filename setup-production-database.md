@@ -14,7 +14,7 @@
 4. Select **"Postgres"**
 5. Configure:
    - **Name**: `faevision-production`
-   - **Region**: `US East (iad1)` 
+   - **Region**: `US East (iad1)`
    - **Plan**: `Hobby` (free tier)
 6. Click **"Create"**
 
@@ -55,7 +55,7 @@ npx vercel --prod
 After setup, test these URLs:
 
 - **Landing Page**: https://faevision-simplified-[hash].vercel.app
-- **Dashboard**: https://faevision-simplified-[hash].vercel.app/dashboard  
+- **Dashboard**: https://faevision-simplified-[hash].vercel.app/dashboard
 - **Inputs**: https://faevision-simplified-[hash].vercel.app/inputs
 - **Login**: https://faevision-simplified-[hash].vercel.app/login
 
@@ -64,7 +64,7 @@ After setup, test these URLs:
 Once database is seeded:
 
 - **Admin**: admin@faevision.com / admin123
-- **Executive**: sarah.executive@faevision.com / exec123  
+- **Executive**: sarah.executive@faevision.com / exec123
 - **Executive**: marcus.executive@faevision.com / exec123
 - **Contributor**: alex.contributor@faevision.com / contrib123
 - **Contributor**: maya.contributor@faevision.com / contrib123
@@ -87,4 +87,3 @@ If you encounter issues:
 4. **Seeding**: Check if sample data was created
 
 **Next Steps**: After manual database creation, FAEVision will be fully operational for executive testing!
-

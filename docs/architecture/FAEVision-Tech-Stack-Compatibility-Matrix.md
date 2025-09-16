@@ -11,9 +11,11 @@
 ## 🎯 **COMPATIBILITY ASSURANCE PHILOSOPHY**
 
 ### **Zero Technical Debt Approach**
+
 Every solution must be **architecturally sound**, **future-proof**, and **fully compatible** with our locked tech stack. We fix problems at the root cause, never implement workarounds.
 
 ### **Core Principles**
+
 1. **Vercel-First Architecture**: All decisions optimized for Vercel platform
 2. **Next.js 14 App Router Native**: Leverage latest patterns and capabilities
 3. **TypeScript Strict Compliance**: Full type safety without compromises
@@ -27,6 +29,7 @@ Every solution must be **architecturally sound**, **future-proof**, and **fully 
 ### **Frontend Architecture (LOCKED)**
 
 #### **Next.js 14 with App Router**
+
 ```typescript
 // ✅ COMPATIBLE PATTERNS
 // App Router server components
@@ -48,6 +51,7 @@ export function getStaticProps() { ... }     // FORBIDDEN
 ```
 
 #### **TypeScript Strict Mode Requirements**
+
 ```typescript
 // ✅ REQUIRED PATTERNS
 interface Props {
@@ -66,6 +70,7 @@ const user = data as User                    // No type assertions without valid
 ```
 
 #### **Tailwind CSS Design System Integration**
+
 ```css
 /* ✅ EXECUTIVE-FOCUSED PATTERNS */
 @apply bg-blue-600 text-white hover:bg-blue-700 transition-colors
@@ -80,6 +85,7 @@ const user = data as User                    // No type assertions without valid
 ### **Backend Architecture (LOCKED)**
 
 #### **Next.js API Routes with App Router**
+
 ```typescript
 // ✅ COMPATIBLE PATTERN - App Router API
 import { NextRequest, NextResponse } from 'next/server'
@@ -90,7 +96,7 @@ export async function GET(request: NextRequest) {
   if (!session) {
     return NextResponse.json({ error: 'Unauthorized' }, { status: 401 })
   }
-  
+
   // Implementation
   return NextResponse.json({ data })
 }
@@ -100,25 +106,27 @@ export default function handler(req, res) { ... } // Pages Router pattern
 ```
 
 #### **Prisma ORM with Vercel Postgres**
+
 ```typescript
 // ✅ VERCEL-OPTIMIZED PATTERNS
-import { prisma } from '@/lib/prisma'
+import { prisma } from '@/lib/prisma';
 
 // Connection pooling for serverless
 export const prisma = new PrismaClient({
   datasources: {
     db: {
-      url: process.env.DATABASE_URL
-    }
-  }
-})
+      url: process.env.DATABASE_URL,
+    },
+  },
+});
 
 // ❌ INCOMPATIBLE PATTERNS
 // Direct PostgreSQL connections
-import { Pool } from 'pg'  // FORBIDDEN - Use Prisma only
+import { Pool } from 'pg'; // FORBIDDEN - Use Prisma only
 ```
 
 #### **Auth.js v5 Configuration**
+
 ```typescript
 // ✅ VERCEL-COMPATIBLE PATTERN
 import NextAuth from "next-auth"
@@ -136,23 +144,24 @@ session: { strategy: "database" } // Avoid with Credentials provider
 ### **AI Integration (LOCKED)**
 
 #### **Vercel AI SDK Patterns**
+
 ```typescript
 // ✅ VERCEL-NATIVE AI INTEGRATION
-import { openai } from '@ai-sdk/openai'
-import { generateObject } from 'ai'
+import { openai } from '@ai-sdk/openai';
+import { generateObject } from 'ai';
 
 export async function generateTags(input: string) {
   const result = await generateObject({
     model: openai('gpt-4-turbo'),
     schema: tagSchema,
-    prompt: `Generate tags for: ${input}`
-  })
-  return result.object
+    prompt: `Generate tags for: ${input}`,
+  });
+  return result.object;
 }
 
 // ❌ FORBIDDEN PATTERNS
-import OpenAI from 'openai' // Direct OpenAI SDK usage
-fetch('https://api.openai.com/...') // Direct API calls
+import OpenAI from 'openai'; // Direct OpenAI SDK usage
+fetch('https://api.openai.com/...'); // Direct API calls
 ```
 
 ---
@@ -162,6 +171,7 @@ fetch('https://api.openai.com/...') // Direct API calls
 ### **Compatibility Checklist (MANDATORY)**
 
 #### **Before Starting ANY Development Task**
+
 ```yaml
 Technical Validation:
   - [ ] ✅ Solution compatible with Next.js 14 App Router?
@@ -189,30 +199,31 @@ Integration Validation:
 ### **Expert Validation Matrix**
 
 #### **Required Expert Sign-off by Component**
+
 ```yaml
 Database Changes:
   Primary: Morgan Smith (Database Architect)
-  Validation: "Vercel Postgres optimization confirmed"
-  
+  Validation: 'Vercel Postgres optimization confirmed'
+
 AI Features:
   Primary: Dr. Priya Patel (AI Architect)
   Support: Jordan Kim (Vercel Engineer)
-  Validation: "Vercel AI SDK patterns confirmed"
-  
+  Validation: 'Vercel AI SDK patterns confirmed'
+
 Authentication:
   Primary: Alex Thompson (Lead Developer)
   Support: Jordan Kim (Vercel Engineer)
-  Validation: "Auth.js v5 + Vercel compatibility confirmed"
-  
+  Validation: 'Auth.js v5 + Vercel compatibility confirmed'
+
 UI/UX Implementation:
   Primary: Alex Thompson (Lead Developer)
   Design Review: Maya Rodriguez (UX) + David Chen (Visual)
-  Validation: "Executive-focused + responsive confirmed"
-  
+  Validation: 'Executive-focused + responsive confirmed'
+
 Performance Optimization:
   Primary: Jordan Kim (Vercel Engineer)
   Support: Alex Thompson (Lead Developer)
-  Validation: "Core Web Vitals targets confirmed"
+  Validation: 'Core Web Vitals targets confirmed'
 ```
 
 ---
@@ -222,69 +233,75 @@ Performance Optimization:
 ### **Serverless Function Best Practices**
 
 #### **Cold Start Optimization**
+
 ```typescript
 // ✅ VERCEL-OPTIMIZED PATTERNS
 // Minimal imports for faster cold starts
-import { NextResponse } from 'next/server'
-import { auth } from '@/lib/auth' // Lightweight auth check
+import { NextResponse } from 'next/server';
+import { auth } from '@/lib/auth'; // Lightweight auth check
 
 // Connection reuse
-const prisma = globalThis.prisma || new PrismaClient()
-if (process.env.NODE_ENV === 'development') globalThis.prisma = prisma
+const prisma = globalThis.prisma || new PrismaClient();
+if (process.env.NODE_ENV === 'development') globalThis.prisma = prisma;
 
 // ❌ AVOID - Heavy imports
-import * as _ from 'lodash' // Heavy utility libraries
-import moment from 'moment' // Large date libraries (use date-fns)
+import * as _ from 'lodash'; // Heavy utility libraries
+import moment from 'moment'; // Large date libraries (use date-fns)
 ```
 
 #### **Edge Runtime Compatibility**
+
 ```typescript
 // ✅ EDGE-COMPATIBLE PATTERNS
-export const runtime = 'edge'
+export const runtime = 'edge';
 
-import { NextRequest, NextResponse } from 'next/server'
+import { NextRequest, NextResponse } from 'next/server';
 
 export async function GET(request: NextRequest) {
   // Edge-compatible implementation
-  return NextResponse.json({ data })
+  return NextResponse.json({ data });
 }
 
 // ❌ EDGE-INCOMPATIBLE PATTERNS
 // Node.js specific APIs
-import fs from 'fs'
-import crypto from 'crypto'
+import fs from 'fs';
+import crypto from 'crypto';
 ```
 
 ### **Database Connection Optimization**
 
 #### **Connection Pooling for Serverless**
+
 ```typescript
 // ✅ VERCEL POSTGRES OPTIMIZED
-import { PrismaClient } from '@prisma/client'
+import { PrismaClient } from '@prisma/client';
 
 declare global {
-  var prisma: PrismaClient | undefined
+  var prisma: PrismaClient | undefined;
 }
 
-export const prisma = globalThis.prisma || new PrismaClient({
-  datasources: {
-    db: {
-      url: process.env.DATABASE_URL
-    }
-  }
-})
+export const prisma =
+  globalThis.prisma ||
+  new PrismaClient({
+    datasources: {
+      db: {
+        url: process.env.DATABASE_URL,
+      },
+    },
+  });
 
 if (process.env.NODE_ENV !== 'production') {
-  globalThis.prisma = prisma
+  globalThis.prisma = prisma;
 }
 
 // ❌ AVOID - Connection leaks
-export const prisma = new PrismaClient() // Creates new connection per request
+export const prisma = new PrismaClient(); // Creates new connection per request
 ```
 
 ### **Static Generation Optimization**
 
 #### **ISR and Static Generation**
+
 ```typescript
 // ✅ PERFORMANCE-OPTIMIZED PATTERNS
 // Static generation for public pages
@@ -307,6 +324,7 @@ export const revalidate = 60 // Revalidate every 60 seconds
 ### **Core Web Vitals Requirements**
 
 #### **Largest Contentful Paint (LCP) < 2.5s**
+
 ```typescript
 // ✅ LCP OPTIMIZATION PATTERNS
 // Next.js Image optimization
@@ -331,6 +349,7 @@ const inter = Inter({ subsets: ['latin'] })
 ```
 
 #### **First Input Delay (FID) < 100ms**
+
 ```typescript
 // ✅ FID OPTIMIZATION
 // Code splitting for large components
@@ -354,6 +373,7 @@ const useOptimizedState = () => {
 ```
 
 #### **Cumulative Layout Shift (CLS) < 0.1**
+
 ```typescript
 // ✅ CLS PREVENTION
 // Proper dimensions for dynamic content
@@ -362,7 +382,7 @@ const useOptimizedState = () => {
 </div>
 
 // Font display optimization
-const inter = Inter({ 
+const inter = Inter({
   subsets: ['latin'],
   display: 'swap' // Prevent invisible text during font swap
 })
@@ -379,77 +399,80 @@ const inter = Inter({
 ### **Input Validation & Sanitization**
 
 #### **Zod Schema Validation (MANDATORY)**
+
 ```typescript
 // ✅ REQUIRED PATTERN
-import { z } from 'zod'
+import { z } from 'zod';
 
 const inputSchema = z.object({
   title: z.string().min(1).max(200),
   description: z.string().min(1).max(2000),
   type: z.enum(['PROBLEM', 'OBSERVATION', 'SUGGESTION']),
-  priority: z.enum(['LOW', 'MEDIUM', 'HIGH', 'URGENT']).optional()
-})
+  priority: z.enum(['LOW', 'MEDIUM', 'HIGH', 'URGENT']).optional(),
+});
 
 export async function POST(request: NextRequest) {
-  const body = await request.json()
-  const validatedData = inputSchema.parse(body) // Throws on invalid data
-  
+  const body = await request.json();
+  const validatedData = inputSchema.parse(body); // Throws on invalid data
+
   // Proceed with validated data
 }
 
 // ❌ SECURITY VIOLATIONS
 export async function POST(request: NextRequest) {
-  const body = await request.json()
+  const body = await request.json();
   // Direct usage without validation - FORBIDDEN
-  await prisma.input.create({ data: body })
+  await prisma.input.create({ data: body });
 }
 ```
 
 #### **SQL Injection Prevention**
+
 ```typescript
 // ✅ SAFE PATTERNS - Prisma ORM
 const user = await prisma.user.findUnique({
-  where: { email: validatedEmail } // Prisma handles parameterization
-})
+  where: { email: validatedEmail }, // Prisma handles parameterization
+});
 
 const inputs = await prisma.input.findMany({
   where: {
-    title: { contains: validatedSearch, mode: 'insensitive' }
-  }
-})
+    title: { contains: validatedSearch, mode: 'insensitive' },
+  },
+});
 
 // ❌ SQL INJECTION RISKS
 // Direct SQL queries (even with Prisma)
-await prisma.$queryRaw`SELECT * FROM users WHERE email = ${userInput}` // FORBIDDEN
+await prisma.$queryRaw`SELECT * FROM users WHERE email = ${userInput}`; // FORBIDDEN
 ```
 
 ### **Authentication & Authorization**
 
 #### **Session Validation (REQUIRED)**
+
 ```typescript
 // ✅ MANDATORY PATTERN
-import { auth } from '@/lib/auth'
-import { hasPermission } from '@/lib/auth'
+import { auth } from '@/lib/auth';
+import { hasPermission } from '@/lib/auth';
 
 export async function GET(request: NextRequest) {
-  const session = await auth()
-  
+  const session = await auth();
+
   if (!session?.user) {
-    return NextResponse.json({ error: 'Unauthorized' }, { status: 401 })
+    return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
   }
-  
+
   if (!hasPermission(session.user.role, 'read:inputs')) {
-    return NextResponse.json({ error: 'Forbidden' }, { status: 403 })
+    return NextResponse.json({ error: 'Forbidden' }, { status: 403 });
   }
-  
+
   // Proceed with authorized operation
 }
 
 // ❌ SECURITY VIOLATIONS
 export async function GET(request: NextRequest) {
   // No session validation - FORBIDDEN
-  const data = await prisma.input.findMany()
-  return NextResponse.json(data)
+  const data = await prisma.input.findMany();
+  return NextResponse.json(data);
 }
 ```
 
@@ -460,13 +483,14 @@ export async function GET(request: NextRequest) {
 ### **WCAG 2.1 AA Compliance (MANDATORY)**
 
 #### **Semantic HTML Structure**
+
 ```typescript
 // ✅ ACCESSIBLE PATTERNS
 export default function InputForm() {
   return (
     <form onSubmit={handleSubmit} aria-labelledby="form-title">
       <h2 id="form-title">Create New Input</h2>
-      
+
       <label htmlFor="title">
         Title <span aria-label="required">*</span>
       </label>
@@ -480,7 +504,7 @@ export default function InputForm() {
       <div id="title-help" className="text-sm text-gray-600">
         Provide a clear, descriptive title
       </div>
-      
+
       <button type="submit" className="min-h-[44px] min-w-[44px]">
         Create Input
       </button>
@@ -495,15 +519,26 @@ export default function InputForm() {
 ```
 
 #### **Color Contrast Requirements**
+
 ```css
 /* ✅ COMPLIANT CONTRAST RATIOS */
-.text-primary { color: #1e40af; }     /* 4.5:1 contrast ratio */
-.bg-success { background: #059669; }  /* 4.5:1 contrast ratio */
-.border-focus { border: #3b82f6; }    /* 3:1 contrast ratio for non-text */
+.text-primary {
+  color: #1e40af;
+} /* 4.5:1 contrast ratio */
+.bg-success {
+  background: #059669;
+} /* 4.5:1 contrast ratio */
+.border-focus {
+  border: #3b82f6;
+} /* 3:1 contrast ratio for non-text */
 
 /* ❌ INSUFFICIENT CONTRAST */
-.text-light-gray { color: #d1d5db; }  /* Insufficient on white background */
-.text-warning { color: #fbbf24; }     /* Insufficient on white background */
+.text-light-gray {
+  color: #d1d5db;
+} /* Insufficient on white background */
+.text-warning {
+  color: #fbbf24;
+} /* Insufficient on white background */
 ```
 
 ---
@@ -513,6 +548,7 @@ export default function InputForm() {
 ### **Test Framework Alignment**
 
 #### **Jest + Testing Library Pattern**
+
 ```typescript
 // ✅ REQUIRED TESTING PATTERNS
 import { render, screen, fireEvent, waitFor } from '@testing-library/react'
@@ -523,16 +559,16 @@ describe('InputForm', () => {
   beforeEach(() => {
     server.resetHandlers()
   })
-  
+
   it('should create input with valid data', async () => {
     render(<InputForm />)
-    
+
     await fireEvent.change(screen.getByLabelText(/title/i), {
       target: { value: 'Test Input' }
     })
-    
+
     fireEvent.click(screen.getByRole('button', { name: /create/i }))
-    
+
     await waitFor(() => {
       expect(screen.getByText(/success/i)).toBeInTheDocument()
     })
@@ -545,30 +581,31 @@ describe('InputForm', () => {
 ```
 
 #### **End-to-End Testing with Playwright**
+
 ```typescript
 // ✅ VERCEL-COMPATIBLE E2E PATTERNS
-import { test, expect } from '@playwright/test'
+import { test, expect } from '@playwright/test';
 
 test.describe('Input Creation Flow', () => {
   test.beforeEach(async ({ page }) => {
-    await page.goto('/login')
-    await page.getByLabel('Email').fill('admin@faevision.com')
-    await page.getByLabel('Password').fill('admin123')
-    await page.getByRole('button', { name: 'Sign In' }).click()
-  })
-  
+    await page.goto('/login');
+    await page.getByLabel('Email').fill('admin@faevision.com');
+    await page.getByLabel('Password').fill('admin123');
+    await page.getByRole('button', { name: 'Sign In' }).click();
+  });
+
   test('should create input successfully', async ({ page }) => {
-    await page.goto('/inputs/create')
-    
-    await page.getByLabel('Title').fill('Network Issue')
-    await page.getByLabel('Description').fill('WiFi connectivity problem')
-    await page.selectOption('[name="priority"]', 'HIGH')
-    
-    await page.getByRole('button', { name: 'Create Input' }).click()
-    
-    await expect(page.getByText('Input created successfully')).toBeVisible()
-  })
-})
+    await page.goto('/inputs/create');
+
+    await page.getByLabel('Title').fill('Network Issue');
+    await page.getByLabel('Description').fill('WiFi connectivity problem');
+    await page.selectOption('[name="priority"]', 'HIGH');
+
+    await page.getByRole('button', { name: 'Create Input' }).click();
+
+    await expect(page.getByText('Input created successfully')).toBeVisible();
+  });
+});
 
 // ❌ INCOMPATIBLE PATTERNS
 // Cypress testing patterns (not optimal for Vercel)
@@ -582,25 +619,27 @@ test.describe('Input Creation Flow', () => {
 ### **Forbidden Workarounds**
 
 #### **Database Anti-Patterns**
+
 ```typescript
 // ❌ FORBIDDEN - Workarounds for schema issues
 // @ts-ignore
-await prisma.user.create({ data: invalidData })
+await prisma.user.create({ data: invalidData });
 
 // Manual SQL to bypass Prisma
-await prisma.$executeRaw`INSERT INTO users...`
+await prisma.$executeRaw`INSERT INTO users...`;
 
 // Connection pooling workarounds
-let connection: any
+let connection: any;
 function getConnection() {
   if (!connection) {
-    connection = new SomeOtherDB()
+    connection = new SomeOtherDB();
   }
-  return connection
+  return connection;
 }
 ```
 
 #### **Authentication Anti-Patterns**
+
 ```typescript
 // ❌ FORBIDDEN - Authentication workarounds
 // Manual JWT handling instead of Auth.js
@@ -614,6 +653,7 @@ if (user.email.includes('admin')) { // Allow access }
 ```
 
 #### **Performance Anti-Patterns**
+
 ```typescript
 // ❌ FORBIDDEN - Performance workarounds
 // Disabling optimization for quick fixes
@@ -629,9 +669,9 @@ import * as lodash from 'lodash' // Import entire library
 ### **Technical Debt Prevention Protocol**
 
 #### **Root Cause Analysis Required**
+
 ```yaml
-When Encountering Issues:
-  1. ✅ STOP - Do not implement workarounds
+When Encountering Issues: 1. ✅ STOP - Do not implement workarounds
   2. ✅ ANALYZE - Identify true root cause
   3. ✅ RESEARCH - Find Vercel-native solution
   4. ✅ CONSULT - Engage appropriate expert
@@ -640,7 +680,7 @@ When Encountering Issues:
 
 Escalation Process:
   - Technical Issues: Alex Thompson (Lead Developer)
-  - Vercel Platform: Jordan Kim (Vercel Engineer)  
+  - Vercel Platform: Jordan Kim (Vercel Engineer)
   - Database Problems: Morgan Smith (Database Architect)
   - AI Integration: Dr. Priya Patel (AI Architect)
   - Architecture Decisions: Sarah Chen (Product Manager)
@@ -653,6 +693,7 @@ Escalation Process:
 ### **Automated Compatibility Validation**
 
 #### **CI/CD Integration**
+
 ```yaml
 # .github/workflows/compatibility-check.yml
 name: Tech Stack Compatibility Check
@@ -667,17 +708,17 @@ jobs:
           npm run build
           npm run lint
           npm run type-check
-          
+
       - name: Validate Vercel Deployment
         run: |
           npx vercel build --prod
           npx vercel deploy --prebuilt
-          
+
       - name: Performance Validation
         run: |
           npm run lighthouse:ci
           npm run bundle-analyzer
-          
+
       - name: Security Scan
         run: |
           npm audit --audit-level high
@@ -685,15 +726,16 @@ jobs:
 ```
 
 #### **Compatibility Metrics Tracking**
+
 ```typescript
 // Automated compatibility scoring
 interface CompatibilityMetrics {
-  nextjsCompliance: number     // 100% required
-  vercelOptimization: number   // 95%+ target
-  performanceScore: number     // 90%+ target
-  securityCompliance: number   // 100% required
-  accessibilityScore: number   // 100% WCAG 2.1 AA
-  technicalDebtIndex: number   // 0% target
+  nextjsCompliance: number; // 100% required
+  vercelOptimization: number; // 95%+ target
+  performanceScore: number; // 90%+ target
+  securityCompliance: number; // 100% required
+  accessibilityScore: number; // 100% WCAG 2.1 AA
+  technicalDebtIndex: number; // 0% target
 }
 ```
 
@@ -704,6 +746,7 @@ interface CompatibilityMetrics {
 ### **Compatibility Validation Checklist**
 
 #### **Pre-Development (MANDATORY)**
+
 - [ ] ✅ Tech stack compatibility validated
 - [ ] ✅ Vercel platform optimization confirmed
 - [ ] ✅ Performance impact assessed
@@ -711,6 +754,7 @@ interface CompatibilityMetrics {
 - [ ] ✅ Expert sign-off obtained
 
 #### **During Development (CONTINUOUS)**
+
 - [ ] ✅ TypeScript strict mode compliance
 - [ ] ✅ Next.js 14 App Router patterns
 - [ ] ✅ Auth.js v5 integration clean
@@ -718,6 +762,7 @@ interface CompatibilityMetrics {
 - [ ] ✅ Accessibility standards maintained
 
 #### **Post-Development (VALIDATION)**
+
 - [ ] ✅ Build compilation successful
 - [ ] ✅ Performance targets met
 - [ ] ✅ Security scans clean
@@ -731,24 +776,28 @@ interface CompatibilityMetrics {
 **FAEVision Tech Stack Compatibility Matrix** ensures:
 
 ### ✅ **Zero Technical Debt**
+
 - **Root Cause Fixes**: Never implement workarounds
 - **Architectural Integrity**: Every solution properly designed
 - **Future-Proof Decisions**: Scalable, maintainable implementations
 - **Expert Validation**: Appropriate expertise for each decision
 
 ### ✅ **Vercel Platform Excellence**
+
 - **Serverless Optimization**: Cold start and performance optimized
 - **Edge Compatibility**: Modern runtime support where beneficial
 - **Database Efficiency**: Connection pooling and query optimization
 - **Deployment Integration**: Seamless CI/CD with performance monitoring
 
 ### ✅ **Enterprise-Grade Quality**
+
 - **Security First**: Comprehensive input validation and authorization
 - **Accessibility Compliance**: WCAG 2.1 AA standards throughout
 - **Performance Targets**: <2s page load, Core Web Vitals optimized
 - **Type Safety**: Full TypeScript strict mode compliance
 
 ### ✅ **Team Alignment**
+
 - **Expert Coordination**: Clear ownership and validation protocols
 - **Knowledge Sharing**: Documented patterns and best practices
 - **Process Integration**: Linear-GitHub-Vercel workflow optimization
@@ -760,4 +809,4 @@ interface CompatibilityMetrics {
 **Implementation**: Immediate adoption required  
 **Compliance**: Zero tolerance for violations
 
-*This compatibility matrix represents the authoritative technical foundation for FAEVision MVP development, ensuring every solution is architecturally sound, platform-optimized, and future-proof.*
+_This compatibility matrix represents the authoritative technical foundation for FAEVision MVP development, ensuring every solution is architecturally sound, platform-optimized, and future-proof._

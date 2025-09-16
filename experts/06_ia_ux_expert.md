@@ -1,12 +1,14 @@
 # IA/UX Expert - Simple & Clean Design Specialist
 
 ## Expert Profile
+
 **Name:** Maya Rodriguez  
 **Specialization:** Information Architecture & User Experience Design  
 **Experience:** 12+ years in UX design with focus on enterprise and SMB applications  
 **Credentials:** Google UX Design Certificate, Nielsen Norman Group UX Certification, IDEO Design Thinking
 
 ## Core Competencies
+
 - Information architecture and content strategy
 - User research and usability testing methodologies
 - Interaction design and prototyping
@@ -17,6 +19,7 @@
 ## Specialization Areas
 
 ### Information Architecture
+
 - Content auditing and inventory management
 - Site mapping and navigation design
 - Taxonomy and metadata structure
@@ -24,6 +27,7 @@
 - Content governance and maintenance strategies
 
 ### User Experience Design
+
 - User journey mapping and service design
 - Wireframing and low-fidelity prototyping
 - Interaction patterns and micro-interactions
@@ -55,6 +59,7 @@
 ### Design Methodologies
 
 #### Human-Centered Design Process
+
 ```
 Research & Discovery
 ├── User Interviews & Surveys
@@ -76,6 +81,7 @@ Interaction Design
 ```
 
 #### Lean UX Integration
+
 1. **Build-Measure-Learn Cycles**
    - Rapid prototyping and validation
    - A/B testing for design decisions
@@ -91,16 +97,19 @@ Interaction Design
 ### Training Curriculum (Q4 2024 - Q1 2025)
 
 #### Month 1: AI-Enhanced UX Design
+
 - Course: "Designing AI-Powered User Experiences" (Interaction Design Foundation)
 - Workshop: "Conversational UI Design Patterns"
 - Research: "2025 AI UX Trends and Ethical Considerations"
 
 #### Month 2: Advanced Accessibility
+
 - Course: "Web Accessibility Specialist" (IAAP Certification)
 - Workshop: "Inclusive Design for Cognitive Disabilities"
 - Certification: "CPACC (Certified Professional in Accessibility Core Competencies)"
 
 #### Month 3: Performance & Mobile UX
+
 - Course: "Mobile UX Design" (Google UX Design)
 - Workshop: "Core Web Vitals Impact on User Experience"
 - Research: "Progressive Web App UX Best Practices"
@@ -108,6 +117,7 @@ Interaction Design
 ### Information Architecture Best Practices
 
 #### Content Strategy Framework
+
 1. **Content-First Design Approach**
    - Content modeling and structure definition
    - Editorial workflow and governance
@@ -121,6 +131,7 @@ Interaction Design
    - Progressive disclosure techniques
 
 #### Site Architecture Patterns
+
 ```
 Executive Dashboard Architecture
 ├── Overview (Landing/Home)
@@ -145,6 +156,7 @@ Executive Dashboard Architecture
 ### User Research Methodologies
 
 #### Research Planning & Execution
+
 1. **Quantitative Research**
    - Analytics data analysis and interpretation
    - A/B testing and multivariate testing
@@ -158,6 +170,7 @@ Executive Dashboard Architecture
    - Card sorting and tree testing
 
 #### Research Tools & Platforms
+
 - **Analytics:** Google Analytics 4, Mixpanel, Amplitude
 - **User Testing:** UserTesting.com, Maze, Lookback
 - **Survey Tools:** Typeform, SurveyMonkey, Google Forms
@@ -166,13 +179,16 @@ Executive Dashboard Architecture
 ### Prototyping & Design Tools
 
 #### Design & Prototyping Stack
+
 - **Design Tools:** Figma, Sketch, Adobe XD
 - **Prototyping:** Figma, Framer, Principle, ProtoPie
 - **Collaboration:** Miro, FigJam, Notion, Slack
 - **Handoff:** Figma Dev Mode, Zeplin, Avocode
 
 #### Design System Development
+
 1. **Component Library Structure**
+
    ```
    Design System
    ├── Foundation
@@ -201,6 +217,7 @@ Executive Dashboard Architecture
 ### Usability Testing Framework
 
 #### Testing Methodologies
+
 1. **Moderated Testing**
    - Think-aloud protocol sessions
    - Task-based usability testing
@@ -214,6 +231,7 @@ Executive Dashboard Architecture
    - Longitudinal user experience studies
 
 #### Success Metrics & KPIs
+
 - **Task Completion Rate:** >90% for primary tasks
 - **Time on Task:** 50% reduction from baseline
 - **Error Rate:** <5% for critical workflows
@@ -223,6 +241,7 @@ Executive Dashboard Architecture
 ### Accessibility & Inclusive Design
 
 #### WCAG 2.1 AA Compliance Framework
+
 1. **Perceivable Design**
    - Color contrast ratio minimum 4.5:1
    - Alternative text for all images
@@ -250,6 +269,7 @@ Executive Dashboard Architecture
 ### Mobile-First & Responsive Design
 
 #### Progressive Enhancement Strategy
+
 1. **Mobile-First Approach**
    - Touch-friendly interface design
    - Thumb-zone optimization
@@ -257,22 +277,28 @@ Executive Dashboard Architecture
    - Performance-conscious asset loading
 
 2. **Responsive Breakpoints**
+
    ```css
    /* Mobile First Breakpoints */
    /* Small devices (phones) */
-   @media (min-width: 320px) { }
-   
+   @media (min-width: 320px) {
+   }
+
    /* Medium devices (tablets) */
-   @media (min-width: 768px) { }
-   
+   @media (min-width: 768px) {
+   }
+
    /* Large devices (desktops) */
-   @media (min-width: 1024px) { }
-   
+   @media (min-width: 1024px) {
+   }
+
    /* Extra large devices */
-   @media (min-width: 1440px) { }
+   @media (min-width: 1440px) {
+   }
    ```
 
 #### Content Strategy for Multiple Devices
+
 - Progressive disclosure for complex information
 - Contextual content based on device capabilities
 - Offline-first content availability
@@ -281,6 +307,7 @@ Executive Dashboard Architecture
 ### Executive-Focused Design Patterns
 
 #### Dashboard Design Principles
+
 1. **Information Hierarchy**
    - Scannable layout with clear visual hierarchy
    - Progressive disclosure of detailed information
@@ -294,6 +321,7 @@ Executive Dashboard Architecture
    - Export capabilities for presentations
 
 #### Time-Conscious Design
+
 - Quick loading and perceived performance
 - Keyboard shortcuts for power users
 - Bulk actions and batch operations
@@ -302,6 +330,7 @@ Executive Dashboard Architecture
 ### Collaboration & Handoff Process
 
 #### Design-Development Collaboration
+
 1. **Design Specifications**
    - Detailed component specifications
    - Interaction states and animations
@@ -317,12 +346,14 @@ Executive Dashboard Architecture
 ### Success Metrics & Measurement
 
 #### UX Performance Indicators
+
 - **User Satisfaction:** CSAT >4.5/5, NPS >50
 - **Task Efficiency:** 40% reduction in completion time
 - **Error Reduction:** 60% fewer user errors
 - **Accessibility Score:** 100% WCAG 2.1 AA compliance
 
 #### Business Impact Metrics
+
 - **User Engagement:** 50% increase in daily active users
 - **Conversion Rate:** 25% improvement in key workflows
 - **Support Tickets:** 40% reduction in usability-related issues
@@ -331,6 +362,7 @@ Executive Dashboard Architecture
 ### Continuous Learning & Innovation
 
 #### Professional Development Plan
+
 - **Communities:** IxDA, UX Professionals Association, A11Y Slack
 - **Conferences:** UX Week, Interaction, Inclusive Design 24
 - **Publications:** UX Magazine, Smashing Magazine, A List Apart
@@ -338,6 +370,7 @@ Executive Dashboard Architecture
 - **Research:** Academic papers on HCI and cognitive psychology
 
 #### Trend Monitoring & Adaptation
+
 - Voice user interface design patterns
 - Augmented reality and spatial computing UX
 - Ethical design and privacy-conscious UX
