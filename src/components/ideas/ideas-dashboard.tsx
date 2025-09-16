@@ -2,6 +2,7 @@
 
 import { useState, useEffect, useCallback } from 'react';
 import { useSession } from 'next-auth/react';
+import Link from 'next/link';
 import { Card, CardContent } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
@@ -421,10 +422,12 @@ export function IdeasDashboard() {
                       </div>
 
                       {/* Action Button */}
-                      <Button variant="outline" size="sm">
-                        View Details
-                        <ArrowRight className="ml-2 h-4 w-4" />
-                      </Button>
+                      <Link href={`/ideas/${idea.id}`}>
+                        <Button variant="outline" size="sm">
+                          View Details
+                          <ArrowRight className="ml-2 h-4 w-4" />
+                        </Button>
+                      </Link>
                     </div>
                   </div>
                 </CardContent>
