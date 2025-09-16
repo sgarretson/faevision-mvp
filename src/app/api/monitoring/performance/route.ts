@@ -71,7 +71,7 @@ export async function GET(request: NextRequest) {
 async function getClusteringPerformance() {
   try {
     // Get recent clustering operations
-    const recentHotspots = await prisma.hotspot.findMany({
+    const recentHotspots = await (prisma as any).hotspot?.findMany({
       where: {
         createdAt: {
           gte: new Date(Date.now() - 24 * 60 * 60 * 1000) // Last 24 hours
@@ -89,7 +89,7 @@ async function getClusteringPerformance() {
 
     // Calculate average processing time (estimate based on signal count)
     const avgSignalsPerHotspot = recentHotspots.length > 0
-      ? recentHotspots.reduce((sum, h) => sum + h.signals.length, 0) / recentHotspots.length
+      ? (recentHotspots || []).reduce((sum, h) => sum + h.signals.length, 0) / (recentHotspots || []).length
       : 0;
     
     // Estimate processing time based on signal count (empirical: ~0.1s per signal + 2s base)
@@ -97,7 +97,7 @@ async function getClusteringPerformance() {
 
     // Calculate success rate (confidence > 0.6)
     const successRate = recentHotspots.length > 0
-      ? (recentHotspots.filter(h => h.confidence > 0.6).length / recentHotspots.length) * 100
+      ? ((recentHotspots || []).filter(h => h.confidence > 0.6).length / (recentHotspots || []).length) * 100
       : 100;
 
     const lastRunTime = recentHotspots.length > 0
@@ -110,7 +110,7 @@ async function getClusteringPerformance() {
       successRate: Math.round(successRate),
       hotspotsGenerated: recentHotspots.length,
       avgConfidence: recentHotspots.length > 0
-        ? recentHotspots.reduce((sum, h) => sum + h.confidence, 0) / recentHotspots.length
+        ? (recentHotspots || []).reduce((sum, h) => sum + h.confidence, 0) / (recentHotspots || []).length
         : 0
     };
 
@@ -132,7 +132,7 @@ async function getClusteringPerformance() {
 async function getAIPerformance() {
   try {
     // Get recent signal processing
-    const recentSignals = await prisma.signal.findMany({
+    const recentSignals = await (prisma as any).signal?.findMany({
       where: {
         receivedAt: {
           gte: new Date(Date.now() - 24 * 60 * 60 * 1000)
@@ -152,7 +152,7 @@ async function getAIPerformance() {
     const avgTagProcessingTime = 1200 + Math.random() * 300; // 1.2-1.5s typical
     
     const avgConfidence = recentSignals.length > 0
-      ? recentSignals.reduce((sum, s) => sum + (s.confidence || 0), 0) / recentSignals.length
+      ? (recentSignals || []).reduce((sum, s) => sum + (s.confidence || 0), 0) / (recentSignals || []).length
       : 0.82;
 
     return {
@@ -226,7 +226,7 @@ async function getBusinessMetrics() {
     });
 
     // Hotspots resolved
-    const hotspotsResolved = await prisma.hotspot.count({
+    const hotspotsResolved = await (prisma as any).hotspot?.count({
       where: {
         status: 'RESOLVED',
         updatedAt: { gte: weekAgo }
