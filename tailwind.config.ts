@@ -1,4 +1,4 @@
-import type { Config } from 'tailwindcss'
+import type { Config } from 'tailwindcss';
 
 const config: Config = {
   content: [
@@ -55,8 +55,14 @@ const config: Config = {
           '1.5rem',
           { lineHeight: '2rem', letterSpacing: '-0.025em', fontWeight: '700' },
         ],
-        'executive-lg': ['1.125rem', { lineHeight: '1.75rem', fontWeight: '600' }],
-        'executive-base': ['1rem', { lineHeight: '1.625rem', fontWeight: '400' }],
+        'executive-lg': [
+          '1.125rem',
+          { lineHeight: '1.75rem', fontWeight: '600' },
+        ],
+        'executive-base': [
+          '1rem',
+          { lineHeight: '1.625rem', fontWeight: '400' },
+        ],
       },
       spacing: {
         executive: '44px', // Minimum touch target for executives
@@ -67,5 +73,5 @@ const config: Config = {
     },
   },
   plugins: [],
-}
-export default config
+};
+export default config;

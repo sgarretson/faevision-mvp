@@ -98,8 +98,164 @@ exports.Prisma.UserScalarFieldEnum = {
   name: 'name',
   role: 'role',
   department: 'department',
+  title: 'title',
+  managerId: 'managerId',
+  utilizationRate: 'utilizationRate',
+  targetUtilization: 'targetUtilization',
+  billableRate: 'billableRate',
+  costCenter: 'costCenter',
+  location: 'location',
+  isActive: 'isActive',
+  lastLoginAt: 'lastLoginAt',
   avatar: 'avatar',
   passwordHash: 'passwordHash',
+  profileJson: 'profileJson',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt',
+  departmentObjId: 'departmentObjId'
+};
+
+exports.Prisma.DepartmentScalarFieldEnum = {
+  id: 'id',
+  name: 'name',
+  description: 'description',
+  headCount: 'headCount',
+  budgetAllocation: 'budgetAllocation',
+  managerId: 'managerId',
+  costCenter: 'costCenter',
+  location: 'location',
+  isActive: 'isActive',
+  utilizationTarget: 'utilizationTarget',
+  actualUtilization: 'actualUtilization',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
+};
+
+exports.Prisma.TeamScalarFieldEnum = {
+  id: 'id',
+  name: 'name',
+  description: 'description',
+  departmentId: 'departmentId',
+  leaderId: 'leaderId',
+  memberCount: 'memberCount',
+  maxCapacity: 'maxCapacity',
+  isActive: 'isActive',
+  teamType: 'teamType',
+  currentProjects: 'currentProjects',
+  budgetAllocation: 'budgetAllocation',
+  utilizationRate: 'utilizationRate',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
+};
+
+exports.Prisma.InitiativeScalarFieldEnum = {
+  id: 'id',
+  name: 'name',
+  description: 'description',
+  status: 'status',
+  priority: 'priority',
+  ownerId: 'ownerId',
+  budget: 'budget',
+  actualSpend: 'actualSpend',
+  startDate: 'startDate',
+  targetDate: 'targetDate',
+  completionDate: 'completionDate',
+  expectedROI: 'expectedROI',
+  actualROI: 'actualROI',
+  riskLevel: 'riskLevel',
+  goalJson: 'goalJson',
+  roiJson: 'roiJson',
+  milestonesJson: 'milestonesJson',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
+};
+
+exports.Prisma.CategoryScalarFieldEnum = {
+  id: 'id',
+  name: 'name',
+  description: 'description',
+  color: 'color',
+  icon: 'icon',
+  parentId: 'parentId',
+  isActive: 'isActive',
+  sortOrder: 'sortOrder',
+  usageCount: 'usageCount',
+  isSystem: 'isSystem',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
+};
+
+exports.Prisma.SignalScalarFieldEnum = {
+  id: 'id',
+  inputId: 'inputId',
+  timestamp: 'timestamp',
+  receivedAt: 'receivedAt',
+  schemaVersion: 'schemaVersion',
+  sourceJson: 'sourceJson',
+  confidence: 'confidence',
+  attachmentsJson: 'attachmentsJson',
+  sourceType: 'sourceType',
+  sourceId: 'sourceId',
+  systemName: 'systemName',
+  title: 'title',
+  description: 'description',
+  severity: 'severity',
+  severityScore: 'severityScore',
+  departmentId: 'departmentId',
+  teamId: 'teamId',
+  categoryId: 'categoryId',
+  metricsJson: 'metricsJson',
+  baselineJson: 'baselineJson',
+  impactJson: 'impactJson',
+  tagsJson: 'tagsJson',
+  entitiesJson: 'entitiesJson',
+  privacyLevel: 'privacyLevel',
+  dedupeKey: 'dedupeKey',
+  embedding: 'embedding',
+  aiProcessed: 'aiProcessed',
+  aiTagsJson: 'aiTagsJson',
+  lineageJson: 'lineageJson',
+  createdById: 'createdById',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
+};
+
+exports.Prisma.HotspotScalarFieldEnum = {
+  id: 'id',
+  title: 'title',
+  summary: 'summary',
+  status: 'status',
+  rankScore: 'rankScore',
+  confidence: 'confidence',
+  primaryCategoryId: 'primaryCategoryId',
+  linkedEntitiesJson: 'linkedEntitiesJson',
+  clusteringMethod: 'clusteringMethod',
+  similarityThreshold: 'similarityThreshold',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
+};
+
+exports.Prisma.HotspotSignalScalarFieldEnum = {
+  hotspotId: 'hotspotId',
+  signalId: 'signalId',
+  membershipStrength: 'membershipStrength',
+  isOutlier: 'isOutlier',
+  addedAt: 'addedAt'
+};
+
+exports.Prisma.IdeaScalarFieldEnum = {
+  id: 'id',
+  hotspotId: 'hotspotId',
+  title: 'title',
+  description: 'description',
+  origin: 'origin',
+  votes: 'votes',
+  status: 'status',
+  evidenceJson: 'evidenceJson',
+  tagsJson: 'tagsJson',
+  confidence: 'confidence',
+  createdById: 'createdById',
+  initiativeId: 'initiativeId',
   createdAt: 'createdAt',
   updatedAt: 'updatedAt'
 };
@@ -109,82 +265,40 @@ exports.Prisma.InputScalarFieldEnum = {
   title: 'title',
   description: 'description',
   type: 'type',
-  status: 'status',
-  createdBy: 'createdBy',
-  createdAt: 'createdAt',
-  updatedAt: 'updatedAt',
   department: 'department',
   issueType: 'issueType',
   rootCause: 'rootCause',
   priority: 'priority',
-  aiProcessed: 'aiProcessed',
   aiTags: 'aiTags',
-  aiSuggestions: 'aiSuggestions'
-};
-
-exports.Prisma.CommentScalarFieldEnum = {
-  id: 'id',
-  content: 'content',
-  authorId: 'authorId',
-  createdAt: 'createdAt',
-  updatedAt: 'updatedAt',
-  inputId: 'inputId',
-  solutionId: 'solutionId',
-  requirementId: 'requirementId',
-  parentId: 'parentId'
-};
-
-exports.Prisma.VoteScalarFieldEnum = {
-  id: 'id',
-  userId: 'userId',
-  value: 'value',
-  createdAt: 'createdAt',
-  inputId: 'inputId',
-  solutionId: 'solutionId'
-};
-
-exports.Prisma.InputGroupScalarFieldEnum = {
-  id: 'id',
-  name: 'name',
-  description: 'description',
-  ownerId: 'ownerId',
+  aiConfidence: 'aiConfidence',
+  aiSuggestions: 'aiSuggestions',
   status: 'status',
+  createdBy: 'createdBy',
   createdAt: 'createdAt',
-  updatedAt: 'updatedAt',
-  aiSuggested: 'aiSuggested',
-  aiSimilarity: 'aiSimilarity',
-  aiTheme: 'aiTheme'
+  updatedAt: 'updatedAt'
 };
 
 exports.Prisma.SolutionScalarFieldEnum = {
   id: 'id',
   title: 'title',
   description: 'description',
-  ownerId: 'ownerId',
   status: 'status',
-  priority: 'priority',
-  createdAt: 'createdAt',
-  updatedAt: 'updatedAt',
+  hotspotId: 'hotspotId',
+  initiativeId: 'initiativeId',
+  ideaId: 'ideaId',
+  tasks: 'tasks',
+  progress: 'progress',
+  targetDate: 'targetDate',
+  actualCompletionDate: 'actualCompletionDate',
   estimatedEffort: 'estimatedEffort',
-  targetCompletion: 'targetCompletion',
-  actualCompletion: 'actualCompletion',
-  successCriteria: 'successCriteria'
-};
-
-exports.Prisma.TaskScalarFieldEnum = {
-  id: 'id',
-  title: 'title',
-  description: 'description',
-  solutionId: 'solutionId',
-  assigneeId: 'assigneeId',
-  status: 'status',
-  priority: 'priority',
+  businessValue: 'businessValue',
+  successMetrics: 'successMetrics',
+  expectedImpactJson: 'expectedImpactJson',
+  actualImpactJson: 'actualImpactJson',
+  inputId: 'inputId',
+  createdBy: 'createdBy',
   createdAt: 'createdAt',
-  updatedAt: 'updatedAt',
-  estimatedHours: 'estimatedHours',
-  actualHours: 'actualHours',
-  dueDate: 'dueDate',
-  dependencies: 'dependencies'
+  updatedAt: 'updatedAt'
 };
 
 exports.Prisma.RequirementScalarFieldEnum = {
@@ -230,27 +344,69 @@ exports.Prisma.FRDDocumentScalarFieldEnum = {
   updatedAt: 'updatedAt'
 };
 
+exports.Prisma.CommentScalarFieldEnum = {
+  id: 'id',
+  content: 'content',
+  entityType: 'entityType',
+  entityId: 'entityId',
+  parentId: 'parentId',
+  mentions: 'mentions',
+  edited: 'edited',
+  editedAt: 'editedAt',
+  createdBy: 'createdBy',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
+};
+
+exports.Prisma.VoteScalarFieldEnum = {
+  id: 'id',
+  value: 'value',
+  entityType: 'entityType',
+  entityId: 'entityId',
+  createdBy: 'createdBy',
+  createdAt: 'createdAt'
+};
+
+exports.Prisma.InputGroupScalarFieldEnum = {
+  id: 'id',
+  name: 'name',
+  description: 'description',
+  color: 'color',
+  aiSuggested: 'aiSuggested',
+  aiConfidence: 'aiConfidence',
+  aiReasoning: 'aiReasoning',
+  inputCount: 'inputCount',
+  avgPriority: 'avgPriority',
+  lastActivity: 'lastActivity',
+  createdBy: 'createdBy',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
+};
+
 exports.Prisma.AuditLogScalarFieldEnum = {
   id: 'id',
-  userId: 'userId',
   action: 'action',
   entityType: 'entityType',
   entityId: 'entityId',
   changes: 'changes',
-  metadata: 'metadata',
   ipAddress: 'ipAddress',
   userAgent: 'userAgent',
+  sessionId: 'sessionId',
+  userId: 'userId',
   createdAt: 'createdAt'
 };
 
 exports.Prisma.NotificationScalarFieldEnum = {
   id: 'id',
-  userId: 'userId',
   type: 'type',
   title: 'title',
   message: 'message',
+  entityType: 'entityType',
+  entityId: 'entityId',
+  read: 'read',
   readAt: 'readAt',
-  data: 'data',
+  delivered: 'delivered',
+  userId: 'userId',
   createdAt: 'createdAt'
 };
 
@@ -273,15 +429,15 @@ exports.Prisma.QueryMode = {
   insensitive: 'insensitive'
 };
 
-exports.Prisma.NullsOrder = {
-  first: 'first',
-  last: 'last'
-};
-
 exports.Prisma.JsonNullValueFilter = {
   DbNull: Prisma.DbNull,
   JsonNull: Prisma.JsonNull,
   AnyNull: Prisma.AnyNull
+};
+
+exports.Prisma.NullsOrder = {
+  first: 'first',
+  last: 'last'
 };
 exports.UserRole = exports.$Enums.UserRole = {
   ADMIN: 'ADMIN',
@@ -295,35 +451,15 @@ exports.InputType = exports.$Enums.InputType = {
   GENERAL: 'GENERAL'
 };
 
-exports.InputStatus = exports.$Enums.InputStatus = {
-  NEW: 'NEW',
-  DISCUSSING: 'DISCUSSING',
-  ORGANIZED: 'ORGANIZED',
-  IN_SOLUTION: 'IN_SOLUTION',
-  ARCHIVED: 'ARCHIVED'
-};
-
-exports.IssueType = exports.$Enums.IssueType = {
-  PROCESS: 'PROCESS',
-  TECHNOLOGY: 'TECHNOLOGY',
-  COMMUNICATION: 'COMMUNICATION',
-  RESOURCE: 'RESOURCE',
-  OTHER: 'OTHER'
-};
-
 exports.Priority = exports.$Enums.Priority = {
   LOW: 'LOW',
   MEDIUM: 'MEDIUM',
-  HIGH: 'HIGH'
+  HIGH: 'HIGH',
+  URGENT: 'URGENT',
+  CRITICAL: 'CRITICAL'
 };
 
-exports.GroupStatus = exports.$Enums.GroupStatus = {
-  ACTIVE: 'ACTIVE',
-  ARCHIVED: 'ARCHIVED',
-  CONVERTED_TO_SOLUTION: 'CONVERTED_TO_SOLUTION'
-};
-
-exports.SolutionStatus = exports.$Enums.SolutionStatus = {
+exports.InitiativeStatus = exports.$Enums.InitiativeStatus = {
   PLANNING: 'PLANNING',
   ACTIVE: 'ACTIVE',
   ON_HOLD: 'ON_HOLD',
@@ -331,11 +467,28 @@ exports.SolutionStatus = exports.$Enums.SolutionStatus = {
   CANCELLED: 'CANCELLED'
 };
 
-exports.TaskStatus = exports.$Enums.TaskStatus = {
-  NOT_STARTED: 'NOT_STARTED',
+exports.RiskLevel = exports.$Enums.RiskLevel = {
+  LOW: 'LOW',
+  MEDIUM: 'MEDIUM',
+  HIGH: 'HIGH',
+  CRITICAL: 'CRITICAL'
+};
+
+exports.InputStatus = exports.$Enums.InputStatus = {
+  ACTIVE: 'ACTIVE',
+  RESOLVED: 'RESOLVED',
+  ARCHIVED: 'ARCHIVED',
+  DUPLICATE: 'DUPLICATE'
+};
+
+exports.SolutionStatus = exports.$Enums.SolutionStatus = {
+  DRAFT: 'DRAFT',
   IN_PROGRESS: 'IN_PROGRESS',
-  COMPLETED: 'COMPLETED',
-  BLOCKED: 'BLOCKED'
+  REVIEW: 'REVIEW',
+  APPROVED: 'APPROVED',
+  IMPLEMENTED: 'IMPLEMENTED',
+  CANCELLED: 'CANCELLED',
+  ON_HOLD: 'ON_HOLD'
 };
 
 exports.RequirementStatus = exports.$Enums.RequirementStatus = {
@@ -343,35 +496,76 @@ exports.RequirementStatus = exports.$Enums.RequirementStatus = {
   REVIEW: 'REVIEW',
   APPROVED: 'APPROVED',
   REJECTED: 'REJECTED',
-  REVISED: 'REVISED'
+  IMPLEMENTED: 'IMPLEMENTED',
+  OBSOLETE: 'OBSOLETE'
 };
 
 exports.FRDStatus = exports.$Enums.FRDStatus = {
   DRAFT: 'DRAFT',
   REVIEW: 'REVIEW',
   APPROVED: 'APPROVED',
-  PUBLISHED: 'PUBLISHED'
+  DELIVERED: 'DELIVERED',
+  ARCHIVED: 'ARCHIVED'
+};
+
+exports.EntityType = exports.$Enums.EntityType = {
+  INPUT: 'INPUT',
+  SIGNAL: 'SIGNAL',
+  HOTSPOT: 'HOTSPOT',
+  IDEA: 'IDEA',
+  SOLUTION: 'SOLUTION',
+  REQUIREMENT: 'REQUIREMENT',
+  FRD_DOCUMENT: 'FRD_DOCUMENT'
+};
+
+exports.VoteValue = exports.$Enums.VoteValue = {
+  UP: 'UP',
+  DOWN: 'DOWN'
 };
 
 exports.NotificationType = exports.$Enums.NotificationType = {
-  COMMENT: 'COMMENT',
+  MENTION: 'MENTION',
   VOTE: 'VOTE',
+  COMMENT: 'COMMENT',
   STATUS_CHANGE: 'STATUS_CHANGE',
+  APPROVAL_REQUEST: 'APPROVAL_REQUEST',
   ASSIGNMENT: 'ASSIGNMENT',
-  DEADLINE: 'DEADLINE',
-  SYSTEM: 'SYSTEM'
+  DEADLINE_REMINDER: 'DEADLINE_REMINDER'
+};
+
+exports.Severity = exports.$Enums.Severity = {
+  LOW: 'LOW',
+  MEDIUM: 'MEDIUM',
+  HIGH: 'HIGH',
+  CRITICAL: 'CRITICAL'
+};
+
+exports.HotspotStatus = exports.$Enums.HotspotStatus = {
+  OPEN: 'OPEN',
+  APPROVED: 'APPROVED',
+  HANDED_OFF: 'HANDED_OFF',
+  MONITORING: 'MONITORING',
+  RESOLVED: 'RESOLVED',
+  CLOSED_NO_ACTION: 'CLOSED_NO_ACTION'
 };
 
 exports.Prisma.ModelName = {
   User: 'User',
+  Department: 'Department',
+  Team: 'Team',
+  Initiative: 'Initiative',
+  Category: 'Category',
+  Signal: 'Signal',
+  Hotspot: 'Hotspot',
+  HotspotSignal: 'HotspotSignal',
+  Idea: 'Idea',
   Input: 'Input',
+  Solution: 'Solution',
+  Requirement: 'Requirement',
+  FRDDocument: 'FRDDocument',
   Comment: 'Comment',
   Vote: 'Vote',
   InputGroup: 'InputGroup',
-  Solution: 'Solution',
-  Task: 'Task',
-  Requirement: 'Requirement',
-  FRDDocument: 'FRDDocument',
   AuditLog: 'AuditLog',
   Notification: 'Notification'
 };
@@ -397,6 +591,10 @@ const config = {
         "fromEnvVar": null,
         "value": "darwin-arm64",
         "native": true
+      },
+      {
+        "fromEnvVar": null,
+        "value": "rhel-openssl-3.0.x"
       }
     ],
     "previewFeatures": [],
@@ -404,8 +602,7 @@ const config = {
     "isCustomOutput": true
   },
   "relativeEnvPaths": {
-    "rootEnvPath": null,
-    "schemaEnvPath": "../../../.env"
+    "rootEnvPath": null
   },
   "relativePath": "../../../prisma",
   "clientVersion": "6.16.1",
@@ -414,35 +611,29 @@ const config = {
     "db"
   ],
   "activeProvider": "postgresql",
+  "postinstall": false,
   "inlineDatasources": {
     "db": {
       "url": {
-        "fromEnvVar": "DATABASE_URL",
+        "fromEnvVar": "PRISMA_DATABASE_URL",
         "value": null
       }
     }
   },
-  "inlineSchema": "// This is your Prisma schema file,\n// learn more about it in the docs: https://pris.ly/d/prisma-schema\n\ngenerator client {\n  provider = \"prisma-client-js\"\n  output   = \"../src/generated/prisma\"\n}\n\ndatasource db {\n  provider = \"postgresql\"\n  url      = env(\"DATABASE_URL\")\n}\n\n// ============================================================================\n// USER MANAGEMENT & AUTHENTICATION\n// ============================================================================\n\nmodel User {\n  id           String   @id @default(cuid())\n  email        String   @unique\n  name         String\n  role         UserRole @default(CONTRIBUTOR)\n  department   String?\n  avatar       String?\n  passwordHash String?\n  createdAt    DateTime @default(now())\n  updatedAt    DateTime @updatedAt\n\n  // Relationships for all F1-F6 features\n  inputs        Input[]\n  solutions     Solution[]\n  comments      Comment[]\n  votes         Vote[]\n  requirements  Requirement[]\n  frdDocuments  FRDDocument[]  @relation(\"FRDCreator\")\n  approvedFRDs  FRDDocument[]  @relation(\"FRDApprover\")\n  auditLogs     AuditLog[]\n  notifications Notification[]\n  inputGroups   InputGroup[]\n  tasks         Task[]         @relation(\"TaskAssignee\")\n\n  @@map(\"users\")\n}\n\n// ============================================================================\n// F1: INPUT CAPTURE & STRATEGIC TAGGING\n// ============================================================================\n\nmodel Input {\n  id          String      @id @default(cuid())\n  title       String\n  description String      @db.Text\n  type        InputType\n  status      InputStatus @default(NEW)\n  createdBy   String\n  createdAt   DateTime    @default(now())\n  updatedAt   DateTime    @updatedAt\n\n  // Strategic Tagging (F1 Core Feature)\n  department String?\n  issueType  IssueType?\n  rootCause  String?    @db.Text\n  priority   Priority   @default(MEDIUM)\n\n  // AI Processing\n  aiProcessed   Boolean @default(false)\n  aiTags        Json? // AI-generated tags and confidence scores\n  aiSuggestions Json? // AI suggestions for improvements\n\n  // Relationships\n  creator   User         @relation(fields: [createdBy], references: [id])\n  solutions Solution[]\n  comments  Comment[]\n  votes     Vote[]\n  groups    InputGroup[]\n\n  @@index([createdBy])\n  @@index([status])\n  @@index([type])\n  @@index([department])\n  @@index([issueType])\n  @@index([priority])\n  @@index([aiProcessed])\n  @@map(\"inputs\")\n}\n\n// ============================================================================\n// F2: COLLABORATION FEATURES (Polymorphic Comments and Votes)\n// ============================================================================\n\nmodel Comment {\n  id        String   @id @default(cuid())\n  content   String   @db.Text\n  authorId  String\n  createdAt DateTime @default(now())\n  updatedAt DateTime @updatedAt\n\n  // Polymorphic relationships\n  inputId       String?\n  solutionId    String?\n  requirementId String?\n\n  // Threading support\n  parentId String?\n  replies  Comment[] @relation(\"CommentReplies\")\n\n  // Relationships\n  author      User         @relation(fields: [authorId], references: [id])\n  input       Input?       @relation(fields: [inputId], references: [id])\n  solution    Solution?    @relation(fields: [solutionId], references: [id])\n  requirement Requirement? @relation(fields: [requirementId], references: [id])\n  parent      Comment?     @relation(\"CommentReplies\", fields: [parentId], references: [id])\n\n  @@index([authorId])\n  @@index([inputId])\n  @@index([solutionId])\n  @@index([requirementId])\n  @@index([parentId])\n  @@map(\"comments\")\n}\n\nmodel Vote {\n  id        String   @id @default(cuid())\n  userId    String\n  value     Int // 1 for upvote, -1 for downvote\n  createdAt DateTime @default(now())\n\n  // Polymorphic relationships\n  inputId    String?\n  solutionId String?\n\n  // Relationships\n  user     User      @relation(fields: [userId], references: [id])\n  input    Input?    @relation(fields: [inputId], references: [id])\n  solution Solution? @relation(fields: [solutionId], references: [id])\n\n  @@unique([userId, inputId])\n  @@unique([userId, solutionId])\n  @@index([userId])\n  @@index([inputId])\n  @@index([solutionId])\n  @@map(\"votes\")\n}\n\n// ============================================================================\n// F3: ORGANIZATION & GROUPING\n// ============================================================================\n\nmodel InputGroup {\n  id          String      @id @default(cuid())\n  name        String\n  description String?     @db.Text\n  ownerId     String\n  status      GroupStatus @default(ACTIVE)\n  createdAt   DateTime    @default(now())\n  updatedAt   DateTime    @updatedAt\n\n  // AI Organization Features\n  aiSuggested  Boolean @default(false)\n  aiSimilarity Float?\n  aiTheme      String?\n\n  // Relationships\n  owner  User    @relation(fields: [ownerId], references: [id])\n  inputs Input[]\n\n  @@index([ownerId])\n  @@index([status])\n  @@index([aiSuggested])\n  @@map(\"input_groups\")\n}\n\n// ============================================================================\n// F4: SOLUTION EXECUTION & TASK MANAGEMENT\n// ============================================================================\n\nmodel Solution {\n  id          String         @id @default(cuid())\n  title       String\n  description String         @db.Text\n  ownerId     String\n  status      SolutionStatus @default(PLANNING)\n  priority    Priority       @default(MEDIUM)\n  createdAt   DateTime       @default(now())\n  updatedAt   DateTime       @updatedAt\n\n  // Solution Planning\n  estimatedEffort  String?\n  targetCompletion DateTime?\n  actualCompletion DateTime?\n\n  // Success Criteria\n  successCriteria Json? // Array of measurable outcomes\n\n  // Relationships\n  owner        User          @relation(fields: [ownerId], references: [id])\n  inputs       Input[]\n  tasks        Task[]\n  comments     Comment[]\n  votes        Vote[]\n  requirements Requirement[]\n  frdDocuments FRDDocument[]\n\n  @@index([ownerId])\n  @@index([status])\n  @@index([priority])\n  @@map(\"solutions\")\n}\n\nmodel Task {\n  id          String     @id @default(cuid())\n  title       String\n  description String?    @db.Text\n  solutionId  String\n  assigneeId  String?\n  status      TaskStatus @default(NOT_STARTED)\n  priority    Priority   @default(MEDIUM)\n  createdAt   DateTime   @default(now())\n  updatedAt   DateTime   @updatedAt\n\n  // Task Details\n  estimatedHours Float?\n  actualHours    Float?\n  dueDate        DateTime?\n  dependencies   Json? // Array of task IDs this depends on\n\n  // Relationships\n  solution Solution @relation(fields: [solutionId], references: [id])\n  assignee User?    @relation(\"TaskAssignee\", fields: [assigneeId], references: [id])\n\n  @@index([solutionId])\n  @@index([assigneeId])\n  @@index([status])\n  @@index([priority])\n  @@index([dueDate])\n  @@map(\"tasks\")\n}\n\n// ============================================================================\n// F5: EXECUTIVE REQUIREMENTS MANAGEMENT\n// ============================================================================\n\nmodel Requirement {\n  id                 String            @id @default(cuid())\n  title              String\n  description        String            @db.Text\n  acceptanceCriteria Json // Array of acceptance criteria\n  priority           Priority          @default(MEDIUM)\n  status             RequirementStatus @default(DRAFT)\n\n  // Executive Requirements (F5 Core Feature)\n  estimatedEffort String?\n  dependencies    Json? // Array of requirement dependencies\n  businessValue   String?\n  riskAssessment  String?\n  stakeholders    Json? // Involved stakeholders\n\n  // Approval Workflow\n  approvedBy      String?\n  approvedAt      DateTime?\n  rejectionReason String?\n\n  // Relationships\n  solutionId String\n  createdBy  String\n  createdAt  DateTime @default(now())\n  updatedAt  DateTime @updatedAt\n\n  solution Solution  @relation(fields: [solutionId], references: [id])\n  creator  User      @relation(fields: [createdBy], references: [id])\n  comments Comment[]\n\n  @@index([solutionId])\n  @@index([createdBy])\n  @@index([status])\n  @@index([priority])\n  @@map(\"requirements\")\n}\n\n// ============================================================================\n// F6: AI-GENERATED FRD HANDOFF DOCUMENTS\n// ============================================================================\n\nmodel FRDDocument {\n  id           String  @id @default(cuid())\n  title        String\n  content      Json // Complete FRD structure\n  aiGenerated  Boolean @default(false)\n  aiConfidence Float?\n  aiPromptUsed String? @db.Text\n\n  // Document Management (F6 Core Feature)\n  version           String    @default(\"1.0\")\n  status            FRDStatus @default(DRAFT)\n  executiveApproved Boolean   @default(false)\n  exportFormats     Json? // Available export formats [\"PDF\", \"CSV\", \"Word\"]\n\n  // Document Metadata\n  templateUsed   String?\n  generationTime Float? // Time taken to generate (seconds)\n  wordCount      Int?\n  lastExportedAt DateTime?\n\n  // Relationships\n  solutionId String\n  createdBy  String\n  approvedBy String?\n  createdAt  DateTime @default(now())\n  updatedAt  DateTime @updatedAt\n\n  solution Solution @relation(fields: [solutionId], references: [id])\n  creator  User     @relation(\"FRDCreator\", fields: [createdBy], references: [id])\n  approver User?    @relation(\"FRDApprover\", fields: [approvedBy], references: [id])\n\n  @@index([solutionId])\n  @@index([createdBy])\n  @@index([status])\n  @@index([aiGenerated])\n  @@map(\"frd_documents\")\n}\n\n// ============================================================================\n// AUDIT LOGGING & COMPLIANCE\n// ============================================================================\n\nmodel AuditLog {\n  id         String   @id @default(cuid())\n  userId     String\n  action     String // CREATE, UPDATE, DELETE, etc.\n  entityType String // User, Input, Solution, etc.\n  entityId   String\n  changes    Json? // Before/after values for updates\n  metadata   Json? // Additional context\n  ipAddress  String?\n  userAgent  String?\n  createdAt  DateTime @default(now())\n\n  // Relationships\n  user User @relation(fields: [userId], references: [id])\n\n  @@index([userId])\n  @@index([entityType])\n  @@index([entityId])\n  @@index([createdAt])\n  @@map(\"audit_logs\")\n}\n\n// ============================================================================\n// NOTIFICATION SYSTEM\n// ============================================================================\n\nmodel Notification {\n  id        String           @id @default(cuid())\n  userId    String\n  type      NotificationType\n  title     String\n  message   String           @db.Text\n  readAt    DateTime?\n  data      Json? // Additional notification data\n  createdAt DateTime         @default(now())\n\n  // Relationships\n  user User @relation(fields: [userId], references: [id])\n\n  @@index([userId])\n  @@index([readAt])\n  @@index([createdAt])\n  @@map(\"notifications\")\n}\n\n// ============================================================================\n// ENUMS & TYPES\n// ============================================================================\n\nenum UserRole {\n  ADMIN\n  EXECUTIVE\n  CONTRIBUTOR\n}\n\nenum InputType {\n  PROBLEM\n  OPPORTUNITY\n  GENERAL\n}\n\nenum InputStatus {\n  NEW\n  DISCUSSING\n  ORGANIZED\n  IN_SOLUTION\n  ARCHIVED\n}\n\nenum IssueType {\n  PROCESS\n  TECHNOLOGY\n  COMMUNICATION\n  RESOURCE\n  OTHER\n}\n\nenum Priority {\n  LOW\n  MEDIUM\n  HIGH\n}\n\nenum GroupStatus {\n  ACTIVE\n  ARCHIVED\n  CONVERTED_TO_SOLUTION\n}\n\nenum SolutionStatus {\n  PLANNING\n  ACTIVE\n  ON_HOLD\n  COMPLETED\n  CANCELLED\n}\n\nenum TaskStatus {\n  NOT_STARTED\n  IN_PROGRESS\n  COMPLETED\n  BLOCKED\n}\n\nenum RequirementStatus {\n  DRAFT\n  REVIEW\n  APPROVED\n  REJECTED\n  REVISED\n}\n\nenum FRDStatus {\n  DRAFT\n  REVIEW\n  APPROVED\n  PUBLISHED\n}\n\nenum NotificationType {\n  COMMENT\n  VOTE\n  STATUS_CHANGE\n  ASSIGNMENT\n  DEADLINE\n  SYSTEM\n}\n",
-  "inlineSchemaHash": "4b999f823bdab1b31a0adbe0c1429a861eceb3ff29780f1be69099eb7fb292ae",
-  "copyEngine": true
+  "inlineSchema": "// This is your Prisma schema file,\n// learn more about it in the docs: https://pris.ly/d/prisma-schema\n\n// FAEVision MVP Database Schema v1.0\n// Database Architect: Morgan Smith\n// Complete schema supporting F1-F6 features\n\ngenerator client {\n  provider      = \"prisma-client-js\"\n  output        = \"../src/generated/prisma\"\n  binaryTargets = [\"native\", \"rhel-openssl-3.0.x\"]\n}\n\ndatasource db {\n  provider = \"postgresql\"\n  url      = env(\"PRISMA_DATABASE_URL\")\n}\n\n// ============================================================================\n// USER MANAGEMENT & AUTHENTICATION\n// ============================================================================\n\nmodel User {\n  id                String    @id @default(cuid())\n  email             String    @unique\n  name              String\n  role              UserRole  @default(CONTRIBUTOR)\n  department        String?\n  title             String? // Professional title\n  managerId         String?\n  manager           User?     @relation(\"UserManager\", fields: [managerId], references: [id])\n  reports           User[]    @relation(\"UserManager\")\n  utilizationRate   Float? // Current utilization percentage (0.0-1.0)\n  targetUtilization Float? // Target billable percentage (0.0-1.0)\n  billableRate      Float? // Hourly billing rate\n  costCenter        String?\n  location          String?\n  isActive          Boolean   @default(true)\n  lastLoginAt       DateTime?\n  avatar            String?\n  passwordHash      String? // For credentials authentication\n  profileJson       Json? // Additional profile data\n  createdAt         DateTime  @default(now())\n  updatedAt         DateTime  @updatedAt\n\n  // Enhanced Relationships for all F1-F6 features + V2 enhancements\n  inputs           Input[]\n  signals          Signal[] // V2: Enhanced signal model\n  ownedInitiatives Initiative[]  @relation(\"InitiativeOwner\") // V2: Strategic initiatives\n  ideas            Idea[] // V2: Ideas from hotspots\n  solutions        Solution[]\n  comments         Comment[]\n  votes            Vote[]\n  requirements     Requirement[]\n  frdDocuments     FRDDocument[] @relation(\"FRDCreator\")\n  approvedFRDs     FRDDocument[] @relation(\"FRDApprover\")\n  auditLogs        AuditLog[]\n  inputGroups      InputGroup[]\n\n  // New Professional Relationships\n  departmentManaged Department[] @relation(\"DepartmentManager\")\n  departmentObjId   String?\n  departmentObj     Department?  @relation(\"DepartmentUsers\", fields: [departmentObjId], references: [id])\n  ledTeams          Team[]       @relation(\"TeamLeader\")\n  teamMemberships   Team[]       @relation(\"TeamMembers\")\n\n  @@map(\"users\")\n}\n\n// ============================================================================\n// ORGANIZATIONAL STRUCTURE (V2 Enhancement)\n// ============================================================================\n\nmodel Department {\n  id                String   @id @default(cuid())\n  name              String   @unique\n  description       String?  @db.Text\n  headCount         Int      @default(0)\n  budgetAllocation  Float    @default(0)\n  managerId         String?\n  manager           User?    @relation(\"DepartmentManager\", fields: [managerId], references: [id])\n  costCenter        String?\n  location          String?\n  isActive          Boolean  @default(true)\n  utilizationTarget Float? // Target billable percentage (0.0-1.0)\n  actualUtilization Float? // Current billable percentage (0.0-1.0)\n  createdAt         DateTime @default(now())\n  updatedAt         DateTime @updatedAt\n\n  // Relationships\n  teams   Team[]\n  signals Signal[]\n  users   User[]   @relation(\"DepartmentUsers\")\n\n  @@map(\"departments\")\n}\n\nmodel Team {\n  id               String      @id @default(cuid())\n  name             String\n  description      String?     @db.Text\n  departmentId     String?\n  department       Department? @relation(fields: [departmentId], references: [id])\n  leaderId         String?\n  leader           User?       @relation(\"TeamLeader\", fields: [leaderId], references: [id])\n  memberCount      Int         @default(0)\n  maxCapacity      Int?\n  isActive         Boolean     @default(true)\n  teamType         String? // \"Project\", \"Functional\", \"Specialty\"\n  currentProjects  Int         @default(0)\n  budgetAllocation Float       @default(0)\n  utilizationRate  Float? // Team utilization percentage (0.0-1.0)\n  createdAt        DateTime    @default(now())\n  updatedAt        DateTime    @updatedAt\n\n  // Relationships\n  signals Signal[]\n  members User[]   @relation(\"TeamMembers\")\n\n  @@map(\"teams\")\n}\n\nmodel Initiative {\n  id             String           @id @default(cuid())\n  name           String           @unique\n  description    String?          @db.Text\n  status         InitiativeStatus @default(PLANNING)\n  priority       Priority         @default(MEDIUM)\n  ownerId        String?\n  owner          User?            @relation(\"InitiativeOwner\", fields: [ownerId], references: [id])\n  budget         Float            @default(0)\n  actualSpend    Float            @default(0)\n  startDate      DateTime?\n  targetDate     DateTime?\n  completionDate DateTime?\n  expectedROI    Float? // Expected return on investment\n  actualROI      Float? // Actual return on investment\n  riskLevel      RiskLevel        @default(MEDIUM)\n  goalJson       Json? // Strategic goals and KPIs\n  roiJson        Json? // Detailed ROI calculations\n  milestonesJson Json? // Project milestones\n  createdAt      DateTime         @default(now())\n  updatedAt      DateTime         @updatedAt\n\n  // Relationships\n  solutions Solution[]\n  ideas     Idea[]\n\n  @@map(\"initiatives\")\n}\n\nmodel Category {\n  id          String     @id @default(cuid())\n  name        String     @unique\n  description String?    @db.Text\n  color       String? // Hex color for visual organization\n  icon        String? // Icon identifier\n  parentId    String?\n  parent      Category?  @relation(\"CategoryHierarchy\", fields: [parentId], references: [id])\n  children    Category[] @relation(\"CategoryHierarchy\")\n  isActive    Boolean    @default(true)\n  sortOrder   Int        @default(0)\n  usageCount  Int        @default(0) // Track how often used\n  isSystem    Boolean    @default(false) // System vs. user categories\n  createdAt   DateTime   @default(now())\n  updatedAt   DateTime   @updatedAt\n\n  // Relationships\n  signals Signal[]\n\n  @@map(\"categories\")\n}\n\n// ============================================================================\n// ENHANCED SIGNAL MODEL (PHQ Vision Standard Compliant)\n// ============================================================================\n\nmodel Signal {\n  id         String   @id @default(cuid())\n  inputId    String   @unique // External reference ID\n  timestamp  DateTime // Original signal time\n  receivedAt DateTime @default(now())\n\n  // PHQ Vision Standard Compliance Fields\n  schemaVersion   String @default(\"1.0\")\n  sourceJson      Json? // Full PHQ source object structure\n  confidence      Float? // AI reliability scoring 0.0-1.0\n  attachmentsJson Json? // Media/file attachments array\n\n  // Source Information\n  sourceType String // webhook|email|manual|system\n  sourceId   String? // External system ID\n  systemName String? // Source system name\n\n  // Core Content\n  title         String?\n  description   String // Main signal content\n  severity      Severity\n  severityScore Int      @default(0)\n\n  // Organizational Context\n  departmentId String?\n  teamId       String?\n  categoryId   String?\n  department   Department? @relation(fields: [departmentId], references: [id])\n  team         Team?       @relation(fields: [teamId], references: [id])\n  category     Category?   @relation(fields: [categoryId], references: [id])\n\n  // Structured Data (PHQ Standard)\n  metricsJson  Json? // Quantitative metrics\n  baselineJson Json? // Baseline comparisons\n  impactJson   Json? // Impact assessment\n  tagsJson     Json? // Structured and freeform tags\n  entitiesJson Json? // Related entities (vendors, clients, etc.)\n\n  // Privacy & Security\n  privacyLevel String? // public|internal|sensitive\n  dedupeKey    String? @unique // Deduplication identifier\n\n  // AI Processing\n  embedding   Bytes? // Vector embedding (OpenAI)\n  aiProcessed Boolean @default(false)\n  aiTagsJson  Json? // AI-generated tags and confidence\n\n  // Lineage & Collaboration\n  lineageJson Json? // Processing history\n  createdById String?\n  createdBy   User?   @relation(fields: [createdById], references: [id])\n\n  // Relationships\n  hotspots HotspotSignal[]\n\n  createdAt DateTime @default(now())\n  updatedAt DateTime @updatedAt\n\n  @@index([timestamp])\n  @@index([receivedAt])\n  @@index([sourceType])\n  @@index([severity])\n  @@index([departmentId])\n  @@index([teamId])\n  @@index([aiProcessed])\n  @@index([createdById])\n  @@map(\"signals\")\n}\n\n// ============================================================================\n// CLUSTERING & HOTSPOTS (V2 Core Feature)\n// ============================================================================\n\nmodel Hotspot {\n  id         String        @id @default(cuid())\n  title      String\n  summary    String        @db.Text\n  status     HotspotStatus @default(OPEN)\n  rankScore  Float         @default(0)\n  confidence Float         @default(0)\n\n  // Categorization\n  primaryCategoryId  String?\n  linkedEntitiesJson Json? // Key entities across signals\n\n  // AI Analysis\n  clusteringMethod    String? // HDBSCAN|manual|hybrid\n  similarityThreshold Float? // Clustering threshold used\n\n  // Relationships\n  signals   HotspotSignal[]\n  ideas     Idea[]\n  solutions Solution[]\n\n  createdAt DateTime @default(now())\n  updatedAt DateTime @updatedAt\n\n  @@index([status])\n  @@index([rankScore])\n  @@index([confidence])\n  @@index([primaryCategoryId])\n  @@map(\"hotspots\")\n}\n\n// Many-to-Many with Strength\nmodel HotspotSignal {\n  hotspotId          String\n  signalId           String\n  membershipStrength Float    @default(1.0) // 0.0-1.0 confidence\n  isOutlier          Boolean  @default(false) // <0.5 strength\n  addedAt            DateTime @default(now())\n\n  hotspot Hotspot @relation(fields: [hotspotId], references: [id], onDelete: Cascade)\n  signal  Signal  @relation(fields: [signalId], references: [id], onDelete: Cascade)\n\n  @@id([hotspotId, signalId])\n  @@map(\"hotspot_signals\")\n}\n\n// ============================================================================\n// IDEAS & ENHANCED SOLUTIONS (V2 Workflow)\n// ============================================================================\n\nmodel Idea {\n  id          String  @id @default(cuid())\n  hotspotId   String\n  title       String?\n  description String  @db.Text\n  origin      String // ai|human|hybrid\n  votes       Int     @default(0)\n  status      String  @default(\"draft\")\n\n  // Evidence & Context\n  evidenceJson Json? // Linked signals and reasoning\n  tagsJson     Json? // Categorization tags\n  confidence   Float? // AI confidence if generated\n\n  // Collaboration\n  createdById String?\n  createdBy   User?   @relation(fields: [createdById], references: [id])\n\n  // Note: Comments and votes use polymorphic relations via EntityType.IDEA\n\n  // Relationships\n  hotspot      Hotspot     @relation(fields: [hotspotId], references: [id])\n  solution     Solution? // If promoted\n  initiativeId String?\n  initiative   Initiative? @relation(fields: [initiativeId], references: [id])\n\n  createdAt DateTime @default(now())\n  updatedAt DateTime @updatedAt\n\n  @@index([hotspotId])\n  @@index([origin])\n  @@index([status])\n  @@index([createdById])\n  @@map(\"ideas\")\n}\n\n// ============================================================================\n// F1: INPUT CAPTURE & STRATEGIC TAGGING (Legacy - Deprecated)\n// ============================================================================\n\nmodel Input {\n  id          String    @id @default(cuid())\n  title       String\n  description String    @db.Text\n  type        InputType @default(GENERAL)\n\n  // Strategic Tagging (F1 Core Feature)\n  department String?\n  issueType  String?\n  rootCause  String?\n  priority   Priority @default(MEDIUM)\n\n  // AI Enhancement Fields\n  aiTags        Json? // AI-suggested strategic tags\n  aiConfidence  Float? // AI confidence score (0-1)\n  aiSuggestions Json? // Additional AI insights\n\n  // Status and Metadata\n  status    InputStatus @default(ACTIVE)\n  createdBy String\n  createdAt DateTime    @default(now())\n  updatedAt DateTime    @updatedAt\n\n  // Relationships\n  creator   User         @relation(fields: [createdBy], references: [id])\n  solutions Solution[]\n  groups    InputGroup[]\n\n  @@index([createdBy])\n  @@index([department])\n  @@index([priority])\n  @@index([status])\n  @@index([createdAt])\n  @@map(\"inputs\")\n}\n\n// ============================================================================\n// F4: SOLUTION EXECUTION & MANAGEMENT\n// ============================================================================\n\nmodel Solution {\n  id          String         @id @default(cuid())\n  title       String\n  description String         @db.Text\n  status      SolutionStatus @default(DRAFT)\n\n  // V2: Enhanced relationships\n  hotspotId    String?\n  initiativeId String?\n  ideaId       String? @unique // If promoted from idea\n\n  // Task Management (F4 Core Feature)\n  tasks                Json? // Task breakdown structure\n  progress             Float     @default(0.0) // 0.0 to 1.0 progress\n  targetDate           DateTime?\n  actualCompletionDate DateTime?\n\n  // Business Impact Tracking\n  estimatedEffort    String?\n  businessValue      String?\n  successMetrics     Json? // Key success indicators\n  expectedImpactJson Json? // ROI projections, metrics\n  actualImpactJson   Json? // Measured outcomes\n\n  // Relationships (Enhanced for V2)\n  inputId   String? // Made optional for V2 compatibility\n  createdBy String\n  createdAt DateTime @default(now())\n  updatedAt DateTime @updatedAt\n\n  // V2 Enhanced Relationships\n  hotspot    Hotspot?    @relation(fields: [hotspotId], references: [id])\n  initiative Initiative? @relation(fields: [initiativeId], references: [id])\n  idea       Idea?       @relation(fields: [ideaId], references: [id])\n\n  // Legacy relationships (maintained for backward compatibility)\n  input        Input?        @relation(fields: [inputId], references: [id])\n  creator      User          @relation(fields: [createdBy], references: [id])\n  requirements Requirement[]\n  frdDocuments FRDDocument[]\n\n  @@index([inputId])\n  @@index([createdBy])\n  @@index([status])\n  @@index([targetDate])\n  @@map(\"solutions\")\n}\n\n// ============================================================================\n// F5: EXECUTIVE REQUIREMENTS MANAGEMENT\n// ============================================================================\n\nmodel Requirement {\n  id                 String            @id @default(cuid())\n  title              String\n  description        String            @db.Text\n  acceptanceCriteria Json // Array of acceptance criteria\n  priority           Priority          @default(MEDIUM)\n  status             RequirementStatus @default(DRAFT)\n\n  // Executive Requirements (F5 Core Feature)\n  estimatedEffort String?\n  dependencies    Json? // Array of requirement dependencies\n  businessValue   String?\n  riskAssessment  String?\n  stakeholders    Json? // Involved stakeholders\n\n  // Approval Workflow\n  approvedBy      String?\n  approvedAt      DateTime?\n  rejectionReason String?\n\n  // Relationships\n  solutionId String\n  createdBy  String\n  createdAt  DateTime @default(now())\n  updatedAt  DateTime @updatedAt\n\n  solution Solution @relation(fields: [solutionId], references: [id])\n  creator  User     @relation(fields: [createdBy], references: [id])\n\n  @@index([solutionId])\n  @@index([createdBy])\n  @@index([status])\n  @@index([priority])\n  @@map(\"requirements\")\n}\n\n// ============================================================================\n// F6: AI-GENERATED FRD HANDOFF DOCUMENTS\n// ============================================================================\n\nmodel FRDDocument {\n  id           String  @id @default(cuid())\n  title        String\n  content      Json // Complete FRD structure\n  aiGenerated  Boolean @default(false)\n  aiConfidence Float?\n  aiPromptUsed String? @db.Text\n\n  // Document Management (F6 Core Feature)\n  version           String    @default(\"1.0\")\n  status            FRDStatus @default(DRAFT)\n  executiveApproved Boolean   @default(false)\n  exportFormats     Json? // Available export formats [\"PDF\", \"CSV\", \"Word\"]\n\n  // Document Metadata\n  templateUsed   String?\n  generationTime Float? // Time taken to generate (seconds)\n  wordCount      Int?\n  lastExportedAt DateTime?\n\n  // Relationships\n  solutionId String\n  createdBy  String\n  approvedBy String?\n  createdAt  DateTime @default(now())\n  updatedAt  DateTime @updatedAt\n\n  solution Solution @relation(fields: [solutionId], references: [id])\n  creator  User     @relation(\"FRDCreator\", fields: [createdBy], references: [id])\n  approver User?    @relation(\"FRDApprover\", fields: [approvedBy], references: [id])\n\n  @@index([solutionId])\n  @@index([createdBy])\n  @@index([status])\n  @@index([aiGenerated])\n  @@map(\"frd_documents\")\n}\n\n// ============================================================================\n// F2: COLLABORATION FEATURES (Polymorphic Comments and Votes)\n// ============================================================================\n\nmodel Comment {\n  id         String     @id @default(cuid())\n  content    String     @db.Text\n  entityType EntityType // Polymorphic relationship\n  entityId   String\n\n  // Comment Threading Support\n  parentId String?\n  thread   Comment?  @relation(\"CommentThread\", fields: [parentId], references: [id])\n  replies  Comment[] @relation(\"CommentThread\")\n\n  // Mentions and Notifications\n  mentions Json? // Array of mentioned user IDs\n  edited   Boolean   @default(false)\n  editedAt DateTime?\n\n  // Metadata\n  createdBy String\n  createdAt DateTime @default(now())\n  updatedAt DateTime @updatedAt\n\n  // Relationships\n  creator User @relation(fields: [createdBy], references: [id])\n\n  @@index([entityType, entityId])\n  @@index([createdBy])\n  @@index([parentId])\n  @@index([createdAt])\n  @@map(\"comments\")\n}\n\nmodel Vote {\n  id         String     @id @default(cuid())\n  value      VoteValue // UP, DOWN\n  entityType EntityType // Polymorphic relationship\n  entityId   String\n\n  // Metadata\n  createdBy String\n  createdAt DateTime @default(now())\n\n  // Relationships\n  creator User @relation(fields: [createdBy], references: [id])\n\n  @@unique([entityType, entityId, createdBy])\n  @@index([entityType, entityId])\n  @@index([createdBy])\n  @@map(\"votes\")\n}\n\n// ============================================================================\n// F3: INTELLIGENT ORGANIZATION\n// ============================================================================\n\nmodel InputGroup {\n  id          String  @id @default(cuid())\n  name        String\n  description String? @db.Text\n  color       String? // Hex color for visual organization\n\n  // AI Enhancement (F3 Core Feature)\n  aiSuggested  Boolean @default(false)\n  aiConfidence Float?\n  aiReasoning  String? @db.Text\n\n  // Group Analytics\n  inputCount   Int       @default(0)\n  avgPriority  Float?\n  lastActivity DateTime?\n\n  // Metadata\n  createdBy String\n  createdAt DateTime @default(now())\n  updatedAt DateTime @updatedAt\n\n  // Relationships\n  creator User    @relation(fields: [createdBy], references: [id])\n  inputs  Input[]\n\n  @@index([createdBy])\n  @@index([aiSuggested])\n  @@index([lastActivity])\n  @@map(\"input_groups\")\n}\n\n// ============================================================================\n// SYSTEM MANAGEMENT & AUDITING\n// ============================================================================\n\nmodel AuditLog {\n  id         String @id @default(cuid())\n  action     String // CREATE, UPDATE, DELETE, APPROVE, REJECT, etc.\n  entityType String // input, solution, requirement, etc.\n  entityId   String\n  changes    Json? // What was changed (before/after)\n\n  // Context Information\n  ipAddress String?\n  userAgent String? @db.Text\n  sessionId String?\n\n  // Metadata\n  userId    String\n  createdAt DateTime @default(now())\n\n  // Relationships\n  user User @relation(fields: [userId], references: [id])\n\n  @@index([userId])\n  @@index([entityType, entityId])\n  @@index([action])\n  @@index([createdAt])\n  @@map(\"audit_logs\")\n}\n\n// ============================================================================\n// NOTIFICATION SYSTEM\n// ============================================================================\n\nmodel Notification {\n  id         String           @id @default(cuid())\n  type       NotificationType\n  title      String\n  message    String           @db.Text\n  entityType EntityType?\n  entityId   String?\n\n  // Notification Status\n  read      Boolean   @default(false)\n  readAt    DateTime?\n  delivered Boolean   @default(false)\n\n  // Target User\n  userId    String\n  createdAt DateTime @default(now())\n\n  @@index([userId, read])\n  @@index([createdAt])\n  @@index([type])\n  @@map(\"notifications\")\n}\n\n// ============================================================================\n// ENUMS\n// ============================================================================\n\nenum UserRole {\n  ADMIN\n  EXECUTIVE\n  CONTRIBUTOR\n}\n\nenum InputType {\n  PROBLEM\n  OPPORTUNITY\n  GENERAL\n}\n\nenum Priority {\n  LOW\n  MEDIUM\n  HIGH\n  URGENT\n  CRITICAL\n\n  @@map(\"priority\")\n}\n\nenum InitiativeStatus {\n  PLANNING\n  ACTIVE\n  ON_HOLD\n  COMPLETED\n  CANCELLED\n\n  @@map(\"initiative_status\")\n}\n\nenum RiskLevel {\n  LOW\n  MEDIUM\n  HIGH\n  CRITICAL\n\n  @@map(\"risk_level\")\n}\n\nenum InputStatus {\n  ACTIVE\n  RESOLVED\n  ARCHIVED\n  DUPLICATE\n}\n\nenum SolutionStatus {\n  DRAFT\n  IN_PROGRESS\n  REVIEW\n  APPROVED\n  IMPLEMENTED\n  CANCELLED\n  ON_HOLD\n}\n\nenum RequirementStatus {\n  DRAFT\n  REVIEW\n  APPROVED\n  REJECTED\n  IMPLEMENTED\n  OBSOLETE\n}\n\nenum FRDStatus {\n  DRAFT\n  REVIEW\n  APPROVED\n  DELIVERED\n  ARCHIVED\n}\n\nenum EntityType {\n  INPUT\n  SIGNAL // V2: Enhanced signal model\n  HOTSPOT // V2: Clustered signals\n  IDEA // V2: Ideas from hotspots\n  SOLUTION\n  REQUIREMENT\n  FRD_DOCUMENT\n}\n\nenum VoteValue {\n  UP\n  DOWN\n}\n\nenum NotificationType {\n  MENTION\n  VOTE\n  COMMENT\n  STATUS_CHANGE\n  APPROVAL_REQUEST\n  ASSIGNMENT\n  DEADLINE_REMINDER\n}\n\n// ============================================================================\n// V2 ENUMS (PHQ Vision Standard Compliant)\n// ============================================================================\n\nenum Severity {\n  LOW\n  MEDIUM\n  HIGH\n  CRITICAL\n}\n\nenum HotspotStatus {\n  OPEN\n  APPROVED\n  HANDED_OFF\n  MONITORING\n  RESOLVED\n  CLOSED_NO_ACTION\n}\n",
+  "inlineSchemaHash": "e919bc30e0369c8583ca21ba09a1025b132e4403f15ac22e2af2ef0c42ca42b8",
+  "copyEngine": false
 }
 config.dirname = '/'
 
-config.runtimeDataModel = JSON.parse("{\"models\":{\"User\":{\"fields\":[{\"name\":\"id\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"email\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"name\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"role\",\"kind\":\"enum\",\"type\":\"UserRole\"},{\"name\":\"department\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"avatar\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"passwordHash\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"createdAt\",\"kind\":\"scalar\",\"type\":\"DateTime\"},{\"name\":\"updatedAt\",\"kind\":\"scalar\",\"type\":\"DateTime\"},{\"name\":\"inputs\",\"kind\":\"object\",\"type\":\"Input\",\"relationName\":\"InputToUser\"},{\"name\":\"solutions\",\"kind\":\"object\",\"type\":\"Solution\",\"relationName\":\"SolutionToUser\"},{\"name\":\"comments\",\"kind\":\"object\",\"type\":\"Comment\",\"relationName\":\"CommentToUser\"},{\"name\":\"votes\",\"kind\":\"object\",\"type\":\"Vote\",\"relationName\":\"UserToVote\"},{\"name\":\"requirements\",\"kind\":\"object\",\"type\":\"Requirement\",\"relationName\":\"RequirementToUser\"},{\"name\":\"frdDocuments\",\"kind\":\"object\",\"type\":\"FRDDocument\",\"relationName\":\"FRDCreator\"},{\"name\":\"approvedFRDs\",\"kind\":\"object\",\"type\":\"FRDDocument\",\"relationName\":\"FRDApprover\"},{\"name\":\"auditLogs\",\"kind\":\"object\",\"type\":\"AuditLog\",\"relationName\":\"AuditLogToUser\"},{\"name\":\"notifications\",\"kind\":\"object\",\"type\":\"Notification\",\"relationName\":\"NotificationToUser\"},{\"name\":\"inputGroups\",\"kind\":\"object\",\"type\":\"InputGroup\",\"relationName\":\"InputGroupToUser\"},{\"name\":\"tasks\",\"kind\":\"object\",\"type\":\"Task\",\"relationName\":\"TaskAssignee\"}],\"dbName\":\"users\"},\"Input\":{\"fields\":[{\"name\":\"id\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"title\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"description\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"type\",\"kind\":\"enum\",\"type\":\"InputType\"},{\"name\":\"status\",\"kind\":\"enum\",\"type\":\"InputStatus\"},{\"name\":\"createdBy\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"createdAt\",\"kind\":\"scalar\",\"type\":\"DateTime\"},{\"name\":\"updatedAt\",\"kind\":\"scalar\",\"type\":\"DateTime\"},{\"name\":\"department\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"issueType\",\"kind\":\"enum\",\"type\":\"IssueType\"},{\"name\":\"rootCause\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"priority\",\"kind\":\"enum\",\"type\":\"Priority\"},{\"name\":\"aiProcessed\",\"kind\":\"scalar\",\"type\":\"Boolean\"},{\"name\":\"aiTags\",\"kind\":\"scalar\",\"type\":\"Json\"},{\"name\":\"aiSuggestions\",\"kind\":\"scalar\",\"type\":\"Json\"},{\"name\":\"creator\",\"kind\":\"object\",\"type\":\"User\",\"relationName\":\"InputToUser\"},{\"name\":\"solutions\",\"kind\":\"object\",\"type\":\"Solution\",\"relationName\":\"InputToSolution\"},{\"name\":\"comments\",\"kind\":\"object\",\"type\":\"Comment\",\"relationName\":\"CommentToInput\"},{\"name\":\"votes\",\"kind\":\"object\",\"type\":\"Vote\",\"relationName\":\"InputToVote\"},{\"name\":\"groups\",\"kind\":\"object\",\"type\":\"InputGroup\",\"relationName\":\"InputToInputGroup\"}],\"dbName\":\"inputs\"},\"Comment\":{\"fields\":[{\"name\":\"id\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"content\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"authorId\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"createdAt\",\"kind\":\"scalar\",\"type\":\"DateTime\"},{\"name\":\"updatedAt\",\"kind\":\"scalar\",\"type\":\"DateTime\"},{\"name\":\"inputId\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"solutionId\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"requirementId\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"parentId\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"replies\",\"kind\":\"object\",\"type\":\"Comment\",\"relationName\":\"CommentReplies\"},{\"name\":\"author\",\"kind\":\"object\",\"type\":\"User\",\"relationName\":\"CommentToUser\"},{\"name\":\"input\",\"kind\":\"object\",\"type\":\"Input\",\"relationName\":\"CommentToInput\"},{\"name\":\"solution\",\"kind\":\"object\",\"type\":\"Solution\",\"relationName\":\"CommentToSolution\"},{\"name\":\"requirement\",\"kind\":\"object\",\"type\":\"Requirement\",\"relationName\":\"CommentToRequirement\"},{\"name\":\"parent\",\"kind\":\"object\",\"type\":\"Comment\",\"relationName\":\"CommentReplies\"}],\"dbName\":\"comments\"},\"Vote\":{\"fields\":[{\"name\":\"id\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"userId\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"value\",\"kind\":\"scalar\",\"type\":\"Int\"},{\"name\":\"createdAt\",\"kind\":\"scalar\",\"type\":\"DateTime\"},{\"name\":\"inputId\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"solutionId\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"user\",\"kind\":\"object\",\"type\":\"User\",\"relationName\":\"UserToVote\"},{\"name\":\"input\",\"kind\":\"object\",\"type\":\"Input\",\"relationName\":\"InputToVote\"},{\"name\":\"solution\",\"kind\":\"object\",\"type\":\"Solution\",\"relationName\":\"SolutionToVote\"}],\"dbName\":\"votes\"},\"InputGroup\":{\"fields\":[{\"name\":\"id\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"name\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"description\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"ownerId\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"status\",\"kind\":\"enum\",\"type\":\"GroupStatus\"},{\"name\":\"createdAt\",\"kind\":\"scalar\",\"type\":\"DateTime\"},{\"name\":\"updatedAt\",\"kind\":\"scalar\",\"type\":\"DateTime\"},{\"name\":\"aiSuggested\",\"kind\":\"scalar\",\"type\":\"Boolean\"},{\"name\":\"aiSimilarity\",\"kind\":\"scalar\",\"type\":\"Float\"},{\"name\":\"aiTheme\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"owner\",\"kind\":\"object\",\"type\":\"User\",\"relationName\":\"InputGroupToUser\"},{\"name\":\"inputs\",\"kind\":\"object\",\"type\":\"Input\",\"relationName\":\"InputToInputGroup\"}],\"dbName\":\"input_groups\"},\"Solution\":{\"fields\":[{\"name\":\"id\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"title\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"description\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"ownerId\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"status\",\"kind\":\"enum\",\"type\":\"SolutionStatus\"},{\"name\":\"priority\",\"kind\":\"enum\",\"type\":\"Priority\"},{\"name\":\"createdAt\",\"kind\":\"scalar\",\"type\":\"DateTime\"},{\"name\":\"updatedAt\",\"kind\":\"scalar\",\"type\":\"DateTime\"},{\"name\":\"estimatedEffort\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"targetCompletion\",\"kind\":\"scalar\",\"type\":\"DateTime\"},{\"name\":\"actualCompletion\",\"kind\":\"scalar\",\"type\":\"DateTime\"},{\"name\":\"successCriteria\",\"kind\":\"scalar\",\"type\":\"Json\"},{\"name\":\"owner\",\"kind\":\"object\",\"type\":\"User\",\"relationName\":\"SolutionToUser\"},{\"name\":\"inputs\",\"kind\":\"object\",\"type\":\"Input\",\"relationName\":\"InputToSolution\"},{\"name\":\"tasks\",\"kind\":\"object\",\"type\":\"Task\",\"relationName\":\"SolutionToTask\"},{\"name\":\"comments\",\"kind\":\"object\",\"type\":\"Comment\",\"relationName\":\"CommentToSolution\"},{\"name\":\"votes\",\"kind\":\"object\",\"type\":\"Vote\",\"relationName\":\"SolutionToVote\"},{\"name\":\"requirements\",\"kind\":\"object\",\"type\":\"Requirement\",\"relationName\":\"RequirementToSolution\"},{\"name\":\"frdDocuments\",\"kind\":\"object\",\"type\":\"FRDDocument\",\"relationName\":\"FRDDocumentToSolution\"}],\"dbName\":\"solutions\"},\"Task\":{\"fields\":[{\"name\":\"id\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"title\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"description\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"solutionId\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"assigneeId\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"status\",\"kind\":\"enum\",\"type\":\"TaskStatus\"},{\"name\":\"priority\",\"kind\":\"enum\",\"type\":\"Priority\"},{\"name\":\"createdAt\",\"kind\":\"scalar\",\"type\":\"DateTime\"},{\"name\":\"updatedAt\",\"kind\":\"scalar\",\"type\":\"DateTime\"},{\"name\":\"estimatedHours\",\"kind\":\"scalar\",\"type\":\"Float\"},{\"name\":\"actualHours\",\"kind\":\"scalar\",\"type\":\"Float\"},{\"name\":\"dueDate\",\"kind\":\"scalar\",\"type\":\"DateTime\"},{\"name\":\"dependencies\",\"kind\":\"scalar\",\"type\":\"Json\"},{\"name\":\"solution\",\"kind\":\"object\",\"type\":\"Solution\",\"relationName\":\"SolutionToTask\"},{\"name\":\"assignee\",\"kind\":\"object\",\"type\":\"User\",\"relationName\":\"TaskAssignee\"}],\"dbName\":\"tasks\"},\"Requirement\":{\"fields\":[{\"name\":\"id\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"title\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"description\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"acceptanceCriteria\",\"kind\":\"scalar\",\"type\":\"Json\"},{\"name\":\"priority\",\"kind\":\"enum\",\"type\":\"Priority\"},{\"name\":\"status\",\"kind\":\"enum\",\"type\":\"RequirementStatus\"},{\"name\":\"estimatedEffort\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"dependencies\",\"kind\":\"scalar\",\"type\":\"Json\"},{\"name\":\"businessValue\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"riskAssessment\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"stakeholders\",\"kind\":\"scalar\",\"type\":\"Json\"},{\"name\":\"approvedBy\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"approvedAt\",\"kind\":\"scalar\",\"type\":\"DateTime\"},{\"name\":\"rejectionReason\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"solutionId\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"createdBy\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"createdAt\",\"kind\":\"scalar\",\"type\":\"DateTime\"},{\"name\":\"updatedAt\",\"kind\":\"scalar\",\"type\":\"DateTime\"},{\"name\":\"solution\",\"kind\":\"object\",\"type\":\"Solution\",\"relationName\":\"RequirementToSolution\"},{\"name\":\"creator\",\"kind\":\"object\",\"type\":\"User\",\"relationName\":\"RequirementToUser\"},{\"name\":\"comments\",\"kind\":\"object\",\"type\":\"Comment\",\"relationName\":\"CommentToRequirement\"}],\"dbName\":\"requirements\"},\"FRDDocument\":{\"fields\":[{\"name\":\"id\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"title\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"content\",\"kind\":\"scalar\",\"type\":\"Json\"},{\"name\":\"aiGenerated\",\"kind\":\"scalar\",\"type\":\"Boolean\"},{\"name\":\"aiConfidence\",\"kind\":\"scalar\",\"type\":\"Float\"},{\"name\":\"aiPromptUsed\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"version\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"status\",\"kind\":\"enum\",\"type\":\"FRDStatus\"},{\"name\":\"executiveApproved\",\"kind\":\"scalar\",\"type\":\"Boolean\"},{\"name\":\"exportFormats\",\"kind\":\"scalar\",\"type\":\"Json\"},{\"name\":\"templateUsed\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"generationTime\",\"kind\":\"scalar\",\"type\":\"Float\"},{\"name\":\"wordCount\",\"kind\":\"scalar\",\"type\":\"Int\"},{\"name\":\"lastExportedAt\",\"kind\":\"scalar\",\"type\":\"DateTime\"},{\"name\":\"solutionId\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"createdBy\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"approvedBy\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"createdAt\",\"kind\":\"scalar\",\"type\":\"DateTime\"},{\"name\":\"updatedAt\",\"kind\":\"scalar\",\"type\":\"DateTime\"},{\"name\":\"solution\",\"kind\":\"object\",\"type\":\"Solution\",\"relationName\":\"FRDDocumentToSolution\"},{\"name\":\"creator\",\"kind\":\"object\",\"type\":\"User\",\"relationName\":\"FRDCreator\"},{\"name\":\"approver\",\"kind\":\"object\",\"type\":\"User\",\"relationName\":\"FRDApprover\"}],\"dbName\":\"frd_documents\"},\"AuditLog\":{\"fields\":[{\"name\":\"id\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"userId\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"action\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"entityType\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"entityId\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"changes\",\"kind\":\"scalar\",\"type\":\"Json\"},{\"name\":\"metadata\",\"kind\":\"scalar\",\"type\":\"Json\"},{\"name\":\"ipAddress\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"userAgent\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"createdAt\",\"kind\":\"scalar\",\"type\":\"DateTime\"},{\"name\":\"user\",\"kind\":\"object\",\"type\":\"User\",\"relationName\":\"AuditLogToUser\"}],\"dbName\":\"audit_logs\"},\"Notification\":{\"fields\":[{\"name\":\"id\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"userId\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"type\",\"kind\":\"enum\",\"type\":\"NotificationType\"},{\"name\":\"title\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"message\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"readAt\",\"kind\":\"scalar\",\"type\":\"DateTime\"},{\"name\":\"data\",\"kind\":\"scalar\",\"type\":\"Json\"},{\"name\":\"createdAt\",\"kind\":\"scalar\",\"type\":\"DateTime\"},{\"name\":\"user\",\"kind\":\"object\",\"type\":\"User\",\"relationName\":\"NotificationToUser\"}],\"dbName\":\"notifications\"}},\"enums\":{},\"types\":{}}")
+config.runtimeDataModel = JSON.parse("{\"models\":{\"User\":{\"fields\":[{\"name\":\"id\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"email\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"name\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"role\",\"kind\":\"enum\",\"type\":\"UserRole\"},{\"name\":\"department\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"title\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"managerId\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"manager\",\"kind\":\"object\",\"type\":\"User\",\"relationName\":\"UserManager\"},{\"name\":\"reports\",\"kind\":\"object\",\"type\":\"User\",\"relationName\":\"UserManager\"},{\"name\":\"utilizationRate\",\"kind\":\"scalar\",\"type\":\"Float\"},{\"name\":\"targetUtilization\",\"kind\":\"scalar\",\"type\":\"Float\"},{\"name\":\"billableRate\",\"kind\":\"scalar\",\"type\":\"Float\"},{\"name\":\"costCenter\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"location\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"isActive\",\"kind\":\"scalar\",\"type\":\"Boolean\"},{\"name\":\"lastLoginAt\",\"kind\":\"scalar\",\"type\":\"DateTime\"},{\"name\":\"avatar\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"passwordHash\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"profileJson\",\"kind\":\"scalar\",\"type\":\"Json\"},{\"name\":\"createdAt\",\"kind\":\"scalar\",\"type\":\"DateTime\"},{\"name\":\"updatedAt\",\"kind\":\"scalar\",\"type\":\"DateTime\"},{\"name\":\"inputs\",\"kind\":\"object\",\"type\":\"Input\",\"relationName\":\"InputToUser\"},{\"name\":\"signals\",\"kind\":\"object\",\"type\":\"Signal\",\"relationName\":\"SignalToUser\"},{\"name\":\"ownedInitiatives\",\"kind\":\"object\",\"type\":\"Initiative\",\"relationName\":\"InitiativeOwner\"},{\"name\":\"ideas\",\"kind\":\"object\",\"type\":\"Idea\",\"relationName\":\"IdeaToUser\"},{\"name\":\"solutions\",\"kind\":\"object\",\"type\":\"Solution\",\"relationName\":\"SolutionToUser\"},{\"name\":\"comments\",\"kind\":\"object\",\"type\":\"Comment\",\"relationName\":\"CommentToUser\"},{\"name\":\"votes\",\"kind\":\"object\",\"type\":\"Vote\",\"relationName\":\"UserToVote\"},{\"name\":\"requirements\",\"kind\":\"object\",\"type\":\"Requirement\",\"relationName\":\"RequirementToUser\"},{\"name\":\"frdDocuments\",\"kind\":\"object\",\"type\":\"FRDDocument\",\"relationName\":\"FRDCreator\"},{\"name\":\"approvedFRDs\",\"kind\":\"object\",\"type\":\"FRDDocument\",\"relationName\":\"FRDApprover\"},{\"name\":\"auditLogs\",\"kind\":\"object\",\"type\":\"AuditLog\",\"relationName\":\"AuditLogToUser\"},{\"name\":\"inputGroups\",\"kind\":\"object\",\"type\":\"InputGroup\",\"relationName\":\"InputGroupToUser\"},{\"name\":\"departmentManaged\",\"kind\":\"object\",\"type\":\"Department\",\"relationName\":\"DepartmentManager\"},{\"name\":\"departmentObjId\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"departmentObj\",\"kind\":\"object\",\"type\":\"Department\",\"relationName\":\"DepartmentUsers\"},{\"name\":\"ledTeams\",\"kind\":\"object\",\"type\":\"Team\",\"relationName\":\"TeamLeader\"},{\"name\":\"teamMemberships\",\"kind\":\"object\",\"type\":\"Team\",\"relationName\":\"TeamMembers\"}],\"dbName\":\"users\"},\"Department\":{\"fields\":[{\"name\":\"id\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"name\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"description\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"headCount\",\"kind\":\"scalar\",\"type\":\"Int\"},{\"name\":\"budgetAllocation\",\"kind\":\"scalar\",\"type\":\"Float\"},{\"name\":\"managerId\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"manager\",\"kind\":\"object\",\"type\":\"User\",\"relationName\":\"DepartmentManager\"},{\"name\":\"costCenter\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"location\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"isActive\",\"kind\":\"scalar\",\"type\":\"Boolean\"},{\"name\":\"utilizationTarget\",\"kind\":\"scalar\",\"type\":\"Float\"},{\"name\":\"actualUtilization\",\"kind\":\"scalar\",\"type\":\"Float\"},{\"name\":\"createdAt\",\"kind\":\"scalar\",\"type\":\"DateTime\"},{\"name\":\"updatedAt\",\"kind\":\"scalar\",\"type\":\"DateTime\"},{\"name\":\"teams\",\"kind\":\"object\",\"type\":\"Team\",\"relationName\":\"DepartmentToTeam\"},{\"name\":\"signals\",\"kind\":\"object\",\"type\":\"Signal\",\"relationName\":\"DepartmentToSignal\"},{\"name\":\"users\",\"kind\":\"object\",\"type\":\"User\",\"relationName\":\"DepartmentUsers\"}],\"dbName\":\"departments\"},\"Team\":{\"fields\":[{\"name\":\"id\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"name\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"description\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"departmentId\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"department\",\"kind\":\"object\",\"type\":\"Department\",\"relationName\":\"DepartmentToTeam\"},{\"name\":\"leaderId\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"leader\",\"kind\":\"object\",\"type\":\"User\",\"relationName\":\"TeamLeader\"},{\"name\":\"memberCount\",\"kind\":\"scalar\",\"type\":\"Int\"},{\"name\":\"maxCapacity\",\"kind\":\"scalar\",\"type\":\"Int\"},{\"name\":\"isActive\",\"kind\":\"scalar\",\"type\":\"Boolean\"},{\"name\":\"teamType\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"currentProjects\",\"kind\":\"scalar\",\"type\":\"Int\"},{\"name\":\"budgetAllocation\",\"kind\":\"scalar\",\"type\":\"Float\"},{\"name\":\"utilizationRate\",\"kind\":\"scalar\",\"type\":\"Float\"},{\"name\":\"createdAt\",\"kind\":\"scalar\",\"type\":\"DateTime\"},{\"name\":\"updatedAt\",\"kind\":\"scalar\",\"type\":\"DateTime\"},{\"name\":\"signals\",\"kind\":\"object\",\"type\":\"Signal\",\"relationName\":\"SignalToTeam\"},{\"name\":\"members\",\"kind\":\"object\",\"type\":\"User\",\"relationName\":\"TeamMembers\"}],\"dbName\":\"teams\"},\"Initiative\":{\"fields\":[{\"name\":\"id\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"name\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"description\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"status\",\"kind\":\"enum\",\"type\":\"InitiativeStatus\"},{\"name\":\"priority\",\"kind\":\"enum\",\"type\":\"Priority\"},{\"name\":\"ownerId\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"owner\",\"kind\":\"object\",\"type\":\"User\",\"relationName\":\"InitiativeOwner\"},{\"name\":\"budget\",\"kind\":\"scalar\",\"type\":\"Float\"},{\"name\":\"actualSpend\",\"kind\":\"scalar\",\"type\":\"Float\"},{\"name\":\"startDate\",\"kind\":\"scalar\",\"type\":\"DateTime\"},{\"name\":\"targetDate\",\"kind\":\"scalar\",\"type\":\"DateTime\"},{\"name\":\"completionDate\",\"kind\":\"scalar\",\"type\":\"DateTime\"},{\"name\":\"expectedROI\",\"kind\":\"scalar\",\"type\":\"Float\"},{\"name\":\"actualROI\",\"kind\":\"scalar\",\"type\":\"Float\"},{\"name\":\"riskLevel\",\"kind\":\"enum\",\"type\":\"RiskLevel\"},{\"name\":\"goalJson\",\"kind\":\"scalar\",\"type\":\"Json\"},{\"name\":\"roiJson\",\"kind\":\"scalar\",\"type\":\"Json\"},{\"name\":\"milestonesJson\",\"kind\":\"scalar\",\"type\":\"Json\"},{\"name\":\"createdAt\",\"kind\":\"scalar\",\"type\":\"DateTime\"},{\"name\":\"updatedAt\",\"kind\":\"scalar\",\"type\":\"DateTime\"},{\"name\":\"solutions\",\"kind\":\"object\",\"type\":\"Solution\",\"relationName\":\"InitiativeToSolution\"},{\"name\":\"ideas\",\"kind\":\"object\",\"type\":\"Idea\",\"relationName\":\"IdeaToInitiative\"}],\"dbName\":\"initiatives\"},\"Category\":{\"fields\":[{\"name\":\"id\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"name\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"description\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"color\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"icon\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"parentId\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"parent\",\"kind\":\"object\",\"type\":\"Category\",\"relationName\":\"CategoryHierarchy\"},{\"name\":\"children\",\"kind\":\"object\",\"type\":\"Category\",\"relationName\":\"CategoryHierarchy\"},{\"name\":\"isActive\",\"kind\":\"scalar\",\"type\":\"Boolean\"},{\"name\":\"sortOrder\",\"kind\":\"scalar\",\"type\":\"Int\"},{\"name\":\"usageCount\",\"kind\":\"scalar\",\"type\":\"Int\"},{\"name\":\"isSystem\",\"kind\":\"scalar\",\"type\":\"Boolean\"},{\"name\":\"createdAt\",\"kind\":\"scalar\",\"type\":\"DateTime\"},{\"name\":\"updatedAt\",\"kind\":\"scalar\",\"type\":\"DateTime\"},{\"name\":\"signals\",\"kind\":\"object\",\"type\":\"Signal\",\"relationName\":\"CategoryToSignal\"}],\"dbName\":\"categories\"},\"Signal\":{\"fields\":[{\"name\":\"id\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"inputId\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"timestamp\",\"kind\":\"scalar\",\"type\":\"DateTime\"},{\"name\":\"receivedAt\",\"kind\":\"scalar\",\"type\":\"DateTime\"},{\"name\":\"schemaVersion\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"sourceJson\",\"kind\":\"scalar\",\"type\":\"Json\"},{\"name\":\"confidence\",\"kind\":\"scalar\",\"type\":\"Float\"},{\"name\":\"attachmentsJson\",\"kind\":\"scalar\",\"type\":\"Json\"},{\"name\":\"sourceType\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"sourceId\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"systemName\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"title\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"description\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"severity\",\"kind\":\"enum\",\"type\":\"Severity\"},{\"name\":\"severityScore\",\"kind\":\"scalar\",\"type\":\"Int\"},{\"name\":\"departmentId\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"teamId\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"categoryId\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"department\",\"kind\":\"object\",\"type\":\"Department\",\"relationName\":\"DepartmentToSignal\"},{\"name\":\"team\",\"kind\":\"object\",\"type\":\"Team\",\"relationName\":\"SignalToTeam\"},{\"name\":\"category\",\"kind\":\"object\",\"type\":\"Category\",\"relationName\":\"CategoryToSignal\"},{\"name\":\"metricsJson\",\"kind\":\"scalar\",\"type\":\"Json\"},{\"name\":\"baselineJson\",\"kind\":\"scalar\",\"type\":\"Json\"},{\"name\":\"impactJson\",\"kind\":\"scalar\",\"type\":\"Json\"},{\"name\":\"tagsJson\",\"kind\":\"scalar\",\"type\":\"Json\"},{\"name\":\"entitiesJson\",\"kind\":\"scalar\",\"type\":\"Json\"},{\"name\":\"privacyLevel\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"dedupeKey\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"embedding\",\"kind\":\"scalar\",\"type\":\"Bytes\"},{\"name\":\"aiProcessed\",\"kind\":\"scalar\",\"type\":\"Boolean\"},{\"name\":\"aiTagsJson\",\"kind\":\"scalar\",\"type\":\"Json\"},{\"name\":\"lineageJson\",\"kind\":\"scalar\",\"type\":\"Json\"},{\"name\":\"createdById\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"createdBy\",\"kind\":\"object\",\"type\":\"User\",\"relationName\":\"SignalToUser\"},{\"name\":\"hotspots\",\"kind\":\"object\",\"type\":\"HotspotSignal\",\"relationName\":\"HotspotSignalToSignal\"},{\"name\":\"createdAt\",\"kind\":\"scalar\",\"type\":\"DateTime\"},{\"name\":\"updatedAt\",\"kind\":\"scalar\",\"type\":\"DateTime\"}],\"dbName\":\"signals\"},\"Hotspot\":{\"fields\":[{\"name\":\"id\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"title\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"summary\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"status\",\"kind\":\"enum\",\"type\":\"HotspotStatus\"},{\"name\":\"rankScore\",\"kind\":\"scalar\",\"type\":\"Float\"},{\"name\":\"confidence\",\"kind\":\"scalar\",\"type\":\"Float\"},{\"name\":\"primaryCategoryId\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"linkedEntitiesJson\",\"kind\":\"scalar\",\"type\":\"Json\"},{\"name\":\"clusteringMethod\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"similarityThreshold\",\"kind\":\"scalar\",\"type\":\"Float\"},{\"name\":\"signals\",\"kind\":\"object\",\"type\":\"HotspotSignal\",\"relationName\":\"HotspotToHotspotSignal\"},{\"name\":\"ideas\",\"kind\":\"object\",\"type\":\"Idea\",\"relationName\":\"HotspotToIdea\"},{\"name\":\"solutions\",\"kind\":\"object\",\"type\":\"Solution\",\"relationName\":\"HotspotToSolution\"},{\"name\":\"createdAt\",\"kind\":\"scalar\",\"type\":\"DateTime\"},{\"name\":\"updatedAt\",\"kind\":\"scalar\",\"type\":\"DateTime\"}],\"dbName\":\"hotspots\"},\"HotspotSignal\":{\"fields\":[{\"name\":\"hotspotId\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"signalId\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"membershipStrength\",\"kind\":\"scalar\",\"type\":\"Float\"},{\"name\":\"isOutlier\",\"kind\":\"scalar\",\"type\":\"Boolean\"},{\"name\":\"addedAt\",\"kind\":\"scalar\",\"type\":\"DateTime\"},{\"name\":\"hotspot\",\"kind\":\"object\",\"type\":\"Hotspot\",\"relationName\":\"HotspotToHotspotSignal\"},{\"name\":\"signal\",\"kind\":\"object\",\"type\":\"Signal\",\"relationName\":\"HotspotSignalToSignal\"}],\"dbName\":\"hotspot_signals\"},\"Idea\":{\"fields\":[{\"name\":\"id\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"hotspotId\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"title\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"description\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"origin\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"votes\",\"kind\":\"scalar\",\"type\":\"Int\"},{\"name\":\"status\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"evidenceJson\",\"kind\":\"scalar\",\"type\":\"Json\"},{\"name\":\"tagsJson\",\"kind\":\"scalar\",\"type\":\"Json\"},{\"name\":\"confidence\",\"kind\":\"scalar\",\"type\":\"Float\"},{\"name\":\"createdById\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"createdBy\",\"kind\":\"object\",\"type\":\"User\",\"relationName\":\"IdeaToUser\"},{\"name\":\"hotspot\",\"kind\":\"object\",\"type\":\"Hotspot\",\"relationName\":\"HotspotToIdea\"},{\"name\":\"solution\",\"kind\":\"object\",\"type\":\"Solution\",\"relationName\":\"IdeaToSolution\"},{\"name\":\"initiativeId\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"initiative\",\"kind\":\"object\",\"type\":\"Initiative\",\"relationName\":\"IdeaToInitiative\"},{\"name\":\"createdAt\",\"kind\":\"scalar\",\"type\":\"DateTime\"},{\"name\":\"updatedAt\",\"kind\":\"scalar\",\"type\":\"DateTime\"}],\"dbName\":\"ideas\"},\"Input\":{\"fields\":[{\"name\":\"id\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"title\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"description\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"type\",\"kind\":\"enum\",\"type\":\"InputType\"},{\"name\":\"department\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"issueType\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"rootCause\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"priority\",\"kind\":\"enum\",\"type\":\"Priority\"},{\"name\":\"aiTags\",\"kind\":\"scalar\",\"type\":\"Json\"},{\"name\":\"aiConfidence\",\"kind\":\"scalar\",\"type\":\"Float\"},{\"name\":\"aiSuggestions\",\"kind\":\"scalar\",\"type\":\"Json\"},{\"name\":\"status\",\"kind\":\"enum\",\"type\":\"InputStatus\"},{\"name\":\"createdBy\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"createdAt\",\"kind\":\"scalar\",\"type\":\"DateTime\"},{\"name\":\"updatedAt\",\"kind\":\"scalar\",\"type\":\"DateTime\"},{\"name\":\"creator\",\"kind\":\"object\",\"type\":\"User\",\"relationName\":\"InputToUser\"},{\"name\":\"solutions\",\"kind\":\"object\",\"type\":\"Solution\",\"relationName\":\"InputToSolution\"},{\"name\":\"groups\",\"kind\":\"object\",\"type\":\"InputGroup\",\"relationName\":\"InputToInputGroup\"}],\"dbName\":\"inputs\"},\"Solution\":{\"fields\":[{\"name\":\"id\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"title\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"description\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"status\",\"kind\":\"enum\",\"type\":\"SolutionStatus\"},{\"name\":\"hotspotId\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"initiativeId\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"ideaId\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"tasks\",\"kind\":\"scalar\",\"type\":\"Json\"},{\"name\":\"progress\",\"kind\":\"scalar\",\"type\":\"Float\"},{\"name\":\"targetDate\",\"kind\":\"scalar\",\"type\":\"DateTime\"},{\"name\":\"actualCompletionDate\",\"kind\":\"scalar\",\"type\":\"DateTime\"},{\"name\":\"estimatedEffort\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"businessValue\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"successMetrics\",\"kind\":\"scalar\",\"type\":\"Json\"},{\"name\":\"expectedImpactJson\",\"kind\":\"scalar\",\"type\":\"Json\"},{\"name\":\"actualImpactJson\",\"kind\":\"scalar\",\"type\":\"Json\"},{\"name\":\"inputId\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"createdBy\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"createdAt\",\"kind\":\"scalar\",\"type\":\"DateTime\"},{\"name\":\"updatedAt\",\"kind\":\"scalar\",\"type\":\"DateTime\"},{\"name\":\"hotspot\",\"kind\":\"object\",\"type\":\"Hotspot\",\"relationName\":\"HotspotToSolution\"},{\"name\":\"initiative\",\"kind\":\"object\",\"type\":\"Initiative\",\"relationName\":\"InitiativeToSolution\"},{\"name\":\"idea\",\"kind\":\"object\",\"type\":\"Idea\",\"relationName\":\"IdeaToSolution\"},{\"name\":\"input\",\"kind\":\"object\",\"type\":\"Input\",\"relationName\":\"InputToSolution\"},{\"name\":\"creator\",\"kind\":\"object\",\"type\":\"User\",\"relationName\":\"SolutionToUser\"},{\"name\":\"requirements\",\"kind\":\"object\",\"type\":\"Requirement\",\"relationName\":\"RequirementToSolution\"},{\"name\":\"frdDocuments\",\"kind\":\"object\",\"type\":\"FRDDocument\",\"relationName\":\"FRDDocumentToSolution\"}],\"dbName\":\"solutions\"},\"Requirement\":{\"fields\":[{\"name\":\"id\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"title\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"description\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"acceptanceCriteria\",\"kind\":\"scalar\",\"type\":\"Json\"},{\"name\":\"priority\",\"kind\":\"enum\",\"type\":\"Priority\"},{\"name\":\"status\",\"kind\":\"enum\",\"type\":\"RequirementStatus\"},{\"name\":\"estimatedEffort\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"dependencies\",\"kind\":\"scalar\",\"type\":\"Json\"},{\"name\":\"businessValue\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"riskAssessment\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"stakeholders\",\"kind\":\"scalar\",\"type\":\"Json\"},{\"name\":\"approvedBy\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"approvedAt\",\"kind\":\"scalar\",\"type\":\"DateTime\"},{\"name\":\"rejectionReason\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"solutionId\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"createdBy\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"createdAt\",\"kind\":\"scalar\",\"type\":\"DateTime\"},{\"name\":\"updatedAt\",\"kind\":\"scalar\",\"type\":\"DateTime\"},{\"name\":\"solution\",\"kind\":\"object\",\"type\":\"Solution\",\"relationName\":\"RequirementToSolution\"},{\"name\":\"creator\",\"kind\":\"object\",\"type\":\"User\",\"relationName\":\"RequirementToUser\"}],\"dbName\":\"requirements\"},\"FRDDocument\":{\"fields\":[{\"name\":\"id\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"title\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"content\",\"kind\":\"scalar\",\"type\":\"Json\"},{\"name\":\"aiGenerated\",\"kind\":\"scalar\",\"type\":\"Boolean\"},{\"name\":\"aiConfidence\",\"kind\":\"scalar\",\"type\":\"Float\"},{\"name\":\"aiPromptUsed\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"version\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"status\",\"kind\":\"enum\",\"type\":\"FRDStatus\"},{\"name\":\"executiveApproved\",\"kind\":\"scalar\",\"type\":\"Boolean\"},{\"name\":\"exportFormats\",\"kind\":\"scalar\",\"type\":\"Json\"},{\"name\":\"templateUsed\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"generationTime\",\"kind\":\"scalar\",\"type\":\"Float\"},{\"name\":\"wordCount\",\"kind\":\"scalar\",\"type\":\"Int\"},{\"name\":\"lastExportedAt\",\"kind\":\"scalar\",\"type\":\"DateTime\"},{\"name\":\"solutionId\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"createdBy\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"approvedBy\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"createdAt\",\"kind\":\"scalar\",\"type\":\"DateTime\"},{\"name\":\"updatedAt\",\"kind\":\"scalar\",\"type\":\"DateTime\"},{\"name\":\"solution\",\"kind\":\"object\",\"type\":\"Solution\",\"relationName\":\"FRDDocumentToSolution\"},{\"name\":\"creator\",\"kind\":\"object\",\"type\":\"User\",\"relationName\":\"FRDCreator\"},{\"name\":\"approver\",\"kind\":\"object\",\"type\":\"User\",\"relationName\":\"FRDApprover\"}],\"dbName\":\"frd_documents\"},\"Comment\":{\"fields\":[{\"name\":\"id\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"content\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"entityType\",\"kind\":\"enum\",\"type\":\"EntityType\"},{\"name\":\"entityId\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"parentId\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"thread\",\"kind\":\"object\",\"type\":\"Comment\",\"relationName\":\"CommentThread\"},{\"name\":\"replies\",\"kind\":\"object\",\"type\":\"Comment\",\"relationName\":\"CommentThread\"},{\"name\":\"mentions\",\"kind\":\"scalar\",\"type\":\"Json\"},{\"name\":\"edited\",\"kind\":\"scalar\",\"type\":\"Boolean\"},{\"name\":\"editedAt\",\"kind\":\"scalar\",\"type\":\"DateTime\"},{\"name\":\"createdBy\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"createdAt\",\"kind\":\"scalar\",\"type\":\"DateTime\"},{\"name\":\"updatedAt\",\"kind\":\"scalar\",\"type\":\"DateTime\"},{\"name\":\"creator\",\"kind\":\"object\",\"type\":\"User\",\"relationName\":\"CommentToUser\"}],\"dbName\":\"comments\"},\"Vote\":{\"fields\":[{\"name\":\"id\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"value\",\"kind\":\"enum\",\"type\":\"VoteValue\"},{\"name\":\"entityType\",\"kind\":\"enum\",\"type\":\"EntityType\"},{\"name\":\"entityId\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"createdBy\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"createdAt\",\"kind\":\"scalar\",\"type\":\"DateTime\"},{\"name\":\"creator\",\"kind\":\"object\",\"type\":\"User\",\"relationName\":\"UserToVote\"}],\"dbName\":\"votes\"},\"InputGroup\":{\"fields\":[{\"name\":\"id\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"name\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"description\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"color\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"aiSuggested\",\"kind\":\"scalar\",\"type\":\"Boolean\"},{\"name\":\"aiConfidence\",\"kind\":\"scalar\",\"type\":\"Float\"},{\"name\":\"aiReasoning\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"inputCount\",\"kind\":\"scalar\",\"type\":\"Int\"},{\"name\":\"avgPriority\",\"kind\":\"scalar\",\"type\":\"Float\"},{\"name\":\"lastActivity\",\"kind\":\"scalar\",\"type\":\"DateTime\"},{\"name\":\"createdBy\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"createdAt\",\"kind\":\"scalar\",\"type\":\"DateTime\"},{\"name\":\"updatedAt\",\"kind\":\"scalar\",\"type\":\"DateTime\"},{\"name\":\"creator\",\"kind\":\"object\",\"type\":\"User\",\"relationName\":\"InputGroupToUser\"},{\"name\":\"inputs\",\"kind\":\"object\",\"type\":\"Input\",\"relationName\":\"InputToInputGroup\"}],\"dbName\":\"input_groups\"},\"AuditLog\":{\"fields\":[{\"name\":\"id\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"action\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"entityType\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"entityId\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"changes\",\"kind\":\"scalar\",\"type\":\"Json\"},{\"name\":\"ipAddress\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"userAgent\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"sessionId\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"userId\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"createdAt\",\"kind\":\"scalar\",\"type\":\"DateTime\"},{\"name\":\"user\",\"kind\":\"object\",\"type\":\"User\",\"relationName\":\"AuditLogToUser\"}],\"dbName\":\"audit_logs\"},\"Notification\":{\"fields\":[{\"name\":\"id\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"type\",\"kind\":\"enum\",\"type\":\"NotificationType\"},{\"name\":\"title\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"message\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"entityType\",\"kind\":\"enum\",\"type\":\"EntityType\"},{\"name\":\"entityId\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"read\",\"kind\":\"scalar\",\"type\":\"Boolean\"},{\"name\":\"readAt\",\"kind\":\"scalar\",\"type\":\"DateTime\"},{\"name\":\"delivered\",\"kind\":\"scalar\",\"type\":\"Boolean\"},{\"name\":\"userId\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"createdAt\",\"kind\":\"scalar\",\"type\":\"DateTime\"}],\"dbName\":\"notifications\"}},\"enums\":{},\"types\":{}}")
 defineDmmfProperty(exports.Prisma, config.runtimeDataModel)
-config.engineWasm = {
-  getRuntime: async () => require('./query_engine_bg.js'),
-  getQueryEngineWasmModule: async () => {
-    const loader = (await import('#wasm-engine-loader')).default
-    const engine = (await loader).default
-    return engine
-  }
-}
+config.engineWasm = undefined
 config.compilerWasm = undefined
 
 config.injectableEdgeEnv = () => ({
   parsed: {
-    DATABASE_URL: typeof globalThis !== 'undefined' && globalThis['DATABASE_URL'] || typeof process !== 'undefined' && process.env && process.env.DATABASE_URL || undefined
+    PRISMA_DATABASE_URL: typeof globalThis !== 'undefined' && globalThis['PRISMA_DATABASE_URL'] || typeof process !== 'undefined' && process.env && process.env.PRISMA_DATABASE_URL || undefined
   }
 })
 

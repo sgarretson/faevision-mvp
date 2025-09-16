@@ -3,7 +3,7 @@
 /**
  * FAEVision Linear Workspace Manual Setup Guide
  * Expert: Alex Johnson (Linear Expert)
- * 
+ *
  * Complete step-by-step guide for setting up Linear workspace
  * following FAEVision-Linear-Process.md specifications
  */
@@ -358,5 +358,9 @@ Next Step: Begin Epic 1 development with full project management infrastructure
 
 console.log(`\n🎯 READY TO PROCEED!\n`);
 console.log(`Your Linear token is authenticated and ready.`);
-console.log(`Follow the step-by-step guide above to create the complete FAEVision workspace.`);
-console.log(`\nOnce complete, Epic 0 will be 100% finished and ready for Epic 1 development!\n`);
+console.log(
+  `Follow the step-by-step guide above to create the complete FAEVision workspace.`
+);
+console.log(
+  `\nOnce complete, Epic 0 will be 100% finished and ready for Epic 1 development!\n`
+);

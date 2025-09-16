@@ -12,7 +12,6 @@ generator client {
 datasource db {
   provider = "postgresql"
   url      = env("DATABASE_URL")
-  directUrl = env("DIRECT_URL")
 }
 
 // ============================================================================
@@ -29,8 +28,11 @@ model User {
   createdAt   DateTime @default(now())
   updatedAt   DateTime @updatedAt
 
-  // Relationships for all F1-F6 features
+  // Relationships for all F1-F6 features + V2 enhancements
   inputs       Input[]
+  signals      Signal[]        // V2: Enhanced signal model
+  initiatives  Initiative[]    // V2: Strategic initiatives
+  ideas        Idea[]          // V2: Ideas from hotspots
   solutions    Solution[]
   comments     Comment[]
   votes        Vote[]
@@ -44,7 +46,216 @@ model User {
 }
 
 // ============================================================================
-// F1: INPUT CAPTURE & STRATEGIC TAGGING
+// ORGANIZATIONAL STRUCTURE (V2 Enhancement)
+// ============================================================================
+
+model Department {
+  id        String   @id @default(cuid())
+  name      String   @unique
+  teams     Team[]
+  signals   Signal[]
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@map("departments")
+}
+
+model Team {
+  id           String      @id @default(cuid())
+  name         String
+  departmentId String?
+  department   Department? @relation(fields: [departmentId], references: [id])
+  signals      Signal[]
+  createdAt    DateTime    @default(now())
+  updatedAt    DateTime    @updatedAt
+
+  @@map("teams")
+}
+
+model Initiative {
+  id          String     @id @default(cuid())
+  name        String     @unique
+  description String?    @db.Text
+  ownerId     String?
+  owner       User?      @relation(fields: [ownerId], references: [id])
+  goalJson    Json?      // Strategic goals and metrics
+  roiJson     Json?      // ROI tracking data
+  solutions   Solution[]
+  createdAt   DateTime   @default(now())
+  updatedAt   DateTime   @updatedAt
+
+  @@map("initiatives")
+}
+
+model Category {
+  id        String   @id @default(cuid())
+  name      String   @unique
+  createdAt DateTime @default(now())
+
+  @@map("categories")
+}
+
+// ============================================================================
+// ENHANCED SIGNAL MODEL (PHQ Vision Standard Compliant)
+// ============================================================================
+
+model Signal {
+  id              String    @id @default(cuid())
+  inputId         String    @unique  // External reference ID
+  timestamp       DateTime             // Original signal time
+  receivedAt      DateTime  @default(now())
+  
+  // PHQ Vision Standard Compliance Fields
+  schemaVersion   String    @default("1.0")
+  sourceJson      Json?     // Full PHQ source object structure
+  confidence      Float?    // AI reliability scoring 0.0-1.0
+  attachmentsJson Json?     // Media/file attachments array
+  
+  // Source Information
+  sourceType      String               // webhook|email|manual|system
+  sourceId        String?              // External system ID
+  systemName      String?              // Source system name
+  
+  // Core Content
+  title           String?
+  description     String               // Main signal content
+  severity        Severity
+  severityScore   Int       @default(0)
+  
+  // Organizational Context
+  departmentId    String?
+  teamId          String?
+  department      Department? @relation(fields: [departmentId], references: [id])
+  team            Team?       @relation(fields: [teamId], references: [id])
+  
+  // Structured Data (PHQ Standard)
+  metricsJson     Json?                // Quantitative metrics
+  baselineJson    Json?                // Baseline comparisons
+  impactJson      Json?                // Impact assessment
+  tagsJson        Json?                // Structured and freeform tags
+  entitiesJson    Json?                // Related entities (vendors, clients, etc.)
+  
+  // Privacy & Security
+  privacyLevel    String?              // public|internal|sensitive
+  dedupeKey       String?    @unique   // Deduplication identifier
+  
+  // AI Processing
+  embedding       Bytes?               // Vector embedding (OpenAI)
+  aiProcessed     Boolean   @default(false)
+  aiTagsJson      Json?                // AI-generated tags and confidence
+  
+  // Lineage & Collaboration
+  lineageJson     Json?                // Processing history
+  createdById     String?
+  createdBy       User?     @relation(fields: [createdById], references: [id])
+  
+  // Relationships
+  hotspots        HotspotSignal[]
+  
+  createdAt       DateTime  @default(now())
+  updatedAt       DateTime  @updatedAt
+  
+  @@map("signals")
+  @@index([timestamp])
+  @@index([receivedAt])
+  @@index([sourceType])
+  @@index([severity])
+  @@index([departmentId])
+  @@index([teamId])
+  @@index([aiProcessed])
+  @@index([createdById])
+}
+
+// ============================================================================
+// CLUSTERING & HOTSPOTS (V2 Core Feature)
+// ============================================================================
+
+model Hotspot {
+  id                 String         @id @default(cuid())
+  title              String
+  summary            String         @db.Text
+  status             HotspotStatus  @default(OPEN)
+  rankScore          Float          @default(0)
+  confidence         Float          @default(0)
+  
+  // Categorization
+  primaryCategoryId  String?
+  linkedEntitiesJson Json?          // Key entities across signals
+  
+  // AI Analysis
+  clusteringMethod   String?        // HDBSCAN|manual|hybrid
+  similarityThreshold Float?        // Clustering threshold used
+  
+  // Relationships
+  signals            HotspotSignal[]
+  ideas              Idea[]
+  solutions          Solution[]
+  
+  createdAt          DateTime       @default(now())
+  updatedAt          DateTime       @updatedAt
+  
+  @@map("hotspots")
+  @@index([status])
+  @@index([rankScore])
+  @@index([confidence])
+  @@index([primaryCategoryId])
+}
+
+// Many-to-Many with Strength
+model HotspotSignal {
+  hotspotId          String
+  signalId           String
+  membershipStrength Float    @default(1.0)  // 0.0-1.0 confidence
+  isOutlier          Boolean  @default(false) // <0.5 strength
+  addedAt            DateTime @default(now())
+  
+  hotspot            Hotspot  @relation(fields: [hotspotId], references: [id], onDelete: Cascade)
+  signal             Signal   @relation(fields: [signalId], references: [id], onDelete: Cascade)
+  
+  @@id([hotspotId, signalId])
+  @@map("hotspot_signals")
+}
+
+// ============================================================================
+// IDEAS & ENHANCED SOLUTIONS (V2 Workflow)
+// ============================================================================
+
+model Idea {
+  id           String   @id @default(cuid())
+  hotspotId    String
+  title        String?
+  description  String   @db.Text
+  origin       String   // ai|human|hybrid
+  votes        Int      @default(0)
+  status       String   @default("draft")
+  
+  // Evidence & Context
+  evidenceJson Json?    // Linked signals and reasoning
+  tagsJson     Json?    // Categorization tags
+  confidence   Float?   // AI confidence if generated
+  
+  // Collaboration
+  createdById  String?
+  createdBy    User?    @relation(fields: [createdById], references: [id])
+  
+  // Note: Comments and votes use polymorphic relations via EntityType.IDEA
+  
+  // Relationships
+  hotspot      Hotspot  @relation(fields: [hotspotId], references: [id])
+  solution     Solution? // If promoted
+  
+  createdAt    DateTime @default(now())
+  updatedAt    DateTime @updatedAt
+  
+  @@map("ideas")
+  @@index([hotspotId])
+  @@index([origin])
+  @@index([status])
+  @@index([createdById])
+}
+
+// ============================================================================
+// F1: INPUT CAPTURE & STRATEGIC TAGGING (Legacy - Deprecated)
 // ============================================================================
 
 model Input {
@@ -88,29 +299,42 @@ model Input {
 // ============================================================================
 
 model Solution {
-  id          String         @id @default(cuid())
-  title       String
-  description String         @db.Text
-  status      SolutionStatus @default(DRAFT)
+  id                 String         @id @default(cuid())
+  title              String
+  description        String         @db.Text
+  status             SolutionStatus @default(DRAFT)
 
+  // V2: Enhanced relationships
+  hotspotId          String?
+  initiativeId       String?
+  ideaId             String?        @unique // If promoted from idea
+  
   // Task Management (F4 Core Feature)
-  tasks      Json?     // Task breakdown structure
-  progress   Float     @default(0.0) // 0.0 to 1.0 progress
-  targetDate DateTime?
+  tasks              Json?     // Task breakdown structure
+  progress           Float     @default(0.0) // 0.0 to 1.0 progress
+  targetDate         DateTime?
   actualCompletionDate DateTime?
 
   // Business Impact Tracking
-  estimatedEffort String?
-  businessValue   String?
-  successMetrics  Json? // Key success indicators
+  estimatedEffort    String?
+  businessValue      String?
+  successMetrics     Json? // Key success indicators
+  expectedImpactJson Json?          // ROI projections, metrics
+  actualImpactJson   Json?          // Measured outcomes
 
-  // Relationships
-  inputId   String
+  // Relationships (Enhanced for V2)
+  inputId   String?  // Made optional for V2 compatibility
   createdBy String
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
 
-  input        Input         @relation(fields: [inputId], references: [id])
+  // V2 Enhanced Relationships
+  hotspot      Hotspot?      @relation(fields: [hotspotId], references: [id])
+  initiative   Initiative?   @relation(fields: [initiativeId], references: [id])
+  idea         Idea?         @relation(fields: [ideaId], references: [id])
+  
+  // Legacy relationships (maintained for backward compatibility)
+  input        Input?        @relation(fields: [inputId], references: [id])
   creator      User          @relation(fields: [createdBy], references: [id])
   requirements Requirement[]
   frdDocuments FRDDocument[]
@@ -409,6 +633,9 @@ enum FRDStatus {
 
 enum EntityType {
   INPUT
+  SIGNAL     // V2: Enhanced signal model
+  HOTSPOT    // V2: Clustered signals
+  IDEA       // V2: Ideas from hotspots
   SOLUTION
   REQUIREMENT
   FRD_DOCUMENT
@@ -427,4 +654,24 @@ enum NotificationType {
   APPROVAL_REQUEST
   ASSIGNMENT
   DEADLINE_REMINDER
+}
+
+// ============================================================================
+// V2 ENUMS (PHQ Vision Standard Compliant)
+// ============================================================================
+
+enum Severity {
+  LOW
+  MEDIUM
+  HIGH
+  CRITICAL
+}
+
+enum HotspotStatus {
+  OPEN
+  APPROVED
+  HANDED_OFF
+  MONITORING
+  RESOLVED
+  CLOSED_NO_ACTION
 }

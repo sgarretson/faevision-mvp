@@ -1,7 +1,7 @@
 name: Automated Release
 on:
   push:
-    branches: [ main ]
+    branches: [main]
 
 jobs:
   release:

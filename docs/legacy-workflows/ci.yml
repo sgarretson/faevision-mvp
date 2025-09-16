@@ -1,9 +1,9 @@
 name: AI-Enhanced Quality Pipeline
 on:
   push:
-    branches: [ main, develop ]
+    branches: [main, develop]
   pull_request:
-    branches: [ main ]
+    branches: [main]
 
 jobs:
   quality-gates:

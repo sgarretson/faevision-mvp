@@ -3,7 +3,7 @@
 /**
  * FAEVision Linear MCP Setup
  * Expert: Alex Johnson (Linear Expert)
- * 
+ *
  * Sets up Linear Model Context Protocol integration for enhanced AI-Linear workflows
  * Following Linear MCP documentation: https://linear.app/docs/mcp
  */
@@ -171,7 +171,13 @@ Ready to proceed with Linear MCP integration!
 ═══════════════════════════════════════════════════════════════════
 `);
 
-console.log(`\n🎯 ALEX JOHNSON'S EXPERT RECOMMENDATION: IMPLEMENT LINEAR MCP\n`);
-console.log(`This integration provides significant efficiency gains for our 11-week delivery timeline.`);
-console.log(`Setup time: ~60 minutes. Benefit: Enhanced AI-Linear workflow for entire team.\n`);
+console.log(
+  `\n🎯 ALEX JOHNSON'S EXPERT RECOMMENDATION: IMPLEMENT LINEAR MCP\n`
+);
+console.log(
+  `This integration provides significant efficiency gains for our 11-week delivery timeline.`
+);
+console.log(
+  `Setup time: ~60 minutes. Benefit: Enhanced AI-Linear workflow for entire team.\n`
+);
 console.log(`Ready to proceed with implementation during Epic 0!\n`);

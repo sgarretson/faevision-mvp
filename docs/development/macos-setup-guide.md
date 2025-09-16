@@ -11,6 +11,7 @@
 ## 🚀 Quick Setup (5 Minutes)
 
 ### Prerequisites
+
 ```bash
 # Verify Node.js version (Required: 18.x or 20.x)
 node --version  # Should show v18.x.x or v20.x.x
@@ -23,6 +24,7 @@ git --version   # Should be installed via Xcode Command Line Tools
 ```
 
 ### Fast Track Setup
+
 ```bash
 # 1. Clone the repository
 git clone https://github.com/your-org/faevision-simplified.git
@@ -51,6 +53,7 @@ npm run dev
 ### Node.js & Package Management
 
 **Recommended Approach: Use Node Version Manager (nvm)**
+
 ```bash
 # Install nvm (if not already installed)
 curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/v0.39.0/install.sh | bash
@@ -71,10 +74,11 @@ npm --version   # Should show 10.x.x
 ### Development Tools Configuration
 
 **Cursor IDE Setup:**
+
 ```bash
 # Install Cursor extensions (if not already installed)
 # - TypeScript and JavaScript Language Features
-# - Tailwind CSS IntelliSense  
+# - Tailwind CSS IntelliSense
 # - Prisma
 # - ESLint
 # - Prettier
@@ -84,6 +88,7 @@ mkdir -p .vscode
 ```
 
 Create `.vscode/settings.json`:
+
 ```json
 {
   "typescript.preferences.includePackageJsonAutoImports": "on",
@@ -101,7 +106,9 @@ Create `.vscode/settings.json`:
 ## ⚠️ Known Issues & Solutions
 
 ### Issue 1: npm Permission Errors (Global Packages)
+
 **Symptom:** `EACCES: permission denied` when installing global packages
+
 ```bash
 # ❌ This fails on macOS:
 npm install -g vercel
@@ -117,7 +124,9 @@ source ~/.profile
 ```
 
 ### Issue 2: Multiple package-lock.json Conflicts
+
 **Symptom:** Next.js warns about multiple lockfiles
+
 ```bash
 # ⚠️ Warning: Next.js inferred your workspace root incorrectly
 
@@ -127,7 +136,9 @@ find . -name "package-lock.json" -not -path "./node_modules/*"
 ```
 
 ### Issue 3: Prisma Generation Errors
+
 **Symptom:** `Cannot find module '@prisma/client'`
+
 ```bash
 # ✅ Solution: Regenerate Prisma client
 npx prisma generate
@@ -137,7 +148,9 @@ npx prisma generate --schema=./prisma/schema.prisma
 ```
 
 ### Issue 4: Tailwind CSS Not Loading
+
 **Symptom:** Styles not applying in development
+
 ```bash
 # ✅ Solution 1: Restart dev server
 npm run dev
@@ -151,7 +164,9 @@ npx tailwindcss --help
 ```
 
 ### Issue 5: Port Already in Use
+
 **Symptom:** `Error: listen EADDRINUSE :::3000`
+
 ```bash
 # ✅ Solution 1: Find and kill process using port 3000
 lsof -ti:3000 | xargs kill -9
@@ -167,6 +182,7 @@ npm run dev -- --port 3001
 ### Common Build Issues
 
 **TypeScript Errors:**
+
 ```bash
 # Check TypeScript configuration
 npx tsc --noEmit
@@ -177,6 +193,7 @@ npm run lint -- --fix
 ```
 
 **Missing Dependencies:**
+
 ```bash
 # Clean install
 rm -rf node_modules package-lock.json
@@ -184,6 +201,7 @@ npm install
 ```
 
 **Environment Variables:**
+
 ```bash
 # Verify environment setup
 cat .env.local
@@ -197,6 +215,7 @@ cat .env.local
 ## 🚀 Performance Optimization (macOS)
 
 ### Development Server Performance
+
 ```bash
 # Use Turbopack for faster builds (Next.js 14)
 npm run dev -- --turbo
@@ -207,6 +226,7 @@ npm run dev
 ```
 
 ### File Watching Optimization
+
 ```bash
 # Increase file watcher limit (macOS)
 echo fs.inotify.max_user_watches=524288 | sudo tee -a /etc/sysctl.conf
@@ -218,6 +238,7 @@ sudo sysctl -p
 ## 🔒 Security Considerations
 
 ### Environment Variables
+
 ```bash
 # Never commit .env.local to Git
 echo ".env.local" >> .gitignore
@@ -227,6 +248,7 @@ openssl rand -base64 32  # For NEXTAUTH_SECRET
 ```
 
 ### Local Development Security
+
 ```bash
 # Verify localhost-only binding
 npm run dev  # Should only bind to localhost:3000
@@ -240,6 +262,7 @@ npm install --save-dev @types/https-localhost
 ## 🎯 Recommended Workflow
 
 ### Daily Development
+
 ```bash
 # 1. Start development
 npm run dev
@@ -257,6 +280,7 @@ git commit -m "feature: description"
 ```
 
 ### Before Deployment
+
 ```bash
 # Full verification
 npm run build
@@ -268,12 +292,14 @@ npm run start  # Test production build locally
 ## 📞 Getting Help
 
 ### Expert Contacts
+
 - **Cursor Issues:** Jordan Lee (Cursor Expert)
-- **Build Issues:** Alex Thompson (Lead Developer)  
+- **Build Issues:** Alex Thompson (Lead Developer)
 - **Deployment Issues:** Jordan Kim (Vercel Engineer)
 - **Database Issues:** Morgan Smith (Database Architect)
 
 ### Useful Commands
+
 ```bash
 # Debug information
 node --version
@@ -291,6 +317,7 @@ npm run lint
 ## 🔄 Update Procedures
 
 ### Updating Dependencies
+
 ```bash
 # Check for updates
 npm outdated
@@ -303,6 +330,7 @@ npm install package@latest
 ```
 
 ### Updating Node.js
+
 ```bash
 # Using nvm
 nvm install node
@@ -313,4 +341,3 @@ nvm alias default node
 ---
 
 **Quick Troubleshooting:** If anything breaks, run `npm run build` first to identify the issue, then consult this guide or contact the appropriate expert.
-

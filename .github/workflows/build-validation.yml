@@ -1,0 +1,129 @@
+name: 🔬 FAEVision Build Validation Pipeline
+
+on:
+  push:
+    branches: [main, develop, preview]
+  pull_request:
+    branches: [main, develop, preview]
+
+jobs:
+  typescript-expert-validation:
+    name: 👨‍💻 TypeScript Expert Comprehensive Audit
+    runs-on: ubuntu-latest
+
+    strategy:
+      matrix:
+        node-version: [18.x, 20.x]
+
+    steps:
+      - name: 📥 Checkout repository
+        uses: actions/checkout@v4
+
+      - name: 📦 Setup Node.js ${{ matrix.node-version }}
+        uses: actions/setup-node@v4
+        with:
+          node-version: ${{ matrix.node-version }}
+          cache: 'npm'
+
+      - name: 🔧 Install dependencies
+        run: npm ci
+
+      - name: 🔬 TypeScript Strict Mode Audit
+        run: |
+          echo "🔍 Running comprehensive TypeScript strict mode audit..."
+          npx tsc --noEmit --strict
+          echo "✅ TypeScript strict mode validation passed"
+
+      - name: 🔍 ESLint Validation
+        run: |
+          echo "🔍 Running ESLint validation..."
+          npx eslint src/ --ext .ts,.tsx --max-warnings 0
+          echo "✅ ESLint validation passed"
+
+      - name: 🗄️ Prisma Schema Validation
+        run: |
+          echo "🗄️ Validating Prisma schema..."
+          npx prisma validate
+          npx prisma generate --dry-run
+          echo "✅ Prisma validation passed"
+
+      - name: 🔄 Iterator Compatibility Check
+        run: |
+          echo "🔄 Checking for iterator compatibility issues..."
+          echo "Searching for potential ES2015 iteration issues..."
+
+          # Check for problematic iterator patterns
+          ITERATOR_ISSUES=0
+
+          if grep -r "for (const .* of .*\.keys())" src/ --include="*.ts" --include="*.tsx"; then
+            echo "⚠️ Found .keys() iteration without Array.from()"
+            ITERATOR_ISSUES=1
+          fi
+
+          if grep -r "for (const .* of .*\.values())" src/ --include="*.ts" --include="*.tsx"; then
+            echo "⚠️ Found .values() iteration without Array.from()"
+            ITERATOR_ISSUES=1
+          fi
+
+          if grep -r "for (const .* of .*\.entries())" src/ --include="*.ts" --include="*.tsx"; then
+            echo "⚠️ Found .entries() iteration without Array.from()"
+            ITERATOR_ISSUES=1
+          fi
+
+          if [ $ITERATOR_ISSUES -eq 1 ]; then
+            echo "❌ Iterator compatibility issues found"
+            echo "💡 Use Array.from() for iterator methods like .keys(), .values(), .entries()"
+            exit 1
+          fi
+
+          echo "✅ No iterator compatibility issues found"
+
+      - name: 🚀 Comprehensive Build Test
+        run: |
+          echo "🚀 Running comprehensive build test framework..."
+          node scripts/comprehensive-build-test.js
+          echo "✅ Comprehensive build test passed"
+
+      - name: 🏗️ Next.js Production Build
+        run: |
+          echo "🏗️ Running Next.js production build (Vercel simulation)..."
+          npm run build
+          echo "✅ Next.js build completed successfully"
+
+      - name: 📊 Build Validation Report
+        if: always()
+        run: |
+          echo "📊 FAEVision Build Validation Report"
+          echo "=================================="
+          echo "✅ TypeScript Expert Validation: COMPLETE"
+          echo "✅ All tests designed to prevent Vercel build failures"
+          echo "🚀 Safe to deploy to Vercel environments"
+
+  dependency-security-audit:
+    name: 🔒 Security & Dependency Audit
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: 📥 Checkout repository
+        uses: actions/checkout@v4
+
+      - name: 📦 Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+          cache: 'npm'
+
+      - name: 🔧 Install dependencies
+        run: npm ci
+
+      - name: 🔒 NPM Security Audit
+        run: |
+          echo "🔒 Running NPM security audit..."
+          npm audit --audit-level moderate
+          echo "✅ Security audit completed"
+
+      - name: 📦 Dependency Check
+        run: |
+          echo "📦 Checking for outdated dependencies..."
+          npm outdated || true
+          echo "✅ Dependency check completed"

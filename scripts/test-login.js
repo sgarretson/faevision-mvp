@@ -5,16 +5,17 @@
  * Tests real authentication flow with admin credentials
  */
 
-import https from 'https'
-import { URL, URLSearchParams } from 'url'
+import https from 'https';
+import { URL, URLSearchParams } from 'url';
 
 // Configuration
-const BASE_URL = 'https://faevision-simplified-2vik0k2kd-scott-garretsons-projects.vercel.app';
+const BASE_URL =
+  'https://faevision-simplified-2vik0k2kd-scott-garretsons-projects.vercel.app';
 const BYPASS_PARAM = '?_vercel_share=M6jwxluHmEUzzraFPK6vLgz38Afg11IA';
 
 const CREDENTIALS = {
   email: 'admin@faevision.com',
-  password: 'FAEVision2025!'
+  password: 'FAEVision2025!',
 };
 
 console.log('🚨 ACTUAL LOGIN TEST - DEMO VERIFICATION');
@@ -33,24 +34,28 @@ async function makeRequest(url, options = {}) {
       path: urlObj.pathname + urlObj.search,
       method: options.method || 'GET',
       headers: {
-        'User-Agent': 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36',
-        'Accept': 'text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8',
+        'User-Agent':
+          'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36',
+        Accept:
+          'text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8',
         'Accept-Language': 'en-US,en;q=0.5',
         'Accept-Encoding': 'gzip, deflate, br',
-        'Connection': 'keep-alive',
+        Connection: 'keep-alive',
         'Upgrade-Insecure-Requests': '1',
-        ...options.headers
-      }
+        ...options.headers,
+      },
     };
 
     if (options.body) {
-      requestOptions.headers['Content-Length'] = Buffer.byteLength(options.body);
+      requestOptions.headers['Content-Length'] = Buffer.byteLength(
+        options.body
+      );
     }
 
-    const req = https.request(requestOptions, (res) => {
+    const req = https.request(requestOptions, res => {
       let data = '';
 
-      res.on('data', (chunk) => {
+      res.on('data', chunk => {
         data += chunk;
       });
 
@@ -59,12 +64,12 @@ async function makeRequest(url, options = {}) {
           status: res.statusCode,
           statusText: res.statusMessage,
           headers: res.headers,
-          body: data
+          body: data,
         });
       });
     });
 
-    req.on('error', (error) => {
+    req.on('error', error => {
       reject(error);
     });
 
@@ -80,10 +85,14 @@ async function testCompleteLoginFlow() {
   console.log('🔐 STEP 1: Testing Login Page Access');
   try {
     const loginPage = await makeRequest(`${BASE_URL}/login${BYPASS_PARAM}`);
-    console.log(`✅ Login page: HTTP ${loginPage.status} - ${loginPage.status === 200 ? 'ACCESSIBLE' : 'BLOCKED'}`);
+    console.log(
+      `✅ Login page: HTTP ${loginPage.status} - ${loginPage.status === 200 ? 'ACCESSIBLE' : 'BLOCKED'}`
+    );
 
     if (loginPage.status !== 200) {
-      console.log('❌ Cannot access login page - deployment protection still active');
+      console.log(
+        '❌ Cannot access login page - deployment protection still active'
+      );
       return false;
     }
   } catch (error) {
@@ -93,7 +102,9 @@ async function testCompleteLoginFlow() {
 
   console.log('\n🔑 STEP 2: Getting CSRF Token');
   try {
-    const csrfResponse = await makeRequest(`${BASE_URL}/api/auth/csrf${BYPASS_PARAM}`);
+    const csrfResponse = await makeRequest(
+      `${BASE_URL}/api/auth/csrf${BYPASS_PARAM}`
+    );
     console.log(`✅ CSRF endpoint: HTTP ${csrfResponse.status}`);
 
     if (csrfResponse.status !== 200) {
@@ -118,17 +129,17 @@ async function testCompleteLoginFlow() {
       password: CREDENTIALS.password,
       csrfToken: csrfData.csrfToken,
       callbackUrl: `${BASE_URL}${BYPASS_PARAM}`,
-      json: 'true'
+      json: 'true',
     });
 
     const authResponse = await makeRequest(authUrl, {
       method: 'POST',
       headers: {
         'Content-Type': 'application/x-www-form-urlencoded',
-        'Cookie': `next-auth.csrf-token=${csrfData.csrfToken}`,
-        'Referer': `${BASE_URL}/login${BYPASS_PARAM}`
+        Cookie: `next-auth.csrf-token=${csrfData.csrfToken}`,
+        Referer: `${BASE_URL}/login${BYPASS_PARAM}`,
       },
-      body: formData.toString()
+      body: formData.toString(),
     });
 
     console.log(`✅ Auth response: HTTP ${authResponse.status}`);
@@ -148,9 +159,12 @@ async function testCompleteLoginFlow() {
         } else {
           console.log('⚠️  Unexpected auth response format');
         }
-      } catch
+      } catch (error) {
         console.log('⚠️  Auth response not JSON - checking for redirect');
-        console.log('📄 Response preview:', authResponse.body.substring(0, 200));
+        console.log(
+          '📄 Response preview:',
+          authResponse.body.substring(0, 200)
+        );
       }
     } else {
       console.log('❌ Authentication request failed');
@@ -159,7 +173,9 @@ async function testCompleteLoginFlow() {
     }
 
     console.log('\n🔍 STEP 4: Checking Session After Auth');
-    const sessionResponse = await makeRequest(`${BASE_URL}/api/auth/session${BYPASS_PARAM}`);
+    const sessionResponse = await makeRequest(
+      `${BASE_URL}/api/auth/session${BYPASS_PARAM}`
+    );
     console.log(`✅ Session check: HTTP ${sessionResponse.status}`);
 
     if (sessionResponse.status === 200) {
@@ -167,13 +183,15 @@ async function testCompleteLoginFlow() {
         const sessionData = JSON.parse(sessionResponse.body);
         if (sessionData.user) {
           console.log('🎉 SUCCESS! User authenticated');
-          console.log(`👤 User: ${sessionData.user.email} (${sessionData.user.role})`);
+          console.log(
+            `👤 User: ${sessionData.user.email} (${sessionData.user.role})`
+          );
           return true;
         } else {
           console.log('❌ No user session found');
           return false;
         }
-      } catch
+      } catch (error) {
         console.log('❌ Session response parsing failed');
         return false;
       }
@@ -181,7 +199,6 @@ async function testCompleteLoginFlow() {
       console.log('❌ Session check failed');
       return false;
     }
-
   } catch (error) {
     console.log('❌ Authentication flow failed:', error.message);
     return false;
@@ -191,7 +208,9 @@ async function testCompleteLoginFlow() {
 async function testProtectedPageAccess() {
   console.log('\n🏠 STEP 5: Testing Protected Page Access');
   try {
-    const dashboardResponse = await makeRequest(`${BASE_URL}/dashboard${BYPASS_PARAM}`);
+    const dashboardResponse = await makeRequest(
+      `${BASE_URL}/dashboard${BYPASS_PARAM}`
+    );
     console.log(`✅ Dashboard access: HTTP ${dashboardResponse.status}`);
 
     if (dashboardResponse.status === 200) {
@@ -219,7 +238,7 @@ async function runDemoReadinessTest() {
     csrfToken: false,
     authentication: false,
     session: false,
-    protectedPages: false
+    protectedPages: false,
   };
 
   // Test each component
@@ -250,7 +269,12 @@ async function runDemoReadinessTest() {
   if (readinessPercentage >= 80) {
     console.log('\n🚀 STATUS: READY FOR DEMO');
     console.log('Access URL:', `${BASE_URL}/login${BYPASS_PARAM}`);
-    console.log('Admin credentials:', CREDENTIALS.email, '/', CREDENTIALS.password);
+    console.log(
+      'Admin credentials:',
+      CREDENTIALS.email,
+      '/',
+      CREDENTIALS.password
+    );
   } else {
     console.log('\n⚠️  STATUS: NOT READY FOR DEMO');
     console.log('Issues need to be resolved before demo');

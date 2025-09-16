@@ -1,11 +1,11 @@
-import { Metadata } from 'next'
-import Link from 'next/link'
-import { LoginForm } from '@/components/auth/login-form'
+import { Metadata } from 'next';
+import Link from 'next/link';
+import { LoginForm } from '@/components/auth/login-form';
 
 export const metadata: Metadata = {
   title: 'Login | FAEVision',
   description: 'Sign in to your FAEVision account',
-}
+};
 
 export default function LoginPage() {
   return (
@@ -13,8 +13,12 @@ export default function LoginPage() {
       <div className="w-full max-w-md space-y-8">
         <div className="text-center">
           <h1 className="text-2xl font-bold text-blue-600">FAEVision</h1>
-          <p className="mt-2 text-base text-neutral-700">Strategic Intelligence Platform</p>
-          <h2 className="mt-6 text-lg font-semibold text-neutral-800">Sign in to your account</h2>
+          <p className="mt-2 text-base text-neutral-700">
+            Strategic Intelligence Platform
+          </p>
+          <h2 className="mt-6 text-lg font-semibold text-neutral-800">
+            Sign in to your account
+          </h2>
           <p className="mt-2 text-sm text-neutral-600">
             Or{' '}
             <Link
@@ -40,5 +44,5 @@ export default function LoginPage() {
         </div>
       </div>
     </div>
-  )
+  );
 }

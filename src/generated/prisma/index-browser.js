@@ -126,8 +126,164 @@ exports.Prisma.UserScalarFieldEnum = {
   name: 'name',
   role: 'role',
   department: 'department',
+  title: 'title',
+  managerId: 'managerId',
+  utilizationRate: 'utilizationRate',
+  targetUtilization: 'targetUtilization',
+  billableRate: 'billableRate',
+  costCenter: 'costCenter',
+  location: 'location',
+  isActive: 'isActive',
+  lastLoginAt: 'lastLoginAt',
   avatar: 'avatar',
   passwordHash: 'passwordHash',
+  profileJson: 'profileJson',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt',
+  departmentObjId: 'departmentObjId'
+};
+
+exports.Prisma.DepartmentScalarFieldEnum = {
+  id: 'id',
+  name: 'name',
+  description: 'description',
+  headCount: 'headCount',
+  budgetAllocation: 'budgetAllocation',
+  managerId: 'managerId',
+  costCenter: 'costCenter',
+  location: 'location',
+  isActive: 'isActive',
+  utilizationTarget: 'utilizationTarget',
+  actualUtilization: 'actualUtilization',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
+};
+
+exports.Prisma.TeamScalarFieldEnum = {
+  id: 'id',
+  name: 'name',
+  description: 'description',
+  departmentId: 'departmentId',
+  leaderId: 'leaderId',
+  memberCount: 'memberCount',
+  maxCapacity: 'maxCapacity',
+  isActive: 'isActive',
+  teamType: 'teamType',
+  currentProjects: 'currentProjects',
+  budgetAllocation: 'budgetAllocation',
+  utilizationRate: 'utilizationRate',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
+};
+
+exports.Prisma.InitiativeScalarFieldEnum = {
+  id: 'id',
+  name: 'name',
+  description: 'description',
+  status: 'status',
+  priority: 'priority',
+  ownerId: 'ownerId',
+  budget: 'budget',
+  actualSpend: 'actualSpend',
+  startDate: 'startDate',
+  targetDate: 'targetDate',
+  completionDate: 'completionDate',
+  expectedROI: 'expectedROI',
+  actualROI: 'actualROI',
+  riskLevel: 'riskLevel',
+  goalJson: 'goalJson',
+  roiJson: 'roiJson',
+  milestonesJson: 'milestonesJson',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
+};
+
+exports.Prisma.CategoryScalarFieldEnum = {
+  id: 'id',
+  name: 'name',
+  description: 'description',
+  color: 'color',
+  icon: 'icon',
+  parentId: 'parentId',
+  isActive: 'isActive',
+  sortOrder: 'sortOrder',
+  usageCount: 'usageCount',
+  isSystem: 'isSystem',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
+};
+
+exports.Prisma.SignalScalarFieldEnum = {
+  id: 'id',
+  inputId: 'inputId',
+  timestamp: 'timestamp',
+  receivedAt: 'receivedAt',
+  schemaVersion: 'schemaVersion',
+  sourceJson: 'sourceJson',
+  confidence: 'confidence',
+  attachmentsJson: 'attachmentsJson',
+  sourceType: 'sourceType',
+  sourceId: 'sourceId',
+  systemName: 'systemName',
+  title: 'title',
+  description: 'description',
+  severity: 'severity',
+  severityScore: 'severityScore',
+  departmentId: 'departmentId',
+  teamId: 'teamId',
+  categoryId: 'categoryId',
+  metricsJson: 'metricsJson',
+  baselineJson: 'baselineJson',
+  impactJson: 'impactJson',
+  tagsJson: 'tagsJson',
+  entitiesJson: 'entitiesJson',
+  privacyLevel: 'privacyLevel',
+  dedupeKey: 'dedupeKey',
+  embedding: 'embedding',
+  aiProcessed: 'aiProcessed',
+  aiTagsJson: 'aiTagsJson',
+  lineageJson: 'lineageJson',
+  createdById: 'createdById',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
+};
+
+exports.Prisma.HotspotScalarFieldEnum = {
+  id: 'id',
+  title: 'title',
+  summary: 'summary',
+  status: 'status',
+  rankScore: 'rankScore',
+  confidence: 'confidence',
+  primaryCategoryId: 'primaryCategoryId',
+  linkedEntitiesJson: 'linkedEntitiesJson',
+  clusteringMethod: 'clusteringMethod',
+  similarityThreshold: 'similarityThreshold',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
+};
+
+exports.Prisma.HotspotSignalScalarFieldEnum = {
+  hotspotId: 'hotspotId',
+  signalId: 'signalId',
+  membershipStrength: 'membershipStrength',
+  isOutlier: 'isOutlier',
+  addedAt: 'addedAt'
+};
+
+exports.Prisma.IdeaScalarFieldEnum = {
+  id: 'id',
+  hotspotId: 'hotspotId',
+  title: 'title',
+  description: 'description',
+  origin: 'origin',
+  votes: 'votes',
+  status: 'status',
+  evidenceJson: 'evidenceJson',
+  tagsJson: 'tagsJson',
+  confidence: 'confidence',
+  createdById: 'createdById',
+  initiativeId: 'initiativeId',
   createdAt: 'createdAt',
   updatedAt: 'updatedAt'
 };
@@ -137,82 +293,40 @@ exports.Prisma.InputScalarFieldEnum = {
   title: 'title',
   description: 'description',
   type: 'type',
-  status: 'status',
-  createdBy: 'createdBy',
-  createdAt: 'createdAt',
-  updatedAt: 'updatedAt',
   department: 'department',
   issueType: 'issueType',
   rootCause: 'rootCause',
   priority: 'priority',
-  aiProcessed: 'aiProcessed',
   aiTags: 'aiTags',
-  aiSuggestions: 'aiSuggestions'
-};
-
-exports.Prisma.CommentScalarFieldEnum = {
-  id: 'id',
-  content: 'content',
-  authorId: 'authorId',
-  createdAt: 'createdAt',
-  updatedAt: 'updatedAt',
-  inputId: 'inputId',
-  solutionId: 'solutionId',
-  requirementId: 'requirementId',
-  parentId: 'parentId'
-};
-
-exports.Prisma.VoteScalarFieldEnum = {
-  id: 'id',
-  userId: 'userId',
-  value: 'value',
-  createdAt: 'createdAt',
-  inputId: 'inputId',
-  solutionId: 'solutionId'
-};
-
-exports.Prisma.InputGroupScalarFieldEnum = {
-  id: 'id',
-  name: 'name',
-  description: 'description',
-  ownerId: 'ownerId',
+  aiConfidence: 'aiConfidence',
+  aiSuggestions: 'aiSuggestions',
   status: 'status',
+  createdBy: 'createdBy',
   createdAt: 'createdAt',
-  updatedAt: 'updatedAt',
-  aiSuggested: 'aiSuggested',
-  aiSimilarity: 'aiSimilarity',
-  aiTheme: 'aiTheme'
+  updatedAt: 'updatedAt'
 };
 
 exports.Prisma.SolutionScalarFieldEnum = {
   id: 'id',
   title: 'title',
   description: 'description',
-  ownerId: 'ownerId',
   status: 'status',
-  priority: 'priority',
-  createdAt: 'createdAt',
-  updatedAt: 'updatedAt',
+  hotspotId: 'hotspotId',
+  initiativeId: 'initiativeId',
+  ideaId: 'ideaId',
+  tasks: 'tasks',
+  progress: 'progress',
+  targetDate: 'targetDate',
+  actualCompletionDate: 'actualCompletionDate',
   estimatedEffort: 'estimatedEffort',
-  targetCompletion: 'targetCompletion',
-  actualCompletion: 'actualCompletion',
-  successCriteria: 'successCriteria'
-};
-
-exports.Prisma.TaskScalarFieldEnum = {
-  id: 'id',
-  title: 'title',
-  description: 'description',
-  solutionId: 'solutionId',
-  assigneeId: 'assigneeId',
-  status: 'status',
-  priority: 'priority',
+  businessValue: 'businessValue',
+  successMetrics: 'successMetrics',
+  expectedImpactJson: 'expectedImpactJson',
+  actualImpactJson: 'actualImpactJson',
+  inputId: 'inputId',
+  createdBy: 'createdBy',
   createdAt: 'createdAt',
-  updatedAt: 'updatedAt',
-  estimatedHours: 'estimatedHours',
-  actualHours: 'actualHours',
-  dueDate: 'dueDate',
-  dependencies: 'dependencies'
+  updatedAt: 'updatedAt'
 };
 
 exports.Prisma.RequirementScalarFieldEnum = {
@@ -258,27 +372,69 @@ exports.Prisma.FRDDocumentScalarFieldEnum = {
   updatedAt: 'updatedAt'
 };
 
+exports.Prisma.CommentScalarFieldEnum = {
+  id: 'id',
+  content: 'content',
+  entityType: 'entityType',
+  entityId: 'entityId',
+  parentId: 'parentId',
+  mentions: 'mentions',
+  edited: 'edited',
+  editedAt: 'editedAt',
+  createdBy: 'createdBy',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
+};
+
+exports.Prisma.VoteScalarFieldEnum = {
+  id: 'id',
+  value: 'value',
+  entityType: 'entityType',
+  entityId: 'entityId',
+  createdBy: 'createdBy',
+  createdAt: 'createdAt'
+};
+
+exports.Prisma.InputGroupScalarFieldEnum = {
+  id: 'id',
+  name: 'name',
+  description: 'description',
+  color: 'color',
+  aiSuggested: 'aiSuggested',
+  aiConfidence: 'aiConfidence',
+  aiReasoning: 'aiReasoning',
+  inputCount: 'inputCount',
+  avgPriority: 'avgPriority',
+  lastActivity: 'lastActivity',
+  createdBy: 'createdBy',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
+};
+
 exports.Prisma.AuditLogScalarFieldEnum = {
   id: 'id',
-  userId: 'userId',
   action: 'action',
   entityType: 'entityType',
   entityId: 'entityId',
   changes: 'changes',
-  metadata: 'metadata',
   ipAddress: 'ipAddress',
   userAgent: 'userAgent',
+  sessionId: 'sessionId',
+  userId: 'userId',
   createdAt: 'createdAt'
 };
 
 exports.Prisma.NotificationScalarFieldEnum = {
   id: 'id',
-  userId: 'userId',
   type: 'type',
   title: 'title',
   message: 'message',
+  entityType: 'entityType',
+  entityId: 'entityId',
+  read: 'read',
   readAt: 'readAt',
-  data: 'data',
+  delivered: 'delivered',
+  userId: 'userId',
   createdAt: 'createdAt'
 };
 
@@ -301,20 +457,59 @@ exports.Prisma.QueryMode = {
   insensitive: 'insensitive'
 };
 
-exports.Prisma.NullsOrder = {
-  first: 'first',
-  last: 'last'
-};
-
 exports.Prisma.JsonNullValueFilter = {
   DbNull: Prisma.DbNull,
   JsonNull: Prisma.JsonNull,
   AnyNull: Prisma.AnyNull
 };
+
+exports.Prisma.NullsOrder = {
+  first: 'first',
+  last: 'last'
+};
 exports.UserRole = exports.$Enums.UserRole = {
   ADMIN: 'ADMIN',
   EXECUTIVE: 'EXECUTIVE',
   CONTRIBUTOR: 'CONTRIBUTOR'
+};
+
+exports.InitiativeStatus = exports.$Enums.InitiativeStatus = {
+  PLANNING: 'PLANNING',
+  ACTIVE: 'ACTIVE',
+  ON_HOLD: 'ON_HOLD',
+  COMPLETED: 'COMPLETED',
+  CANCELLED: 'CANCELLED'
+};
+
+exports.Priority = exports.$Enums.Priority = {
+  LOW: 'LOW',
+  MEDIUM: 'MEDIUM',
+  HIGH: 'HIGH',
+  URGENT: 'URGENT',
+  CRITICAL: 'CRITICAL'
+};
+
+exports.RiskLevel = exports.$Enums.RiskLevel = {
+  LOW: 'LOW',
+  MEDIUM: 'MEDIUM',
+  HIGH: 'HIGH',
+  CRITICAL: 'CRITICAL'
+};
+
+exports.Severity = exports.$Enums.Severity = {
+  LOW: 'LOW',
+  MEDIUM: 'MEDIUM',
+  HIGH: 'HIGH',
+  CRITICAL: 'CRITICAL'
+};
+
+exports.HotspotStatus = exports.$Enums.HotspotStatus = {
+  OPEN: 'OPEN',
+  APPROVED: 'APPROVED',
+  HANDED_OFF: 'HANDED_OFF',
+  MONITORING: 'MONITORING',
+  RESOLVED: 'RESOLVED',
+  CLOSED_NO_ACTION: 'CLOSED_NO_ACTION'
 };
 
 exports.InputType = exports.$Enums.InputType = {
@@ -324,46 +519,20 @@ exports.InputType = exports.$Enums.InputType = {
 };
 
 exports.InputStatus = exports.$Enums.InputStatus = {
-  NEW: 'NEW',
-  DISCUSSING: 'DISCUSSING',
-  ORGANIZED: 'ORGANIZED',
-  IN_SOLUTION: 'IN_SOLUTION',
-  ARCHIVED: 'ARCHIVED'
-};
-
-exports.IssueType = exports.$Enums.IssueType = {
-  PROCESS: 'PROCESS',
-  TECHNOLOGY: 'TECHNOLOGY',
-  COMMUNICATION: 'COMMUNICATION',
-  RESOURCE: 'RESOURCE',
-  OTHER: 'OTHER'
-};
-
-exports.Priority = exports.$Enums.Priority = {
-  LOW: 'LOW',
-  MEDIUM: 'MEDIUM',
-  HIGH: 'HIGH'
-};
-
-exports.GroupStatus = exports.$Enums.GroupStatus = {
   ACTIVE: 'ACTIVE',
+  RESOLVED: 'RESOLVED',
   ARCHIVED: 'ARCHIVED',
-  CONVERTED_TO_SOLUTION: 'CONVERTED_TO_SOLUTION'
+  DUPLICATE: 'DUPLICATE'
 };
 
 exports.SolutionStatus = exports.$Enums.SolutionStatus = {
-  PLANNING: 'PLANNING',
-  ACTIVE: 'ACTIVE',
-  ON_HOLD: 'ON_HOLD',
-  COMPLETED: 'COMPLETED',
-  CANCELLED: 'CANCELLED'
-};
-
-exports.TaskStatus = exports.$Enums.TaskStatus = {
-  NOT_STARTED: 'NOT_STARTED',
+  DRAFT: 'DRAFT',
   IN_PROGRESS: 'IN_PROGRESS',
-  COMPLETED: 'COMPLETED',
-  BLOCKED: 'BLOCKED'
+  REVIEW: 'REVIEW',
+  APPROVED: 'APPROVED',
+  IMPLEMENTED: 'IMPLEMENTED',
+  CANCELLED: 'CANCELLED',
+  ON_HOLD: 'ON_HOLD'
 };
 
 exports.RequirementStatus = exports.$Enums.RequirementStatus = {
@@ -371,35 +540,60 @@ exports.RequirementStatus = exports.$Enums.RequirementStatus = {
   REVIEW: 'REVIEW',
   APPROVED: 'APPROVED',
   REJECTED: 'REJECTED',
-  REVISED: 'REVISED'
+  IMPLEMENTED: 'IMPLEMENTED',
+  OBSOLETE: 'OBSOLETE'
 };
 
 exports.FRDStatus = exports.$Enums.FRDStatus = {
   DRAFT: 'DRAFT',
   REVIEW: 'REVIEW',
   APPROVED: 'APPROVED',
-  PUBLISHED: 'PUBLISHED'
+  DELIVERED: 'DELIVERED',
+  ARCHIVED: 'ARCHIVED'
+};
+
+exports.EntityType = exports.$Enums.EntityType = {
+  INPUT: 'INPUT',
+  SIGNAL: 'SIGNAL',
+  HOTSPOT: 'HOTSPOT',
+  IDEA: 'IDEA',
+  SOLUTION: 'SOLUTION',
+  REQUIREMENT: 'REQUIREMENT',
+  FRD_DOCUMENT: 'FRD_DOCUMENT'
+};
+
+exports.VoteValue = exports.$Enums.VoteValue = {
+  UP: 'UP',
+  DOWN: 'DOWN'
 };
 
 exports.NotificationType = exports.$Enums.NotificationType = {
-  COMMENT: 'COMMENT',
+  MENTION: 'MENTION',
   VOTE: 'VOTE',
+  COMMENT: 'COMMENT',
   STATUS_CHANGE: 'STATUS_CHANGE',
+  APPROVAL_REQUEST: 'APPROVAL_REQUEST',
   ASSIGNMENT: 'ASSIGNMENT',
-  DEADLINE: 'DEADLINE',
-  SYSTEM: 'SYSTEM'
+  DEADLINE_REMINDER: 'DEADLINE_REMINDER'
 };
 
 exports.Prisma.ModelName = {
   User: 'User',
+  Department: 'Department',
+  Team: 'Team',
+  Initiative: 'Initiative',
+  Category: 'Category',
+  Signal: 'Signal',
+  Hotspot: 'Hotspot',
+  HotspotSignal: 'HotspotSignal',
+  Idea: 'Idea',
   Input: 'Input',
+  Solution: 'Solution',
+  Requirement: 'Requirement',
+  FRDDocument: 'FRDDocument',
   Comment: 'Comment',
   Vote: 'Vote',
   InputGroup: 'InputGroup',
-  Solution: 'Solution',
-  Task: 'Task',
-  Requirement: 'Requirement',
-  FRDDocument: 'FRDDocument',
   AuditLog: 'AuditLog',
   Notification: 'Notification'
 };

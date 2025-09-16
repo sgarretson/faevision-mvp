@@ -13,24 +13,28 @@
 ### **Executive-Centered Design Principles**
 
 #### **1. Information Efficiency**
+
 - **Dashboard-First Thinking**: Overview before details, trends before data
 - **Scannable Hierarchy**: F-pattern layout optimization for executive scanning
 - **Status-Driven Navigation**: Workflow stages guide information architecture
 - **Progressive Disclosure**: Detailed information available without overwhelming
 
 #### **2. Professional Intelligence**
+
 - **Business-Grade Aesthetics**: Sophisticated, clean design building stakeholder confidence
 - **Data Visualization Priority**: Charts, trends, and metrics as first-class citizens
 - **Executive Decision Support**: Design optimized for quick decision-making
 - **Trust-Building Design**: Clear, reliable patterns that build user confidence
 
 #### **3. Mobile Executive Efficiency**
+
 - **Meeting-Friendly Capture**: Streamlined mobile input creation during meetings
 - **Quick Status Checks**: Essential information accessible on mobile
 - **Touch-Optimized Actions**: Executive-friendly mobile interaction patterns
 - **Contextual Mobile Experience**: Different mobile patterns for different user roles
 
 #### **4. AI-Enhanced Transparency**
+
 - **AI Confidence Communication**: Clear indicators of AI suggestion quality
 - **Human Control Priority**: Executive override capabilities prominently displayed
 - **Learning Integration**: Simple feedback mechanisms to improve AI accuracy
@@ -43,72 +47,76 @@
 ### **Primary Brand Palette**
 
 #### **Executive Blue (Primary)**
+
 ```css
 /* Trust-building blue optimized for business applications */
---color-primary-50: #eff6ff;   /* Light backgrounds */
---color-primary-100: #dbeafe;  /* Subtle highlights */
---color-primary-500: #3b82f6;  /* Primary actions */
---color-primary-600: #2563eb;  /* Primary hover */
---color-primary-700: #1d4ed8;  /* Active states */
---color-primary-900: #1e3a8a;  /* Dark mode primary */
+--color-primary-50: #eff6ff; /* Light backgrounds */
+--color-primary-100: #dbeafe; /* Subtle highlights */
+--color-primary-500: #3b82f6; /* Primary actions */
+--color-primary-600: #2563eb; /* Primary hover */
+--color-primary-700: #1d4ed8; /* Active states */
+--color-primary-900: #1e3a8a; /* Dark mode primary */
 ```
 
 #### **Professional Neutrals**
+
 ```css
 /* Sophisticated gray scale for professional interfaces */
---color-gray-25: #fcfcfd;      /* Subtle background variation */
---color-gray-50: #f9fafb;      /* Page background */
---color-gray-100: #f3f4f6;     /* Card backgrounds */
---color-gray-200: #e5e7eb;     /* Borders, dividers */
---color-gray-300: #d1d5db;     /* Form borders */
---color-gray-400: #9ca3af;     /* Placeholder text */
---color-gray-500: #6b7280;     /* Secondary text */
---color-gray-600: #4b5563;     /* Body text */
---color-gray-700: #374151;     /* Emphasized text */
---color-gray-800: #1f2937;     /* Headings */
---color-gray-900: #111827;     /* Primary text */
---color-gray-950: #030712;     /* Maximum contrast */
+--color-gray-25: #fcfcfd; /* Subtle background variation */
+--color-gray-50: #f9fafb; /* Page background */
+--color-gray-100: #f3f4f6; /* Card backgrounds */
+--color-gray-200: #e5e7eb; /* Borders, dividers */
+--color-gray-300: #d1d5db; /* Form borders */
+--color-gray-400: #9ca3af; /* Placeholder text */
+--color-gray-500: #6b7280; /* Secondary text */
+--color-gray-600: #4b5563; /* Body text */
+--color-gray-700: #374151; /* Emphasized text */
+--color-gray-800: #1f2937; /* Headings */
+--color-gray-900: #111827; /* Primary text */
+--color-gray-950: #030712; /* Maximum contrast */
 ```
 
 ### **Business Intelligence Colors**
 
 #### **Status Communication Palette**
+
 ```css
 /* Success - Professional Green */
 --color-success-50: #f0fdf4;
 --color-success-100: #dcfce7;
---color-success-500: #22c55e;   /* Completed, approved, positive trends */
+--color-success-500: #22c55e; /* Completed, approved, positive trends */
 --color-success-600: #16a34a;
 --color-success-700: #15803d;
 
 /* Warning - Executive Orange */
 --color-warning-50: #fffbeb;
 --color-warning-100: #fef3c7;
---color-warning-500: #f59e0b;   /* Attention needed, pending review */
+--color-warning-500: #f59e0b; /* Attention needed, pending review */
 --color-warning-600: #d97706;
 --color-warning-700: #b45309;
 
 /* Critical - Professional Red */
 --color-critical-50: #fef2f2;
 --color-critical-100: #fee2e2;
---color-critical-500: #ef4444;  /* Urgent, blocked, critical issues */
+--color-critical-500: #ef4444; /* Urgent, blocked, critical issues */
 --color-critical-600: #dc2626;
 --color-critical-700: #b91c1c;
 
 /* Information - Trustworthy Blue */
 --color-info-50: #eff6ff;
 --color-info-100: #dbeafe;
---color-info-500: #3b82f6;     /* Informational, in progress */
+--color-info-500: #3b82f6; /* Informational, in progress */
 --color-info-600: #2563eb;
 --color-info-700: #1d4ed8;
 ```
 
 #### **AI & Intelligence Colors**
+
 ```css
 /* AI Features - Sophisticated Purple */
 --color-ai-50: #faf5ff;
 --color-ai-100: #f3e8ff;
---color-ai-500: #a855f7;       /* AI suggestions, generated content */
+--color-ai-500: #a855f7; /* AI suggestions, generated content */
 --color-ai-600: #9333ea;
 --color-ai-700: #7c3aed;
 
@@ -123,25 +131,28 @@
 ### **Department Color Coding**
 
 #### **Subtle Department Identification**
+
 ```css
 /* Subtle color coding for department identification */
---color-dept-engineering: #3b82f6;    /* Blue */
---color-dept-design: #8b5cf6;         /* Purple */
---color-dept-marketing: #f59e0b;      /* Orange */
---color-dept-sales: #22c55e;          /* Green */
---color-dept-operations: #6b7280;     /* Gray */
---color-dept-executive: #1f2937;      /* Dark Gray */
+--color-dept-engineering: #3b82f6; /* Blue */
+--color-dept-design: #8b5cf6; /* Purple */
+--color-dept-marketing: #f59e0b; /* Orange */
+--color-dept-sales: #22c55e; /* Green */
+--color-dept-operations: #6b7280; /* Gray */
+--color-dept-executive: #1f2937; /* Dark Gray */
 ```
 
 ### **Color Usage Guidelines**
 
 #### **Executive Dashboard Colors**
+
 - **Key Metrics**: Primary blue for positive indicators
 - **Trend Arrows**: Green (up), red (down), gray (stable)
 - **Status Indicators**: Success, warning, critical, info colors
 - **Department Tags**: Subtle department colors with 10% opacity backgrounds
 
 #### **Collaboration Colors**
+
 - **Voting**: Primary blue for upvotes, gray for downvotes
 - **Comments**: Gray for standard, blue for @mentions
 - **AI Suggestions**: Purple accent for AI-generated content
@@ -154,30 +165,31 @@
 ### **Typography Hierarchy for Business Intelligence**
 
 #### **Executive Dashboard Typography**
+
 ```css
 /* Executive Page Title */
 .executive-title {
-  font-size: 2.25rem;    /* 36px */
-  line-height: 2.5rem;   /* 40px */
-  font-weight: 700;      /* Bold */
+  font-size: 2.25rem; /* 36px */
+  line-height: 2.5rem; /* 40px */
+  font-weight: 700; /* Bold */
   color: var(--color-gray-900);
   letter-spacing: -0.025em;
 }
 
 /* Key Metric Numbers */
 .metric-value {
-  font-size: 3rem;       /* 48px */
-  line-height: 1;        /* Tight */
-  font-weight: 800;      /* Extra bold */
+  font-size: 3rem; /* 48px */
+  line-height: 1; /* Tight */
+  font-weight: 800; /* Extra bold */
   color: var(--color-gray-900);
   font-variant-numeric: tabular-nums;
 }
 
 /* Metric Labels */
 .metric-label {
-  font-size: 0.875rem;   /* 14px */
-  line-height: 1.25rem;  /* 20px */
-  font-weight: 500;      /* Medium */
+  font-size: 0.875rem; /* 14px */
+  line-height: 1.25rem; /* 20px */
+  font-weight: 500; /* Medium */
   color: var(--color-gray-600);
   text-transform: uppercase;
   letter-spacing: 0.05em;
@@ -185,39 +197,40 @@
 
 /* Section Headers */
 .section-header {
-  font-size: 1.5rem;     /* 24px */
-  line-height: 2rem;     /* 32px */
-  font-weight: 600;      /* Semibold */
+  font-size: 1.5rem; /* 24px */
+  line-height: 2rem; /* 32px */
+  font-weight: 600; /* Semibold */
   color: var(--color-gray-900);
-  margin-bottom: 1rem;   /* 16px */
+  margin-bottom: 1rem; /* 16px */
 }
 
 /* Card Titles */
 .card-title {
-  font-size: 1.125rem;   /* 18px */
-  line-height: 1.75rem;  /* 28px */
-  font-weight: 600;      /* Semibold */
+  font-size: 1.125rem; /* 18px */
+  line-height: 1.75rem; /* 28px */
+  font-weight: 600; /* Semibold */
   color: var(--color-gray-900);
 }
 
 /* Body Text for Business Content */
 .business-text {
-  font-size: 0.875rem;   /* 14px */
-  line-height: 1.5rem;   /* 24px */
-  font-weight: 400;      /* Normal */
+  font-size: 0.875rem; /* 14px */
+  line-height: 1.5rem; /* 24px */
+  font-weight: 400; /* Normal */
   color: var(--color-gray-700);
 }
 
 /* Supporting Text */
 .supporting-text {
-  font-size: 0.75rem;    /* 12px */
-  line-height: 1.25rem;  /* 20px */
-  font-weight: 400;      /* Normal */
+  font-size: 0.75rem; /* 12px */
+  line-height: 1.25rem; /* 20px */
+  font-weight: 400; /* Normal */
   color: var(--color-gray-500);
 }
 ```
 
 #### **AI Content Typography**
+
 ```css
 /* AI-Generated Content Styling */
 .ai-content {
@@ -227,7 +240,7 @@
 }
 
 .ai-content::before {
-  content: "✨";
+  content: '✨';
   position: absolute;
   left: -1.5rem;
   color: var(--color-ai-500);
@@ -254,6 +267,7 @@
 ### **Typography Usage Patterns**
 
 #### **Executive Dashboard Hierarchy**
+
 ```html
 <!-- Page structure for executive dashboards -->
 <h1 class="executive-title">Organizational Intelligence Dashboard</h1>
@@ -271,7 +285,9 @@
     <div class="activity-item">
       <h3 class="card-title">Network Infrastructure Issues</h3>
       <p class="business-text">Multiple reports of connectivity problems...</p>
-      <p class="supporting-text">Created 2 hours ago • Engineering Department</p>
+      <p class="supporting-text">
+        Created 2 hours ago • Engineering Department
+      </p>
     </div>
   </div>
 </section>
@@ -284,56 +300,74 @@
 ### **Dashboard Layout Architecture**
 
 #### **Executive Dashboard Structure**
+
 ```css
 /* Executive dashboard grid */
 .executive-dashboard {
   display: grid;
   gap: 1.5rem;
   grid-template-areas:
-    "header header header"
-    "metrics metrics metrics"
-    "trends activity priority"
-    "details details details";
+    'header header header'
+    'metrics metrics metrics'
+    'trends activity priority'
+    'details details details';
   grid-template-columns: 1fr 1fr 1fr;
   grid-template-rows: auto auto auto 1fr;
 }
 
-.dashboard-header { grid-area: header; }
-.dashboard-metrics { grid-area: metrics; }
-.dashboard-trends { grid-area: trends; }
-.dashboard-activity { grid-area: activity; }
-.dashboard-priority { grid-area: priority; }
-.dashboard-details { grid-area: details; }
+.dashboard-header {
+  grid-area: header;
+}
+.dashboard-metrics {
+  grid-area: metrics;
+}
+.dashboard-trends {
+  grid-area: trends;
+}
+.dashboard-activity {
+  grid-area: activity;
+}
+.dashboard-priority {
+  grid-area: priority;
+}
+.dashboard-details {
+  grid-area: details;
+}
 
 /* Responsive dashboard */
 @media (max-width: 1023px) {
   .executive-dashboard {
     grid-template-areas:
-      "header"
-      "metrics"
-      "priority"
-      "activity"
-      "trends"
-      "details";
+      'header'
+      'metrics'
+      'priority'
+      'activity'
+      'trends'
+      'details';
     grid-template-columns: 1fr;
   }
 }
 ```
 
 #### **Card-Based Information Architecture**
+
 ```css
 /* Executive information cards */
 .executive-card {
   background: white;
   border: 1px solid var(--color-gray-200);
-  border-radius: 0.75rem;  /* 12px - slightly more sophisticated */
-  box-shadow: 0 1px 3px 0 rgb(0 0 0 / 0.1), 0 1px 2px -1px rgb(0 0 0 / 0.1);
+  border-radius: 0.75rem; /* 12px - slightly more sophisticated */
+  box-shadow:
+    0 1px 3px 0 rgb(0 0 0 / 0.1),
+    0 1px 2px -1px rgb(0 0 0 / 0.1);
   overflow: hidden;
   transition: box-shadow 200ms ease;
 }
 
 .executive-card:hover {
-  box-shadow: 0 4px 6px -1px rgb(0 0 0 / 0.1), 0 2px 4px -2px rgb(0 0 0 / 0.1);
+  box-shadow:
+    0 4px 6px -1px rgb(0 0 0 / 0.1),
+    0 2px 4px -2px rgb(0 0 0 / 0.1);
 }
 
 /* Card header with status indicator */
@@ -357,14 +391,15 @@
 ### **Input & Solution Display Patterns**
 
 #### **Input Card for Executive Scanning**
+
 ```css
 /* Optimized input card for executive review */
 .input-card-executive {
   display: grid;
   grid-template-areas:
-    "status title actions"
-    "meta description votes"
-    "tags tags engagement";
+    'status title actions'
+    'meta description votes'
+    'tags tags engagement';
   grid-template-columns: auto 1fr auto;
   gap: 0.75rem;
   padding: 1.25rem;
@@ -373,29 +408,46 @@
   border-radius: 0.75rem;
 }
 
-.input-status { grid-area: status; }
-.input-title { grid-area: title; }
-.input-actions { grid-area: actions; }
-.input-meta { grid-area: meta; }
-.input-description { grid-area: description; }
-.input-votes { grid-area: votes; }
-.input-tags { grid-area: tags; }
-.input-engagement { grid-area: engagement; }
+.input-status {
+  grid-area: status;
+}
+.input-title {
+  grid-area: title;
+}
+.input-actions {
+  grid-area: actions;
+}
+.input-meta {
+  grid-area: meta;
+}
+.input-description {
+  grid-area: description;
+}
+.input-votes {
+  grid-area: votes;
+}
+.input-tags {
+  grid-area: tags;
+}
+.input-engagement {
+  grid-area: engagement;
+}
 
 /* Mobile adaptation */
 @media (max-width: 767px) {
   .input-card-executive {
     grid-template-areas:
-      "status title"
-      "description description"
-      "tags votes"
-      "meta actions";
+      'status title'
+      'description description'
+      'tags votes'
+      'meta actions';
     grid-template-columns: auto 1fr;
   }
 }
 ```
 
 #### **Executive Action Patterns**
+
 ```css
 /* Executive-specific action buttons */
 .executive-actions {
@@ -454,6 +506,7 @@
 ### **Executive Metrics Display**
 
 #### **Key Performance Indicator Cards**
+
 ```css
 /* Executive KPI card styling */
 .kpi-card {
@@ -467,7 +520,7 @@
 }
 
 .kpi-value {
-  font-size: 3rem;       /* 48px */
+  font-size: 3rem; /* 48px */
   line-height: 1;
   font-weight: 800;
   color: var(--color-gray-900);
@@ -476,7 +529,7 @@
 }
 
 .kpi-label {
-  font-size: 0.875rem;   /* 14px */
+  font-size: 0.875rem; /* 14px */
   font-weight: 600;
   color: var(--color-gray-600);
   text-transform: uppercase;
@@ -507,6 +560,7 @@
 ```
 
 #### **Progress Indicators for Solutions**
+
 ```css
 /* Solution progress visualization */
 .solution-progress {
@@ -536,7 +590,7 @@
 
 .progress-bar-executive {
   width: 100%;
-  height: 0.75rem;      /* 12px - larger for executive visibility */
+  height: 0.75rem; /* 12px - larger for executive visibility */
   background: var(--color-gray-200);
   border-radius: 9999px;
   overflow: hidden;
@@ -545,7 +599,11 @@
 
 .progress-fill-executive {
   height: 100%;
-  background: linear-gradient(90deg, var(--color-primary-500), var(--color-primary-600));
+  background: linear-gradient(
+    90deg,
+    var(--color-primary-500),
+    var(--color-primary-600)
+  );
   border-radius: 9999px;
   transition: width 500ms ease;
   position: relative;
@@ -553,28 +611,37 @@
 
 /* Progress status variants */
 .progress-completed .progress-fill-executive {
-  background: linear-gradient(90deg, var(--color-success-500), var(--color-success-600));
+  background: linear-gradient(
+    90deg,
+    var(--color-success-500),
+    var(--color-success-600)
+  );
 }
 
 .progress-blocked .progress-fill-executive {
-  background: linear-gradient(90deg, var(--color-critical-500), var(--color-critical-600));
+  background: linear-gradient(
+    90deg,
+    var(--color-critical-500),
+    var(--color-critical-600)
+  );
 }
 ```
 
 ### **Chart & Graph Standards**
 
 #### **Executive Chart Color Palette**
+
 ```css
 /* Data visualization color sequence */
 :root {
-  --chart-color-1: #3b82f6;  /* Primary blue */
-  --chart-color-2: #22c55e;  /* Success green */
-  --chart-color-3: #f59e0b;  /* Warning orange */
-  --chart-color-4: #a855f7;  /* AI purple */
-  --chart-color-5: #14b8a6;  /* Analytics teal */
-  --chart-color-6: #ef4444;  /* Critical red */
-  --chart-color-7: #6b7280;  /* Neutral gray */
-  --chart-color-8: #8b5cf6;  /* Secondary purple */
+  --chart-color-1: #3b82f6; /* Primary blue */
+  --chart-color-2: #22c55e; /* Success green */
+  --chart-color-3: #f59e0b; /* Warning orange */
+  --chart-color-4: #a855f7; /* AI purple */
+  --chart-color-5: #14b8a6; /* Analytics teal */
+  --chart-color-6: #ef4444; /* Critical red */
+  --chart-color-7: #6b7280; /* Neutral gray */
+  --chart-color-8: #8b5cf6; /* Secondary purple */
 }
 
 /* Chart background and grid */
@@ -603,10 +670,11 @@
 ### **Primary Navigation for Executive Users**
 
 #### **Sidebar Navigation Structure**
+
 ```css
 /* Executive-optimized sidebar */
 .sidebar-executive {
-  width: 18rem;          /* 288px - wider for better readability */
+  width: 18rem; /* 288px - wider for better readability */
   background: white;
   border-right: 1px solid var(--color-gray-200);
   box-shadow: 0 4px 6px -1px rgb(0 0 0 / 0.1);
@@ -665,6 +733,7 @@
 ```
 
 #### **Navigation Menu Patterns**
+
 ```css
 /* Executive navigation sections */
 .nav-section-executive {
@@ -730,6 +799,7 @@
 ### **Breadcrumb Navigation for Context**
 
 #### **Executive Breadcrumb Pattern**
+
 ```css
 .breadcrumb-executive {
   display: flex;
@@ -745,7 +815,7 @@
 }
 
 .breadcrumb-item-executive:not(:last-child)::after {
-  content: "›";
+  content: '›';
   margin: 0 0.75rem;
   color: var(--color-gray-400);
   font-weight: 600;
@@ -775,13 +845,14 @@
 ### **Executive Button System**
 
 #### **Primary Action Buttons**
+
 ```css
 /* Executive primary button - larger, more prominent */
 .btn-executive-primary {
   background: var(--color-primary-600);
   color: white;
-  padding: 0.75rem 1.5rem;  /* 12px 24px - larger for executive use */
-  border-radius: 0.5rem;    /* 8px */
+  padding: 0.75rem 1.5rem; /* 12px 24px - larger for executive use */
+  border-radius: 0.5rem; /* 8px */
   font-weight: 600;
   font-size: 0.875rem;
   border: none;
@@ -790,7 +861,7 @@
   display: inline-flex;
   align-items: center;
   gap: 0.5rem;
-  min-height: 2.75rem;      /* 44px - touch-friendly */
+  min-height: 2.75rem; /* 44px - touch-friendly */
 }
 
 .btn-executive-primary:hover {
@@ -824,6 +895,7 @@
 ```
 
 #### **Quick Action Buttons**
+
 ```css
 /* Quick actions for executive efficiency */
 .quick-action-grid {
@@ -871,6 +943,7 @@
 ### **Voting & Collaboration for Executives**
 
 #### **Executive Voting Interface**
+
 ```css
 /* Voting interface optimized for executive use */
 .voting-executive {
@@ -924,6 +997,7 @@
 ```
 
 #### **Comment System for Executive Collaboration**
+
 ```css
 /* Executive comment interface */
 .comment-executive {
@@ -993,6 +1067,7 @@
 ### **Mobile Dashboard for Executives**
 
 #### **Mobile Executive Dashboard**
+
 ```css
 /* Mobile-first executive dashboard */
 .mobile-executive-dashboard {
@@ -1018,7 +1093,7 @@
 }
 
 .mobile-metric-value {
-  font-size: 1.875rem;   /* 30px */
+  font-size: 1.875rem; /* 30px */
   line-height: 1;
   font-weight: 800;
   color: var(--color-gray-900);
@@ -1035,6 +1110,7 @@
 ```
 
 #### **Mobile Input Capture**
+
 ```css
 /* Streamlined mobile input creation */
 .mobile-input-capture {
@@ -1113,6 +1189,7 @@
 ### **AI Suggestion Interface**
 
 #### **AI Confidence Communication**
+
 ```css
 /* AI suggestion container */
 .ai-suggestion {
@@ -1125,7 +1202,7 @@
 }
 
 .ai-suggestion::before {
-  content: "✨ AI Suggestion";
+  content: '✨ AI Suggestion';
   position: absolute;
   top: -0.5rem;
   left: 1rem;
@@ -1184,6 +1261,7 @@
 ```
 
 #### **AI Processing States**
+
 ```css
 /* AI processing indicator */
 .ai-processing {
@@ -1219,7 +1297,7 @@
 }
 
 .ai-generated::before {
-  content: "✨";
+  content: '✨';
   position: absolute;
   left: 0;
   top: 0;
@@ -1231,6 +1309,7 @@
 ### **Document Generation Interface**
 
 #### **FRD Generation Progress**
+
 ```css
 /* Document generation interface */
 .document-generation {
@@ -1291,12 +1370,13 @@
 ### **Workflow Status Indicators**
 
 #### **Status Badge System**
+
 ```css
 /* Executive status badges with enhanced visibility */
 .status-badge-executive {
   display: inline-flex;
   align-items: center;
-  padding: 0.375rem 0.75rem;  /* 6px 12px - larger for executive visibility */
+  padding: 0.375rem 0.75rem; /* 6px 12px - larger for executive visibility */
   font-size: 0.75rem;
   font-weight: 600;
   border-radius: 9999px;
@@ -1338,7 +1418,7 @@
 
 /* Status with icons */
 .status-badge-executive::before {
-  content: "";
+  content: '';
   width: 0.5rem;
   height: 0.5rem;
   border-radius: 50%;
@@ -1348,6 +1428,7 @@
 ```
 
 #### **Workflow Progress Visualization**
+
 ```css
 /* Executive workflow progress indicator */
 .workflow-progress {
@@ -1370,7 +1451,7 @@
 }
 
 .workflow-step:not(:last-child)::after {
-  content: "";
+  content: '';
   position: absolute;
   top: 1rem;
   right: -50%;
@@ -1431,6 +1512,7 @@
 ### **Dashboard Layout Architecture**
 
 #### **Executive Dashboard Grid**
+
 ```css
 /* Executive dashboard optimized for information consumption */
 .executive-dashboard {
@@ -1445,10 +1527,10 @@
 @media (min-width: 1024px) {
   .executive-dashboard {
     grid-template-areas:
-      "header header header header"
-      "metrics metrics metrics metrics"
-      "trends activity priority alerts"
-      "details details details details";
+      'header header header header'
+      'metrics metrics metrics metrics'
+      'trends activity priority alerts'
+      'details details details details';
     grid-template-columns: 1fr 1fr 1fr 1fr;
     grid-template-rows: auto auto auto 1fr;
     padding: 2rem;
@@ -1459,11 +1541,11 @@
 @media (min-width: 768px) and (max-width: 1023px) {
   .executive-dashboard {
     grid-template-areas:
-      "header header"
-      "metrics metrics"
-      "trends activity"
-      "priority alerts"
-      "details details";
+      'header header'
+      'metrics metrics'
+      'trends activity'
+      'priority alerts'
+      'details details';
     grid-template-columns: 1fr 1fr;
   }
 }
@@ -1472,13 +1554,13 @@
 @media (max-width: 767px) {
   .executive-dashboard {
     grid-template-areas:
-      "header"
-      "metrics"
-      "priority"
-      "activity"
-      "trends"
-      "alerts"
-      "details";
+      'header'
+      'metrics'
+      'priority'
+      'activity'
+      'trends'
+      'alerts'
+      'details';
     grid-template-columns: 1fr;
     gap: 1rem;
     padding: 1rem;
@@ -1487,6 +1569,7 @@
 ```
 
 #### **Dashboard Section Styling**
+
 ```css
 .dashboard-section {
   background: white;
@@ -1525,6 +1608,7 @@
 ### **Executive Alert & Priority Patterns**
 
 #### **Priority Queue Interface**
+
 ```css
 /* Executive priority queue */
 .priority-queue {
@@ -1608,6 +1692,7 @@
 ### **Executive Form Design**
 
 #### **Requirements Creation Form**
+
 ```css
 /* Executive requirements form */
 .executive-form {
@@ -1662,10 +1747,10 @@
 /* Executive form controls */
 .executive-input {
   width: 100%;
-  padding: 0.875rem 1rem;   /* 14px 16px - larger for executive use */
+  padding: 0.875rem 1rem; /* 14px 16px - larger for executive use */
   border: 1px solid var(--color-gray-300);
   border-radius: 0.5rem;
-  font-size: 1rem;          /* 16px - larger for readability */
+  font-size: 1rem; /* 16px - larger for readability */
   line-height: 1.5rem;
   transition: all 150ms ease;
   background: white;
@@ -1678,13 +1763,13 @@
 }
 
 .executive-textarea {
-  min-height: 8rem;         /* 128px - adequate space for executive content */
+  min-height: 8rem; /* 128px - adequate space for executive content */
   resize: vertical;
   font-family: inherit;
 }
 
 .executive-select {
-  background-image: url("data:image/svg+xml,..."); /* Custom dropdown arrow */
+  background-image: url('data:image/svg+xml,...'); /* Custom dropdown arrow */
   background-repeat: no-repeat;
   background-position: right 0.75rem center;
   padding-right: 2.5rem;
@@ -1692,6 +1777,7 @@
 ```
 
 #### **Form Actions for Executives**
+
 ```css
 /* Executive form action area */
 .executive-form-actions {
@@ -1752,6 +1838,7 @@
 ### **Executive Mobile Patterns**
 
 #### **Mobile Executive Navigation**
+
 ```css
 /* Bottom navigation for executive mobile use */
 .mobile-executive-nav {
@@ -1830,11 +1917,12 @@
 ### **Tablet Executive Interface**
 
 #### **Tablet Split-View Pattern**
+
 ```css
 /* Tablet split-view for executive efficiency */
 .tablet-split-view {
   display: grid;
-  grid-template-columns: 24rem 1fr;  /* 384px sidebar, flexible content */
+  grid-template-columns: 24rem 1fr; /* 384px sidebar, flexible content */
   height: 100vh;
   gap: 1px;
   background: var(--color-gray-200);
@@ -1881,6 +1969,7 @@
 ### **Executive Accessibility Enhancements**
 
 #### **High-Contrast Executive Mode**
+
 ```css
 /* High contrast mode for executive users */
 @media (prefers-contrast: high) {
@@ -1890,11 +1979,11 @@
     --color-gray-100: #f3f4f6;
     --color-gray-200: #d1d5db;
   }
-  
+
   .executive-card {
     border-width: 2px;
   }
-  
+
   .status-badge-executive {
     border-width: 2px;
     font-weight: 700;
@@ -1903,6 +1992,7 @@
 ```
 
 #### **Focus Management for Executive Workflows**
+
 ```css
 /* Enhanced focus indicators for executive interfaces */
 .executive-focus {
@@ -1911,7 +2001,7 @@
 
 .executive-focus:focus {
   outline: none;
-  box-shadow: 
+  box-shadow:
     0 0 0 3px rgb(59 130 246 / 0.1),
     0 0 0 1px var(--color-primary-600);
 }
@@ -1939,6 +2029,7 @@
 ### **Screen Reader Optimization**
 
 #### **Executive Content Structure**
+
 ```html
 <!-- Semantic structure for executive content -->
 <main role="main" aria-label="Executive Dashboard">
@@ -1946,15 +2037,17 @@
     <h2 id="metrics-title" class="sr-only">Key Performance Metrics</h2>
     <!-- Metrics content -->
   </section>
-  
+
   <section aria-labelledby="priority-title">
-    <h2 id="priority-title" class="sr-only">Priority Items Requiring Attention</h2>
+    <h2 id="priority-title" class="sr-only">
+      Priority Items Requiring Attention
+    </h2>
     <!-- Priority content -->
   </section>
 </main>
 
 <!-- ARIA labels for executive actions -->
-<button 
+<button
   aria-label="Approve solution: Network Infrastructure Upgrade"
   aria-describedby="solution-details"
 >
@@ -1974,6 +2067,7 @@
 ### **Executive Chart Patterns**
 
 #### **Trend Chart Styling**
+
 ```css
 /* Executive trend charts */
 .trend-chart-container {
@@ -2027,11 +2121,12 @@
 .trend-grid {
   stroke: var(--color-gray-200);
   stroke-width: 1;
-  stroke-dasharray: 2,2;
+  stroke-dasharray: 2, 2;
 }
 ```
 
 #### **Department Performance Visualization**
+
 ```css
 /* Department performance comparison */
 .department-performance {
@@ -2051,7 +2146,7 @@
 }
 
 .department-card::before {
-  content: "";
+  content: '';
   position: absolute;
   top: 0;
   left: 0;
@@ -2095,17 +2190,20 @@
 ### **Executive-Appropriate Animations**
 
 #### **Subtle Professional Animations**
+
 ```css
 /* Sophisticated micro-interactions */
 .executive-hover {
-  transition: 
+  transition:
     transform 200ms cubic-bezier(0.4, 0, 0.2, 1),
     box-shadow 200ms cubic-bezier(0.4, 0, 0.2, 1);
 }
 
 .executive-hover:hover {
   transform: translateY(-2px);
-  box-shadow: 0 8px 25px rgb(0 0 0 / 0.1), 0 4px 10px rgb(0 0 0 / 0.05);
+  box-shadow:
+    0 8px 25px rgb(0 0 0 / 0.1),
+    0 4px 10px rgb(0 0 0 / 0.05);
 }
 
 /* Status change animations */
@@ -2114,15 +2212,15 @@
 }
 
 @keyframes statusPulse {
-  0% { 
+  0% {
     background-color: var(--color-primary-100);
     transform: scale(1);
   }
-  50% { 
+  50% {
     background-color: var(--color-primary-200);
     transform: scale(1.02);
   }
-  100% { 
+  100% {
     background-color: white;
     transform: scale(1);
   }
@@ -2135,7 +2233,7 @@
 }
 
 .executive-loading::after {
-  content: "";
+  content: '';
   position: absolute;
   top: 0;
   left: -100%;
@@ -2151,13 +2249,16 @@
 }
 
 @keyframes shimmer {
-  100% { left: 100%; }
+  100% {
+    left: 100%;
+  }
 }
 ```
 
 ### **Performance Optimization for Executive Use**
 
 #### **Critical Performance Patterns**
+
 ```css
 /* Performance-optimized patterns */
 .critical-above-fold {
@@ -2180,7 +2281,7 @@
   transition: opacity 300ms ease;
 }
 
-.executive-image[loading="lazy"] {
+.executive-image[loading='lazy'] {
   opacity: 0;
 }
 
@@ -2196,6 +2297,7 @@
 ### **Next.js + Tailwind Implementation**
 
 #### **Tailwind Configuration for FAEVision**
+
 ```javascript
 // tailwind.config.js
 module.exports = {
@@ -2238,34 +2340,36 @@ module.exports = {
           500: '#14b8a6',
           600: '#0d9488',
           700: '#0f766e',
-        }
+        },
       },
       fontFamily: {
         sans: ['ui-sans-serif', 'system-ui', 'sans-serif'],
       },
       fontSize: {
-        'executive-title': ['2.25rem', { lineHeight: '2.5rem', fontWeight: '700' }],
+        'executive-title': [
+          '2.25rem',
+          { lineHeight: '2.5rem', fontWeight: '700' },
+        ],
         'metric-value': ['3rem', { lineHeight: '1', fontWeight: '800' }],
         'section-header': ['1.5rem', { lineHeight: '2rem', fontWeight: '600' }],
       },
       spacing: {
-        '18': '4.5rem',
-        '88': '22rem',
+        18: '4.5rem',
+        88: '22rem',
       },
       boxShadow: {
-        'executive': '0 8px 25px rgb(0 0 0 / 0.1), 0 4px 10px rgb(0 0 0 / 0.05)',
-        'executive-hover': '0 12px 35px rgb(0 0 0 / 0.15), 0 6px 15px rgb(0 0 0 / 0.08)',
-      }
-    }
+        executive: '0 8px 25px rgb(0 0 0 / 0.1), 0 4px 10px rgb(0 0 0 / 0.05)',
+        'executive-hover':
+          '0 12px 35px rgb(0 0 0 / 0.15), 0 6px 15px rgb(0 0 0 / 0.08)',
+      },
+    },
   },
-  plugins: [
-    require('@tailwindcss/forms'),
-    require('@tailwindcss/typography'),
-  ],
-}
+  plugins: [require('@tailwindcss/forms'), require('@tailwindcss/typography')],
+};
 ```
 
 #### **Component Implementation Pattern**
+
 ```typescript
 // Example executive component implementation
 import React from 'react';
@@ -2330,11 +2434,11 @@ export function ExecutiveCard({
           )}
         </div>
       </div>
-      
+
       <div className="card-body p-6">
         {children}
       </div>
-      
+
       <div className="card-footer bg-gray-25 px-6 py-4">
         <div className="flex items-center justify-between">
           <div className="flex items-center gap-4 text-sm text-gray-600">
@@ -2363,24 +2467,28 @@ export function ExecutiveCard({
 Our design standards build upon the Universal Design System foundation with specific adaptations for executive users:
 
 #### **✅ Information Architecture**
+
 - **Dashboard-first approach** with overview before details
 - **Status-driven navigation** following workflow progression
 - **Progressive disclosure** preventing information overload
 - **Scannable layouts** optimized for F-pattern reading
 
 #### **✅ Visual Design**
+
 - **Professional color palette** building stakeholder confidence
 - **Enhanced typography** for business intelligence display
 - **Sophisticated status indicators** for quick comprehension
 - **Data visualization** as first-class design elements
 
 #### **✅ Interaction Design**
+
 - **Executive-sized touch targets** (44px minimum)
 - **Quick action patterns** for efficiency
 - **Mobile executive workflows** for meeting-friendly capture
 - **AI transparency** with confidence indicators and override controls
 
 #### **✅ Accessibility & Performance**
+
 - **WCAG 2.1 AA compliance** with executive-specific enhancements
 - **High-contrast modes** for various viewing conditions
 - **Performance optimization** for executive patience levels
@@ -2403,4 +2511,4 @@ Our design standards build upon the Universal Design System foundation with spec
 
 ---
 
-*This document represents the comprehensive design standards for FAEVision MVP, specifically tailored for executive users and approved by unanimous expert team consensus.*
+_This document represents the comprehensive design standards for FAEVision MVP, specifically tailored for executive users and approved by unanimous expert team consensus._

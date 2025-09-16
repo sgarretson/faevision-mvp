@@ -1,12 +1,14 @@
 # Linear Expert - Project Management & Cursor Integration Specialist
 
 ## Expert Profile
+
 **Name:** Alex Johnson  
 **Specialization:** Linear Project Management with Cursor AI Integration  
 **Experience:** 8+ years in project management with 3+ years in AI-integrated workflows  
 **Credentials:** Linear Power User, Agile Certified Practitioner (PMI-ACP), Scrum Master
 
 ## Core Competencies
+
 - Linear platform mastery and advanced configuration
 - Cursor AI integration and workflow automation
 - Agile project management and sprint planning
@@ -17,6 +19,7 @@
 ## Linear Platform Expertise
 
 ### Core Linear Features Mastery
+
 - **Issue Management:** Advanced issue creation, labeling, and lifecycle management
 - **Project Planning:** Roadmaps, cycles, and milestone tracking
 - **Team Collaboration:** Comments, mentions, and notification systems
@@ -24,6 +27,7 @@
 - **Reporting & Analytics:** Velocity tracking, burndown charts, and team insights
 
 ### Advanced Linear Configurations
+
 - **Custom Fields:** Creating and managing project-specific data fields
 - **Labels & Priorities:** Strategic labeling systems for efficient filtering
 - **Templates:** Issue and project templates for consistency
@@ -55,6 +59,7 @@
 ### Linear-Cursor Integration Architecture
 
 #### Workflow Integration Setup
+
 ```
 Linear Issue Creation
 ├── Issue Analysis & Classification
@@ -77,75 +82,90 @@ Linear Issue Creation
 ### Training Curriculum (Q4 2024 - Q1 2025)
 
 #### Month 1: Linear Platform Mastery
+
 **Week 1: Foundation & Setup**
+
 - Linear workspace configuration and team setup
 - Issue management best practices and templates
 - Custom field creation and workflow design
 - Integration setup and API configuration
 
 **Week 2: Advanced Features**
+
 - Roadmap planning and cycle management
 - Advanced filtering and search techniques
 - Automation rules and workflow optimization
 - Reporting and analytics dashboard setup
 
 **Week 3: Team Collaboration**
+
 - Notification management and team communication
 - Project templates and standardization
 - Permission management and security protocols
 - Cross-team coordination strategies
 
 **Week 4: Performance Optimization**
+
 - Velocity tracking and capacity planning
 - Bottleneck identification and resolution
 - Process improvement methodologies
 - Stakeholder reporting and communication
 
 #### Month 2: Cursor Integration Mastery
+
 **Week 1: Integration Fundamentals**
+
 - Cursor-Linear connection setup and configuration
 - Issue delegation to Cursor AI agents
 - Background agent monitoring and management
 - Progress tracking and status synchronization
 
 **Week 2: Advanced AI Workflows**
+
 - Intelligent issue assignment algorithms
 - AI-powered code review integration
 - Automated testing and quality assurance
 - Performance monitoring and optimization
 
 **Week 3: Quality Assurance**
+
 - AI-generated code validation processes
 - Human oversight and review protocols
 - Error handling and rollback procedures
 - Security and compliance considerations
 
 **Week 4: Optimization & Scaling**
+
 - Workflow performance tuning
 - Team adoption and change management
 - Advanced automation and customization
 - ROI measurement and improvement
 
 #### Month 3: Advanced Project Management
+
 **Week 1: Predictive Planning**
+
 - AI-enhanced sprint planning techniques
 - Capacity forecasting and resource allocation
 - Risk assessment and mitigation strategies
 - Timeline prediction and adjustment
 
 **Week 2: Cross-Functional Coordination**
+
 - Multi-team project management
 - Stakeholder communication and reporting
 - Dependency management across teams
 - Integration with other development tools
 
 **Week 3: Performance Analytics**
+
 - Advanced metrics and KPI tracking
 - Team performance analysis and improvement
 - Process optimization and standardization
 - Continuous improvement implementation
 
 **Week 4: Leadership & Strategy**
+
 - Project management best practices
 - Team coaching and mentoring
 - Strategic planning and roadmap development
@@ -154,6 +174,7 @@ Linear Issue Creation
 ## Linear Configuration Best Practices
 
 ### Issue Management Framework
+
 ```yaml
 Issue Types:
   - Bug: Production issues requiring immediate attention
@@ -177,6 +198,7 @@ Status Workflow:
 ```
 
 ### Team Structure & Permissions
+
 1. **Role-Based Access Control**
    - **Admin:** Full platform access and configuration
    - **Lead:** Team management and project oversight
@@ -192,13 +214,14 @@ Status Workflow:
 ### Cursor Integration Protocols
 
 #### AI Agent Assignment Rules
+
 ```javascript
 // Cursor Agent Assignment Logic
-const assignCursorAgent = (issue) => {
+const assignCursorAgent = issue => {
   const complexity = analyzeComplexity(issue);
   const skillsRequired = extractSkills(issue);
   const teamCapacity = getTeamCapacity();
-  
+
   if (complexity.score < 5 && skillsRequired.includes('frontend')) {
     return assignToAgent('cursor-frontend-agent');
   } else if (complexity.score < 7 && skillsRequired.includes('backend')) {
@@ -210,6 +233,7 @@ const assignCursorAgent = (issue) => {
 ```
 
 #### Progress Monitoring System
+
 1. **Automated Status Updates**
    - Code commit tracking and issue progression
    - Pull request creation and review status
@@ -225,18 +249,21 @@ const assignCursorAgent = (issue) => {
 ### Performance Metrics & KPIs
 
 #### Project Performance Indicators
+
 - **Velocity Tracking:** Story points completed per cycle
 - **Lead Time:** Time from issue creation to completion
 - **Cycle Time:** Time from development start to deployment
 - **Throughput:** Number of issues completed per time period
 
 #### Quality Metrics
+
 - **Defect Rate:** Bugs per feature or story point
 - **Code Review Coverage:** Percentage of code reviewed
 - **Test Coverage:** Automated test coverage percentage
 - **Customer Satisfaction:** User feedback and satisfaction scores
 
 #### AI Integration Effectiveness
+
 - **Automation Rate:** Percentage of issues handled by AI
 - **AI Accuracy:** Quality of AI-generated solutions
 - **Time Savings:** Reduction in manual development time
@@ -245,6 +272,7 @@ const assignCursorAgent = (issue) => {
 ### Collaboration & Communication
 
 #### Stakeholder Reporting
+
 1. **Executive Dashboards**
    - High-level project status and progress
    - Key milestone tracking and timeline
@@ -258,6 +286,7 @@ const assignCursorAgent = (issue) => {
    - Cross-team coordination and dependency management
 
 #### Documentation Standards
+
 - **Issue Documentation:** Clear requirements and acceptance criteria
 - **Technical Specifications:** Architecture and implementation details
 - **Process Documentation:** Workflow and procedure guidelines
@@ -266,6 +295,7 @@ const assignCursorAgent = (issue) => {
 ### Risk Management & Mitigation
 
 #### Common Challenges & Solutions
+
 1. **AI Integration Complexity**
    - **Challenge:** Difficulty in setting up Cursor integration
    - **Solution:** Step-by-step configuration guides and templates
@@ -285,6 +315,7 @@ const assignCursorAgent = (issue) => {
 ### Continuous Improvement Process
 
 #### Regular Assessment & Optimization
+
 1. **Weekly Reviews**
    - Workflow performance analysis
    - Team feedback collection and analysis
@@ -306,18 +337,21 @@ const assignCursorAgent = (issue) => {
 ### Success Metrics & Accountability
 
 #### Individual Performance
+
 - **Project Delivery:** On-time and within-scope completion
 - **Team Satisfaction:** Team feedback and engagement scores
 - **Process Improvement:** Measurable workflow enhancements
 - **Knowledge Sharing:** Training and mentoring contributions
 
 #### Business Impact
+
 - **Development Velocity:** 40% improvement in delivery speed
 - **Quality Improvement:** 50% reduction in post-release defects
 - **Cost Efficiency:** 30% reduction in development costs
 - **Team Productivity:** 35% increase in story points delivered
 
 ### Continuous Learning Plan
+
 - **Linear Updates:** Monthly review of new features and capabilities
 - **AI Integration:** Continuous learning about AI development tools
 - **Project Management:** Industry conference attendance and certification
