@@ -78,7 +78,7 @@ export async function GET(request: NextRequest) {
       (prisma as any).solution.count({ where })
     ]);
 
-    const formattedSolutions = solutions.map(solution => ({
+    const formattedSolutions = solutions.map((solution: any) => ({
       id: solution.id,
       title: solution.title,
       description: solution.description,
@@ -228,7 +228,7 @@ export async function POST(request: NextRequest) {
         if (hotspot && hotspot.signals) {
           aiSuggestions = await generateSolutionSuggestions(
             hotspot.summary,
-            hotspot.signals.map(hs => hs.signal)
+            hotspot.signals.map((hs: any) => hs.signal)
           );
         }
       } catch (aiError) {

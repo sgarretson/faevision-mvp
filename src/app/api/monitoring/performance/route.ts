@@ -274,7 +274,7 @@ async function calculateEstimatedROI(): Promise<number> {
 
     let totalROI = 0;
     
-    solutions.forEach(solution => {
+    solutions.forEach((solution: any) => {
       const expected = solution.expectedImpactJson as any;
       const actual = solution.actualImpactJson as any;
       

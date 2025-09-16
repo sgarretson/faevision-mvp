@@ -234,8 +234,8 @@ async function gatherDepartmentBreakdown(weekAgo: Date) {
       select: { id: true, name: true }
     });
 
-    return departmentStats.map(stat => {
-      const dept = departments.find(d => d.id === stat.departmentId);
+    return departmentStats.map((stat: any) => {
+      const dept = departments.find((d: any) => d.id === stat.departmentId);
       return {
         department: dept?.name || 'Unknown',
         signalCount: stat._count.id
@@ -273,8 +273,8 @@ async function identifyKeyTrends(weekAgo: Date) {
       _count: { id: true }
     });
 
-    const criticalCount = severityTrends.find(t => t.severity === 'CRITICAL')?._count.id || 0;
-    const highCount = severityTrends.find(t => t.severity === 'HIGH')?._count.id || 0;
+    const criticalCount = severityTrends.find((t: any) => t.severity === 'CRITICAL')?._count.id || 0;
+    const highCount = severityTrends.find((t: any) => t.severity === 'HIGH')?._count.id || 0;
     
     if (criticalCount > 0) {
       trends.push({
