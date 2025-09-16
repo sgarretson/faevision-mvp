@@ -141,7 +141,7 @@ function buildClusters(
   const clusters: Cluster[] = [];
   let clusterId = 0;
   
-  for (const corePoint of corePoints) {
+  for (const corePoint of Array.from(corePoints)) {
     if (visited.has(corePoint)) continue;
     
     // Start new cluster from this core point

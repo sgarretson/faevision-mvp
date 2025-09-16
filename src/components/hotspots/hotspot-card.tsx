@@ -185,8 +185,8 @@ export function HotspotCard({ hotspot, isSelected, onSelect, onAction }: Hotspot
             {/* Action History */}
             <div className="flex items-center justify-between pt-4 border-t border-gray-200">
               <div className="text-xs text-gray-500">
-                Created {formatTimeAgo(hotspot.createdAt)} • 
-                Last updated {formatTimeAgo(hotspot.updatedAt)}
+                Created {formatTimeAgo((hotspot as any).createdAt)} • 
+                Last updated {formatTimeAgo((hotspot as any).updatedAt)}
               </div>
               
               <div className="flex space-x-2">

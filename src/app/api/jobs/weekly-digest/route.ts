@@ -252,7 +252,7 @@ async function gatherDepartmentBreakdown(weekAgo: Date) {
       _count: { id: true }
     });
 
-    return departmentStats.map(stat => ({
+    return departmentStats.map((stat: any) => ({
       department: stat.department || 'Unknown',
       signalCount: stat._count.id
     }));

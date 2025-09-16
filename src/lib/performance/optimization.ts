@@ -87,7 +87,7 @@ export function invalidateCache(type: string, key?: string): void {
 export function getCacheStats(): Record<string, any> {
   const stats: Record<string, any> = {};
   
-  for (const [type, cache] of caches.entries()) {
+  for (const [type, cache] of Array.from(caches.entries())) {
     stats[type] = {
       size: cache.size,
       maxSize: cache.max,
@@ -414,7 +414,7 @@ export class MemoryManager {
     }
     
     // Clear old cache entries
-    for (const cache of caches.values()) {
+    for (const cache of Array.from(caches.values())) {
       if (cache.size > cache.max * 0.8) {
         // Remove oldest 20% of entries when cache is 80% full
         const keysToDelete = Math.floor(cache.size * 0.2);

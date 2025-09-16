@@ -122,21 +122,86 @@ type SafeCallback<T, R> = (item: T) => R
 - **Interface Completeness**: Full interface definitions for all V2 structures
 - **Runtime Safety**: Type guards for all external data inputs
 
-### Expert Assignment Triggers
+### 🚨 PROACTIVE COMPREHENSIVE AUDIT PROTOCOLS
+
+### **MANDATORY Comprehensive Audits**
+**TypeScript Expert MUST perform complete codebase audit:**
+1. **Before Each Deployment**: Full `npx tsc --noEmit --strict` scan
+2. **After Schema Changes**: Complete V2 model compatibility verification
+3. **Post-Feature Development**: Systematic type safety validation
+4. **Build Failure Prevention**: Proactive violation identification
+
+### **Comprehensive Audit Checklist**
+```bash
+# 1. Complete TypeScript Strict Mode Audit
+npx tsc --noEmit --strict 2>&1 | tee typescript-audit.log
+
+# 2. Implicit 'Any' Type Detection
+grep -r "implicitly has an 'any' type" typescript-audit.log
+
+# 3. Property Access Violations
+grep -r "Property .* does not exist" typescript-audit.log
+
+# 4. V2 Model Access Pattern Validation
+grep -r "prisma\\.[a-z]" src/ --include="*.ts" | grep -v "(prisma as any)"
+
+# 5. Callback Parameter Type Verification
+grep -r "\\.map(\\|.reduce(\\|.filter(\\|.forEach(" src/ --include="*.ts" | grep -v ": any"
+
+# 6. Iteration Compatibility Check
+grep -r "can only be iterated through" typescript-audit.log
+
+# 7. Schema Field Compatibility
+grep -r "does not exist in type" typescript-audit.log
+```
+
+### **Learning & Knowledge Management**
+
+#### **TypeScript Expert Continuous Learning Protocol**
+1. **Pattern Recognition**: Document every new violation type encountered
+2. **Solution Repository**: Maintain comprehensive fix patterns database
+3. **Proactive Prevention**: Create preventive type safety protocols
+4. **Team Education**: Regular TypeScript best practice training sessions
+5. **Framework Evolution**: Continuously enhance framework with new patterns
+
+#### **Expert Knowledge Base**
+```typescript
+// VIOLATION PATTERN LIBRARY
+
+// Pattern 1: Property Access on Generic Objects
+// ERROR: Property 'department' does not exist on type '{}'
+// FIX: Explicit type annotation
+.map((stat: any) => stat.department)
+
+// Pattern 2: Iteration Over Advanced Collections
+// ERROR: Type 'Set<number>' can only be iterated through with '--target' es2015+
+// FIX: Array conversion or configuration adjustment
+Array.from(mySet).forEach(...)
+
+// Pattern 3: V2 Schema Field Mismatches  
+// ERROR: 'passwordHash' does not exist in type 'UserCreateInput'
+// FIX: Schema synchronization or field removal
+
+// Pattern 4: Enum Value Compatibility
+// ERROR: Type '"ACTIVE"' is not assignable to type 'SolutionStatus'
+// FIX: Enum value verification and correction
+```
+
+## Expert Assignment Triggers
 
 **MANDATORY TypeScript Expert involvement for:**
-- Any TypeScript compilation errors in strict mode
-- New V2 model or schema modifications
-- Complex generic type implementations
-- Performance-critical type operations
-- Build failure investigations involving type errors
+- **🚨 ANY TypeScript compilation errors** in strict mode (immediate response)
+- **🚨 Build failures** with type-related errors (emergency protocol)
+- **🚨 New V2 model or schema modifications** (pre-deployment audit)
+- **🚨 Complex generic type implementations** (expert review required)
+- **🚨 Performance-critical type operations** (optimization consultation)
 
-**RECOMMENDED TypeScript Expert consultation for:**
-- Complex callback function implementations
-- Advanced Prisma query type safety
-- Generic utility function development
-- Interface design for new V2 features
-- Type safety optimization initiatives
+**PROACTIVE TypeScript Expert protocols:**
+- **📋 Weekly comprehensive audits** of entire codebase
+- **🔍 Pre-deployment type safety scans** (mandatory quality gate)
+- **📚 Continuous pattern recognition** and solution documentation
+- **🎓 Team training** on emerging TypeScript issues and solutions
+- **🛡️ Prevention protocol development** for common violation patterns
 
 ## Development Productivity Optimization
 
