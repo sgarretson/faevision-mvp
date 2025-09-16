@@ -71,7 +71,7 @@ export async function POST(request: NextRequest) {
       // Fallback to legacy Input model
       signals = await prisma.input.findMany({
         where: {
-          aiConfidence: { not: null }
+          aiProcessed: true
         },
         include: {
           creator: true
@@ -92,7 +92,7 @@ export async function POST(request: NextRequest) {
     }
 
     // Extract embeddings for clustering
-    const embeddings = signals.map(signal => {
+    const embeddings = signals.map((signal: any) => {
       if (signal.embedding) {
         // V2 Signal model with Bytes embedding
         return Array.from(new Float32Array(signal.embedding));
@@ -206,7 +206,22 @@ async function createHotspotFromCluster(signals: any[], cluster: any, analysis: 
   
   try {
     // Try V2 Hotspot model
-    const hotspot = await prisma.hotspot.create({
+    const hotspotModel = (prisma as any).hotspot;
+    if (!hotspotModel) {
+      // Return simple legacy response if V2 models not available
+      return {
+        id: `legacy-cluster-${Date.now()}`,
+        title: analysis.suggested_title || `${analysis.common_theme}`,
+        summary: analysis.reasoning || 'AI-identified pattern requiring attention',
+        confidence: 0.8,
+        signalIds: cluster.map((idx: number) => signals[idx].id),
+        membershipStrengths: cluster.map(() => 1.0),
+        clusteringMethod: 'LEGACY_HDBSCAN',
+        status: 'ACTIVE'
+      };
+    }
+    
+    const hotspot = await hotspotModel.create({
       data: {
         title: analysis.suggested_title || `${analysis.common_theme}`,
         summary: analysis.reasoning || 'AI-identified pattern requiring attention',
