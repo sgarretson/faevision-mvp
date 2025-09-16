@@ -173,7 +173,8 @@ export async function GET(request: NextRequest) {
           type: 'GENERAL' as const, // Default type since Signal model doesn't have type field
           priority: signal.severity || 'MEDIUM', // Map severity to priority
           department: signal.department?.name || 'Unknown',
-          creator: signal.createdBy?.name || 'Unknown',
+          creator:
+            signal.createdBy?.name || signal.createdBy?.email || 'Unknown User',
           createdAt: signal.createdAt.toISOString(),
           votesCount,
           commentsCount,

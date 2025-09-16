@@ -395,7 +395,7 @@ export default function ExecutiveDashboard() {
                         </span>
                         <div className="min-w-0 flex-1">
                           <h4 className="truncate text-sm font-medium text-gray-900">
-                            {input.title}
+                            {input.title || 'Untitled Input'}
                           </h4>
                           <div className="mt-1 flex items-center space-x-2">
                             <Badge
@@ -405,12 +405,12 @@ export default function ExecutiveDashboard() {
                               {input.priority}
                             </Badge>
                             <span className="text-xs text-gray-500">
-                              {input.department}
+                              {input.department || 'Unknown'}
                             </span>
                           </div>
                           <div className="mt-2 flex items-center justify-between">
                             <div className="text-xs text-gray-500">
-                              by {input.creator} •{' '}
+                              by {input.creator || 'Unknown User'} •{' '}
                               {formatTimeAgo(input.createdAt)}
                             </div>
                             <div className="flex items-center space-x-3 text-xs text-gray-500">
