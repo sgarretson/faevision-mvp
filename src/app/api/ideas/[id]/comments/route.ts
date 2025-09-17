@@ -128,7 +128,7 @@ export async function POST(
         content: validatedData.content,
         entityType: 'IDEA',
         entityId: id,
-        createdById: session.user.id,
+        createdBy: session.user.id,
       },
       include: {
         creator: {

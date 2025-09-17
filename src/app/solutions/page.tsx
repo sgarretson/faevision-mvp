@@ -71,7 +71,6 @@ const STATUS_COLORS = {
   CANCELLED: 'bg-red-100 text-red-800',
 };
 
-
 const STATUS_ICONS = {
   PLANNING: '📝',
   ACTIVE: '🚀',
@@ -252,7 +251,6 @@ export default function SolutionsPage() {
                 <option value="COMPLETED">Completed</option>
                 <option value="CANCELLED">Cancelled</option>
               </select>
-
             </div>
           </CardContent>
         </Card>
@@ -343,33 +341,26 @@ export default function SolutionsPage() {
                         </div>
 
                         {/* Connected Sources */}
-                        {(solution.input || solution.hotspot || solution.initiative) && (
+                        {(solution.input ||
+                          solution.hotspot ||
+                          solution.initiative) && (
                           <div className="mt-3">
                             <p className="mb-1 text-xs text-gray-500">
                               Connected Sources:
                             </p>
                             <div className="flex flex-wrap gap-1">
                               {solution.input && (
-                                <Badge
-                                  variant="outline"
-                                  className="text-xs"
-                                >
+                                <Badge variant="outline" className="text-xs">
                                   Input: {solution.input.title}
                                 </Badge>
                               )}
                               {solution.hotspot && (
-                                <Badge
-                                  variant="outline"
-                                  className="text-xs"
-                                >
+                                <Badge variant="outline" className="text-xs">
                                   Hotspot: {solution.hotspot.title}
                                 </Badge>
                               )}
                               {solution.initiative && (
-                                <Badge
-                                  variant="outline"
-                                  className="text-xs"
-                                >
+                                <Badge variant="outline" className="text-xs">
                                   Initiative: {solution.initiative.name}
                                 </Badge>
                               )}
@@ -390,7 +381,9 @@ export default function SolutionsPage() {
                           {solution.hotspot?._count?.signals && (
                             <div className="flex items-center space-x-1">
                               <Users className="h-4 w-4" />
-                              <span>{solution.hotspot._count.signals} signals</span>
+                              <span>
+                                {solution.hotspot._count.signals} signals
+                              </span>
                             </div>
                           )}
                           <div className="flex items-center space-x-1">
