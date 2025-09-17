@@ -208,14 +208,14 @@ export async function POST(request: NextRequest) {
     }
 
     // Save clustering results to database
-    await saveClusteringResults(
+    const hotspotId = await saveClusteringResults(
       clusteringResult,
       signals.map((s: any) => s.id),
       session.user.id
     );
 
-    // Log clustering activity
-    await logClusteringActivity(session.user.id, clusteringResult);
+    // Log clustering activity with hotspot reference
+    await logClusteringActivity(session.user.id, clusteringResult, hotspotId);
 
     const processingTime = Date.now() - startTime;
 
@@ -269,8 +269,8 @@ export async function POST(request: NextRequest) {
   } catch (error: any) {
     console.error('Hybrid clustering failed:', error);
 
-    // Log error for debugging
-    await logClusteringError(error.message);
+    // Log error for debugging (skip audit due to missing required fields)
+    await logClusteringError(error.message, session.user.id);
 
     return NextResponse.json(
       {
@@ -351,7 +351,7 @@ async function saveClusteringResults(
   result: any,
   signalIds: string[],
   userId: string
-): Promise<void> {
+): Promise<string> {
   try {
     // Create or update hotspot with clustering results
     await (prisma as any).hotspot.upsert({
@@ -381,9 +381,11 @@ async function saveClusteringResults(
     });
 
     console.log('✅ Clustering results saved to database');
+    return 'main_hotspot_v2';
   } catch (error) {
     console.error('Failed to save clustering results:', error);
     // Don't fail the main operation for save errors
+    throw error; // Re-throw to indicate failure
   }
 }
 
@@ -392,23 +394,34 @@ async function saveClusteringResults(
  */
 async function logClusteringActivity(
   userId: string,
-  result: any
+  result: any,
+  hotspotId?: string
 ): Promise<void> {
   try {
+    // Only log if we have a hotspotId (successful clustering with created hotspot)
+    if (!hotspotId) {
+      console.log('ℹ️ Skipping audit log - no hotspot created');
+      return;
+    }
+
     await (prisma as any).aIAnalysisAudit.create({
       data: {
+        hotspotId,
         userId,
         analysisType: 'HYBRID_CLUSTERING',
-        modelVersion: result.version,
-        processingTime: result.processingTime,
-        confidence: result.overallQuality,
-        resultJson: {
+        requestData: {
           inputSignalCount: result.inputSignalCount,
+          clusteringVersion: result.version,
+        },
+        responseData: {
           outputClusterCount: result.outputClusterCount,
           clusteringEfficiency: result.clusteringEfficiency,
           businessRelevanceScore: result.businessRelevanceScore,
           executiveActionability: result.executiveActionability,
         },
+        processingTime: result.processingTime,
+        confidence: result.overallQuality,
+        status: 'success',
         createdAt: new Date(),
       },
     });
@@ -421,15 +434,29 @@ async function logClusteringActivity(
 /**
  * Log clustering errors for debugging
  */
-async function logClusteringError(errorMessage: string): Promise<void> {
+async function logClusteringError(
+  errorMessage: string,
+  userId?: string,
+  hotspotId?: string
+): Promise<void> {
   try {
+    // Skip logging if we don't have required fields for schema compliance
+    if (!userId || !hotspotId) {
+      console.log('ℹ️ Skipping error audit log - missing required fields');
+      return;
+    }
+
     await (prisma as any).aIAnalysisAudit.create({
       data: {
+        hotspotId,
+        userId,
         analysisType: 'HYBRID_CLUSTERING',
-        modelVersion: 'ERROR',
+        requestData: { attemptedAt: new Date().toISOString() },
+        responseData: { error: errorMessage },
         processingTime: 0,
         confidence: 0,
-        resultJson: { error: errorMessage },
+        status: 'error',
+        errorMessage,
         createdAt: new Date(),
       },
     });
