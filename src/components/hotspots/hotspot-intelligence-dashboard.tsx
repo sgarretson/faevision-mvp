@@ -121,15 +121,93 @@ export function HotspotIntelligenceDashboard() {
         console.log('🔍 Result object:', data.result);
 
         if (data.success && data.result) {
+          // Normalize cluster shape to the expected ClusterIntelligence interface
+          const rawClusters: any[] = data.result.finalClusters || [];
+          const normalizedClusters: ClusterIntelligence[] = rawClusters.map(
+            (c: any, idx: number) => {
+              const id = c.id || c.clusterId || `cluster-${idx}`;
+              const name =
+                c.name || c.label || c.category || 'Process & Workflow';
+              const urgencyScore: number =
+                c.urgencyScore ?? c.priorityScore ?? 0;
+              const type: ClusterIntelligence['type'] =
+                urgencyScore > 0.85
+                  ? 'CRITICAL'
+                  : urgencyScore > 0.7
+                    ? 'HIGH'
+                    : urgencyScore > 0.4
+                      ? 'MEDIUM'
+                      : 'LOW';
+              const signalCount: number =
+                c.signalCount ||
+                (c.signals ? c.signals.length : 0) ||
+                c.memberCount ||
+                0;
+              const businessRelevance: number =
+                c.businessRelevance ??
+                c.businessRelevanceScore ??
+                c.executiveRelevance ??
+                0;
+              const actionability: number =
+                c.actionability ?? c.executiveActionability ?? 0;
+
+              const affectedDepartments: string[] =
+                c.affectedDepartments || c.departmentsInvolved || [];
+
+              const rootCauseBreakdown =
+                c.rootCauseBreakdown || c.rootCauses || [];
+
+              const recommendedActions: string[] =
+                c.recommendedActions || c.recommendations || [];
+
+              const businessImpact = {
+                costImpact:
+                  (c.businessImpact && c.businessImpact.costImpact) ||
+                  c.estimatedCost ||
+                  0,
+                timelineImpact:
+                  (c.businessImpact && c.businessImpact.timelineImpact) ||
+                  c.scheduleImpact ||
+                  0,
+                qualityRisk:
+                  (c.businessImpact && c.businessImpact.qualityRisk) || 0,
+                clientSatisfaction:
+                  (c.businessImpact && c.businessImpact.clientSatisfaction) ??
+                  0.5,
+              };
+
+              return {
+                id,
+                name,
+                type,
+                signalCount,
+                businessImpact,
+                rootCauseBreakdown,
+                affectedDepartments,
+                departmentsInvolved: c.departmentsInvolved,
+                actionability,
+                urgencyScore,
+                businessRelevance,
+                recommendedActions,
+                estimatedResolution: c.estimatedResolution || {
+                  timeframe: '2–4 weeks',
+                  resources: [],
+                  cost: '$0',
+                },
+              };
+            }
+          );
+
           // Map the hybrid clustering results to the expected ClusteringResults interface
           const mappedResults: ClusteringResults = {
             success: data.result.success || true,
             inputSignalCount: data.result.inputSignalCount || 0,
-            outputClusterCount: data.result.outputClusterCount || 0,
+            outputClusterCount:
+              data.result.outputClusterCount || normalizedClusters.length,
             clusteringEfficiency: data.result.clusteringEfficiency || 1.0,
             businessRelevanceScore: data.result.businessRelevanceScore || 0,
             executiveActionability: data.result.executiveActionability || 0,
-            finalClusters: data.result.finalClusters || [],
+            finalClusters: normalizedClusters,
             processingTime: data.result.processingTime || 0,
             lastGenerated: data.result.generatedAt || new Date().toISOString(),
           };
