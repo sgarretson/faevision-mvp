@@ -81,6 +81,11 @@ export function HotspotIntelligenceDashboard() {
   const [selectedCluster, setSelectedCluster] = useState<string | null>(null);
   const [generating, setGenerating] = useState(false);
 
+  // Debug loading state changes
+  useEffect(() => {
+    console.log('🔧 Loading state changed to:', loading);
+  }, [loading]);
+
   const loadClusteringResults = useCallback(async () => {
     try {
       console.log('🔍 Loading clustering results...');
@@ -163,13 +168,15 @@ export function HotspotIntelligenceDashboard() {
   }, []);
 
   useEffect(() => {
-    console.log(`🔐 Auth status: ${status}`);
+    console.log(`🔐 Auth status changed to: ${status}`);
     if (status === 'authenticated') {
       console.log('✅ User authenticated, loading clustering results...');
       loadClusteringResults();
     } else if (status === 'unauthenticated') {
       console.log('❌ User not authenticated');
       setLoading(false);
+    } else if (status === 'loading') {
+      console.log('⏳ Auth still loading...');
     }
   }, [status, loadClusteringResults]);
 
@@ -267,7 +274,9 @@ export function HotspotIntelligenceDashboard() {
 
   console.log('🎨 Render check:', {
     authStatus: status,
+    authStatusType: typeof status,
     loading: loading,
+    loadingType: typeof loading,
     shouldShowSkeleton: status === 'loading' || loading,
     hasResults: !!clusteringResults,
     hasMetrics: !!metrics,
@@ -275,8 +284,10 @@ export function HotspotIntelligenceDashboard() {
 
   if (status === 'loading' || loading) {
     console.log('🔄 Showing skeleton because:', {
+      authStatus: status,
       authLoading: status === 'loading',
       componentLoading: loading,
+      combinedCondition: status === 'loading' || loading,
     });
     return <IntelligenceDashboardSkeleton />;
   }
