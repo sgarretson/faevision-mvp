@@ -91,12 +91,13 @@ export async function POST(request: NextRequest) {
     });
 
     // Map Signal model fields to frontend interface
-    const mappedType = input.severity === 'HIGH' || input.severity === 'CRITICAL' 
-      ? 'PROBLEM' 
-      : input.severity === 'LOW' 
-        ? 'OPPORTUNITY' 
-        : 'GENERAL';
-        
+    const mappedType =
+      input.severity === 'HIGH' || input.severity === 'CRITICAL'
+        ? 'PROBLEM'
+        : input.severity === 'LOW'
+          ? 'OPPORTUNITY'
+          : 'GENERAL';
+
     const mappedInput = {
       id: input.id,
       title: input.title || 'Untitled Signal',
@@ -170,10 +171,10 @@ export async function GET(request: NextRequest) {
 
     // Build where clause for Signal model
     const where: Record<string, unknown> = {};
-    
+
     // Map frontend status to Signal fields - no direct status field in Signal
     // Status filtering would be based on signal state, for now ignore
-    
+
     // Map frontend type to Signal sourceType or severity
     if (type) {
       // Map input types to Signal characteristics
@@ -192,14 +193,14 @@ export async function GET(request: NextRequest) {
           break;
       }
     }
-    
+
     // Map department filter to departmentId via department relation
     if (department) {
       where.department = {
         name: {
           equals: department,
-          mode: 'insensitive'
-        }
+          mode: 'insensitive',
+        },
       };
     }
 
@@ -256,12 +257,13 @@ export async function GET(request: NextRequest) {
         ]);
 
         // Map Signal model fields to frontend interface with enhanced tagging
-        const mappedType = signal.severity === 'HIGH' || signal.severity === 'CRITICAL' 
-          ? 'PROBLEM' 
-          : signal.severity === 'LOW' 
-            ? 'OPPORTUNITY' 
-            : 'GENERAL';
-            
+        const mappedType =
+          signal.severity === 'HIGH' || signal.severity === 'CRITICAL'
+            ? 'PROBLEM'
+            : signal.severity === 'LOW'
+              ? 'OPPORTUNITY'
+              : 'GENERAL';
+
         return {
           id: signal.id,
           title: signal.title || 'Untitled Signal',

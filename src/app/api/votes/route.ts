@@ -3,10 +3,20 @@ import { auth } from '@/lib/auth';
 import { prisma } from '@/lib/prisma';
 import { z } from 'zod';
 
-const voteSchema = z.object({
+// Support both Input voting and Idea voting schemas
+const inputVoteSchema = z.object({
   inputId: z.string().cuid(),
   type: z.enum(['UP', 'DOWN']),
 });
+
+const ideaVoteSchema = z.object({
+  entityType: z.enum(['IDEA', 'SIGNAL']),
+  entityId: z.string().cuid(),
+  value: z.enum(['UP', 'DOWN']),
+});
+
+// Combined schema - try both formats
+const voteSchema = z.union([inputVoteSchema, ideaVoteSchema]);
 
 // Helper function to convert type to value (V2 uses direct enum values)
 const typeToValue = (type: 'UP' | 'DOWN'): 'UP' | 'DOWN' => type;
@@ -23,11 +33,28 @@ export async function POST(request: NextRequest) {
     const body = await request.json();
     const validatedData = voteSchema.parse(body);
 
-    // Check if user already voted on this input
+    // Normalize data - handle both Input and Idea voting formats
+    let entityType: string;
+    let entityId: string;
+    let voteValue: 'UP' | 'DOWN';
+
+    if ('inputId' in validatedData) {
+      // Input voting format
+      entityType = 'SIGNAL';
+      entityId = validatedData.inputId;
+      voteValue = validatedData.type;
+    } else {
+      // Idea voting format
+      entityType = validatedData.entityType;
+      entityId = validatedData.entityId;
+      voteValue = validatedData.value;
+    }
+
+    // Check if user already voted on this entity
     const existingVote = await (prisma as any).vote.findFirst({
       where: {
-        entityType: 'SIGNAL',
-        entityId: validatedData.inputId,
+        entityType,
+        entityId,
         createdBy: session.user.id,
       },
     });
@@ -35,7 +62,7 @@ export async function POST(request: NextRequest) {
     let vote;
     let action = '';
 
-    const newValue = typeToValue(validatedData.type);
+    const newValue = typeToValue(voteValue);
 
     if (existingVote) {
       if (existingVote.value === newValue) {
@@ -58,8 +85,8 @@ export async function POST(request: NextRequest) {
       vote = await (prisma as any).vote.create({
         data: {
           value: newValue,
-          entityType: 'SIGNAL',
-          entityId: validatedData.inputId,
+          entityType,
+          entityId,
           createdBy: session.user.id,
         },
       });
@@ -69,8 +96,8 @@ export async function POST(request: NextRequest) {
     // Get updated vote counts
     const votes = await (prisma as any).vote.findMany({
       where: {
-        entityType: 'SIGNAL',
-        entityId: validatedData.inputId,
+        entityType,
+        entityId,
       },
       select: { value: true },
     });
@@ -86,14 +113,16 @@ export async function POST(request: NextRequest) {
         entityType: 'vote',
         entityId: vote?.id || existingVote?.id || '',
         changes: {
-          inputId: validatedData.inputId,
-          voteType: validatedData.type,
+          entityType,
+          entityId,
+          voteType: voteValue,
           action,
         },
       },
     });
 
-    return NextResponse.json({
+    // Return compatible response for both Input and Idea components
+    const voteResponse = {
       success: true,
       vote: vote ? { ...vote, type: valueToType(vote.value) } : null,
       action,
@@ -102,7 +131,16 @@ export async function POST(request: NextRequest) {
         down: downVotes,
         total: upVotes + downVotes,
       },
-    });
+      // Ideas component expects these fields
+      votes: {
+        up: upVotes,
+        down: downVotes,
+        total: upVotes + downVotes,
+      },
+      userVote: vote ? valueToType(vote.value) : null,
+    };
+
+    return NextResponse.json(voteResponse);
   } catch (error) {
     console.error('Vote operation error:', error);
 
@@ -165,6 +203,85 @@ export async function GET(request: NextRequest) {
     });
   } catch (error) {
     console.error('Vote fetch error:', error);
+    return NextResponse.json(
+      {
+        error: 'Internal server error',
+      },
+      { status: 500 }
+    );
+  }
+}
+
+export async function DELETE(request: NextRequest) {
+  try {
+    // Check authentication
+    const session = await auth();
+    if (!session?.user?.id) {
+      return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
+    }
+
+    const body = await request.json();
+    const { entityType, entityId } = body;
+
+    if (!entityType || !entityId) {
+      return NextResponse.json(
+        { error: 'Entity type and ID required' },
+        { status: 400 }
+      );
+    }
+
+    // Find and delete user's vote
+    const existingVote = await (prisma as any).vote.findFirst({
+      where: {
+        entityType,
+        entityId,
+        createdBy: session.user.id,
+      },
+    });
+
+    if (existingVote) {
+      await (prisma as any).vote.delete({
+        where: { id: existingVote.id },
+      });
+    }
+
+    // Get updated vote counts
+    const votes = await (prisma as any).vote.findMany({
+      where: {
+        entityType,
+        entityId,
+      },
+      select: { value: true },
+    });
+
+    const upVotes = votes.filter((v: any) => v.value === 'UP').length;
+    const downVotes = votes.filter((v: any) => v.value === 'DOWN').length;
+
+    // Log the action for audit
+    await (prisma as any).auditLog.create({
+      data: {
+        userId: session.user.id,
+        action: 'VOTE_REMOVED',
+        entityType: 'vote',
+        entityId: existingVote?.id || '',
+        changes: {
+          entityType,
+          entityId,
+          action: 'removed',
+        },
+      },
+    });
+
+    return NextResponse.json({
+      success: true,
+      votes: {
+        up: upVotes,
+        down: downVotes,
+        total: upVotes + downVotes,
+      },
+    });
+  } catch (error) {
+    console.error('Vote removal error:', error);
     return NextResponse.json(
       {
         error: 'Internal server error',
