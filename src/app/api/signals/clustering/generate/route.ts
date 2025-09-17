@@ -654,11 +654,19 @@ function generateClusteringRecommendations(result: any): string[] {
  */
 function validateClusteringFeatures(features: any): boolean {
   if (!features || typeof features !== 'object') return false;
-  return Boolean(features.semantic?.embedding?.length > 0);
+  
+  // Check for proper ClusteringFeatures structure
+  return Boolean(
+    features.domainFeatures?.rootCauseVector?.length === 7 &&
+    features.domainFeatures?.departmentVector?.length === 5 &&
+    features.semanticFeatures?.embedding?.length > 0 &&
+    features.signalId
+  );
 }
 
 /**
  * Generate basic clustering features on-the-fly for signals without pre-generated features
+ * Matches the expected ClusteringFeatures interface structure
  */
 function generateBasicClusteringFeatures(signal: any): any {
   try {
@@ -671,44 +679,88 @@ function generateBasicClusteringFeatures(signal: any): any {
       .toLowerCase()
       .split(/\s+/)
       .filter((w: string) => w.length > 2);
-    const uniqueWords = Array.from(new Set(words));
 
-    // Create a simple bag-of-words style embedding (128 dimensions)
-    const embedding = new Array(128).fill(0);
-    uniqueWords.forEach((word: string, index: number) => {
+    // Create a simple bag-of-words style embedding (512 dimensions to match expected structure)
+    const embedding = new Array(512).fill(0);
+    words.forEach((word: string, index: number) => {
       const hash = word
         .split('')
         .reduce(
           (a: number, b: string) => ((a << 5) - a + b.charCodeAt(0)) | 0,
           0
         );
-      embedding[Math.abs(hash) % 128] += 1;
+      embedding[Math.abs(hash) % 512] += 1;
     });
 
     // Normalize the embedding
     const magnitude = Math.sqrt(
-      embedding.reduce((sum, val) => sum + val * val, 0)
+      embedding.reduce((sum: number, val: number) => sum + val * val, 0)
     );
     const normalizedEmbedding =
-      magnitude > 0 ? embedding.map(val => val / magnitude) : embedding;
+      magnitude > 0 ? embedding.map((val: number) => val / magnitude) : embedding;
 
+    // Generate basic root cause vector (7 dimensions)
+    // Simple heuristic based on keywords
+    const rootCauseVector = [0, 0, 0, 0, 0, 0, 0]; // [PROCESS, RESOURCE, COMMUNICATION, TECHNOLOGY, TRAINING, QUALITY, EXTERNAL]
+    const text = textContent.toLowerCase();
+    
+    if (text.includes('process') || text.includes('workflow') || text.includes('procedure')) rootCauseVector[0] = 0.7;
+    if (text.includes('staff') || text.includes('resource') || text.includes('team')) rootCauseVector[1] = 0.6;
+    if (text.includes('communication') || text.includes('coordinate') || text.includes('inform')) rootCauseVector[2] = 0.6;
+    if (text.includes('technology') || text.includes('software') || text.includes('system')) rootCauseVector[3] = 0.6;
+    if (text.includes('training') || text.includes('knowledge') || text.includes('skill')) rootCauseVector[4] = 0.6;
+    if (text.includes('quality') || text.includes('error') || text.includes('defect')) rootCauseVector[5] = 0.7;
+    if (text.includes('client') || text.includes('external') || text.includes('vendor')) rootCauseVector[6] = 0.5;
+    
+    // If no specific category detected, default to PROCESS
+    if (rootCauseVector.every((val: number) => val === 0)) {
+      rootCauseVector[0] = 0.5; // Default to PROCESS
+    }
+
+    // Generate basic department vector (5 dimensions)
+    const departmentVector = [0, 0, 0, 0, 0]; // [Architecture, Field Services, Project Management, Executive, Other]
+    const deptName = signal.department?.name?.toLowerCase() || '';
+    
+    if (deptName.includes('architecture') || deptName.includes('design')) departmentVector[0] = 1.0;
+    else if (deptName.includes('field') || deptName.includes('construction')) departmentVector[1] = 1.0;
+    else if (deptName.includes('project') || deptName.includes('management')) departmentVector[2] = 1.0;
+    else if (deptName.includes('executive') || deptName.includes('leadership')) departmentVector[3] = 1.0;
+    else departmentVector[4] = 1.0; // Other
+
+    // Create ClusteringFeatures structure
     return {
-      semantic: {
+      signalId: signal.id,
+      domainFeatures: {
+        rootCauseVector,
+        rootCauseConfidence: 0.6, // Moderate confidence for basic features
+        departmentVector,
+        departmentComplexity: 0.3,
+        businessImpactVector: [0.5, 0.5, 0.4, 0.4], // [Severity, Urgency, Cost, Client Impact]
+        overallImpactScore: 0.4,
+        aeDomainVector: [0.5, 0.5, 0.5, 0.3, 0.4, 0.4], // [Project Phase, Building Type, Quality Category, Compliance Risk, Schedule Impact, Budget Impact]
+        domainRelevance: 0.7,
+        timelineUrgency: 0.5,
+        stakeholderCount: 0.3,
+        processComplexity: 0.4,
+      },
+      semanticFeatures: {
         embedding: normalizedEmbedding,
-        textLength: textContent.length,
-        wordCount: words.length,
-        uniqueWordCount: uniqueWords.length,
+        embeddingMagnitude: magnitude || 1.0,
+        textStatistics: {
+          wordCount: words.length,
+          uniqueWordCount: new Set(words).size,
+          avgWordLength: words.reduce((sum: number, word: string) => sum + word.length, 0) / Math.max(words.length, 1),
+          textLength: textContent.length,
+        },
+        semanticDensity: Math.min(new Set(words).size / Math.max(words.length, 1), 1.0),
+        contextualRelevance: 0.6,
       },
-      structural: {
-        severity: signal.severity || 'MEDIUM',
-        department: signal.department?.name || 'Unknown',
-        hasMetrics: Boolean(signal.metricsJson),
-        hasImpact: Boolean(signal.impactJson),
-      },
-      generated: {
-        onTheFly: true,
+      combinedVector: [...rootCauseVector, ...departmentVector, ...normalizedEmbedding.slice(0, 50)], // Simplified combined vector
+      metadata: {
+        generatedOnTheFly: true,
         timestamp: new Date().toISOString(),
-        method: 'basic_bow_embedding',
+        method: 'basic_heuristic_features',
+        quality: 0.6,
       },
     };
   } catch (error) {
