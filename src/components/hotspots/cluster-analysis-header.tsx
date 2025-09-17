@@ -209,20 +209,22 @@ export function ClusterAnalysisHeader({
             Key Entities in This Cluster
           </div>
           <div className="flex flex-wrap gap-2">
-            {linkedEntities.slice(0, 6).map((entity: any, index: number) => (
-              <Badge
-                key={index}
-                variant="outline"
-                className="max-w-full truncate bg-white text-gray-700"
-              >
-                <span className="truncate">{entity.name}</span>
-                {entity.importance && (
-                  <span className="ml-1 text-xs opacity-75">
-                    ({Math.round(entity.importance * 100)}%)
-                  </span>
-                )}
-              </Badge>
-            ))}
+            {(linkedEntities || [])
+              .slice(0, 6)
+              .map((entity: any, index: number) => (
+                <Badge
+                  key={index}
+                  variant="outline"
+                  className="max-w-full truncate bg-white text-gray-700"
+                >
+                  <span className="truncate">{entity.name}</span>
+                  {entity.importance && (
+                    <span className="ml-1 text-xs opacity-75">
+                      ({Math.round(entity.importance * 100)}%)
+                    </span>
+                  )}
+                </Badge>
+              ))}
             {linkedEntities.length > 6 && (
               <Badge variant="outline" className="bg-white text-gray-500">
                 +{linkedEntities.length - 6} more

@@ -339,12 +339,14 @@ export function HotspotCard({
                   Key Entities Affected
                 </h4>
                 <div className="flex flex-wrap gap-2">
-                  {hotspot.linkedEntities.slice(0, 5).map((entity, index) => (
-                    <EntityBadge key={index} entity={entity} />
-                  ))}
-                  {hotspot.linkedEntities.length > 5 && (
+                  {(hotspot.linkedEntities || [])
+                    .slice(0, 5)
+                    .map((entity, index) => (
+                      <EntityBadge key={index} entity={entity} />
+                    ))}
+                  {(hotspot.linkedEntities || []).length > 5 && (
                     <span className="px-2 py-1 text-xs text-gray-500">
-                      +{hotspot.linkedEntities.length - 5} more
+                      +{(hotspot.linkedEntities || []).length - 5} more
                     </span>
                   )}
                 </div>

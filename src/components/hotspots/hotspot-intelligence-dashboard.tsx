@@ -33,16 +33,17 @@ interface ClusterIntelligence {
     qualityRisk: number;
     clientSatisfaction: number;
   };
-  rootCauseBreakdown: {
+  rootCauseBreakdown?: {
     category: string;
     percentage: number;
     confidence: number;
   }[];
-  affectedDepartments: string[];
+  affectedDepartments?: string[];
+  departmentsInvolved?: string[]; // Alternative field name from clustering engine
   actionability: number;
   urgencyScore: number;
   businessRelevance: number;
-  recommendedActions: string[];
+  recommendedActions?: string[];
   estimatedResolution: {
     timeframe: string;
     resources: string[];
@@ -469,17 +470,26 @@ function ClusterIntelligenceCard({
       <div className="mb-4">
         <div className="mb-1 text-sm text-gray-500">Affected Departments</div>
         <div className="flex flex-wrap gap-1">
-          {cluster.affectedDepartments.slice(0, 3).map(dept => (
-            <span
-              key={dept}
-              className="rounded bg-gray-100 px-2 py-1 text-xs text-gray-700"
-            >
-              {dept}
-            </span>
-          ))}
-          {cluster.affectedDepartments.length > 3 && (
+          {(cluster.affectedDepartments || cluster.departmentsInvolved || [])
+            .slice(0, 3)
+            .map(dept => (
+              <span
+                key={dept}
+                className="rounded bg-gray-100 px-2 py-1 text-xs text-gray-700"
+              >
+                {dept}
+              </span>
+            ))}
+          {(cluster.affectedDepartments || cluster.departmentsInvolved || [])
+            .length > 3 && (
             <span className="rounded bg-gray-100 px-2 py-1 text-xs text-gray-700">
-              +{cluster.affectedDepartments.length - 3} more
+              +
+              {(
+                cluster.affectedDepartments ||
+                cluster.departmentsInvolved ||
+                []
+              ).length - 3}{' '}
+              more
             </span>
           )}
         </div>
@@ -494,7 +504,7 @@ function ClusterIntelligenceCard({
               Root Cause Analysis
             </div>
             <div className="space-y-2">
-              {cluster.rootCauseBreakdown?.slice(0, 3).map(cause => (
+              {(cluster.rootCauseBreakdown || []).slice(0, 3).map(cause => (
                 <div
                   key={`${cluster.id}-${cause.category}`}
                   className="flex items-center justify-between"
@@ -524,7 +534,7 @@ function ClusterIntelligenceCard({
               Recommended Actions
             </div>
             <ul className="space-y-1">
-              {cluster.recommendedActions?.slice(0, 2).map(action => (
+              {(cluster.recommendedActions || []).slice(0, 2).map(action => (
                 <li
                   key={`${cluster.id}-action-${action.substring(0, 20)}`}
                   className="flex items-start text-sm text-gray-600"

@@ -262,8 +262,9 @@ function generateSolutionDescription(cluster: any, signals: any[]): string {
       .map((rc: any) => rc.category)
       .join(' and ') || 'operational issues';
   const departments =
-    cluster.affectedDepartments?.slice(0, 2).join(' and ') ||
-    'multiple departments';
+    (cluster.affectedDepartments || cluster.departmentsInvolved || [])
+      ?.slice(0, 2)
+      .join(' and ') || 'multiple departments';
 
   return `Strategic solution addressing ${cluster.name.toLowerCase()} identified through AI clustering analysis.
 
@@ -339,7 +340,9 @@ function calculateBusinessImpact(cluster: any, signals: any[]): any {
     timeImpact: cluster.businessImpact?.timelineImpact || 0,
     qualityImprovement: cluster.businessImpact?.qualityRisk || 0,
     customerSatisfaction: cluster.businessImpact?.clientSatisfaction || 0,
-    departmentCount: cluster.affectedDepartments?.length || 1,
+    departmentCount:
+      (cluster.affectedDepartments || cluster.departmentsInvolved || [])
+        .length || 1,
     signalCount: signals.length,
   };
 }
