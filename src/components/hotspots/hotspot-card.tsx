@@ -112,7 +112,7 @@ export function HotspotCard({
 
   return (
     <div
-      className={`rounded-lg border bg-white transition-all duration-200 hover:shadow-md ${isSelected ? 'border-blue-200 ring-2 ring-blue-500' : 'border-gray-200'} `}
+      className={`w-full overflow-hidden rounded-lg border bg-white transition-all duration-200 hover:shadow-md ${isSelected ? 'border-blue-200 ring-2 ring-blue-500' : 'border-gray-200'} `}
     >
       {/* Card Header - Executive Summary */}
       <div className="p-6">
@@ -123,7 +123,7 @@ export function HotspotCard({
               <StatusBadge status={hotspot.status} color={statusColor} />
             </div>
 
-            <h3 className="mb-2 text-lg font-semibold leading-6 text-gray-900">
+            <h3 className="mb-2 break-words text-lg font-semibold leading-6 text-gray-900 line-clamp-2">
               {hotspot.title}
             </h3>
           </div>
@@ -143,8 +143,8 @@ export function HotspotCard({
         {/* Enhanced Metrics Row - Matching Strategic Input Cards */}
         <div className="mb-4">
           {/* Hot Topic Indicator */}
-          {(hotspot._count?.comments && hotspot._count.comments > 5) || 
-           (hotspot._count?.votes && hotspot._count.votes > 10) ? (
+          {(hotspot._count?.comments && hotspot._count.comments > 5) ||
+          (hotspot._count?.votes && hotspot._count.votes > 10) ? (
             <div className="mb-3">
               <Badge className="border-red-200 bg-red-100 text-red-800">
                 <TrendingUp className="mr-1 h-3 w-3" />
@@ -154,33 +154,38 @@ export function HotspotCard({
           ) : null}
 
           {/* Engagement Metrics Row */}
-          <div className="mb-3 flex items-center space-x-6">
+          <div className="mb-3 flex flex-wrap items-center gap-x-6 gap-y-2">
             <div className="flex items-center space-x-1 text-sm">
               <MessageSquare className="h-4 w-4 text-blue-500" />
               <span className="font-medium text-gray-700">
                 {hotspot._count?.comments || 0}
               </span>
-              <span className="text-gray-500">discussions</span>
+              <span className="hidden text-gray-500 sm:inline">discussions</span>
             </div>
             <div className="flex items-center space-x-1 text-sm">
               <ThumbsUp className="h-4 w-4 text-green-500" />
               <span className="font-medium text-gray-700">
                 {hotspot._count?.votes || 0}
               </span>
-              <span className="text-gray-500">votes</span>
+              <span className="hidden text-gray-500 sm:inline">votes</span>
             </div>
             <div className="flex items-center space-x-1 text-sm">
               <Lightbulb className="h-4 w-4 text-purple-500" />
               <span className="font-medium text-gray-700">
                 {hotspot._count?.ideas || 0}
               </span>
-              <span className="text-gray-500">ideas</span>
+              <span className="hidden text-gray-500 sm:inline">ideas</span>
             </div>
             {/* Active discussion indicator */}
-            {((hotspot._count?.comments || 0) > 3 || (hotspot._count?.votes || 0) > 5) && (
-              <Badge variant="outline" className="border-blue-200 bg-blue-50 text-blue-700">
+            {((hotspot._count?.comments || 0) > 3 ||
+              (hotspot._count?.votes || 0) > 5) && (
+              <Badge
+                variant="outline"
+                className="border-blue-200 bg-blue-50 text-blue-700"
+              >
                 <Users className="mr-1 h-3 w-3" />
-                Active Discussion
+                <span className="hidden sm:inline">Active Discussion</span>
+                <span className="sm:hidden">Active</span>
               </Badge>
             )}
           </div>
@@ -209,20 +214,30 @@ export function HotspotCard({
             <div className="mt-3 rounded bg-gray-50 p-2">
               <div className="flex items-center justify-between text-xs">
                 <span className="text-gray-600">Cluster Quality</span>
-                <span className={`font-medium ${
-                  hotspot.clusterAnalysis.clusterQuality >= 80 ? 'text-green-600' :
-                  hotspot.clusterAnalysis.clusterQuality >= 60 ? 'text-yellow-600' : 'text-red-600'
-                }`}>
+                <span
+                  className={`font-medium ${
+                    hotspot.clusterAnalysis.clusterQuality >= 80
+                      ? 'text-green-600'
+                      : hotspot.clusterAnalysis.clusterQuality >= 60
+                        ? 'text-yellow-600'
+                        : 'text-red-600'
+                  }`}
+                >
                   {Math.round(hotspot.clusterAnalysis.clusterQuality)}%
                 </span>
               </div>
               <div className="mt-1 h-1 w-full rounded-full bg-gray-200">
                 <div
                   className={`h-1 rounded-full transition-all duration-300 ${
-                    hotspot.clusterAnalysis.clusterQuality >= 80 ? 'bg-green-500' :
-                    hotspot.clusterAnalysis.clusterQuality >= 60 ? 'bg-yellow-500' : 'bg-red-500'
+                    hotspot.clusterAnalysis.clusterQuality >= 80
+                      ? 'bg-green-500'
+                      : hotspot.clusterAnalysis.clusterQuality >= 60
+                        ? 'bg-yellow-500'
+                        : 'bg-red-500'
                   }`}
-                  style={{ width: `${Math.max(hotspot.clusterAnalysis.clusterQuality, 10)}%` }}
+                  style={{
+                    width: `${Math.max(hotspot.clusterAnalysis.clusterQuality, 10)}%`,
+                  }}
                 />
               </div>
             </div>
@@ -230,7 +245,7 @@ export function HotspotCard({
         </div>
 
         {/* Summary */}
-        <p className="mb-4 text-sm leading-relaxed text-gray-600">
+        <p className="mb-4 break-words text-sm leading-relaxed text-gray-600 line-clamp-3">
           {hotspot.summary}
         </p>
 
@@ -288,20 +303,28 @@ export function HotspotCard({
                   id: signal.id || signal.signal?.id,
                   title: signal.title || signal.signal?.title,
                   description: signal.description || signal.signal?.description,
-                  severity: signal.severity || signal.signal?.severity || 'MEDIUM',
+                  severity:
+                    signal.severity || signal.signal?.severity || 'MEDIUM',
                   membershipStrength: signal.membershipStrength || 1.0,
                   isOutlier: signal.isOutlier || false,
-                  signalStatus: signal.signalStatus || 
-                    (signal.isOutlier ? 'outlier' : 
-                     (signal.membershipStrength || 1.0) > 0.7 ? 'core' : 'peripheral'),
+                  signalStatus:
+                    signal.signalStatus ||
+                    (signal.isOutlier
+                      ? 'outlier'
+                      : (signal.membershipStrength || 1.0) > 0.7
+                        ? 'core'
+                        : 'peripheral'),
                   departmentName: signal.departmentName,
                   teamName: signal.teamName,
                   createdAt: signal.createdAt || signal.signal?.createdAt,
                 }))}
                 hotspotId={hotspot.id}
                 hotspotTitle={hotspot.title}
-                onCreateIdea={(selectedSignals) => {
-                  console.log('Creating idea from selected signals:', selectedSignals);
+                onCreateIdea={selectedSignals => {
+                  console.log(
+                    'Creating idea from selected signals:',
+                    selectedSignals
+                  );
                   onAction('idea-created');
                 }}
               />
@@ -335,13 +358,13 @@ export function HotspotCard({
 
               <div className="flex space-x-2">
                 <ActionButton
-                  label="Hand Off"
-                  onClick={() => onAction('handoff')}
+                  label="Archive"
+                  onClick={() => onAction('archive')}
                   variant="outline"
                 />
                 <ActionButton
-                  label="Close"
-                  onClick={() => onAction('close')}
+                  label="Re-cluster"
+                  onClick={() => onAction('re-cluster')}
                   variant="outline"
                 />
               </div>

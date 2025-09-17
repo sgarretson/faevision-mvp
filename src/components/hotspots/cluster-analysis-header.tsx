@@ -78,11 +78,11 @@ export function ClusterAnalysisHeader({
   };
 
   return (
-    <div className="rounded-lg border bg-gradient-to-r from-blue-50 to-purple-50 p-6">
+    <div className="w-full overflow-hidden rounded-lg border bg-gradient-to-r from-blue-50 to-purple-50 p-6">
       {/* Clustering Method Section */}
-      <div className="mb-4 flex items-center justify-between">
-        <div className="flex items-center space-x-3">
-          <div className="flex items-center space-x-2">
+      <div className="mb-4 flex flex-col space-y-3 lg:flex-row lg:items-center lg:justify-between lg:space-y-0">
+        <div className="flex flex-col space-y-2 sm:flex-row sm:items-center sm:space-x-3 sm:space-y-0">
+          <div className="flex flex-wrap items-center gap-2">
             <Badge variant="outline" className="bg-purple-100 text-purple-800">
               {getMethodIcon(clusteringMethod)}
               <span className="ml-1">{clusteringMethod.toUpperCase()}</span>
@@ -170,7 +170,9 @@ export function ClusterAnalysisHeader({
           <span className="text-sm font-medium text-gray-700">
             Cluster Strength
           </span>
-          <Badge className={getClusterQualityColor(clusterAnalysis.clusterQuality)}>
+          <Badge
+            className={getClusterQualityColor(clusterAnalysis.clusterQuality)}
+          >
             {clusterAnalysis.clusterQuality >= 80
               ? 'Excellent'
               : clusterAnalysis.clusterQuality >= 60
@@ -211,9 +213,9 @@ export function ClusterAnalysisHeader({
               <Badge
                 key={index}
                 variant="outline"
-                className="bg-white text-gray-700"
+                className="max-w-full truncate bg-white text-gray-700"
               >
-                {entity.name}
+                <span className="truncate">{entity.name}</span>
                 {entity.importance && (
                   <span className="ml-1 text-xs opacity-75">
                     ({Math.round(entity.importance * 100)}%)
@@ -231,8 +233,8 @@ export function ClusterAnalysisHeader({
       )}
 
       {/* Executive Insights */}
-      <div className="mt-4 rounded-lg bg-blue-50 p-3 border border-blue-200">
-        <div className="text-sm font-medium text-blue-900 mb-1">
+      <div className="mt-4 rounded-lg border border-blue-200 bg-blue-50 p-3">
+        <div className="mb-1 text-sm font-medium text-blue-900">
           Executive Insights
         </div>
         <div className="text-xs text-blue-800">

@@ -62,15 +62,18 @@ export function SignalSelectionGrid({
   onCreateIdea,
   onSignalAction,
 }: SignalSelectionGridProps) {
-  const [selectedSignals, setSelectedSignals] = useState<Set<string>>(new Set());
+  const [selectedSignals, setSelectedSignals] = useState<Set<string>>(
+    new Set()
+  );
   const [filterType, setFilterType] = useState<string>('all');
   const [isCreatingIdea, setIsCreatingIdea] = useState(false);
 
   // Filter signals based on selected filter
-  const filteredSignals = signals.filter((signal) => {
+  const filteredSignals = signals.filter(signal => {
     if (filterType === 'all') return true;
     if (filterType === 'core') return signal.signalStatus === 'core';
-    if (filterType === 'peripheral') return signal.signalStatus === 'peripheral';
+    if (filterType === 'peripheral')
+      return signal.signalStatus === 'peripheral';
     if (filterType === 'outlier') return signal.signalStatus === 'outlier';
     return true;
   });
@@ -89,7 +92,7 @@ export function SignalSelectionGrid({
     if (selectedSignals.size === filteredSignals.length) {
       setSelectedSignals(new Set());
     } else {
-      setSelectedSignals(new Set(filteredSignals.map((signal) => signal.id)));
+      setSelectedSignals(new Set(filteredSignals.map(signal => signal.id)));
     }
   };
 
@@ -102,7 +105,7 @@ export function SignalSelectionGrid({
 
     try {
       setIsCreatingIdea(true);
-      const selectedSignalObjects = signals.filter((signal) =>
+      const selectedSignalObjects = signals.filter(signal =>
         selectedSignals.has(signal.id)
       );
 
@@ -139,28 +142,31 @@ export function SignalSelectionGrid({
   };
 
   const selectedCount = selectedSignals.size;
-  const coreSignals = signals.filter((s) => s.signalStatus === 'core');
-  const peripheralSignals = signals.filter((s) => s.signalStatus === 'peripheral');
-  const outlierSignals = signals.filter((s) => s.signalStatus === 'outlier');
+  const coreSignals = signals.filter(s => s.signalStatus === 'core');
+  const peripheralSignals = signals.filter(
+    s => s.signalStatus === 'peripheral'
+  );
+  const outlierSignals = signals.filter(s => s.signalStatus === 'outlier');
 
   return (
     <div className="space-y-6">
       {/* Filter and Selection Header */}
-      <div className="flex flex-col space-y-4 sm:flex-row sm:items-center sm:justify-between sm:space-y-0">
-        {/* Signal Type Filters */}
+      <div className="space-y-4">
+        {/* Signal Type Filters - Responsive wrapping */}
         <div className="flex flex-wrap gap-2">
           <Button
             variant={filterType === 'all' ? 'default' : 'outline'}
             size="sm"
             onClick={() => setFilterType('all')}
+            className="shrink-0"
           >
-            All Signals ({signals.length})
+            All ({signals.length})
           </Button>
           <Button
             variant={filterType === 'core' ? 'default' : 'outline'}
             size="sm"
             onClick={() => setFilterType('core')}
-            className="border-green-200 text-green-700 hover:bg-green-50"
+            className="shrink-0 border-green-200 text-green-700 hover:bg-green-50"
           >
             <CheckCircle className="mr-1 h-3 w-3" />
             Core ({coreSignals.length})
@@ -169,7 +175,7 @@ export function SignalSelectionGrid({
             variant={filterType === 'peripheral' ? 'default' : 'outline'}
             size="sm"
             onClick={() => setFilterType('peripheral')}
-            className="border-yellow-200 text-yellow-700 hover:bg-yellow-50"
+            className="shrink-0 border-yellow-200 text-yellow-700 hover:bg-yellow-50"
           >
             <Filter className="mr-1 h-3 w-3" />
             Peripheral ({peripheralSignals.length})
@@ -178,7 +184,7 @@ export function SignalSelectionGrid({
             variant={filterType === 'outlier' ? 'default' : 'outline'}
             size="sm"
             onClick={() => setFilterType('outlier')}
-            className="border-red-200 text-red-700 hover:bg-red-50"
+            className="shrink-0 border-red-200 text-red-700 hover:bg-red-50"
           >
             <AlertTriangle className="mr-1 h-3 w-3" />
             Outliers ({outlierSignals.length})
@@ -186,15 +192,20 @@ export function SignalSelectionGrid({
         </div>
 
         {/* Selection Controls */}
-        <div className="flex items-center space-x-2">
-          <Checkbox
-            checked={selectedCount === filteredSignals.length && filteredSignals.length > 0}
-            onCheckedChange={handleSelectAll}
-            className="h-5 w-5"
-          />
-          <span className="text-sm font-medium text-gray-700">
-            {selectedCount > 0 ? `${selectedCount} selected` : 'Select all'}
-          </span>
+        <div className="flex items-center justify-between">
+          <div className="flex items-center space-x-2">
+            <Checkbox
+              checked={
+                selectedCount === filteredSignals.length &&
+                filteredSignals.length > 0
+              }
+              onCheckedChange={handleSelectAll}
+              className="h-5 w-5"
+            />
+            <span className="text-sm font-medium text-gray-700">
+              {selectedCount > 0 ? `${selectedCount} selected` : 'Select all'}
+            </span>
+          </div>
           {selectedCount > 0 && (
             <Button variant="ghost" size="sm" onClick={handleClearSelection}>
               <X className="h-4 w-4" />
@@ -206,7 +217,7 @@ export function SignalSelectionGrid({
 
       {/* Signal Grid */}
       <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-3">
-        {filteredSignals.map((signal) => {
+        {filteredSignals.map(signal => {
           const isSelected = selectedSignals.has(signal.id);
           const actualSignal = signal.signal || signal;
 
@@ -229,7 +240,7 @@ export function SignalSelectionGrid({
                   />
 
                   {/* Signal Content */}
-                  <div className="flex-1 min-w-0">
+                  <div className="min-w-0 flex-1">
                     {/* Signal Status & Strength */}
                     <div className="mb-2 flex items-center space-x-2">
                       <SignalStatusBadge
@@ -240,20 +251,22 @@ export function SignalSelectionGrid({
                     </div>
 
                     {/* Signal Title */}
-                    <h4 className="text-sm font-semibold text-gray-900 line-clamp-2 mb-1">
+                    <h4 className="mb-1 line-clamp-2 break-words text-sm font-semibold text-gray-900">
                       {actualSignal.title}
                     </h4>
 
                     {/* Signal Description */}
-                    <p className="text-xs text-gray-600 line-clamp-3 mb-3">
+                    <p className="mb-3 line-clamp-3 break-words text-xs text-gray-600">
                       {actualSignal.description}
                     </p>
 
                     {/* Membership Strength Indicator */}
                     <div className="mb-3">
-                      <div className="flex items-center justify-between text-xs text-gray-500 mb-1">
+                      <div className="mb-1 flex items-center justify-between text-xs text-gray-500">
                         <span>Cluster Confidence</span>
-                        <span>{Math.round(signal.membershipStrength * 100)}%</span>
+                        <span>
+                          {Math.round(signal.membershipStrength * 100)}%
+                        </span>
                       </div>
                       <div className="h-1.5 w-full rounded-full bg-gray-200">
                         <div
@@ -305,11 +318,11 @@ export function SignalSelectionGrid({
         </div>
       )}
 
-      {/* Floating Action Bar */}
+      {/* Sticky Action Bar - Within container boundaries */}
       {selectedCount > 0 && (
-        <div className="fixed bottom-6 left-1/2 z-50 -translate-x-1/2 transform">
-          <div className="rounded-lg border border-gray-200 bg-white p-4 shadow-lg">
-            <div className="flex items-center space-x-4">
+        <div className="sticky bottom-4 z-40 mx-auto max-w-4xl">
+          <div className="mx-4 rounded-lg border border-gray-200 bg-white p-4 shadow-lg">
+            <div className="flex flex-col space-y-3 sm:flex-row sm:items-center sm:justify-between sm:space-y-0">
               <div className="flex items-center space-x-2">
                 <CheckCircle className="h-5 w-5 text-blue-600" />
                 <span className="font-medium text-gray-900">
@@ -331,11 +344,17 @@ export function SignalSelectionGrid({
                   onClick={handleCreateIdea}
                   disabled={isCreatingIdea}
                   className="bg-blue-600 hover:bg-blue-700"
+                  size="sm"
                 >
                   <Lightbulb className="mr-2 h-4 w-4" />
-                  {isCreatingIdea
-                    ? 'Creating Idea...'
-                    : `Create Idea from ${selectedCount} Signal${selectedCount !== 1 ? 's' : ''}`}
+                  <span className="hidden sm:inline">
+                    {isCreatingIdea
+                      ? 'Creating Idea...'
+                      : `Create Idea from ${selectedCount} Signal${selectedCount !== 1 ? 's' : ''}`}
+                  </span>
+                  <span className="sm:hidden">
+                    {isCreatingIdea ? 'Creating...' : 'Create Idea'}
+                  </span>
                 </Button>
               </div>
             </div>

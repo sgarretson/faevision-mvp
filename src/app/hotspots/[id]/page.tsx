@@ -345,7 +345,8 @@ export default function HotspotDetailPage() {
             <CardHeader>
               <CardTitle>Signal Selection & Idea Creation</CardTitle>
               <p className="text-sm text-gray-600">
-                Select specific signals to create targeted ideas, or review the clustering quality.
+                Select specific signals to create targeted ideas, or review the
+                clustering quality.
               </p>
             </CardHeader>
             <CardContent>
@@ -360,8 +361,11 @@ export default function HotspotDetailPage() {
                 }))}
                 hotspotId={hotspot.id}
                 hotspotTitle={hotspot.title}
-                onCreateIdea={(selectedSignals) => {
-                  console.log('Creating idea from selected signals:', selectedSignals);
+                onCreateIdea={selectedSignals => {
+                  console.log(
+                    'Creating idea from selected signals:',
+                    selectedSignals
+                  );
                   // Could redirect to idea creation page or show success
                 }}
               />

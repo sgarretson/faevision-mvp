@@ -59,10 +59,14 @@ export async function GET(request: NextRequest) {
       const formattedHotspots = (hotspots || []).map((hotspot: any) => {
         // Calculate clustering statistics
         const signals = hotspot.signals || [];
-        const membershipStrengths = signals.map((hs: any) => hs.membershipStrength || 0);
+        const membershipStrengths = signals.map(
+          (hs: any) => hs.membershipStrength || 0
+        );
         const outlierSignals = signals.filter((hs: any) => hs.isOutlier);
-        const coreSignals = signals.filter((hs: any) => !hs.isOutlier && hs.membershipStrength > 0.7);
-        
+        const coreSignals = signals.filter(
+          (hs: any) => !hs.isOutlier && hs.membershipStrength > 0.7
+        );
+
         return {
           id: hotspot.id,
           title: hotspot.title,
@@ -74,20 +78,25 @@ export async function GET(request: NextRequest) {
           linkedEntities: hotspot.linkedEntitiesJson || [],
           clusteringMethod: hotspot.clusteringMethod,
           similarityThreshold: hotspot.similarityThreshold,
-          
+
           // Enhanced clustering analysis
           clusterAnalysis: {
             totalSignals: signals.length,
             coreSignals: coreSignals.length,
             outlierSignals: outlierSignals.length,
-            avgMembershipStrength: membershipStrengths.length > 0 
-              ? membershipStrengths.reduce((sum: number, strength: number) => sum + strength, 0) / membershipStrengths.length 
-              : 0,
-            clusterQuality: membershipStrengths.length > 0 
-              ? (coreSignals.length / signals.length) * 100 
-              : 0,
+            avgMembershipStrength:
+              membershipStrengths.length > 0
+                ? membershipStrengths.reduce(
+                    (sum: number, strength: number) => sum + strength,
+                    0
+                  ) / membershipStrengths.length
+                : 0,
+            clusterQuality:
+              membershipStrengths.length > 0
+                ? (coreSignals.length / signals.length) * 100
+                : 0,
           },
-          
+
           createdAt: hotspot.createdAt.toISOString(),
           updatedAt: hotspot.updatedAt.toISOString(),
           signals: signals.map((hs: any) => ({
@@ -97,8 +106,11 @@ export async function GET(request: NextRequest) {
             departmentName: hs.signal.department?.name,
             teamName: hs.signal.team?.name,
             // Add computed signal status
-            signalStatus: hs.isOutlier ? 'outlier' : 
-                        hs.membershipStrength > 0.7 ? 'core' : 'peripheral',
+            signalStatus: hs.isOutlier
+              ? 'outlier'
+              : hs.membershipStrength > 0.7
+                ? 'core'
+                : 'peripheral',
           })),
         };
       });
