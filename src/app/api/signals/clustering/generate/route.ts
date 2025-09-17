@@ -41,10 +41,11 @@ const GenerateClusteringRequestSchema = z.object({
  */
 export async function POST(request: NextRequest) {
   const startTime = Date.now();
+  let session: any = null;
 
   try {
     // Authenticate user
-    const session = await auth();
+    session = await auth();
     if (!session?.user) {
       return NextResponse.json(
         { error: 'Unauthorized - Authentication required' },
@@ -270,7 +271,7 @@ export async function POST(request: NextRequest) {
     console.error('Hybrid clustering failed:', error);
 
     // Log error for debugging (skip audit due to missing required fields)
-    await logClusteringError(error.message, session.user.id);
+    await logClusteringError(error.message, session?.user?.id);
 
     return NextResponse.json(
       {
