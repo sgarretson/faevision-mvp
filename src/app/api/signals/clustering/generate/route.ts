@@ -972,17 +972,36 @@ function validateClusteringFeatures(features: any): boolean {
  */
 function generateBasicClusteringFeatures(signal: any): any {
   try {
-    // Create a simple text representation for embedding
+    console.log(`🔍 Enhanced feature generation for signal: ${signal.title}`);
+
+    // Create enhanced text representation including metadata
     const textContent =
       `${signal.title || ''} ${signal.description || ''}`.trim();
 
-    // Generate a basic feature vector (simplified version)
-    const words = textContent
-      .toLowerCase()
-      .split(/\s+/)
-      .filter((w: string) => w.length > 2);
+    // Extract enhanced tags for better classification
+    const enhancedTags = signal.enhancedTagsJson || {};
+    const regularTags = signal.tagsJson || {};
+    const impactData = signal.impactJson || {};
+    const metricsData = signal.metricsJson || {};
 
-    // Create a simple bag-of-words style embedding (512 dimensions to match expected structure)
+    // Combine all tag sources for comprehensive analysis
+    const allTags = [];
+    if (regularTags.all) allTags.push(...regularTags.all);
+    if (enhancedTags.domainClassification)
+      allTags.push(...Object.values(enhancedTags.domainClassification).flat());
+
+    console.log(`📊 Signal tags for clustering: ${allTags.join(', ')}`);
+
+    // Generate enhanced bag-of-words embedding including tags
+    const words = [
+      ...textContent
+        .toLowerCase()
+        .split(/\s+/)
+        .filter((w: string) => w.length > 2),
+      ...allTags.map((tag: any) => String(tag).toLowerCase()),
+    ];
+
+    // Create embedding (512 dimensions)
     const embedding = new Array(512).fill(0);
     words.forEach((word: string, index: number) => {
       const hash = word
@@ -1003,65 +1022,135 @@ function generateBasicClusteringFeatures(signal: any): any {
         ? embedding.map((val: number) => val / magnitude)
         : embedding;
 
-    // Generate basic root cause vector (7 dimensions)
-    // Simple heuristic based on keywords - explicitly mutable array
-    const rootCauseVector: number[] = Array.from({ length: 7 }, () => 0.0); // [PROCESS, RESOURCE, COMMUNICATION, TECHNOLOGY, TRAINING, QUALITY, EXTERNAL]
+    // ENHANCED root cause vector using comprehensive analysis
+    const rootCauseVector: number[] = Array.from({ length: 7 }, () => 0.0);
     const text = textContent.toLowerCase();
+    const tagString = allTags.join(' ').toLowerCase();
+    const combinedText = `${text} ${tagString}`;
 
-    if (
-      text.includes('process') ||
-      text.includes('workflow') ||
-      text.includes('procedure')
-    )
-      rootCauseVector[0] = 0.7;
-    if (
-      text.includes('staff') ||
-      text.includes('resource') ||
-      text.includes('team')
-    )
-      rootCauseVector[1] = 0.6;
-    if (
-      text.includes('communication') ||
-      text.includes('coordinate') ||
-      text.includes('inform')
-    )
-      rootCauseVector[2] = 0.6;
-    if (
-      text.includes('technology') ||
-      text.includes('software') ||
-      text.includes('system')
-    )
-      rootCauseVector[3] = 0.6;
-    if (
-      text.includes('training') ||
-      text.includes('knowledge') ||
-      text.includes('skill')
-    )
-      rootCauseVector[4] = 0.6;
-    if (
-      text.includes('quality') ||
-      text.includes('error') ||
-      text.includes('defect')
-    )
-      rootCauseVector[5] = 0.7;
-    if (
-      text.includes('client') ||
-      text.includes('external') ||
-      text.includes('vendor')
-    )
-      rootCauseVector[6] = 0.5;
+    // Severity-weighted scoring based on business impact
+    const severityMultiplierMap: Record<string, number> = {
+      CRITICAL: 1.0,
+      HIGH: 0.8,
+      MEDIUM: 0.6,
+      LOW: 0.4,
+    };
+    const severityMultiplier =
+      severityMultiplierMap[signal.severity as string] || 0.5;
 
-    // If no specific category detected, default to PROCESS
-    if (rootCauseVector.every((val: number) => val === 0.0)) {
-      (rootCauseVector as any)[0] = 0.5; // Default to PROCESS - TypeScript strict mode bypass
+    // TECHNOLOGY issues - enhanced detection
+    if (
+      combinedText.includes('technology') ||
+      combinedText.includes('software') ||
+      combinedText.includes('system') ||
+      combinedText.includes('license') ||
+      combinedText.includes('cad') ||
+      combinedText.includes('bim') ||
+      combinedText.includes('infrastructure') ||
+      combinedText.includes('it') ||
+      combinedText.includes('portal') ||
+      combinedText.includes('platform')
+    ) {
+      rootCauseVector[3] = 0.9 * severityMultiplier;
     }
 
-    // Generate basic department vector (5 dimensions)
-    const departmentVector: number[] = Array.from({ length: 5 }, () => 0.0); // [Architecture, Field Services, Project Management, Executive, Other]
+    // RESOURCE issues - staffing, capacity, allocation
+    else if (
+      combinedText.includes('staff') ||
+      combinedText.includes('resource') ||
+      combinedText.includes('utilization') ||
+      combinedText.includes('capacity') ||
+      combinedText.includes('allocation') ||
+      combinedText.includes('overload') ||
+      combinedText.includes('shortage') ||
+      combinedText.includes('backlog')
+    ) {
+      rootCauseVector[1] = 0.8 * severityMultiplier;
+    }
+
+    // COMMUNICATION & COORDINATION issues
+    else if (
+      combinedText.includes('communication') ||
+      combinedText.includes('coordination') ||
+      combinedText.includes('portal') ||
+      combinedText.includes('access') ||
+      combinedText.includes('client') ||
+      combinedText.includes('collaboration') ||
+      combinedText.includes('integration') ||
+      combinedText.includes('conflicts')
+    ) {
+      rootCauseVector[2] = 0.8 * severityMultiplier;
+    }
+
+    // QUALITY issues - errors, defects, compliance
+    else if (
+      combinedText.includes('quality') ||
+      combinedText.includes('error') ||
+      combinedText.includes('defect') ||
+      combinedText.includes('compliance') ||
+      combinedText.includes('review') ||
+      combinedText.includes('approval') ||
+      combinedText.includes('standard') ||
+      combinedText.includes('code')
+    ) {
+      rootCauseVector[5] = 0.9 * severityMultiplier;
+    }
+
+    // TRAINING & KNOWLEDGE issues
+    else if (
+      combinedText.includes('training') ||
+      combinedText.includes('knowledge') ||
+      combinedText.includes('skill') ||
+      combinedText.includes('research') ||
+      combinedText.includes('documentation') ||
+      combinedText.includes('gap') ||
+      combinedText.includes('outdated') ||
+      combinedText.includes('learning')
+    ) {
+      rootCauseVector[4] = 0.7 * severityMultiplier;
+    }
+
+    // EXTERNAL dependencies - vendors, utilities, external parties
+    else if (
+      combinedText.includes('vendor') ||
+      combinedText.includes('external') ||
+      combinedText.includes('utility') ||
+      combinedText.includes('lab') ||
+      combinedText.includes('supplier') ||
+      combinedText.includes('contractor') ||
+      combinedText.includes('third-party') ||
+      combinedText.includes('delay')
+    ) {
+      rootCauseVector[6] = 0.8 * severityMultiplier;
+    }
+
+    // PROCESS issues - default for business process problems
+    else {
+      rootCauseVector[0] = 0.6 * severityMultiplier;
+    }
+
+    console.log(
+      `🎯 Root cause classification: ${
+        [
+          'PROCESS',
+          'RESOURCE',
+          'COMMUNICATION',
+          'TECHNOLOGY',
+          'TRAINING',
+          'QUALITY',
+          'EXTERNAL',
+        ][rootCauseVector.findIndex(v => v > 0)]
+      } (${Math.max(...rootCauseVector).toFixed(2)})`
+    );
+
+    // ENHANCED department vector with better classification
+    const departmentVector: number[] = Array.from({ length: 5 }, () => 0.0);
     const deptName = signal.department?.name?.toLowerCase() || '';
 
     if (deptName.includes('architecture') || deptName.includes('design'))
       departmentVector[0] = 1.0;
+    else if (deptName.includes('engineering'))
+      departmentVector[4] = 1.0; // Engineering gets "Other" slot
     else if (deptName.includes('field') || deptName.includes('construction'))
       departmentVector[1] = 1.0;
     else if (deptName.includes('project') || deptName.includes('management'))
@@ -1070,21 +1159,66 @@ function generateBasicClusteringFeatures(signal: any): any {
       departmentVector[3] = 1.0;
     else departmentVector[4] = 1.0; // Other
 
-    // Create ClusteringFeatures structure
+    console.log(
+      `🏢 Department classification: ${deptName} → vector: [${departmentVector.map(v => v.toFixed(1)).join(',')}]`
+    );
+
+    // ENHANCED business impact scoring using actual metrics data
+    const costImpact = metricsData.costImpact || 0;
+    const hoursAffected = metricsData.hoursAffected || 0;
+    const timelineDays = metricsData.timelineDays || 0;
+
+    const scheduleDelay = impactData.scheduleDelayDays || 0;
+    const budgetVariance = impactData.budgetVariancePercent || 0;
+    const qualityScore = impactData.qualityScore || 0.5;
+    const clientSatisfaction = impactData.clientSatisfaction || 0.5;
+
+    // Normalize business impact metrics (0-1 scale)
+    const severityScore = Math.min((signal.severityScore || 1) / 4.0, 1.0); // 1-4 scale to 0-1
+    const urgencyScore = Math.min(scheduleDelay / 30.0, 1.0); // 30+ days = max urgency
+    const costScore = Math.min(costImpact / 100000.0, 1.0); // $100K+ = max cost impact
+    const clientImpactScore = 1.0 - clientSatisfaction; // Lower satisfaction = higher impact
+
+    console.log(
+      `💰 Business impact - Cost: $${costImpact}, Schedule: ${scheduleDelay}d, Quality: ${qualityScore}, Client: ${clientSatisfaction}`
+    );
+
+    // Calculate enhanced A&E domain metrics
+    const overallImpactScore =
+      (severityScore + urgencyScore + costScore + clientImpactScore) / 4.0;
+    const aeDomainVector = [
+      scheduleDelay > 0 ? Math.min(scheduleDelay / 21.0, 1.0) : 0.3, // Project Phase impact
+      costImpact > 50000 ? 0.8 : 0.5, // Building Type complexity (high cost = complex)
+      1.0 - qualityScore, // Quality Category (lower quality = higher risk)
+      text.includes('compliance') || text.includes('code') ? 0.9 : 0.3, // Compliance Risk
+      urgencyScore, // Schedule Impact
+      costScore, // Budget Impact
+    ];
+
+    console.log(
+      `📈 Overall impact score: ${overallImpactScore.toFixed(2)}, A&E vector: [${aeDomainVector.map(v => v.toFixed(2)).join(',')}]`
+    );
+
+    // Create enhanced ClusteringFeatures structure
     return {
       signalId: signal.id,
       domainFeatures: {
         rootCauseVector,
-        rootCauseConfidence: 0.6, // Moderate confidence for basic features
+        rootCauseConfidence: 0.8, // Higher confidence with enhanced detection
         departmentVector,
-        departmentComplexity: 0.3,
-        businessImpactVector: [0.5, 0.5, 0.4, 0.4], // [Severity, Urgency, Cost, Client Impact]
-        overallImpactScore: 0.4,
-        aeDomainVector: [0.5, 0.5, 0.5, 0.3, 0.4, 0.4], // [Project Phase, Building Type, Quality Category, Compliance Risk, Schedule Impact, Budget Impact]
-        domainRelevance: 0.7,
-        timelineUrgency: 0.5,
-        stakeholderCount: 0.3,
-        processComplexity: 0.4,
+        departmentComplexity: Math.min(hoursAffected / 200.0, 1.0), // Hours affected as complexity
+        businessImpactVector: [
+          severityScore,
+          urgencyScore,
+          costScore,
+          clientImpactScore,
+        ],
+        overallImpactScore,
+        aeDomainVector,
+        domainRelevance: 0.85, // Higher relevance with enhanced data
+        timelineUrgency: urgencyScore,
+        stakeholderCount: deptName.includes('executive') ? 0.8 : 0.4, // Executive = more stakeholders
+        processComplexity: Math.min(timelineDays / 60.0, 1.0), // Timeline as complexity indicator
       },
       semanticFeatures: {
         // Split embedding into required components for clustering engine compatibility
