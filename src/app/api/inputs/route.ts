@@ -208,7 +208,36 @@ export async function GET(request: NextRequest) {
     const inputs =
       (await (prisma as any).signal?.findMany({
         where,
-        include: {
+        select: {
+          id: true,
+          inputId: true,
+          timestamp: true,
+          receivedAt: true,
+          title: true,
+          description: true,
+          severity: true,
+          severityScore: true,
+          departmentId: true,
+          teamId: true,
+          categoryId: true,
+          metricsJson: true,
+          baselineJson: true,
+          impactJson: true,
+          tagsJson: true,
+          entitiesJson: true,
+          privacyLevel: true,
+          dedupeKey: true,
+          aiProcessed: true,
+          aiTagsJson: true,
+          enhancedTagsJson: true,
+          tagGenerationMeta: true,
+          domainClassification: true,
+          lastTaggedAt: true,
+          tagModelVersion: true,
+          lineageJson: true,
+          createdById: true,
+          createdAt: true,
+          updatedAt: true,
           createdBy: {
             select: {
               id: true,
@@ -225,6 +254,12 @@ export async function GET(request: NextRequest) {
             },
           },
           team: {
+            select: {
+              id: true,
+              name: true,
+            },
+          },
+          category: {
             select: {
               id: true,
               name: true,

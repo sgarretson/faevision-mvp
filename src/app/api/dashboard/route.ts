@@ -135,14 +135,22 @@ export async function GET(request: NextRequest) {
         orderBy: {
           createdAt: 'desc',
         },
-        include: {
+        select: {
+          id: true,
+          title: true,
+          description: true,
+          severity: true,
+          createdAt: true,
           createdBy: {
             select: {
+              id: true,
               name: true,
+              email: true,
             },
           },
           department: {
             select: {
+              id: true,
               name: true,
             },
           },

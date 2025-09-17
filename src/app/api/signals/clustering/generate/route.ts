@@ -308,7 +308,7 @@ export async function GET(request: NextRequest) {
         clusteringResults: true,
         lastClusteredAt: true,
         clusteringVersion: true,
-        qualityScore: true,
+        clusteringQualityScore: true,
       },
       orderBy: { lastClusteredAt: 'desc' },
     });
@@ -328,7 +328,7 @@ export async function GET(request: NextRequest) {
       metadata: {
         lastGenerated: latestClustering.lastClusteredAt,
         version: latestClustering.clusteringVersion,
-        qualityScore: latestClustering.qualityScore,
+        qualityScore: latestClustering.clusteringQualityScore,
       },
     });
   } catch (error: any) {
@@ -367,7 +367,7 @@ async function saveClusteringResults(
         clusteringResults: result,
         lastClusteredAt: new Date(),
         clusteringVersion: result.version,
-        qualityScore: result.overallQuality,
+        clusteringQualityScore: result.overallQuality,
         createdAt: new Date(),
       },
       update: {
@@ -375,7 +375,7 @@ async function saveClusteringResults(
         clusteringResults: result,
         lastClusteredAt: new Date(),
         clusteringVersion: result.version,
-        qualityScore: result.overallQuality,
+        clusteringQualityScore: result.overallQuality,
         updatedAt: new Date(),
       },
     });
