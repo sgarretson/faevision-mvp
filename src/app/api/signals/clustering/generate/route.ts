@@ -157,14 +157,16 @@ export async function POST(request: NextRequest) {
       `📊 Processing ${signals.length} signals for hybrid clustering...`
     );
 
-    // Extract and validate clustering features
-    const clusteringFeatures = [];
+    // Extract and validate clustering features, keeping them attached to signals
+    const signalsWithFeatures: any[] = [];
     for (const signal of signals) {
+      let clusteringFeatures = null;
+      
       if (
         signal.clusteringFeaturesJson &&
         validateClusteringFeatures(signal.clusteringFeaturesJson)
       ) {
-        clusteringFeatures.push(signal.clusteringFeaturesJson);
+        clusteringFeatures = signal.clusteringFeaturesJson;
       } else {
         // Generate features on-the-fly for signals without pre-generated features
         console.log(
@@ -172,20 +174,24 @@ export async function POST(request: NextRequest) {
         );
         const generatedFeatures = generateBasicClusteringFeatures(signal);
         if (validateClusteringFeatures(generatedFeatures)) {
-          clusteringFeatures.push(generatedFeatures);
+          clusteringFeatures = generatedFeatures;
         } else {
           console.warn(
             `Signal ${signal.id} could not generate valid clustering features, skipping`
           );
+          continue; // Skip this signal
         }
       }
+      
+      // Create the ClusteringFeatures object that the engine expects
+      signalsWithFeatures.push(clusteringFeatures);
     }
 
-    if (clusteringFeatures.length < 2) {
+    if (signalsWithFeatures.length < 2) {
       return NextResponse.json(
         {
           error: 'Insufficient valid clustering features',
-          validFeatures: clusteringFeatures.length,
+          validFeatures: signalsWithFeatures.length,
           totalSignals: signals.length,
         },
         { status: 400 }
@@ -256,7 +262,7 @@ export async function POST(request: NextRequest) {
     if (validatedRequest.asyncProcessing) {
       // Start clustering in background
       hybridClusteringEngine
-        .generateHybridClusters(clusteringFeatures, jobId)
+        .generateHybridClusters(signalsWithFeatures, jobId)
         .then(async result => {
           await saveClusteringResults(
             result,
@@ -283,7 +289,7 @@ export async function POST(request: NextRequest) {
 
     const clusteringResult =
       await hybridClusteringEngine.generateHybridClusters(
-        clusteringFeatures,
+        signalsWithFeatures,
         jobId
       );
 
@@ -701,7 +707,7 @@ function generateBasicClusteringFeatures(signal: any): any {
 
     // Generate basic root cause vector (7 dimensions)
     // Simple heuristic based on keywords
-    const rootCauseVector = [0, 0, 0, 0, 0, 0, 0]; // [PROCESS, RESOURCE, COMMUNICATION, TECHNOLOGY, TRAINING, QUALITY, EXTERNAL]
+    const rootCauseVector: number[] = new Array(7).fill(0 as number); // [PROCESS, RESOURCE, COMMUNICATION, TECHNOLOGY, TRAINING, QUALITY, EXTERNAL]
     const text = textContent.toLowerCase();
     
     if (text.includes('process') || text.includes('workflow') || text.includes('procedure')) rootCauseVector[0] = 0.7;
@@ -718,7 +724,7 @@ function generateBasicClusteringFeatures(signal: any): any {
     }
 
     // Generate basic department vector (5 dimensions)
-    const departmentVector = [0, 0, 0, 0, 0]; // [Architecture, Field Services, Project Management, Executive, Other]
+    const departmentVector: number[] = new Array(5).fill(0 as number); // [Architecture, Field Services, Project Management, Executive, Other]
     const deptName = signal.department?.name?.toLowerCase() || '';
     
     if (deptName.includes('architecture') || deptName.includes('design')) departmentVector[0] = 1.0;
