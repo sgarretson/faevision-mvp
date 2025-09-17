@@ -10,6 +10,10 @@ import { NextRequest, NextResponse } from 'next/server';
 import { auth } from '@/lib/auth';
 import { prisma } from '@/lib/prisma';
 
+// Force dynamic rendering for this route since it uses auth() which requires headers
+export const dynamic = 'force-dynamic';
+export const runtime = 'nodejs';
+
 /**
  * GET /api/monitoring/executive-performance
  * Get comprehensive performance metrics for executive dashboard

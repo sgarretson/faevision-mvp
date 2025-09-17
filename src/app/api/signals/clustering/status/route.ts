@@ -10,6 +10,10 @@ import { NextRequest, NextResponse } from 'next/server';
 import { auth } from '@/lib/auth';
 import { hybridClusteringEngine } from '@/lib/clustering/hybrid-clustering-engine';
 
+// Force dynamic rendering for this route since it uses auth() which requires headers
+export const dynamic = 'force-dynamic';
+export const runtime = 'nodejs';
+
 /**
  * GET /api/signals/clustering/status?jobId=xxx
  * Get clustering job status and progress

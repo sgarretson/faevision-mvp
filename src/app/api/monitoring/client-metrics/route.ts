@@ -9,6 +9,10 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { auth } from '@/lib/auth';
 
+// Force dynamic rendering for this route since it uses auth() which requires headers
+export const dynamic = 'force-dynamic';
+export const runtime = 'nodejs';
+
 /**
  * POST /api/monitoring/client-metrics
  * Collect performance metrics from client-side tracking

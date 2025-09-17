@@ -9,6 +9,10 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { auth } from '@/lib/auth';
 import { prisma } from '@/lib/prisma';
+
+// Force dynamic rendering for this route since it uses auth() which requires headers
+export const dynamic = 'force-dynamic';
+export const runtime = 'nodejs';
 import { enhancedTaggingEngine } from '@/lib/ai/enhanced-tagging-engine';
 import { validateEnhancedTagging } from '@/types/enhanced-tagging';
 import { z } from 'zod';
