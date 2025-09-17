@@ -99,6 +99,11 @@ export type InputGroup = $Result.DefaultSelection<Prisma.$InputGroupPayload>
  */
 export type AuditLog = $Result.DefaultSelection<Prisma.$AuditLogPayload>
 /**
+ * Model AIAnalysisAudit
+ * 
+ */
+export type AIAnalysisAudit = $Result.DefaultSelection<Prisma.$AIAnalysisAuditPayload>
+/**
  * Model Notification
  * 
  */
@@ -606,6 +611,16 @@ export class PrismaClient<
   get auditLog(): Prisma.AuditLogDelegate<ExtArgs, ClientOptions>;
 
   /**
+   * `prisma.aIAnalysisAudit`: Exposes CRUD operations for the **AIAnalysisAudit** model.
+    * Example usage:
+    * ```ts
+    * // Fetch zero or more AIAnalysisAudits
+    * const aIAnalysisAudits = await prisma.aIAnalysisAudit.findMany()
+    * ```
+    */
+  get aIAnalysisAudit(): Prisma.AIAnalysisAuditDelegate<ExtArgs, ClientOptions>;
+
+  /**
    * `prisma.notification`: Exposes CRUD operations for the **Notification** model.
     * Example usage:
     * ```ts
@@ -1071,6 +1086,7 @@ export namespace Prisma {
     Vote: 'Vote',
     InputGroup: 'InputGroup',
     AuditLog: 'AuditLog',
+    AIAnalysisAudit: 'AIAnalysisAudit',
     Notification: 'Notification'
   };
 
@@ -1090,7 +1106,7 @@ export namespace Prisma {
       omit: GlobalOmitOptions
     }
     meta: {
-      modelProps: "user" | "department" | "team" | "initiative" | "category" | "signal" | "hotspot" | "hotspotSignal" | "idea" | "input" | "solution" | "requirement" | "fRDDocument" | "comment" | "vote" | "inputGroup" | "auditLog" | "notification"
+      modelProps: "user" | "department" | "team" | "initiative" | "category" | "signal" | "hotspot" | "hotspotSignal" | "idea" | "input" | "solution" | "requirement" | "fRDDocument" | "comment" | "vote" | "inputGroup" | "auditLog" | "aIAnalysisAudit" | "notification"
       txIsolationLevel: Prisma.TransactionIsolationLevel
     }
     model: {
@@ -2352,6 +2368,80 @@ export namespace Prisma {
           }
         }
       }
+      AIAnalysisAudit: {
+        payload: Prisma.$AIAnalysisAuditPayload<ExtArgs>
+        fields: Prisma.AIAnalysisAuditFieldRefs
+        operations: {
+          findUnique: {
+            args: Prisma.AIAnalysisAuditFindUniqueArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$AIAnalysisAuditPayload> | null
+          }
+          findUniqueOrThrow: {
+            args: Prisma.AIAnalysisAuditFindUniqueOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$AIAnalysisAuditPayload>
+          }
+          findFirst: {
+            args: Prisma.AIAnalysisAuditFindFirstArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$AIAnalysisAuditPayload> | null
+          }
+          findFirstOrThrow: {
+            args: Prisma.AIAnalysisAuditFindFirstOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$AIAnalysisAuditPayload>
+          }
+          findMany: {
+            args: Prisma.AIAnalysisAuditFindManyArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$AIAnalysisAuditPayload>[]
+          }
+          create: {
+            args: Prisma.AIAnalysisAuditCreateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$AIAnalysisAuditPayload>
+          }
+          createMany: {
+            args: Prisma.AIAnalysisAuditCreateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          createManyAndReturn: {
+            args: Prisma.AIAnalysisAuditCreateManyAndReturnArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$AIAnalysisAuditPayload>[]
+          }
+          delete: {
+            args: Prisma.AIAnalysisAuditDeleteArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$AIAnalysisAuditPayload>
+          }
+          update: {
+            args: Prisma.AIAnalysisAuditUpdateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$AIAnalysisAuditPayload>
+          }
+          deleteMany: {
+            args: Prisma.AIAnalysisAuditDeleteManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          updateMany: {
+            args: Prisma.AIAnalysisAuditUpdateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          updateManyAndReturn: {
+            args: Prisma.AIAnalysisAuditUpdateManyAndReturnArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$AIAnalysisAuditPayload>[]
+          }
+          upsert: {
+            args: Prisma.AIAnalysisAuditUpsertArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$AIAnalysisAuditPayload>
+          }
+          aggregate: {
+            args: Prisma.AIAnalysisAuditAggregateArgs<ExtArgs>
+            result: $Utils.Optional<AggregateAIAnalysisAudit>
+          }
+          groupBy: {
+            args: Prisma.AIAnalysisAuditGroupByArgs<ExtArgs>
+            result: $Utils.Optional<AIAnalysisAuditGroupByOutputType>[]
+          }
+          count: {
+            args: Prisma.AIAnalysisAuditCountArgs<ExtArgs>
+            result: $Utils.Optional<AIAnalysisAuditCountAggregateOutputType> | number
+          }
+        }
+      }
       Notification: {
         payload: Prisma.$NotificationPayload<ExtArgs>
         fields: Prisma.NotificationFieldRefs
@@ -2539,6 +2629,7 @@ export namespace Prisma {
     vote?: VoteOmit
     inputGroup?: InputGroupOmit
     auditLog?: AuditLogOmit
+    aIAnalysisAudit?: AIAnalysisAuditOmit
     notification?: NotificationOmit
   }
 
@@ -2632,6 +2723,7 @@ export namespace Prisma {
     frdDocuments: number
     approvedFRDs: number
     auditLogs: number
+    aiAnalysisAudits: number
     inputGroups: number
     departmentManaged: number
     ledTeams: number
@@ -2651,6 +2743,7 @@ export namespace Prisma {
     frdDocuments?: boolean | UserCountOutputTypeCountFrdDocumentsArgs
     approvedFRDs?: boolean | UserCountOutputTypeCountApprovedFRDsArgs
     auditLogs?: boolean | UserCountOutputTypeCountAuditLogsArgs
+    aiAnalysisAudits?: boolean | UserCountOutputTypeCountAiAnalysisAuditsArgs
     inputGroups?: boolean | UserCountOutputTypeCountInputGroupsArgs
     departmentManaged?: boolean | UserCountOutputTypeCountDepartmentManagedArgs
     ledTeams?: boolean | UserCountOutputTypeCountLedTeamsArgs
@@ -2750,6 +2843,13 @@ export namespace Prisma {
    */
   export type UserCountOutputTypeCountAuditLogsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     where?: AuditLogWhereInput
+  }
+
+  /**
+   * UserCountOutputType without action
+   */
+  export type UserCountOutputTypeCountAiAnalysisAuditsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: AIAnalysisAuditWhereInput
   }
 
   /**
@@ -3511,6 +3611,7 @@ export namespace Prisma {
     frdDocuments?: boolean | User$frdDocumentsArgs<ExtArgs>
     approvedFRDs?: boolean | User$approvedFRDsArgs<ExtArgs>
     auditLogs?: boolean | User$auditLogsArgs<ExtArgs>
+    aiAnalysisAudits?: boolean | User$aiAnalysisAuditsArgs<ExtArgs>
     inputGroups?: boolean | User$inputGroupsArgs<ExtArgs>
     departmentManaged?: boolean | User$departmentManagedArgs<ExtArgs>
     departmentObj?: boolean | User$departmentObjArgs<ExtArgs>
@@ -3607,6 +3708,7 @@ export namespace Prisma {
     frdDocuments?: boolean | User$frdDocumentsArgs<ExtArgs>
     approvedFRDs?: boolean | User$approvedFRDsArgs<ExtArgs>
     auditLogs?: boolean | User$auditLogsArgs<ExtArgs>
+    aiAnalysisAudits?: boolean | User$aiAnalysisAuditsArgs<ExtArgs>
     inputGroups?: boolean | User$inputGroupsArgs<ExtArgs>
     departmentManaged?: boolean | User$departmentManagedArgs<ExtArgs>
     departmentObj?: boolean | User$departmentObjArgs<ExtArgs>
@@ -3639,6 +3741,7 @@ export namespace Prisma {
       frdDocuments: Prisma.$FRDDocumentPayload<ExtArgs>[]
       approvedFRDs: Prisma.$FRDDocumentPayload<ExtArgs>[]
       auditLogs: Prisma.$AuditLogPayload<ExtArgs>[]
+      aiAnalysisAudits: Prisma.$AIAnalysisAuditPayload<ExtArgs>[]
       inputGroups: Prisma.$InputGroupPayload<ExtArgs>[]
       departmentManaged: Prisma.$DepartmentPayload<ExtArgs>[]
       departmentObj: Prisma.$DepartmentPayload<ExtArgs> | null
@@ -4073,6 +4176,7 @@ export namespace Prisma {
     frdDocuments<T extends User$frdDocumentsArgs<ExtArgs> = {}>(args?: Subset<T, User$frdDocumentsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$FRDDocumentPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
     approvedFRDs<T extends User$approvedFRDsArgs<ExtArgs> = {}>(args?: Subset<T, User$approvedFRDsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$FRDDocumentPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
     auditLogs<T extends User$auditLogsArgs<ExtArgs> = {}>(args?: Subset<T, User$auditLogsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$AuditLogPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+    aiAnalysisAudits<T extends User$aiAnalysisAuditsArgs<ExtArgs> = {}>(args?: Subset<T, User$aiAnalysisAuditsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$AIAnalysisAuditPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
     inputGroups<T extends User$inputGroupsArgs<ExtArgs> = {}>(args?: Subset<T, User$inputGroupsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$InputGroupPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
     departmentManaged<T extends User$departmentManagedArgs<ExtArgs> = {}>(args?: Subset<T, User$departmentManagedArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$DepartmentPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
     departmentObj<T extends User$departmentObjArgs<ExtArgs> = {}>(args?: Subset<T, User$departmentObjArgs<ExtArgs>>): Prisma__DepartmentClient<$Result.GetResult<Prisma.$DepartmentPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
@@ -4827,6 +4931,30 @@ export namespace Prisma {
     take?: number
     skip?: number
     distinct?: AuditLogScalarFieldEnum | AuditLogScalarFieldEnum[]
+  }
+
+  /**
+   * User.aiAnalysisAudits
+   */
+  export type User$aiAnalysisAuditsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the AIAnalysisAudit
+     */
+    select?: AIAnalysisAuditSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the AIAnalysisAudit
+     */
+    omit?: AIAnalysisAuditOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: AIAnalysisAuditInclude<ExtArgs> | null
+    where?: AIAnalysisAuditWhereInput
+    orderBy?: AIAnalysisAuditOrderByWithRelationInput | AIAnalysisAuditOrderByWithRelationInput[]
+    cursor?: AIAnalysisAuditWhereUniqueInput
+    take?: number
+    skip?: number
+    distinct?: AIAnalysisAuditScalarFieldEnum | AIAnalysisAuditScalarFieldEnum[]
   }
 
   /**
@@ -11795,6 +11923,7 @@ export namespace Prisma {
     primaryCategoryId: string | null
     clusteringMethod: string | null
     similarityThreshold: number | null
+    lastAnalysisAt: Date | null
     createdAt: Date | null
     updatedAt: Date | null
   }
@@ -11809,6 +11938,7 @@ export namespace Prisma {
     primaryCategoryId: string | null
     clusteringMethod: string | null
     similarityThreshold: number | null
+    lastAnalysisAt: Date | null
     createdAt: Date | null
     updatedAt: Date | null
   }
@@ -11824,6 +11954,11 @@ export namespace Prisma {
     linkedEntitiesJson: number
     clusteringMethod: number
     similarityThreshold: number
+    rcaBreakdownJson: number
+    solutionSuggestionsJson: number
+    decisionMatrixJson: number
+    crossFunctionalImpactJson: number
+    lastAnalysisAt: number
     createdAt: number
     updatedAt: number
     _all: number
@@ -11852,6 +11987,7 @@ export namespace Prisma {
     primaryCategoryId?: true
     clusteringMethod?: true
     similarityThreshold?: true
+    lastAnalysisAt?: true
     createdAt?: true
     updatedAt?: true
   }
@@ -11866,6 +12002,7 @@ export namespace Prisma {
     primaryCategoryId?: true
     clusteringMethod?: true
     similarityThreshold?: true
+    lastAnalysisAt?: true
     createdAt?: true
     updatedAt?: true
   }
@@ -11881,6 +12018,11 @@ export namespace Prisma {
     linkedEntitiesJson?: true
     clusteringMethod?: true
     similarityThreshold?: true
+    rcaBreakdownJson?: true
+    solutionSuggestionsJson?: true
+    decisionMatrixJson?: true
+    crossFunctionalImpactJson?: true
+    lastAnalysisAt?: true
     createdAt?: true
     updatedAt?: true
     _all?: true
@@ -11983,6 +12125,11 @@ export namespace Prisma {
     linkedEntitiesJson: JsonValue | null
     clusteringMethod: string | null
     similarityThreshold: number | null
+    rcaBreakdownJson: JsonValue | null
+    solutionSuggestionsJson: JsonValue | null
+    decisionMatrixJson: JsonValue | null
+    crossFunctionalImpactJson: JsonValue | null
+    lastAnalysisAt: Date | null
     createdAt: Date
     updatedAt: Date
     _count: HotspotCountAggregateOutputType | null
@@ -12017,6 +12164,11 @@ export namespace Prisma {
     linkedEntitiesJson?: boolean
     clusteringMethod?: boolean
     similarityThreshold?: boolean
+    rcaBreakdownJson?: boolean
+    solutionSuggestionsJson?: boolean
+    decisionMatrixJson?: boolean
+    crossFunctionalImpactJson?: boolean
+    lastAnalysisAt?: boolean
     createdAt?: boolean
     updatedAt?: boolean
     signals?: boolean | Hotspot$signalsArgs<ExtArgs>
@@ -12036,6 +12188,11 @@ export namespace Prisma {
     linkedEntitiesJson?: boolean
     clusteringMethod?: boolean
     similarityThreshold?: boolean
+    rcaBreakdownJson?: boolean
+    solutionSuggestionsJson?: boolean
+    decisionMatrixJson?: boolean
+    crossFunctionalImpactJson?: boolean
+    lastAnalysisAt?: boolean
     createdAt?: boolean
     updatedAt?: boolean
   }, ExtArgs["result"]["hotspot"]>
@@ -12051,6 +12208,11 @@ export namespace Prisma {
     linkedEntitiesJson?: boolean
     clusteringMethod?: boolean
     similarityThreshold?: boolean
+    rcaBreakdownJson?: boolean
+    solutionSuggestionsJson?: boolean
+    decisionMatrixJson?: boolean
+    crossFunctionalImpactJson?: boolean
+    lastAnalysisAt?: boolean
     createdAt?: boolean
     updatedAt?: boolean
   }, ExtArgs["result"]["hotspot"]>
@@ -12066,11 +12228,16 @@ export namespace Prisma {
     linkedEntitiesJson?: boolean
     clusteringMethod?: boolean
     similarityThreshold?: boolean
+    rcaBreakdownJson?: boolean
+    solutionSuggestionsJson?: boolean
+    decisionMatrixJson?: boolean
+    crossFunctionalImpactJson?: boolean
+    lastAnalysisAt?: boolean
     createdAt?: boolean
     updatedAt?: boolean
   }
 
-  export type HotspotOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "title" | "summary" | "status" | "rankScore" | "confidence" | "primaryCategoryId" | "linkedEntitiesJson" | "clusteringMethod" | "similarityThreshold" | "createdAt" | "updatedAt", ExtArgs["result"]["hotspot"]>
+  export type HotspotOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "title" | "summary" | "status" | "rankScore" | "confidence" | "primaryCategoryId" | "linkedEntitiesJson" | "clusteringMethod" | "similarityThreshold" | "rcaBreakdownJson" | "solutionSuggestionsJson" | "decisionMatrixJson" | "crossFunctionalImpactJson" | "lastAnalysisAt" | "createdAt" | "updatedAt", ExtArgs["result"]["hotspot"]>
   export type HotspotInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     signals?: boolean | Hotspot$signalsArgs<ExtArgs>
     ideas?: boolean | Hotspot$ideasArgs<ExtArgs>
@@ -12098,6 +12265,11 @@ export namespace Prisma {
       linkedEntitiesJson: Prisma.JsonValue | null
       clusteringMethod: string | null
       similarityThreshold: number | null
+      rcaBreakdownJson: Prisma.JsonValue | null
+      solutionSuggestionsJson: Prisma.JsonValue | null
+      decisionMatrixJson: Prisma.JsonValue | null
+      crossFunctionalImpactJson: Prisma.JsonValue | null
+      lastAnalysisAt: Date | null
       createdAt: Date
       updatedAt: Date
     }, ExtArgs["result"]["hotspot"]>
@@ -12536,6 +12708,11 @@ export namespace Prisma {
     readonly linkedEntitiesJson: FieldRef<"Hotspot", 'Json'>
     readonly clusteringMethod: FieldRef<"Hotspot", 'String'>
     readonly similarityThreshold: FieldRef<"Hotspot", 'Float'>
+    readonly rcaBreakdownJson: FieldRef<"Hotspot", 'Json'>
+    readonly solutionSuggestionsJson: FieldRef<"Hotspot", 'Json'>
+    readonly decisionMatrixJson: FieldRef<"Hotspot", 'Json'>
+    readonly crossFunctionalImpactJson: FieldRef<"Hotspot", 'Json'>
+    readonly lastAnalysisAt: FieldRef<"Hotspot", 'DateTime'>
     readonly createdAt: FieldRef<"Hotspot", 'DateTime'>
     readonly updatedAt: FieldRef<"Hotspot", 'DateTime'>
   }
@@ -25253,6 +25430,1172 @@ export namespace Prisma {
 
 
   /**
+   * Model AIAnalysisAudit
+   */
+
+  export type AggregateAIAnalysisAudit = {
+    _count: AIAnalysisAuditCountAggregateOutputType | null
+    _avg: AIAnalysisAuditAvgAggregateOutputType | null
+    _sum: AIAnalysisAuditSumAggregateOutputType | null
+    _min: AIAnalysisAuditMinAggregateOutputType | null
+    _max: AIAnalysisAuditMaxAggregateOutputType | null
+  }
+
+  export type AIAnalysisAuditAvgAggregateOutputType = {
+    processingTime: number | null
+    confidence: number | null
+  }
+
+  export type AIAnalysisAuditSumAggregateOutputType = {
+    processingTime: number | null
+    confidence: number | null
+  }
+
+  export type AIAnalysisAuditMinAggregateOutputType = {
+    id: string | null
+    hotspotId: string | null
+    analysisType: string | null
+    userId: string | null
+    processingTime: number | null
+    confidence: number | null
+    status: string | null
+    errorMessage: string | null
+    createdAt: Date | null
+  }
+
+  export type AIAnalysisAuditMaxAggregateOutputType = {
+    id: string | null
+    hotspotId: string | null
+    analysisType: string | null
+    userId: string | null
+    processingTime: number | null
+    confidence: number | null
+    status: string | null
+    errorMessage: string | null
+    createdAt: Date | null
+  }
+
+  export type AIAnalysisAuditCountAggregateOutputType = {
+    id: number
+    hotspotId: number
+    analysisType: number
+    userId: number
+    requestData: number
+    responseData: number
+    processingTime: number
+    confidence: number
+    status: number
+    errorMessage: number
+    createdAt: number
+    _all: number
+  }
+
+
+  export type AIAnalysisAuditAvgAggregateInputType = {
+    processingTime?: true
+    confidence?: true
+  }
+
+  export type AIAnalysisAuditSumAggregateInputType = {
+    processingTime?: true
+    confidence?: true
+  }
+
+  export type AIAnalysisAuditMinAggregateInputType = {
+    id?: true
+    hotspotId?: true
+    analysisType?: true
+    userId?: true
+    processingTime?: true
+    confidence?: true
+    status?: true
+    errorMessage?: true
+    createdAt?: true
+  }
+
+  export type AIAnalysisAuditMaxAggregateInputType = {
+    id?: true
+    hotspotId?: true
+    analysisType?: true
+    userId?: true
+    processingTime?: true
+    confidence?: true
+    status?: true
+    errorMessage?: true
+    createdAt?: true
+  }
+
+  export type AIAnalysisAuditCountAggregateInputType = {
+    id?: true
+    hotspotId?: true
+    analysisType?: true
+    userId?: true
+    requestData?: true
+    responseData?: true
+    processingTime?: true
+    confidence?: true
+    status?: true
+    errorMessage?: true
+    createdAt?: true
+    _all?: true
+  }
+
+  export type AIAnalysisAuditAggregateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which AIAnalysisAudit to aggregate.
+     */
+    where?: AIAnalysisAuditWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of AIAnalysisAudits to fetch.
+     */
+    orderBy?: AIAnalysisAuditOrderByWithRelationInput | AIAnalysisAuditOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the start position
+     */
+    cursor?: AIAnalysisAuditWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` AIAnalysisAudits from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` AIAnalysisAudits.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Count returned AIAnalysisAudits
+    **/
+    _count?: true | AIAnalysisAuditCountAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to average
+    **/
+    _avg?: AIAnalysisAuditAvgAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to sum
+    **/
+    _sum?: AIAnalysisAuditSumAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the minimum value
+    **/
+    _min?: AIAnalysisAuditMinAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the maximum value
+    **/
+    _max?: AIAnalysisAuditMaxAggregateInputType
+  }
+
+  export type GetAIAnalysisAuditAggregateType<T extends AIAnalysisAuditAggregateArgs> = {
+        [P in keyof T & keyof AggregateAIAnalysisAudit]: P extends '_count' | 'count'
+      ? T[P] extends true
+        ? number
+        : GetScalarType<T[P], AggregateAIAnalysisAudit[P]>
+      : GetScalarType<T[P], AggregateAIAnalysisAudit[P]>
+  }
+
+
+
+
+  export type AIAnalysisAuditGroupByArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: AIAnalysisAuditWhereInput
+    orderBy?: AIAnalysisAuditOrderByWithAggregationInput | AIAnalysisAuditOrderByWithAggregationInput[]
+    by: AIAnalysisAuditScalarFieldEnum[] | AIAnalysisAuditScalarFieldEnum
+    having?: AIAnalysisAuditScalarWhereWithAggregatesInput
+    take?: number
+    skip?: number
+    _count?: AIAnalysisAuditCountAggregateInputType | true
+    _avg?: AIAnalysisAuditAvgAggregateInputType
+    _sum?: AIAnalysisAuditSumAggregateInputType
+    _min?: AIAnalysisAuditMinAggregateInputType
+    _max?: AIAnalysisAuditMaxAggregateInputType
+  }
+
+  export type AIAnalysisAuditGroupByOutputType = {
+    id: string
+    hotspotId: string
+    analysisType: string
+    userId: string
+    requestData: JsonValue | null
+    responseData: JsonValue | null
+    processingTime: number | null
+    confidence: number | null
+    status: string
+    errorMessage: string | null
+    createdAt: Date
+    _count: AIAnalysisAuditCountAggregateOutputType | null
+    _avg: AIAnalysisAuditAvgAggregateOutputType | null
+    _sum: AIAnalysisAuditSumAggregateOutputType | null
+    _min: AIAnalysisAuditMinAggregateOutputType | null
+    _max: AIAnalysisAuditMaxAggregateOutputType | null
+  }
+
+  type GetAIAnalysisAuditGroupByPayload<T extends AIAnalysisAuditGroupByArgs> = Prisma.PrismaPromise<
+    Array<
+      PickEnumerable<AIAnalysisAuditGroupByOutputType, T['by']> &
+        {
+          [P in ((keyof T) & (keyof AIAnalysisAuditGroupByOutputType))]: P extends '_count'
+            ? T[P] extends boolean
+              ? number
+              : GetScalarType<T[P], AIAnalysisAuditGroupByOutputType[P]>
+            : GetScalarType<T[P], AIAnalysisAuditGroupByOutputType[P]>
+        }
+      >
+    >
+
+
+  export type AIAnalysisAuditSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    hotspotId?: boolean
+    analysisType?: boolean
+    userId?: boolean
+    requestData?: boolean
+    responseData?: boolean
+    processingTime?: boolean
+    confidence?: boolean
+    status?: boolean
+    errorMessage?: boolean
+    createdAt?: boolean
+    user?: boolean | UserDefaultArgs<ExtArgs>
+  }, ExtArgs["result"]["aIAnalysisAudit"]>
+
+  export type AIAnalysisAuditSelectCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    hotspotId?: boolean
+    analysisType?: boolean
+    userId?: boolean
+    requestData?: boolean
+    responseData?: boolean
+    processingTime?: boolean
+    confidence?: boolean
+    status?: boolean
+    errorMessage?: boolean
+    createdAt?: boolean
+    user?: boolean | UserDefaultArgs<ExtArgs>
+  }, ExtArgs["result"]["aIAnalysisAudit"]>
+
+  export type AIAnalysisAuditSelectUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    hotspotId?: boolean
+    analysisType?: boolean
+    userId?: boolean
+    requestData?: boolean
+    responseData?: boolean
+    processingTime?: boolean
+    confidence?: boolean
+    status?: boolean
+    errorMessage?: boolean
+    createdAt?: boolean
+    user?: boolean | UserDefaultArgs<ExtArgs>
+  }, ExtArgs["result"]["aIAnalysisAudit"]>
+
+  export type AIAnalysisAuditSelectScalar = {
+    id?: boolean
+    hotspotId?: boolean
+    analysisType?: boolean
+    userId?: boolean
+    requestData?: boolean
+    responseData?: boolean
+    processingTime?: boolean
+    confidence?: boolean
+    status?: boolean
+    errorMessage?: boolean
+    createdAt?: boolean
+  }
+
+  export type AIAnalysisAuditOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "hotspotId" | "analysisType" | "userId" | "requestData" | "responseData" | "processingTime" | "confidence" | "status" | "errorMessage" | "createdAt", ExtArgs["result"]["aIAnalysisAudit"]>
+  export type AIAnalysisAuditInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    user?: boolean | UserDefaultArgs<ExtArgs>
+  }
+  export type AIAnalysisAuditIncludeCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    user?: boolean | UserDefaultArgs<ExtArgs>
+  }
+  export type AIAnalysisAuditIncludeUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    user?: boolean | UserDefaultArgs<ExtArgs>
+  }
+
+  export type $AIAnalysisAuditPayload<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    name: "AIAnalysisAudit"
+    objects: {
+      user: Prisma.$UserPayload<ExtArgs>
+    }
+    scalars: $Extensions.GetPayloadResult<{
+      id: string
+      hotspotId: string
+      analysisType: string
+      userId: string
+      requestData: Prisma.JsonValue | null
+      responseData: Prisma.JsonValue | null
+      processingTime: number | null
+      confidence: number | null
+      status: string
+      errorMessage: string | null
+      createdAt: Date
+    }, ExtArgs["result"]["aIAnalysisAudit"]>
+    composites: {}
+  }
+
+  type AIAnalysisAuditGetPayload<S extends boolean | null | undefined | AIAnalysisAuditDefaultArgs> = $Result.GetResult<Prisma.$AIAnalysisAuditPayload, S>
+
+  type AIAnalysisAuditCountArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> =
+    Omit<AIAnalysisAuditFindManyArgs, 'select' | 'include' | 'distinct' | 'omit'> & {
+      select?: AIAnalysisAuditCountAggregateInputType | true
+    }
+
+  export interface AIAnalysisAuditDelegate<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> {
+    [K: symbol]: { types: Prisma.TypeMap<ExtArgs>['model']['AIAnalysisAudit'], meta: { name: 'AIAnalysisAudit' } }
+    /**
+     * Find zero or one AIAnalysisAudit that matches the filter.
+     * @param {AIAnalysisAuditFindUniqueArgs} args - Arguments to find a AIAnalysisAudit
+     * @example
+     * // Get one AIAnalysisAudit
+     * const aIAnalysisAudit = await prisma.aIAnalysisAudit.findUnique({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUnique<T extends AIAnalysisAuditFindUniqueArgs>(args: SelectSubset<T, AIAnalysisAuditFindUniqueArgs<ExtArgs>>): Prisma__AIAnalysisAuditClient<$Result.GetResult<Prisma.$AIAnalysisAuditPayload<ExtArgs>, T, "findUnique", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find one AIAnalysisAudit that matches the filter or throw an error with `error.code='P2025'`
+     * if no matches were found.
+     * @param {AIAnalysisAuditFindUniqueOrThrowArgs} args - Arguments to find a AIAnalysisAudit
+     * @example
+     * // Get one AIAnalysisAudit
+     * const aIAnalysisAudit = await prisma.aIAnalysisAudit.findUniqueOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUniqueOrThrow<T extends AIAnalysisAuditFindUniqueOrThrowArgs>(args: SelectSubset<T, AIAnalysisAuditFindUniqueOrThrowArgs<ExtArgs>>): Prisma__AIAnalysisAuditClient<$Result.GetResult<Prisma.$AIAnalysisAuditPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find the first AIAnalysisAudit that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {AIAnalysisAuditFindFirstArgs} args - Arguments to find a AIAnalysisAudit
+     * @example
+     * // Get one AIAnalysisAudit
+     * const aIAnalysisAudit = await prisma.aIAnalysisAudit.findFirst({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirst<T extends AIAnalysisAuditFindFirstArgs>(args?: SelectSubset<T, AIAnalysisAuditFindFirstArgs<ExtArgs>>): Prisma__AIAnalysisAuditClient<$Result.GetResult<Prisma.$AIAnalysisAuditPayload<ExtArgs>, T, "findFirst", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find the first AIAnalysisAudit that matches the filter or
+     * throw `PrismaKnownClientError` with `P2025` code if no matches were found.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {AIAnalysisAuditFindFirstOrThrowArgs} args - Arguments to find a AIAnalysisAudit
+     * @example
+     * // Get one AIAnalysisAudit
+     * const aIAnalysisAudit = await prisma.aIAnalysisAudit.findFirstOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirstOrThrow<T extends AIAnalysisAuditFindFirstOrThrowArgs>(args?: SelectSubset<T, AIAnalysisAuditFindFirstOrThrowArgs<ExtArgs>>): Prisma__AIAnalysisAuditClient<$Result.GetResult<Prisma.$AIAnalysisAuditPayload<ExtArgs>, T, "findFirstOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find zero or more AIAnalysisAudits that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {AIAnalysisAuditFindManyArgs} args - Arguments to filter and select certain fields only.
+     * @example
+     * // Get all AIAnalysisAudits
+     * const aIAnalysisAudits = await prisma.aIAnalysisAudit.findMany()
+     * 
+     * // Get first 10 AIAnalysisAudits
+     * const aIAnalysisAudits = await prisma.aIAnalysisAudit.findMany({ take: 10 })
+     * 
+     * // Only select the `id`
+     * const aIAnalysisAuditWithIdOnly = await prisma.aIAnalysisAudit.findMany({ select: { id: true } })
+     * 
+     */
+    findMany<T extends AIAnalysisAuditFindManyArgs>(args?: SelectSubset<T, AIAnalysisAuditFindManyArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$AIAnalysisAuditPayload<ExtArgs>, T, "findMany", GlobalOmitOptions>>
+
+    /**
+     * Create a AIAnalysisAudit.
+     * @param {AIAnalysisAuditCreateArgs} args - Arguments to create a AIAnalysisAudit.
+     * @example
+     * // Create one AIAnalysisAudit
+     * const AIAnalysisAudit = await prisma.aIAnalysisAudit.create({
+     *   data: {
+     *     // ... data to create a AIAnalysisAudit
+     *   }
+     * })
+     * 
+     */
+    create<T extends AIAnalysisAuditCreateArgs>(args: SelectSubset<T, AIAnalysisAuditCreateArgs<ExtArgs>>): Prisma__AIAnalysisAuditClient<$Result.GetResult<Prisma.$AIAnalysisAuditPayload<ExtArgs>, T, "create", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Create many AIAnalysisAudits.
+     * @param {AIAnalysisAuditCreateManyArgs} args - Arguments to create many AIAnalysisAudits.
+     * @example
+     * // Create many AIAnalysisAudits
+     * const aIAnalysisAudit = await prisma.aIAnalysisAudit.createMany({
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     *     
+     */
+    createMany<T extends AIAnalysisAuditCreateManyArgs>(args?: SelectSubset<T, AIAnalysisAuditCreateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Create many AIAnalysisAudits and returns the data saved in the database.
+     * @param {AIAnalysisAuditCreateManyAndReturnArgs} args - Arguments to create many AIAnalysisAudits.
+     * @example
+     * // Create many AIAnalysisAudits
+     * const aIAnalysisAudit = await prisma.aIAnalysisAudit.createManyAndReturn({
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * 
+     * // Create many AIAnalysisAudits and only return the `id`
+     * const aIAnalysisAuditWithIdOnly = await prisma.aIAnalysisAudit.createManyAndReturn({
+     *   select: { id: true },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * 
+     */
+    createManyAndReturn<T extends AIAnalysisAuditCreateManyAndReturnArgs>(args?: SelectSubset<T, AIAnalysisAuditCreateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$AIAnalysisAuditPayload<ExtArgs>, T, "createManyAndReturn", GlobalOmitOptions>>
+
+    /**
+     * Delete a AIAnalysisAudit.
+     * @param {AIAnalysisAuditDeleteArgs} args - Arguments to delete one AIAnalysisAudit.
+     * @example
+     * // Delete one AIAnalysisAudit
+     * const AIAnalysisAudit = await prisma.aIAnalysisAudit.delete({
+     *   where: {
+     *     // ... filter to delete one AIAnalysisAudit
+     *   }
+     * })
+     * 
+     */
+    delete<T extends AIAnalysisAuditDeleteArgs>(args: SelectSubset<T, AIAnalysisAuditDeleteArgs<ExtArgs>>): Prisma__AIAnalysisAuditClient<$Result.GetResult<Prisma.$AIAnalysisAuditPayload<ExtArgs>, T, "delete", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Update one AIAnalysisAudit.
+     * @param {AIAnalysisAuditUpdateArgs} args - Arguments to update one AIAnalysisAudit.
+     * @example
+     * // Update one AIAnalysisAudit
+     * const aIAnalysisAudit = await prisma.aIAnalysisAudit.update({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    update<T extends AIAnalysisAuditUpdateArgs>(args: SelectSubset<T, AIAnalysisAuditUpdateArgs<ExtArgs>>): Prisma__AIAnalysisAuditClient<$Result.GetResult<Prisma.$AIAnalysisAuditPayload<ExtArgs>, T, "update", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Delete zero or more AIAnalysisAudits.
+     * @param {AIAnalysisAuditDeleteManyArgs} args - Arguments to filter AIAnalysisAudits to delete.
+     * @example
+     * // Delete a few AIAnalysisAudits
+     * const { count } = await prisma.aIAnalysisAudit.deleteMany({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     * 
+     */
+    deleteMany<T extends AIAnalysisAuditDeleteManyArgs>(args?: SelectSubset<T, AIAnalysisAuditDeleteManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Update zero or more AIAnalysisAudits.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {AIAnalysisAuditUpdateManyArgs} args - Arguments to update one or more rows.
+     * @example
+     * // Update many AIAnalysisAudits
+     * const aIAnalysisAudit = await prisma.aIAnalysisAudit.updateMany({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    updateMany<T extends AIAnalysisAuditUpdateManyArgs>(args: SelectSubset<T, AIAnalysisAuditUpdateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Update zero or more AIAnalysisAudits and returns the data updated in the database.
+     * @param {AIAnalysisAuditUpdateManyAndReturnArgs} args - Arguments to update many AIAnalysisAudits.
+     * @example
+     * // Update many AIAnalysisAudits
+     * const aIAnalysisAudit = await prisma.aIAnalysisAudit.updateManyAndReturn({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * 
+     * // Update zero or more AIAnalysisAudits and only return the `id`
+     * const aIAnalysisAuditWithIdOnly = await prisma.aIAnalysisAudit.updateManyAndReturn({
+     *   select: { id: true },
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * 
+     */
+    updateManyAndReturn<T extends AIAnalysisAuditUpdateManyAndReturnArgs>(args: SelectSubset<T, AIAnalysisAuditUpdateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$AIAnalysisAuditPayload<ExtArgs>, T, "updateManyAndReturn", GlobalOmitOptions>>
+
+    /**
+     * Create or update one AIAnalysisAudit.
+     * @param {AIAnalysisAuditUpsertArgs} args - Arguments to update or create a AIAnalysisAudit.
+     * @example
+     * // Update or create a AIAnalysisAudit
+     * const aIAnalysisAudit = await prisma.aIAnalysisAudit.upsert({
+     *   create: {
+     *     // ... data to create a AIAnalysisAudit
+     *   },
+     *   update: {
+     *     // ... in case it already exists, update
+     *   },
+     *   where: {
+     *     // ... the filter for the AIAnalysisAudit we want to update
+     *   }
+     * })
+     */
+    upsert<T extends AIAnalysisAuditUpsertArgs>(args: SelectSubset<T, AIAnalysisAuditUpsertArgs<ExtArgs>>): Prisma__AIAnalysisAuditClient<$Result.GetResult<Prisma.$AIAnalysisAuditPayload<ExtArgs>, T, "upsert", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+
+    /**
+     * Count the number of AIAnalysisAudits.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {AIAnalysisAuditCountArgs} args - Arguments to filter AIAnalysisAudits to count.
+     * @example
+     * // Count the number of AIAnalysisAudits
+     * const count = await prisma.aIAnalysisAudit.count({
+     *   where: {
+     *     // ... the filter for the AIAnalysisAudits we want to count
+     *   }
+     * })
+    **/
+    count<T extends AIAnalysisAuditCountArgs>(
+      args?: Subset<T, AIAnalysisAuditCountArgs>,
+    ): Prisma.PrismaPromise<
+      T extends $Utils.Record<'select', any>
+        ? T['select'] extends true
+          ? number
+          : GetScalarType<T['select'], AIAnalysisAuditCountAggregateOutputType>
+        : number
+    >
+
+    /**
+     * Allows you to perform aggregations operations on a AIAnalysisAudit.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {AIAnalysisAuditAggregateArgs} args - Select which aggregations you would like to apply and on what fields.
+     * @example
+     * // Ordered by age ascending
+     * // Where email contains prisma.io
+     * // Limited to the 10 users
+     * const aggregations = await prisma.user.aggregate({
+     *   _avg: {
+     *     age: true,
+     *   },
+     *   where: {
+     *     email: {
+     *       contains: "prisma.io",
+     *     },
+     *   },
+     *   orderBy: {
+     *     age: "asc",
+     *   },
+     *   take: 10,
+     * })
+    **/
+    aggregate<T extends AIAnalysisAuditAggregateArgs>(args: Subset<T, AIAnalysisAuditAggregateArgs>): Prisma.PrismaPromise<GetAIAnalysisAuditAggregateType<T>>
+
+    /**
+     * Group by AIAnalysisAudit.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {AIAnalysisAuditGroupByArgs} args - Group by arguments.
+     * @example
+     * // Group by city, order by createdAt, get count
+     * const result = await prisma.user.groupBy({
+     *   by: ['city', 'createdAt'],
+     *   orderBy: {
+     *     createdAt: true
+     *   },
+     *   _count: {
+     *     _all: true
+     *   },
+     * })
+     * 
+    **/
+    groupBy<
+      T extends AIAnalysisAuditGroupByArgs,
+      HasSelectOrTake extends Or<
+        Extends<'skip', Keys<T>>,
+        Extends<'take', Keys<T>>
+      >,
+      OrderByArg extends True extends HasSelectOrTake
+        ? { orderBy: AIAnalysisAuditGroupByArgs['orderBy'] }
+        : { orderBy?: AIAnalysisAuditGroupByArgs['orderBy'] },
+      OrderFields extends ExcludeUnderscoreKeys<Keys<MaybeTupleToUnion<T['orderBy']>>>,
+      ByFields extends MaybeTupleToUnion<T['by']>,
+      ByValid extends Has<ByFields, OrderFields>,
+      HavingFields extends GetHavingFields<T['having']>,
+      HavingValid extends Has<ByFields, HavingFields>,
+      ByEmpty extends T['by'] extends never[] ? True : False,
+      InputErrors extends ByEmpty extends True
+      ? `Error: "by" must not be empty.`
+      : HavingValid extends False
+      ? {
+          [P in HavingFields]: P extends ByFields
+            ? never
+            : P extends string
+            ? `Error: Field "${P}" used in "having" needs to be provided in "by".`
+            : [
+                Error,
+                'Field ',
+                P,
+                ` in "having" needs to be provided in "by"`,
+              ]
+        }[HavingFields]
+      : 'take' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "take", you also need to provide "orderBy"'
+      : 'skip' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "skip", you also need to provide "orderBy"'
+      : ByValid extends True
+      ? {}
+      : {
+          [P in OrderFields]: P extends ByFields
+            ? never
+            : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+        }[OrderFields]
+    >(args: SubsetIntersection<T, AIAnalysisAuditGroupByArgs, OrderByArg> & InputErrors): {} extends InputErrors ? GetAIAnalysisAuditGroupByPayload<T> : Prisma.PrismaPromise<InputErrors>
+  /**
+   * Fields of the AIAnalysisAudit model
+   */
+  readonly fields: AIAnalysisAuditFieldRefs;
+  }
+
+  /**
+   * The delegate class that acts as a "Promise-like" for AIAnalysisAudit.
+   * Why is this prefixed with `Prisma__`?
+   * Because we want to prevent naming conflicts as mentioned in
+   * https://github.com/prisma/prisma-client-js/issues/707
+   */
+  export interface Prisma__AIAnalysisAuditClient<T, Null = never, ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
+    readonly [Symbol.toStringTag]: "PrismaPromise"
+    user<T extends UserDefaultArgs<ExtArgs> = {}>(args?: Subset<T, UserDefaultArgs<ExtArgs>>): Prisma__UserClient<$Result.GetResult<Prisma.$UserPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
+    /**
+     * Attaches callbacks for the resolution and/or rejection of the Promise.
+     * @param onfulfilled The callback to execute when the Promise is resolved.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of which ever callback is executed.
+     */
+    then<TResult1 = T, TResult2 = never>(onfulfilled?: ((value: T) => TResult1 | PromiseLike<TResult1>) | undefined | null, onrejected?: ((reason: any) => TResult2 | PromiseLike<TResult2>) | undefined | null): $Utils.JsPromise<TResult1 | TResult2>
+    /**
+     * Attaches a callback for only the rejection of the Promise.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of the callback.
+     */
+    catch<TResult = never>(onrejected?: ((reason: any) => TResult | PromiseLike<TResult>) | undefined | null): $Utils.JsPromise<T | TResult>
+    /**
+     * Attaches a callback that is invoked when the Promise is settled (fulfilled or rejected). The
+     * resolved value cannot be modified from the callback.
+     * @param onfinally The callback to execute when the Promise is settled (fulfilled or rejected).
+     * @returns A Promise for the completion of the callback.
+     */
+    finally(onfinally?: (() => void) | undefined | null): $Utils.JsPromise<T>
+  }
+
+
+
+
+  /**
+   * Fields of the AIAnalysisAudit model
+   */
+  interface AIAnalysisAuditFieldRefs {
+    readonly id: FieldRef<"AIAnalysisAudit", 'String'>
+    readonly hotspotId: FieldRef<"AIAnalysisAudit", 'String'>
+    readonly analysisType: FieldRef<"AIAnalysisAudit", 'String'>
+    readonly userId: FieldRef<"AIAnalysisAudit", 'String'>
+    readonly requestData: FieldRef<"AIAnalysisAudit", 'Json'>
+    readonly responseData: FieldRef<"AIAnalysisAudit", 'Json'>
+    readonly processingTime: FieldRef<"AIAnalysisAudit", 'Int'>
+    readonly confidence: FieldRef<"AIAnalysisAudit", 'Float'>
+    readonly status: FieldRef<"AIAnalysisAudit", 'String'>
+    readonly errorMessage: FieldRef<"AIAnalysisAudit", 'String'>
+    readonly createdAt: FieldRef<"AIAnalysisAudit", 'DateTime'>
+  }
+    
+
+  // Custom InputTypes
+  /**
+   * AIAnalysisAudit findUnique
+   */
+  export type AIAnalysisAuditFindUniqueArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the AIAnalysisAudit
+     */
+    select?: AIAnalysisAuditSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the AIAnalysisAudit
+     */
+    omit?: AIAnalysisAuditOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: AIAnalysisAuditInclude<ExtArgs> | null
+    /**
+     * Filter, which AIAnalysisAudit to fetch.
+     */
+    where: AIAnalysisAuditWhereUniqueInput
+  }
+
+  /**
+   * AIAnalysisAudit findUniqueOrThrow
+   */
+  export type AIAnalysisAuditFindUniqueOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the AIAnalysisAudit
+     */
+    select?: AIAnalysisAuditSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the AIAnalysisAudit
+     */
+    omit?: AIAnalysisAuditOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: AIAnalysisAuditInclude<ExtArgs> | null
+    /**
+     * Filter, which AIAnalysisAudit to fetch.
+     */
+    where: AIAnalysisAuditWhereUniqueInput
+  }
+
+  /**
+   * AIAnalysisAudit findFirst
+   */
+  export type AIAnalysisAuditFindFirstArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the AIAnalysisAudit
+     */
+    select?: AIAnalysisAuditSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the AIAnalysisAudit
+     */
+    omit?: AIAnalysisAuditOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: AIAnalysisAuditInclude<ExtArgs> | null
+    /**
+     * Filter, which AIAnalysisAudit to fetch.
+     */
+    where?: AIAnalysisAuditWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of AIAnalysisAudits to fetch.
+     */
+    orderBy?: AIAnalysisAuditOrderByWithRelationInput | AIAnalysisAuditOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for AIAnalysisAudits.
+     */
+    cursor?: AIAnalysisAuditWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` AIAnalysisAudits from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` AIAnalysisAudits.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of AIAnalysisAudits.
+     */
+    distinct?: AIAnalysisAuditScalarFieldEnum | AIAnalysisAuditScalarFieldEnum[]
+  }
+
+  /**
+   * AIAnalysisAudit findFirstOrThrow
+   */
+  export type AIAnalysisAuditFindFirstOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the AIAnalysisAudit
+     */
+    select?: AIAnalysisAuditSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the AIAnalysisAudit
+     */
+    omit?: AIAnalysisAuditOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: AIAnalysisAuditInclude<ExtArgs> | null
+    /**
+     * Filter, which AIAnalysisAudit to fetch.
+     */
+    where?: AIAnalysisAuditWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of AIAnalysisAudits to fetch.
+     */
+    orderBy?: AIAnalysisAuditOrderByWithRelationInput | AIAnalysisAuditOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for AIAnalysisAudits.
+     */
+    cursor?: AIAnalysisAuditWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` AIAnalysisAudits from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` AIAnalysisAudits.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of AIAnalysisAudits.
+     */
+    distinct?: AIAnalysisAuditScalarFieldEnum | AIAnalysisAuditScalarFieldEnum[]
+  }
+
+  /**
+   * AIAnalysisAudit findMany
+   */
+  export type AIAnalysisAuditFindManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the AIAnalysisAudit
+     */
+    select?: AIAnalysisAuditSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the AIAnalysisAudit
+     */
+    omit?: AIAnalysisAuditOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: AIAnalysisAuditInclude<ExtArgs> | null
+    /**
+     * Filter, which AIAnalysisAudits to fetch.
+     */
+    where?: AIAnalysisAuditWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of AIAnalysisAudits to fetch.
+     */
+    orderBy?: AIAnalysisAuditOrderByWithRelationInput | AIAnalysisAuditOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for listing AIAnalysisAudits.
+     */
+    cursor?: AIAnalysisAuditWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` AIAnalysisAudits from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` AIAnalysisAudits.
+     */
+    skip?: number
+    distinct?: AIAnalysisAuditScalarFieldEnum | AIAnalysisAuditScalarFieldEnum[]
+  }
+
+  /**
+   * AIAnalysisAudit create
+   */
+  export type AIAnalysisAuditCreateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the AIAnalysisAudit
+     */
+    select?: AIAnalysisAuditSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the AIAnalysisAudit
+     */
+    omit?: AIAnalysisAuditOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: AIAnalysisAuditInclude<ExtArgs> | null
+    /**
+     * The data needed to create a AIAnalysisAudit.
+     */
+    data: XOR<AIAnalysisAuditCreateInput, AIAnalysisAuditUncheckedCreateInput>
+  }
+
+  /**
+   * AIAnalysisAudit createMany
+   */
+  export type AIAnalysisAuditCreateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to create many AIAnalysisAudits.
+     */
+    data: AIAnalysisAuditCreateManyInput | AIAnalysisAuditCreateManyInput[]
+    skipDuplicates?: boolean
+  }
+
+  /**
+   * AIAnalysisAudit createManyAndReturn
+   */
+  export type AIAnalysisAuditCreateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the AIAnalysisAudit
+     */
+    select?: AIAnalysisAuditSelectCreateManyAndReturn<ExtArgs> | null
+    /**
+     * Omit specific fields from the AIAnalysisAudit
+     */
+    omit?: AIAnalysisAuditOmit<ExtArgs> | null
+    /**
+     * The data used to create many AIAnalysisAudits.
+     */
+    data: AIAnalysisAuditCreateManyInput | AIAnalysisAuditCreateManyInput[]
+    skipDuplicates?: boolean
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: AIAnalysisAuditIncludeCreateManyAndReturn<ExtArgs> | null
+  }
+
+  /**
+   * AIAnalysisAudit update
+   */
+  export type AIAnalysisAuditUpdateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the AIAnalysisAudit
+     */
+    select?: AIAnalysisAuditSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the AIAnalysisAudit
+     */
+    omit?: AIAnalysisAuditOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: AIAnalysisAuditInclude<ExtArgs> | null
+    /**
+     * The data needed to update a AIAnalysisAudit.
+     */
+    data: XOR<AIAnalysisAuditUpdateInput, AIAnalysisAuditUncheckedUpdateInput>
+    /**
+     * Choose, which AIAnalysisAudit to update.
+     */
+    where: AIAnalysisAuditWhereUniqueInput
+  }
+
+  /**
+   * AIAnalysisAudit updateMany
+   */
+  export type AIAnalysisAuditUpdateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to update AIAnalysisAudits.
+     */
+    data: XOR<AIAnalysisAuditUpdateManyMutationInput, AIAnalysisAuditUncheckedUpdateManyInput>
+    /**
+     * Filter which AIAnalysisAudits to update
+     */
+    where?: AIAnalysisAuditWhereInput
+    /**
+     * Limit how many AIAnalysisAudits to update.
+     */
+    limit?: number
+  }
+
+  /**
+   * AIAnalysisAudit updateManyAndReturn
+   */
+  export type AIAnalysisAuditUpdateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the AIAnalysisAudit
+     */
+    select?: AIAnalysisAuditSelectUpdateManyAndReturn<ExtArgs> | null
+    /**
+     * Omit specific fields from the AIAnalysisAudit
+     */
+    omit?: AIAnalysisAuditOmit<ExtArgs> | null
+    /**
+     * The data used to update AIAnalysisAudits.
+     */
+    data: XOR<AIAnalysisAuditUpdateManyMutationInput, AIAnalysisAuditUncheckedUpdateManyInput>
+    /**
+     * Filter which AIAnalysisAudits to update
+     */
+    where?: AIAnalysisAuditWhereInput
+    /**
+     * Limit how many AIAnalysisAudits to update.
+     */
+    limit?: number
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: AIAnalysisAuditIncludeUpdateManyAndReturn<ExtArgs> | null
+  }
+
+  /**
+   * AIAnalysisAudit upsert
+   */
+  export type AIAnalysisAuditUpsertArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the AIAnalysisAudit
+     */
+    select?: AIAnalysisAuditSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the AIAnalysisAudit
+     */
+    omit?: AIAnalysisAuditOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: AIAnalysisAuditInclude<ExtArgs> | null
+    /**
+     * The filter to search for the AIAnalysisAudit to update in case it exists.
+     */
+    where: AIAnalysisAuditWhereUniqueInput
+    /**
+     * In case the AIAnalysisAudit found by the `where` argument doesn't exist, create a new AIAnalysisAudit with this data.
+     */
+    create: XOR<AIAnalysisAuditCreateInput, AIAnalysisAuditUncheckedCreateInput>
+    /**
+     * In case the AIAnalysisAudit was found with the provided `where` argument, update it with this data.
+     */
+    update: XOR<AIAnalysisAuditUpdateInput, AIAnalysisAuditUncheckedUpdateInput>
+  }
+
+  /**
+   * AIAnalysisAudit delete
+   */
+  export type AIAnalysisAuditDeleteArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the AIAnalysisAudit
+     */
+    select?: AIAnalysisAuditSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the AIAnalysisAudit
+     */
+    omit?: AIAnalysisAuditOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: AIAnalysisAuditInclude<ExtArgs> | null
+    /**
+     * Filter which AIAnalysisAudit to delete.
+     */
+    where: AIAnalysisAuditWhereUniqueInput
+  }
+
+  /**
+   * AIAnalysisAudit deleteMany
+   */
+  export type AIAnalysisAuditDeleteManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which AIAnalysisAudits to delete
+     */
+    where?: AIAnalysisAuditWhereInput
+    /**
+     * Limit how many AIAnalysisAudits to delete.
+     */
+    limit?: number
+  }
+
+  /**
+   * AIAnalysisAudit without action
+   */
+  export type AIAnalysisAuditDefaultArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the AIAnalysisAudit
+     */
+    select?: AIAnalysisAuditSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the AIAnalysisAudit
+     */
+    omit?: AIAnalysisAuditOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: AIAnalysisAuditInclude<ExtArgs> | null
+  }
+
+
+  /**
    * Model Notification
    */
 
@@ -26496,6 +27839,11 @@ export namespace Prisma {
     linkedEntitiesJson: 'linkedEntitiesJson',
     clusteringMethod: 'clusteringMethod',
     similarityThreshold: 'similarityThreshold',
+    rcaBreakdownJson: 'rcaBreakdownJson',
+    solutionSuggestionsJson: 'solutionSuggestionsJson',
+    decisionMatrixJson: 'decisionMatrixJson',
+    crossFunctionalImpactJson: 'crossFunctionalImpactJson',
+    lastAnalysisAt: 'lastAnalysisAt',
     createdAt: 'createdAt',
     updatedAt: 'updatedAt'
   };
@@ -26692,6 +28040,23 @@ export namespace Prisma {
   };
 
   export type AuditLogScalarFieldEnum = (typeof AuditLogScalarFieldEnum)[keyof typeof AuditLogScalarFieldEnum]
+
+
+  export const AIAnalysisAuditScalarFieldEnum: {
+    id: 'id',
+    hotspotId: 'hotspotId',
+    analysisType: 'analysisType',
+    userId: 'userId',
+    requestData: 'requestData',
+    responseData: 'responseData',
+    processingTime: 'processingTime',
+    confidence: 'confidence',
+    status: 'status',
+    errorMessage: 'errorMessage',
+    createdAt: 'createdAt'
+  };
+
+  export type AIAnalysisAuditScalarFieldEnum = (typeof AIAnalysisAuditScalarFieldEnum)[keyof typeof AIAnalysisAuditScalarFieldEnum]
 
 
   export const NotificationScalarFieldEnum: {
@@ -27091,6 +28456,7 @@ export namespace Prisma {
     frdDocuments?: FRDDocumentListRelationFilter
     approvedFRDs?: FRDDocumentListRelationFilter
     auditLogs?: AuditLogListRelationFilter
+    aiAnalysisAudits?: AIAnalysisAuditListRelationFilter
     inputGroups?: InputGroupListRelationFilter
     departmentManaged?: DepartmentListRelationFilter
     departmentObj?: XOR<DepartmentNullableScalarRelationFilter, DepartmentWhereInput> | null
@@ -27132,6 +28498,7 @@ export namespace Prisma {
     frdDocuments?: FRDDocumentOrderByRelationAggregateInput
     approvedFRDs?: FRDDocumentOrderByRelationAggregateInput
     auditLogs?: AuditLogOrderByRelationAggregateInput
+    aiAnalysisAudits?: AIAnalysisAuditOrderByRelationAggregateInput
     inputGroups?: InputGroupOrderByRelationAggregateInput
     departmentManaged?: DepartmentOrderByRelationAggregateInput
     departmentObj?: DepartmentOrderByWithRelationInput
@@ -27176,6 +28543,7 @@ export namespace Prisma {
     frdDocuments?: FRDDocumentListRelationFilter
     approvedFRDs?: FRDDocumentListRelationFilter
     auditLogs?: AuditLogListRelationFilter
+    aiAnalysisAudits?: AIAnalysisAuditListRelationFilter
     inputGroups?: InputGroupListRelationFilter
     departmentManaged?: DepartmentListRelationFilter
     departmentObj?: XOR<DepartmentNullableScalarRelationFilter, DepartmentWhereInput> | null
@@ -27903,6 +29271,11 @@ export namespace Prisma {
     linkedEntitiesJson?: JsonNullableFilter<"Hotspot">
     clusteringMethod?: StringNullableFilter<"Hotspot"> | string | null
     similarityThreshold?: FloatNullableFilter<"Hotspot"> | number | null
+    rcaBreakdownJson?: JsonNullableFilter<"Hotspot">
+    solutionSuggestionsJson?: JsonNullableFilter<"Hotspot">
+    decisionMatrixJson?: JsonNullableFilter<"Hotspot">
+    crossFunctionalImpactJson?: JsonNullableFilter<"Hotspot">
+    lastAnalysisAt?: DateTimeNullableFilter<"Hotspot"> | Date | string | null
     createdAt?: DateTimeFilter<"Hotspot"> | Date | string
     updatedAt?: DateTimeFilter<"Hotspot"> | Date | string
     signals?: HotspotSignalListRelationFilter
@@ -27921,6 +29294,11 @@ export namespace Prisma {
     linkedEntitiesJson?: SortOrderInput | SortOrder
     clusteringMethod?: SortOrderInput | SortOrder
     similarityThreshold?: SortOrderInput | SortOrder
+    rcaBreakdownJson?: SortOrderInput | SortOrder
+    solutionSuggestionsJson?: SortOrderInput | SortOrder
+    decisionMatrixJson?: SortOrderInput | SortOrder
+    crossFunctionalImpactJson?: SortOrderInput | SortOrder
+    lastAnalysisAt?: SortOrderInput | SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
     signals?: HotspotSignalOrderByRelationAggregateInput
@@ -27942,6 +29320,11 @@ export namespace Prisma {
     linkedEntitiesJson?: JsonNullableFilter<"Hotspot">
     clusteringMethod?: StringNullableFilter<"Hotspot"> | string | null
     similarityThreshold?: FloatNullableFilter<"Hotspot"> | number | null
+    rcaBreakdownJson?: JsonNullableFilter<"Hotspot">
+    solutionSuggestionsJson?: JsonNullableFilter<"Hotspot">
+    decisionMatrixJson?: JsonNullableFilter<"Hotspot">
+    crossFunctionalImpactJson?: JsonNullableFilter<"Hotspot">
+    lastAnalysisAt?: DateTimeNullableFilter<"Hotspot"> | Date | string | null
     createdAt?: DateTimeFilter<"Hotspot"> | Date | string
     updatedAt?: DateTimeFilter<"Hotspot"> | Date | string
     signals?: HotspotSignalListRelationFilter
@@ -27960,6 +29343,11 @@ export namespace Prisma {
     linkedEntitiesJson?: SortOrderInput | SortOrder
     clusteringMethod?: SortOrderInput | SortOrder
     similarityThreshold?: SortOrderInput | SortOrder
+    rcaBreakdownJson?: SortOrderInput | SortOrder
+    solutionSuggestionsJson?: SortOrderInput | SortOrder
+    decisionMatrixJson?: SortOrderInput | SortOrder
+    crossFunctionalImpactJson?: SortOrderInput | SortOrder
+    lastAnalysisAt?: SortOrderInput | SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
     _count?: HotspotCountOrderByAggregateInput
@@ -27983,6 +29371,11 @@ export namespace Prisma {
     linkedEntitiesJson?: JsonNullableWithAggregatesFilter<"Hotspot">
     clusteringMethod?: StringNullableWithAggregatesFilter<"Hotspot"> | string | null
     similarityThreshold?: FloatNullableWithAggregatesFilter<"Hotspot"> | number | null
+    rcaBreakdownJson?: JsonNullableWithAggregatesFilter<"Hotspot">
+    solutionSuggestionsJson?: JsonNullableWithAggregatesFilter<"Hotspot">
+    decisionMatrixJson?: JsonNullableWithAggregatesFilter<"Hotspot">
+    crossFunctionalImpactJson?: JsonNullableWithAggregatesFilter<"Hotspot">
+    lastAnalysisAt?: DateTimeNullableWithAggregatesFilter<"Hotspot"> | Date | string | null
     createdAt?: DateTimeWithAggregatesFilter<"Hotspot"> | Date | string
     updatedAt?: DateTimeWithAggregatesFilter<"Hotspot"> | Date | string
   }
@@ -29010,6 +30403,93 @@ export namespace Prisma {
     createdAt?: DateTimeWithAggregatesFilter<"AuditLog"> | Date | string
   }
 
+  export type AIAnalysisAuditWhereInput = {
+    AND?: AIAnalysisAuditWhereInput | AIAnalysisAuditWhereInput[]
+    OR?: AIAnalysisAuditWhereInput[]
+    NOT?: AIAnalysisAuditWhereInput | AIAnalysisAuditWhereInput[]
+    id?: StringFilter<"AIAnalysisAudit"> | string
+    hotspotId?: StringFilter<"AIAnalysisAudit"> | string
+    analysisType?: StringFilter<"AIAnalysisAudit"> | string
+    userId?: StringFilter<"AIAnalysisAudit"> | string
+    requestData?: JsonNullableFilter<"AIAnalysisAudit">
+    responseData?: JsonNullableFilter<"AIAnalysisAudit">
+    processingTime?: IntNullableFilter<"AIAnalysisAudit"> | number | null
+    confidence?: FloatNullableFilter<"AIAnalysisAudit"> | number | null
+    status?: StringFilter<"AIAnalysisAudit"> | string
+    errorMessage?: StringNullableFilter<"AIAnalysisAudit"> | string | null
+    createdAt?: DateTimeFilter<"AIAnalysisAudit"> | Date | string
+    user?: XOR<UserScalarRelationFilter, UserWhereInput>
+  }
+
+  export type AIAnalysisAuditOrderByWithRelationInput = {
+    id?: SortOrder
+    hotspotId?: SortOrder
+    analysisType?: SortOrder
+    userId?: SortOrder
+    requestData?: SortOrderInput | SortOrder
+    responseData?: SortOrderInput | SortOrder
+    processingTime?: SortOrderInput | SortOrder
+    confidence?: SortOrderInput | SortOrder
+    status?: SortOrder
+    errorMessage?: SortOrderInput | SortOrder
+    createdAt?: SortOrder
+    user?: UserOrderByWithRelationInput
+  }
+
+  export type AIAnalysisAuditWhereUniqueInput = Prisma.AtLeast<{
+    id?: string
+    AND?: AIAnalysisAuditWhereInput | AIAnalysisAuditWhereInput[]
+    OR?: AIAnalysisAuditWhereInput[]
+    NOT?: AIAnalysisAuditWhereInput | AIAnalysisAuditWhereInput[]
+    hotspotId?: StringFilter<"AIAnalysisAudit"> | string
+    analysisType?: StringFilter<"AIAnalysisAudit"> | string
+    userId?: StringFilter<"AIAnalysisAudit"> | string
+    requestData?: JsonNullableFilter<"AIAnalysisAudit">
+    responseData?: JsonNullableFilter<"AIAnalysisAudit">
+    processingTime?: IntNullableFilter<"AIAnalysisAudit"> | number | null
+    confidence?: FloatNullableFilter<"AIAnalysisAudit"> | number | null
+    status?: StringFilter<"AIAnalysisAudit"> | string
+    errorMessage?: StringNullableFilter<"AIAnalysisAudit"> | string | null
+    createdAt?: DateTimeFilter<"AIAnalysisAudit"> | Date | string
+    user?: XOR<UserScalarRelationFilter, UserWhereInput>
+  }, "id">
+
+  export type AIAnalysisAuditOrderByWithAggregationInput = {
+    id?: SortOrder
+    hotspotId?: SortOrder
+    analysisType?: SortOrder
+    userId?: SortOrder
+    requestData?: SortOrderInput | SortOrder
+    responseData?: SortOrderInput | SortOrder
+    processingTime?: SortOrderInput | SortOrder
+    confidence?: SortOrderInput | SortOrder
+    status?: SortOrder
+    errorMessage?: SortOrderInput | SortOrder
+    createdAt?: SortOrder
+    _count?: AIAnalysisAuditCountOrderByAggregateInput
+    _avg?: AIAnalysisAuditAvgOrderByAggregateInput
+    _max?: AIAnalysisAuditMaxOrderByAggregateInput
+    _min?: AIAnalysisAuditMinOrderByAggregateInput
+    _sum?: AIAnalysisAuditSumOrderByAggregateInput
+  }
+
+  export type AIAnalysisAuditScalarWhereWithAggregatesInput = {
+    AND?: AIAnalysisAuditScalarWhereWithAggregatesInput | AIAnalysisAuditScalarWhereWithAggregatesInput[]
+    OR?: AIAnalysisAuditScalarWhereWithAggregatesInput[]
+    NOT?: AIAnalysisAuditScalarWhereWithAggregatesInput | AIAnalysisAuditScalarWhereWithAggregatesInput[]
+    id?: StringWithAggregatesFilter<"AIAnalysisAudit"> | string
+    hotspotId?: StringWithAggregatesFilter<"AIAnalysisAudit"> | string
+    analysisType?: StringWithAggregatesFilter<"AIAnalysisAudit"> | string
+    userId?: StringWithAggregatesFilter<"AIAnalysisAudit"> | string
+    requestData?: JsonNullableWithAggregatesFilter<"AIAnalysisAudit">
+    responseData?: JsonNullableWithAggregatesFilter<"AIAnalysisAudit">
+    processingTime?: IntNullableWithAggregatesFilter<"AIAnalysisAudit"> | number | null
+    confidence?: FloatNullableWithAggregatesFilter<"AIAnalysisAudit"> | number | null
+    status?: StringWithAggregatesFilter<"AIAnalysisAudit"> | string
+    errorMessage?: StringNullableWithAggregatesFilter<"AIAnalysisAudit"> | string | null
+    createdAt?: DateTimeWithAggregatesFilter<"AIAnalysisAudit"> | Date | string
+  }
+
   export type NotificationWhereInput = {
     AND?: NotificationWhereInput | NotificationWhereInput[]
     OR?: NotificationWhereInput[]
@@ -29124,6 +30604,7 @@ export namespace Prisma {
     frdDocuments?: FRDDocumentCreateNestedManyWithoutCreatorInput
     approvedFRDs?: FRDDocumentCreateNestedManyWithoutApproverInput
     auditLogs?: AuditLogCreateNestedManyWithoutUserInput
+    aiAnalysisAudits?: AIAnalysisAuditCreateNestedManyWithoutUserInput
     inputGroups?: InputGroupCreateNestedManyWithoutCreatorInput
     departmentManaged?: DepartmentCreateNestedManyWithoutManagerInput
     departmentObj?: DepartmentCreateNestedOneWithoutUsersInput
@@ -29164,6 +30645,7 @@ export namespace Prisma {
     frdDocuments?: FRDDocumentUncheckedCreateNestedManyWithoutCreatorInput
     approvedFRDs?: FRDDocumentUncheckedCreateNestedManyWithoutApproverInput
     auditLogs?: AuditLogUncheckedCreateNestedManyWithoutUserInput
+    aiAnalysisAudits?: AIAnalysisAuditUncheckedCreateNestedManyWithoutUserInput
     inputGroups?: InputGroupUncheckedCreateNestedManyWithoutCreatorInput
     departmentManaged?: DepartmentUncheckedCreateNestedManyWithoutManagerInput
     ledTeams?: TeamUncheckedCreateNestedManyWithoutLeaderInput
@@ -29202,6 +30684,7 @@ export namespace Prisma {
     frdDocuments?: FRDDocumentUpdateManyWithoutCreatorNestedInput
     approvedFRDs?: FRDDocumentUpdateManyWithoutApproverNestedInput
     auditLogs?: AuditLogUpdateManyWithoutUserNestedInput
+    aiAnalysisAudits?: AIAnalysisAuditUpdateManyWithoutUserNestedInput
     inputGroups?: InputGroupUpdateManyWithoutCreatorNestedInput
     departmentManaged?: DepartmentUpdateManyWithoutManagerNestedInput
     departmentObj?: DepartmentUpdateOneWithoutUsersNestedInput
@@ -29242,6 +30725,7 @@ export namespace Prisma {
     frdDocuments?: FRDDocumentUncheckedUpdateManyWithoutCreatorNestedInput
     approvedFRDs?: FRDDocumentUncheckedUpdateManyWithoutApproverNestedInput
     auditLogs?: AuditLogUncheckedUpdateManyWithoutUserNestedInput
+    aiAnalysisAudits?: AIAnalysisAuditUncheckedUpdateManyWithoutUserNestedInput
     inputGroups?: InputGroupUncheckedUpdateManyWithoutCreatorNestedInput
     departmentManaged?: DepartmentUncheckedUpdateManyWithoutManagerNestedInput
     ledTeams?: TeamUncheckedUpdateManyWithoutLeaderNestedInput
@@ -30092,6 +31576,11 @@ export namespace Prisma {
     linkedEntitiesJson?: NullableJsonNullValueInput | InputJsonValue
     clusteringMethod?: string | null
     similarityThreshold?: number | null
+    rcaBreakdownJson?: NullableJsonNullValueInput | InputJsonValue
+    solutionSuggestionsJson?: NullableJsonNullValueInput | InputJsonValue
+    decisionMatrixJson?: NullableJsonNullValueInput | InputJsonValue
+    crossFunctionalImpactJson?: NullableJsonNullValueInput | InputJsonValue
+    lastAnalysisAt?: Date | string | null
     createdAt?: Date | string
     updatedAt?: Date | string
     signals?: HotspotSignalCreateNestedManyWithoutHotspotInput
@@ -30110,6 +31599,11 @@ export namespace Prisma {
     linkedEntitiesJson?: NullableJsonNullValueInput | InputJsonValue
     clusteringMethod?: string | null
     similarityThreshold?: number | null
+    rcaBreakdownJson?: NullableJsonNullValueInput | InputJsonValue
+    solutionSuggestionsJson?: NullableJsonNullValueInput | InputJsonValue
+    decisionMatrixJson?: NullableJsonNullValueInput | InputJsonValue
+    crossFunctionalImpactJson?: NullableJsonNullValueInput | InputJsonValue
+    lastAnalysisAt?: Date | string | null
     createdAt?: Date | string
     updatedAt?: Date | string
     signals?: HotspotSignalUncheckedCreateNestedManyWithoutHotspotInput
@@ -30128,6 +31622,11 @@ export namespace Prisma {
     linkedEntitiesJson?: NullableJsonNullValueInput | InputJsonValue
     clusteringMethod?: NullableStringFieldUpdateOperationsInput | string | null
     similarityThreshold?: NullableFloatFieldUpdateOperationsInput | number | null
+    rcaBreakdownJson?: NullableJsonNullValueInput | InputJsonValue
+    solutionSuggestionsJson?: NullableJsonNullValueInput | InputJsonValue
+    decisionMatrixJson?: NullableJsonNullValueInput | InputJsonValue
+    crossFunctionalImpactJson?: NullableJsonNullValueInput | InputJsonValue
+    lastAnalysisAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     signals?: HotspotSignalUpdateManyWithoutHotspotNestedInput
@@ -30146,6 +31645,11 @@ export namespace Prisma {
     linkedEntitiesJson?: NullableJsonNullValueInput | InputJsonValue
     clusteringMethod?: NullableStringFieldUpdateOperationsInput | string | null
     similarityThreshold?: NullableFloatFieldUpdateOperationsInput | number | null
+    rcaBreakdownJson?: NullableJsonNullValueInput | InputJsonValue
+    solutionSuggestionsJson?: NullableJsonNullValueInput | InputJsonValue
+    decisionMatrixJson?: NullableJsonNullValueInput | InputJsonValue
+    crossFunctionalImpactJson?: NullableJsonNullValueInput | InputJsonValue
+    lastAnalysisAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     signals?: HotspotSignalUncheckedUpdateManyWithoutHotspotNestedInput
@@ -30164,6 +31668,11 @@ export namespace Prisma {
     linkedEntitiesJson?: NullableJsonNullValueInput | InputJsonValue
     clusteringMethod?: string | null
     similarityThreshold?: number | null
+    rcaBreakdownJson?: NullableJsonNullValueInput | InputJsonValue
+    solutionSuggestionsJson?: NullableJsonNullValueInput | InputJsonValue
+    decisionMatrixJson?: NullableJsonNullValueInput | InputJsonValue
+    crossFunctionalImpactJson?: NullableJsonNullValueInput | InputJsonValue
+    lastAnalysisAt?: Date | string | null
     createdAt?: Date | string
     updatedAt?: Date | string
   }
@@ -30179,6 +31688,11 @@ export namespace Prisma {
     linkedEntitiesJson?: NullableJsonNullValueInput | InputJsonValue
     clusteringMethod?: NullableStringFieldUpdateOperationsInput | string | null
     similarityThreshold?: NullableFloatFieldUpdateOperationsInput | number | null
+    rcaBreakdownJson?: NullableJsonNullValueInput | InputJsonValue
+    solutionSuggestionsJson?: NullableJsonNullValueInput | InputJsonValue
+    decisionMatrixJson?: NullableJsonNullValueInput | InputJsonValue
+    crossFunctionalImpactJson?: NullableJsonNullValueInput | InputJsonValue
+    lastAnalysisAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
@@ -30194,6 +31708,11 @@ export namespace Prisma {
     linkedEntitiesJson?: NullableJsonNullValueInput | InputJsonValue
     clusteringMethod?: NullableStringFieldUpdateOperationsInput | string | null
     similarityThreshold?: NullableFloatFieldUpdateOperationsInput | number | null
+    rcaBreakdownJson?: NullableJsonNullValueInput | InputJsonValue
+    solutionSuggestionsJson?: NullableJsonNullValueInput | InputJsonValue
+    decisionMatrixJson?: NullableJsonNullValueInput | InputJsonValue
+    crossFunctionalImpactJson?: NullableJsonNullValueInput | InputJsonValue
+    lastAnalysisAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
@@ -31332,6 +32851,103 @@ export namespace Prisma {
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
+  export type AIAnalysisAuditCreateInput = {
+    id?: string
+    hotspotId: string
+    analysisType: string
+    requestData?: NullableJsonNullValueInput | InputJsonValue
+    responseData?: NullableJsonNullValueInput | InputJsonValue
+    processingTime?: number | null
+    confidence?: number | null
+    status: string
+    errorMessage?: string | null
+    createdAt?: Date | string
+    user: UserCreateNestedOneWithoutAiAnalysisAuditsInput
+  }
+
+  export type AIAnalysisAuditUncheckedCreateInput = {
+    id?: string
+    hotspotId: string
+    analysisType: string
+    userId: string
+    requestData?: NullableJsonNullValueInput | InputJsonValue
+    responseData?: NullableJsonNullValueInput | InputJsonValue
+    processingTime?: number | null
+    confidence?: number | null
+    status: string
+    errorMessage?: string | null
+    createdAt?: Date | string
+  }
+
+  export type AIAnalysisAuditUpdateInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    hotspotId?: StringFieldUpdateOperationsInput | string
+    analysisType?: StringFieldUpdateOperationsInput | string
+    requestData?: NullableJsonNullValueInput | InputJsonValue
+    responseData?: NullableJsonNullValueInput | InputJsonValue
+    processingTime?: NullableIntFieldUpdateOperationsInput | number | null
+    confidence?: NullableFloatFieldUpdateOperationsInput | number | null
+    status?: StringFieldUpdateOperationsInput | string
+    errorMessage?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    user?: UserUpdateOneRequiredWithoutAiAnalysisAuditsNestedInput
+  }
+
+  export type AIAnalysisAuditUncheckedUpdateInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    hotspotId?: StringFieldUpdateOperationsInput | string
+    analysisType?: StringFieldUpdateOperationsInput | string
+    userId?: StringFieldUpdateOperationsInput | string
+    requestData?: NullableJsonNullValueInput | InputJsonValue
+    responseData?: NullableJsonNullValueInput | InputJsonValue
+    processingTime?: NullableIntFieldUpdateOperationsInput | number | null
+    confidence?: NullableFloatFieldUpdateOperationsInput | number | null
+    status?: StringFieldUpdateOperationsInput | string
+    errorMessage?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type AIAnalysisAuditCreateManyInput = {
+    id?: string
+    hotspotId: string
+    analysisType: string
+    userId: string
+    requestData?: NullableJsonNullValueInput | InputJsonValue
+    responseData?: NullableJsonNullValueInput | InputJsonValue
+    processingTime?: number | null
+    confidence?: number | null
+    status: string
+    errorMessage?: string | null
+    createdAt?: Date | string
+  }
+
+  export type AIAnalysisAuditUpdateManyMutationInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    hotspotId?: StringFieldUpdateOperationsInput | string
+    analysisType?: StringFieldUpdateOperationsInput | string
+    requestData?: NullableJsonNullValueInput | InputJsonValue
+    responseData?: NullableJsonNullValueInput | InputJsonValue
+    processingTime?: NullableIntFieldUpdateOperationsInput | number | null
+    confidence?: NullableFloatFieldUpdateOperationsInput | number | null
+    status?: StringFieldUpdateOperationsInput | string
+    errorMessage?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type AIAnalysisAuditUncheckedUpdateManyInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    hotspotId?: StringFieldUpdateOperationsInput | string
+    analysisType?: StringFieldUpdateOperationsInput | string
+    userId?: StringFieldUpdateOperationsInput | string
+    requestData?: NullableJsonNullValueInput | InputJsonValue
+    responseData?: NullableJsonNullValueInput | InputJsonValue
+    processingTime?: NullableIntFieldUpdateOperationsInput | number | null
+    confidence?: NullableFloatFieldUpdateOperationsInput | number | null
+    status?: StringFieldUpdateOperationsInput | string
+    errorMessage?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
   export type NotificationCreateInput = {
     id?: string
     type: $Enums.NotificationType
@@ -31599,6 +33215,12 @@ export namespace Prisma {
     none?: AuditLogWhereInput
   }
 
+  export type AIAnalysisAuditListRelationFilter = {
+    every?: AIAnalysisAuditWhereInput
+    some?: AIAnalysisAuditWhereInput
+    none?: AIAnalysisAuditWhereInput
+  }
+
   export type InputGroupListRelationFilter = {
     every?: InputGroupWhereInput
     some?: InputGroupWhereInput
@@ -31668,6 +33290,10 @@ export namespace Prisma {
   }
 
   export type AuditLogOrderByRelationAggregateInput = {
+    _count?: SortOrder
+  }
+
+  export type AIAnalysisAuditOrderByRelationAggregateInput = {
     _count?: SortOrder
   }
 
@@ -32455,6 +34081,11 @@ export namespace Prisma {
     linkedEntitiesJson?: SortOrder
     clusteringMethod?: SortOrder
     similarityThreshold?: SortOrder
+    rcaBreakdownJson?: SortOrder
+    solutionSuggestionsJson?: SortOrder
+    decisionMatrixJson?: SortOrder
+    crossFunctionalImpactJson?: SortOrder
+    lastAnalysisAt?: SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
   }
@@ -32475,6 +34106,7 @@ export namespace Prisma {
     primaryCategoryId?: SortOrder
     clusteringMethod?: SortOrder
     similarityThreshold?: SortOrder
+    lastAnalysisAt?: SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
   }
@@ -32489,6 +34121,7 @@ export namespace Prisma {
     primaryCategoryId?: SortOrder
     clusteringMethod?: SortOrder
     similarityThreshold?: SortOrder
+    lastAnalysisAt?: SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
   }
@@ -33249,6 +34882,54 @@ export namespace Prisma {
     createdAt?: SortOrder
   }
 
+  export type AIAnalysisAuditCountOrderByAggregateInput = {
+    id?: SortOrder
+    hotspotId?: SortOrder
+    analysisType?: SortOrder
+    userId?: SortOrder
+    requestData?: SortOrder
+    responseData?: SortOrder
+    processingTime?: SortOrder
+    confidence?: SortOrder
+    status?: SortOrder
+    errorMessage?: SortOrder
+    createdAt?: SortOrder
+  }
+
+  export type AIAnalysisAuditAvgOrderByAggregateInput = {
+    processingTime?: SortOrder
+    confidence?: SortOrder
+  }
+
+  export type AIAnalysisAuditMaxOrderByAggregateInput = {
+    id?: SortOrder
+    hotspotId?: SortOrder
+    analysisType?: SortOrder
+    userId?: SortOrder
+    processingTime?: SortOrder
+    confidence?: SortOrder
+    status?: SortOrder
+    errorMessage?: SortOrder
+    createdAt?: SortOrder
+  }
+
+  export type AIAnalysisAuditMinOrderByAggregateInput = {
+    id?: SortOrder
+    hotspotId?: SortOrder
+    analysisType?: SortOrder
+    userId?: SortOrder
+    processingTime?: SortOrder
+    confidence?: SortOrder
+    status?: SortOrder
+    errorMessage?: SortOrder
+    createdAt?: SortOrder
+  }
+
+  export type AIAnalysisAuditSumOrderByAggregateInput = {
+    processingTime?: SortOrder
+    confidence?: SortOrder
+  }
+
   export type EnumNotificationTypeFilter<$PrismaModel = never> = {
     equals?: $Enums.NotificationType | EnumNotificationTypeFieldRefInput<$PrismaModel>
     in?: $Enums.NotificationType[] | ListEnumNotificationTypeFieldRefInput<$PrismaModel>
@@ -33415,6 +35096,13 @@ export namespace Prisma {
     connect?: AuditLogWhereUniqueInput | AuditLogWhereUniqueInput[]
   }
 
+  export type AIAnalysisAuditCreateNestedManyWithoutUserInput = {
+    create?: XOR<AIAnalysisAuditCreateWithoutUserInput, AIAnalysisAuditUncheckedCreateWithoutUserInput> | AIAnalysisAuditCreateWithoutUserInput[] | AIAnalysisAuditUncheckedCreateWithoutUserInput[]
+    connectOrCreate?: AIAnalysisAuditCreateOrConnectWithoutUserInput | AIAnalysisAuditCreateOrConnectWithoutUserInput[]
+    createMany?: AIAnalysisAuditCreateManyUserInputEnvelope
+    connect?: AIAnalysisAuditWhereUniqueInput | AIAnalysisAuditWhereUniqueInput[]
+  }
+
   export type InputGroupCreateNestedManyWithoutCreatorInput = {
     create?: XOR<InputGroupCreateWithoutCreatorInput, InputGroupUncheckedCreateWithoutCreatorInput> | InputGroupCreateWithoutCreatorInput[] | InputGroupUncheckedCreateWithoutCreatorInput[]
     connectOrCreate?: InputGroupCreateOrConnectWithoutCreatorInput | InputGroupCreateOrConnectWithoutCreatorInput[]
@@ -33530,6 +35218,13 @@ export namespace Prisma {
     connectOrCreate?: AuditLogCreateOrConnectWithoutUserInput | AuditLogCreateOrConnectWithoutUserInput[]
     createMany?: AuditLogCreateManyUserInputEnvelope
     connect?: AuditLogWhereUniqueInput | AuditLogWhereUniqueInput[]
+  }
+
+  export type AIAnalysisAuditUncheckedCreateNestedManyWithoutUserInput = {
+    create?: XOR<AIAnalysisAuditCreateWithoutUserInput, AIAnalysisAuditUncheckedCreateWithoutUserInput> | AIAnalysisAuditCreateWithoutUserInput[] | AIAnalysisAuditUncheckedCreateWithoutUserInput[]
+    connectOrCreate?: AIAnalysisAuditCreateOrConnectWithoutUserInput | AIAnalysisAuditCreateOrConnectWithoutUserInput[]
+    createMany?: AIAnalysisAuditCreateManyUserInputEnvelope
+    connect?: AIAnalysisAuditWhereUniqueInput | AIAnalysisAuditWhereUniqueInput[]
   }
 
   export type InputGroupUncheckedCreateNestedManyWithoutCreatorInput = {
@@ -33769,6 +35464,20 @@ export namespace Prisma {
     deleteMany?: AuditLogScalarWhereInput | AuditLogScalarWhereInput[]
   }
 
+  export type AIAnalysisAuditUpdateManyWithoutUserNestedInput = {
+    create?: XOR<AIAnalysisAuditCreateWithoutUserInput, AIAnalysisAuditUncheckedCreateWithoutUserInput> | AIAnalysisAuditCreateWithoutUserInput[] | AIAnalysisAuditUncheckedCreateWithoutUserInput[]
+    connectOrCreate?: AIAnalysisAuditCreateOrConnectWithoutUserInput | AIAnalysisAuditCreateOrConnectWithoutUserInput[]
+    upsert?: AIAnalysisAuditUpsertWithWhereUniqueWithoutUserInput | AIAnalysisAuditUpsertWithWhereUniqueWithoutUserInput[]
+    createMany?: AIAnalysisAuditCreateManyUserInputEnvelope
+    set?: AIAnalysisAuditWhereUniqueInput | AIAnalysisAuditWhereUniqueInput[]
+    disconnect?: AIAnalysisAuditWhereUniqueInput | AIAnalysisAuditWhereUniqueInput[]
+    delete?: AIAnalysisAuditWhereUniqueInput | AIAnalysisAuditWhereUniqueInput[]
+    connect?: AIAnalysisAuditWhereUniqueInput | AIAnalysisAuditWhereUniqueInput[]
+    update?: AIAnalysisAuditUpdateWithWhereUniqueWithoutUserInput | AIAnalysisAuditUpdateWithWhereUniqueWithoutUserInput[]
+    updateMany?: AIAnalysisAuditUpdateManyWithWhereWithoutUserInput | AIAnalysisAuditUpdateManyWithWhereWithoutUserInput[]
+    deleteMany?: AIAnalysisAuditScalarWhereInput | AIAnalysisAuditScalarWhereInput[]
+  }
+
   export type InputGroupUpdateManyWithoutCreatorNestedInput = {
     create?: XOR<InputGroupCreateWithoutCreatorInput, InputGroupUncheckedCreateWithoutCreatorInput> | InputGroupCreateWithoutCreatorInput[] | InputGroupUncheckedCreateWithoutCreatorInput[]
     connectOrCreate?: InputGroupCreateOrConnectWithoutCreatorInput | InputGroupCreateOrConnectWithoutCreatorInput[]
@@ -34000,6 +35709,20 @@ export namespace Prisma {
     update?: AuditLogUpdateWithWhereUniqueWithoutUserInput | AuditLogUpdateWithWhereUniqueWithoutUserInput[]
     updateMany?: AuditLogUpdateManyWithWhereWithoutUserInput | AuditLogUpdateManyWithWhereWithoutUserInput[]
     deleteMany?: AuditLogScalarWhereInput | AuditLogScalarWhereInput[]
+  }
+
+  export type AIAnalysisAuditUncheckedUpdateManyWithoutUserNestedInput = {
+    create?: XOR<AIAnalysisAuditCreateWithoutUserInput, AIAnalysisAuditUncheckedCreateWithoutUserInput> | AIAnalysisAuditCreateWithoutUserInput[] | AIAnalysisAuditUncheckedCreateWithoutUserInput[]
+    connectOrCreate?: AIAnalysisAuditCreateOrConnectWithoutUserInput | AIAnalysisAuditCreateOrConnectWithoutUserInput[]
+    upsert?: AIAnalysisAuditUpsertWithWhereUniqueWithoutUserInput | AIAnalysisAuditUpsertWithWhereUniqueWithoutUserInput[]
+    createMany?: AIAnalysisAuditCreateManyUserInputEnvelope
+    set?: AIAnalysisAuditWhereUniqueInput | AIAnalysisAuditWhereUniqueInput[]
+    disconnect?: AIAnalysisAuditWhereUniqueInput | AIAnalysisAuditWhereUniqueInput[]
+    delete?: AIAnalysisAuditWhereUniqueInput | AIAnalysisAuditWhereUniqueInput[]
+    connect?: AIAnalysisAuditWhereUniqueInput | AIAnalysisAuditWhereUniqueInput[]
+    update?: AIAnalysisAuditUpdateWithWhereUniqueWithoutUserInput | AIAnalysisAuditUpdateWithWhereUniqueWithoutUserInput[]
+    updateMany?: AIAnalysisAuditUpdateManyWithWhereWithoutUserInput | AIAnalysisAuditUpdateManyWithWhereWithoutUserInput[]
+    deleteMany?: AIAnalysisAuditScalarWhereInput | AIAnalysisAuditScalarWhereInput[]
   }
 
   export type InputGroupUncheckedUpdateManyWithoutCreatorNestedInput = {
@@ -35405,6 +37128,20 @@ export namespace Prisma {
     update?: XOR<XOR<UserUpdateToOneWithWhereWithoutAuditLogsInput, UserUpdateWithoutAuditLogsInput>, UserUncheckedUpdateWithoutAuditLogsInput>
   }
 
+  export type UserCreateNestedOneWithoutAiAnalysisAuditsInput = {
+    create?: XOR<UserCreateWithoutAiAnalysisAuditsInput, UserUncheckedCreateWithoutAiAnalysisAuditsInput>
+    connectOrCreate?: UserCreateOrConnectWithoutAiAnalysisAuditsInput
+    connect?: UserWhereUniqueInput
+  }
+
+  export type UserUpdateOneRequiredWithoutAiAnalysisAuditsNestedInput = {
+    create?: XOR<UserCreateWithoutAiAnalysisAuditsInput, UserUncheckedCreateWithoutAiAnalysisAuditsInput>
+    connectOrCreate?: UserCreateOrConnectWithoutAiAnalysisAuditsInput
+    upsert?: UserUpsertWithoutAiAnalysisAuditsInput
+    connect?: UserWhereUniqueInput
+    update?: XOR<XOR<UserUpdateToOneWithWhereWithoutAiAnalysisAuditsInput, UserUpdateWithoutAiAnalysisAuditsInput>, UserUncheckedUpdateWithoutAiAnalysisAuditsInput>
+  }
+
   export type EnumNotificationTypeFieldUpdateOperationsInput = {
     set?: $Enums.NotificationType
   }
@@ -35995,6 +37732,7 @@ export namespace Prisma {
     frdDocuments?: FRDDocumentCreateNestedManyWithoutCreatorInput
     approvedFRDs?: FRDDocumentCreateNestedManyWithoutApproverInput
     auditLogs?: AuditLogCreateNestedManyWithoutUserInput
+    aiAnalysisAudits?: AIAnalysisAuditCreateNestedManyWithoutUserInput
     inputGroups?: InputGroupCreateNestedManyWithoutCreatorInput
     departmentManaged?: DepartmentCreateNestedManyWithoutManagerInput
     departmentObj?: DepartmentCreateNestedOneWithoutUsersInput
@@ -36034,6 +37772,7 @@ export namespace Prisma {
     frdDocuments?: FRDDocumentUncheckedCreateNestedManyWithoutCreatorInput
     approvedFRDs?: FRDDocumentUncheckedCreateNestedManyWithoutApproverInput
     auditLogs?: AuditLogUncheckedCreateNestedManyWithoutUserInput
+    aiAnalysisAudits?: AIAnalysisAuditUncheckedCreateNestedManyWithoutUserInput
     inputGroups?: InputGroupUncheckedCreateNestedManyWithoutCreatorInput
     departmentManaged?: DepartmentUncheckedCreateNestedManyWithoutManagerInput
     ledTeams?: TeamUncheckedCreateNestedManyWithoutLeaderInput
@@ -36076,6 +37815,7 @@ export namespace Prisma {
     frdDocuments?: FRDDocumentCreateNestedManyWithoutCreatorInput
     approvedFRDs?: FRDDocumentCreateNestedManyWithoutApproverInput
     auditLogs?: AuditLogCreateNestedManyWithoutUserInput
+    aiAnalysisAudits?: AIAnalysisAuditCreateNestedManyWithoutUserInput
     inputGroups?: InputGroupCreateNestedManyWithoutCreatorInput
     departmentManaged?: DepartmentCreateNestedManyWithoutManagerInput
     departmentObj?: DepartmentCreateNestedOneWithoutUsersInput
@@ -36115,6 +37855,7 @@ export namespace Prisma {
     frdDocuments?: FRDDocumentUncheckedCreateNestedManyWithoutCreatorInput
     approvedFRDs?: FRDDocumentUncheckedCreateNestedManyWithoutApproverInput
     auditLogs?: AuditLogUncheckedCreateNestedManyWithoutUserInput
+    aiAnalysisAudits?: AIAnalysisAuditUncheckedCreateNestedManyWithoutUserInput
     inputGroups?: InputGroupUncheckedCreateNestedManyWithoutCreatorInput
     departmentManaged?: DepartmentUncheckedCreateNestedManyWithoutManagerInput
     ledTeams?: TeamUncheckedCreateNestedManyWithoutLeaderInput
@@ -36669,6 +38410,42 @@ export namespace Prisma {
     skipDuplicates?: boolean
   }
 
+  export type AIAnalysisAuditCreateWithoutUserInput = {
+    id?: string
+    hotspotId: string
+    analysisType: string
+    requestData?: NullableJsonNullValueInput | InputJsonValue
+    responseData?: NullableJsonNullValueInput | InputJsonValue
+    processingTime?: number | null
+    confidence?: number | null
+    status: string
+    errorMessage?: string | null
+    createdAt?: Date | string
+  }
+
+  export type AIAnalysisAuditUncheckedCreateWithoutUserInput = {
+    id?: string
+    hotspotId: string
+    analysisType: string
+    requestData?: NullableJsonNullValueInput | InputJsonValue
+    responseData?: NullableJsonNullValueInput | InputJsonValue
+    processingTime?: number | null
+    confidence?: number | null
+    status: string
+    errorMessage?: string | null
+    createdAt?: Date | string
+  }
+
+  export type AIAnalysisAuditCreateOrConnectWithoutUserInput = {
+    where: AIAnalysisAuditWhereUniqueInput
+    create: XOR<AIAnalysisAuditCreateWithoutUserInput, AIAnalysisAuditUncheckedCreateWithoutUserInput>
+  }
+
+  export type AIAnalysisAuditCreateManyUserInputEnvelope = {
+    data: AIAnalysisAuditCreateManyUserInput | AIAnalysisAuditCreateManyUserInput[]
+    skipDuplicates?: boolean
+  }
+
   export type InputGroupCreateWithoutCreatorInput = {
     id?: string
     name: string
@@ -36927,6 +38704,7 @@ export namespace Prisma {
     frdDocuments?: FRDDocumentUpdateManyWithoutCreatorNestedInput
     approvedFRDs?: FRDDocumentUpdateManyWithoutApproverNestedInput
     auditLogs?: AuditLogUpdateManyWithoutUserNestedInput
+    aiAnalysisAudits?: AIAnalysisAuditUpdateManyWithoutUserNestedInput
     inputGroups?: InputGroupUpdateManyWithoutCreatorNestedInput
     departmentManaged?: DepartmentUpdateManyWithoutManagerNestedInput
     departmentObj?: DepartmentUpdateOneWithoutUsersNestedInput
@@ -36966,6 +38744,7 @@ export namespace Prisma {
     frdDocuments?: FRDDocumentUncheckedUpdateManyWithoutCreatorNestedInput
     approvedFRDs?: FRDDocumentUncheckedUpdateManyWithoutApproverNestedInput
     auditLogs?: AuditLogUncheckedUpdateManyWithoutUserNestedInput
+    aiAnalysisAudits?: AIAnalysisAuditUncheckedUpdateManyWithoutUserNestedInput
     inputGroups?: InputGroupUncheckedUpdateManyWithoutCreatorNestedInput
     departmentManaged?: DepartmentUncheckedUpdateManyWithoutManagerNestedInput
     ledTeams?: TeamUncheckedUpdateManyWithoutLeaderNestedInput
@@ -37414,6 +39193,39 @@ export namespace Prisma {
     createdAt?: DateTimeFilter<"AuditLog"> | Date | string
   }
 
+  export type AIAnalysisAuditUpsertWithWhereUniqueWithoutUserInput = {
+    where: AIAnalysisAuditWhereUniqueInput
+    update: XOR<AIAnalysisAuditUpdateWithoutUserInput, AIAnalysisAuditUncheckedUpdateWithoutUserInput>
+    create: XOR<AIAnalysisAuditCreateWithoutUserInput, AIAnalysisAuditUncheckedCreateWithoutUserInput>
+  }
+
+  export type AIAnalysisAuditUpdateWithWhereUniqueWithoutUserInput = {
+    where: AIAnalysisAuditWhereUniqueInput
+    data: XOR<AIAnalysisAuditUpdateWithoutUserInput, AIAnalysisAuditUncheckedUpdateWithoutUserInput>
+  }
+
+  export type AIAnalysisAuditUpdateManyWithWhereWithoutUserInput = {
+    where: AIAnalysisAuditScalarWhereInput
+    data: XOR<AIAnalysisAuditUpdateManyMutationInput, AIAnalysisAuditUncheckedUpdateManyWithoutUserInput>
+  }
+
+  export type AIAnalysisAuditScalarWhereInput = {
+    AND?: AIAnalysisAuditScalarWhereInput | AIAnalysisAuditScalarWhereInput[]
+    OR?: AIAnalysisAuditScalarWhereInput[]
+    NOT?: AIAnalysisAuditScalarWhereInput | AIAnalysisAuditScalarWhereInput[]
+    id?: StringFilter<"AIAnalysisAudit"> | string
+    hotspotId?: StringFilter<"AIAnalysisAudit"> | string
+    analysisType?: StringFilter<"AIAnalysisAudit"> | string
+    userId?: StringFilter<"AIAnalysisAudit"> | string
+    requestData?: JsonNullableFilter<"AIAnalysisAudit">
+    responseData?: JsonNullableFilter<"AIAnalysisAudit">
+    processingTime?: IntNullableFilter<"AIAnalysisAudit"> | number | null
+    confidence?: FloatNullableFilter<"AIAnalysisAudit"> | number | null
+    status?: StringFilter<"AIAnalysisAudit"> | string
+    errorMessage?: StringNullableFilter<"AIAnalysisAudit"> | string | null
+    createdAt?: DateTimeFilter<"AIAnalysisAudit"> | Date | string
+  }
+
   export type InputGroupUpsertWithWhereUniqueWithoutCreatorInput = {
     where: InputGroupWhereUniqueInput
     update: XOR<InputGroupUpdateWithoutCreatorInput, InputGroupUncheckedUpdateWithoutCreatorInput>
@@ -37615,6 +39427,7 @@ export namespace Prisma {
     frdDocuments?: FRDDocumentCreateNestedManyWithoutCreatorInput
     approvedFRDs?: FRDDocumentCreateNestedManyWithoutApproverInput
     auditLogs?: AuditLogCreateNestedManyWithoutUserInput
+    aiAnalysisAudits?: AIAnalysisAuditCreateNestedManyWithoutUserInput
     inputGroups?: InputGroupCreateNestedManyWithoutCreatorInput
     departmentObj?: DepartmentCreateNestedOneWithoutUsersInput
     ledTeams?: TeamCreateNestedManyWithoutLeaderInput
@@ -37654,6 +39467,7 @@ export namespace Prisma {
     frdDocuments?: FRDDocumentUncheckedCreateNestedManyWithoutCreatorInput
     approvedFRDs?: FRDDocumentUncheckedCreateNestedManyWithoutApproverInput
     auditLogs?: AuditLogUncheckedCreateNestedManyWithoutUserInput
+    aiAnalysisAudits?: AIAnalysisAuditUncheckedCreateNestedManyWithoutUserInput
     inputGroups?: InputGroupUncheckedCreateNestedManyWithoutCreatorInput
     ledTeams?: TeamUncheckedCreateNestedManyWithoutLeaderInput
     teamMemberships?: TeamUncheckedCreateNestedManyWithoutMembersInput
@@ -37822,6 +39636,7 @@ export namespace Prisma {
     frdDocuments?: FRDDocumentCreateNestedManyWithoutCreatorInput
     approvedFRDs?: FRDDocumentCreateNestedManyWithoutApproverInput
     auditLogs?: AuditLogCreateNestedManyWithoutUserInput
+    aiAnalysisAudits?: AIAnalysisAuditCreateNestedManyWithoutUserInput
     inputGroups?: InputGroupCreateNestedManyWithoutCreatorInput
     departmentManaged?: DepartmentCreateNestedManyWithoutManagerInput
     ledTeams?: TeamCreateNestedManyWithoutLeaderInput
@@ -37860,6 +39675,7 @@ export namespace Prisma {
     frdDocuments?: FRDDocumentUncheckedCreateNestedManyWithoutCreatorInput
     approvedFRDs?: FRDDocumentUncheckedCreateNestedManyWithoutApproverInput
     auditLogs?: AuditLogUncheckedCreateNestedManyWithoutUserInput
+    aiAnalysisAudits?: AIAnalysisAuditUncheckedCreateNestedManyWithoutUserInput
     inputGroups?: InputGroupUncheckedCreateNestedManyWithoutCreatorInput
     departmentManaged?: DepartmentUncheckedCreateNestedManyWithoutManagerInput
     ledTeams?: TeamUncheckedCreateNestedManyWithoutLeaderInput
@@ -37919,6 +39735,7 @@ export namespace Prisma {
     frdDocuments?: FRDDocumentUpdateManyWithoutCreatorNestedInput
     approvedFRDs?: FRDDocumentUpdateManyWithoutApproverNestedInput
     auditLogs?: AuditLogUpdateManyWithoutUserNestedInput
+    aiAnalysisAudits?: AIAnalysisAuditUpdateManyWithoutUserNestedInput
     inputGroups?: InputGroupUpdateManyWithoutCreatorNestedInput
     departmentObj?: DepartmentUpdateOneWithoutUsersNestedInput
     ledTeams?: TeamUpdateManyWithoutLeaderNestedInput
@@ -37958,6 +39775,7 @@ export namespace Prisma {
     frdDocuments?: FRDDocumentUncheckedUpdateManyWithoutCreatorNestedInput
     approvedFRDs?: FRDDocumentUncheckedUpdateManyWithoutApproverNestedInput
     auditLogs?: AuditLogUncheckedUpdateManyWithoutUserNestedInput
+    aiAnalysisAudits?: AIAnalysisAuditUncheckedUpdateManyWithoutUserNestedInput
     inputGroups?: InputGroupUncheckedUpdateManyWithoutCreatorNestedInput
     ledTeams?: TeamUncheckedUpdateManyWithoutLeaderNestedInput
     teamMemberships?: TeamUncheckedUpdateManyWithoutMembersNestedInput
@@ -38084,6 +39902,7 @@ export namespace Prisma {
     frdDocuments?: FRDDocumentCreateNestedManyWithoutCreatorInput
     approvedFRDs?: FRDDocumentCreateNestedManyWithoutApproverInput
     auditLogs?: AuditLogCreateNestedManyWithoutUserInput
+    aiAnalysisAudits?: AIAnalysisAuditCreateNestedManyWithoutUserInput
     inputGroups?: InputGroupCreateNestedManyWithoutCreatorInput
     departmentManaged?: DepartmentCreateNestedManyWithoutManagerInput
     departmentObj?: DepartmentCreateNestedOneWithoutUsersInput
@@ -38123,6 +39942,7 @@ export namespace Prisma {
     frdDocuments?: FRDDocumentUncheckedCreateNestedManyWithoutCreatorInput
     approvedFRDs?: FRDDocumentUncheckedCreateNestedManyWithoutApproverInput
     auditLogs?: AuditLogUncheckedCreateNestedManyWithoutUserInput
+    aiAnalysisAudits?: AIAnalysisAuditUncheckedCreateNestedManyWithoutUserInput
     inputGroups?: InputGroupUncheckedCreateNestedManyWithoutCreatorInput
     departmentManaged?: DepartmentUncheckedCreateNestedManyWithoutManagerInput
     teamMemberships?: TeamUncheckedCreateNestedManyWithoutMembersInput
@@ -38245,6 +40065,7 @@ export namespace Prisma {
     frdDocuments?: FRDDocumentCreateNestedManyWithoutCreatorInput
     approvedFRDs?: FRDDocumentCreateNestedManyWithoutApproverInput
     auditLogs?: AuditLogCreateNestedManyWithoutUserInput
+    aiAnalysisAudits?: AIAnalysisAuditCreateNestedManyWithoutUserInput
     inputGroups?: InputGroupCreateNestedManyWithoutCreatorInput
     departmentManaged?: DepartmentCreateNestedManyWithoutManagerInput
     departmentObj?: DepartmentCreateNestedOneWithoutUsersInput
@@ -38284,6 +40105,7 @@ export namespace Prisma {
     frdDocuments?: FRDDocumentUncheckedCreateNestedManyWithoutCreatorInput
     approvedFRDs?: FRDDocumentUncheckedCreateNestedManyWithoutApproverInput
     auditLogs?: AuditLogUncheckedCreateNestedManyWithoutUserInput
+    aiAnalysisAudits?: AIAnalysisAuditUncheckedCreateNestedManyWithoutUserInput
     inputGroups?: InputGroupUncheckedCreateNestedManyWithoutCreatorInput
     departmentManaged?: DepartmentUncheckedCreateNestedManyWithoutManagerInput
     ledTeams?: TeamUncheckedCreateNestedManyWithoutLeaderInput
@@ -38384,6 +40206,7 @@ export namespace Prisma {
     frdDocuments?: FRDDocumentUpdateManyWithoutCreatorNestedInput
     approvedFRDs?: FRDDocumentUpdateManyWithoutApproverNestedInput
     auditLogs?: AuditLogUpdateManyWithoutUserNestedInput
+    aiAnalysisAudits?: AIAnalysisAuditUpdateManyWithoutUserNestedInput
     inputGroups?: InputGroupUpdateManyWithoutCreatorNestedInput
     departmentManaged?: DepartmentUpdateManyWithoutManagerNestedInput
     departmentObj?: DepartmentUpdateOneWithoutUsersNestedInput
@@ -38423,6 +40246,7 @@ export namespace Prisma {
     frdDocuments?: FRDDocumentUncheckedUpdateManyWithoutCreatorNestedInput
     approvedFRDs?: FRDDocumentUncheckedUpdateManyWithoutApproverNestedInput
     auditLogs?: AuditLogUncheckedUpdateManyWithoutUserNestedInput
+    aiAnalysisAudits?: AIAnalysisAuditUncheckedUpdateManyWithoutUserNestedInput
     inputGroups?: InputGroupUncheckedUpdateManyWithoutCreatorNestedInput
     departmentManaged?: DepartmentUncheckedUpdateManyWithoutManagerNestedInput
     teamMemberships?: TeamUncheckedUpdateManyWithoutMembersNestedInput
@@ -38491,6 +40315,7 @@ export namespace Prisma {
     frdDocuments?: FRDDocumentCreateNestedManyWithoutCreatorInput
     approvedFRDs?: FRDDocumentCreateNestedManyWithoutApproverInput
     auditLogs?: AuditLogCreateNestedManyWithoutUserInput
+    aiAnalysisAudits?: AIAnalysisAuditCreateNestedManyWithoutUserInput
     inputGroups?: InputGroupCreateNestedManyWithoutCreatorInput
     departmentManaged?: DepartmentCreateNestedManyWithoutManagerInput
     departmentObj?: DepartmentCreateNestedOneWithoutUsersInput
@@ -38530,6 +40355,7 @@ export namespace Prisma {
     frdDocuments?: FRDDocumentUncheckedCreateNestedManyWithoutCreatorInput
     approvedFRDs?: FRDDocumentUncheckedCreateNestedManyWithoutApproverInput
     auditLogs?: AuditLogUncheckedCreateNestedManyWithoutUserInput
+    aiAnalysisAudits?: AIAnalysisAuditUncheckedCreateNestedManyWithoutUserInput
     inputGroups?: InputGroupUncheckedCreateNestedManyWithoutCreatorInput
     departmentManaged?: DepartmentUncheckedCreateNestedManyWithoutManagerInput
     ledTeams?: TeamUncheckedCreateNestedManyWithoutLeaderInput
@@ -38685,6 +40511,7 @@ export namespace Prisma {
     frdDocuments?: FRDDocumentUpdateManyWithoutCreatorNestedInput
     approvedFRDs?: FRDDocumentUpdateManyWithoutApproverNestedInput
     auditLogs?: AuditLogUpdateManyWithoutUserNestedInput
+    aiAnalysisAudits?: AIAnalysisAuditUpdateManyWithoutUserNestedInput
     inputGroups?: InputGroupUpdateManyWithoutCreatorNestedInput
     departmentManaged?: DepartmentUpdateManyWithoutManagerNestedInput
     departmentObj?: DepartmentUpdateOneWithoutUsersNestedInput
@@ -38724,6 +40551,7 @@ export namespace Prisma {
     frdDocuments?: FRDDocumentUncheckedUpdateManyWithoutCreatorNestedInput
     approvedFRDs?: FRDDocumentUncheckedUpdateManyWithoutApproverNestedInput
     auditLogs?: AuditLogUncheckedUpdateManyWithoutUserNestedInput
+    aiAnalysisAudits?: AIAnalysisAuditUncheckedUpdateManyWithoutUserNestedInput
     inputGroups?: InputGroupUncheckedUpdateManyWithoutCreatorNestedInput
     departmentManaged?: DepartmentUncheckedUpdateManyWithoutManagerNestedInput
     ledTeams?: TeamUncheckedUpdateManyWithoutLeaderNestedInput
@@ -39164,6 +40992,7 @@ export namespace Prisma {
     frdDocuments?: FRDDocumentCreateNestedManyWithoutCreatorInput
     approvedFRDs?: FRDDocumentCreateNestedManyWithoutApproverInput
     auditLogs?: AuditLogCreateNestedManyWithoutUserInput
+    aiAnalysisAudits?: AIAnalysisAuditCreateNestedManyWithoutUserInput
     inputGroups?: InputGroupCreateNestedManyWithoutCreatorInput
     departmentManaged?: DepartmentCreateNestedManyWithoutManagerInput
     departmentObj?: DepartmentCreateNestedOneWithoutUsersInput
@@ -39203,6 +41032,7 @@ export namespace Prisma {
     frdDocuments?: FRDDocumentUncheckedCreateNestedManyWithoutCreatorInput
     approvedFRDs?: FRDDocumentUncheckedCreateNestedManyWithoutApproverInput
     auditLogs?: AuditLogUncheckedCreateNestedManyWithoutUserInput
+    aiAnalysisAudits?: AIAnalysisAuditUncheckedCreateNestedManyWithoutUserInput
     inputGroups?: InputGroupUncheckedCreateNestedManyWithoutCreatorInput
     departmentManaged?: DepartmentUncheckedCreateNestedManyWithoutManagerInput
     ledTeams?: TeamUncheckedCreateNestedManyWithoutLeaderInput
@@ -39417,6 +41247,7 @@ export namespace Prisma {
     frdDocuments?: FRDDocumentUpdateManyWithoutCreatorNestedInput
     approvedFRDs?: FRDDocumentUpdateManyWithoutApproverNestedInput
     auditLogs?: AuditLogUpdateManyWithoutUserNestedInput
+    aiAnalysisAudits?: AIAnalysisAuditUpdateManyWithoutUserNestedInput
     inputGroups?: InputGroupUpdateManyWithoutCreatorNestedInput
     departmentManaged?: DepartmentUpdateManyWithoutManagerNestedInput
     departmentObj?: DepartmentUpdateOneWithoutUsersNestedInput
@@ -39456,6 +41287,7 @@ export namespace Prisma {
     frdDocuments?: FRDDocumentUncheckedUpdateManyWithoutCreatorNestedInput
     approvedFRDs?: FRDDocumentUncheckedUpdateManyWithoutApproverNestedInput
     auditLogs?: AuditLogUncheckedUpdateManyWithoutUserNestedInput
+    aiAnalysisAudits?: AIAnalysisAuditUncheckedUpdateManyWithoutUserNestedInput
     inputGroups?: InputGroupUncheckedUpdateManyWithoutCreatorNestedInput
     departmentManaged?: DepartmentUncheckedUpdateManyWithoutManagerNestedInput
     ledTeams?: TeamUncheckedUpdateManyWithoutLeaderNestedInput
@@ -39674,6 +41506,11 @@ export namespace Prisma {
     linkedEntitiesJson?: NullableJsonNullValueInput | InputJsonValue
     clusteringMethod?: string | null
     similarityThreshold?: number | null
+    rcaBreakdownJson?: NullableJsonNullValueInput | InputJsonValue
+    solutionSuggestionsJson?: NullableJsonNullValueInput | InputJsonValue
+    decisionMatrixJson?: NullableJsonNullValueInput | InputJsonValue
+    crossFunctionalImpactJson?: NullableJsonNullValueInput | InputJsonValue
+    lastAnalysisAt?: Date | string | null
     createdAt?: Date | string
     updatedAt?: Date | string
     ideas?: IdeaCreateNestedManyWithoutHotspotInput
@@ -39691,6 +41528,11 @@ export namespace Prisma {
     linkedEntitiesJson?: NullableJsonNullValueInput | InputJsonValue
     clusteringMethod?: string | null
     similarityThreshold?: number | null
+    rcaBreakdownJson?: NullableJsonNullValueInput | InputJsonValue
+    solutionSuggestionsJson?: NullableJsonNullValueInput | InputJsonValue
+    decisionMatrixJson?: NullableJsonNullValueInput | InputJsonValue
+    crossFunctionalImpactJson?: NullableJsonNullValueInput | InputJsonValue
+    lastAnalysisAt?: Date | string | null
     createdAt?: Date | string
     updatedAt?: Date | string
     ideas?: IdeaUncheckedCreateNestedManyWithoutHotspotInput
@@ -39799,6 +41641,11 @@ export namespace Prisma {
     linkedEntitiesJson?: NullableJsonNullValueInput | InputJsonValue
     clusteringMethod?: NullableStringFieldUpdateOperationsInput | string | null
     similarityThreshold?: NullableFloatFieldUpdateOperationsInput | number | null
+    rcaBreakdownJson?: NullableJsonNullValueInput | InputJsonValue
+    solutionSuggestionsJson?: NullableJsonNullValueInput | InputJsonValue
+    decisionMatrixJson?: NullableJsonNullValueInput | InputJsonValue
+    crossFunctionalImpactJson?: NullableJsonNullValueInput | InputJsonValue
+    lastAnalysisAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     ideas?: IdeaUpdateManyWithoutHotspotNestedInput
@@ -39816,6 +41663,11 @@ export namespace Prisma {
     linkedEntitiesJson?: NullableJsonNullValueInput | InputJsonValue
     clusteringMethod?: NullableStringFieldUpdateOperationsInput | string | null
     similarityThreshold?: NullableFloatFieldUpdateOperationsInput | number | null
+    rcaBreakdownJson?: NullableJsonNullValueInput | InputJsonValue
+    solutionSuggestionsJson?: NullableJsonNullValueInput | InputJsonValue
+    decisionMatrixJson?: NullableJsonNullValueInput | InputJsonValue
+    crossFunctionalImpactJson?: NullableJsonNullValueInput | InputJsonValue
+    lastAnalysisAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     ideas?: IdeaUncheckedUpdateManyWithoutHotspotNestedInput
@@ -39934,6 +41786,7 @@ export namespace Prisma {
     frdDocuments?: FRDDocumentCreateNestedManyWithoutCreatorInput
     approvedFRDs?: FRDDocumentCreateNestedManyWithoutApproverInput
     auditLogs?: AuditLogCreateNestedManyWithoutUserInput
+    aiAnalysisAudits?: AIAnalysisAuditCreateNestedManyWithoutUserInput
     inputGroups?: InputGroupCreateNestedManyWithoutCreatorInput
     departmentManaged?: DepartmentCreateNestedManyWithoutManagerInput
     departmentObj?: DepartmentCreateNestedOneWithoutUsersInput
@@ -39973,6 +41826,7 @@ export namespace Prisma {
     frdDocuments?: FRDDocumentUncheckedCreateNestedManyWithoutCreatorInput
     approvedFRDs?: FRDDocumentUncheckedCreateNestedManyWithoutApproverInput
     auditLogs?: AuditLogUncheckedCreateNestedManyWithoutUserInput
+    aiAnalysisAudits?: AIAnalysisAuditUncheckedCreateNestedManyWithoutUserInput
     inputGroups?: InputGroupUncheckedCreateNestedManyWithoutCreatorInput
     departmentManaged?: DepartmentUncheckedCreateNestedManyWithoutManagerInput
     ledTeams?: TeamUncheckedCreateNestedManyWithoutLeaderInput
@@ -39995,6 +41849,11 @@ export namespace Prisma {
     linkedEntitiesJson?: NullableJsonNullValueInput | InputJsonValue
     clusteringMethod?: string | null
     similarityThreshold?: number | null
+    rcaBreakdownJson?: NullableJsonNullValueInput | InputJsonValue
+    solutionSuggestionsJson?: NullableJsonNullValueInput | InputJsonValue
+    decisionMatrixJson?: NullableJsonNullValueInput | InputJsonValue
+    crossFunctionalImpactJson?: NullableJsonNullValueInput | InputJsonValue
+    lastAnalysisAt?: Date | string | null
     createdAt?: Date | string
     updatedAt?: Date | string
     signals?: HotspotSignalCreateNestedManyWithoutHotspotInput
@@ -40012,6 +41871,11 @@ export namespace Prisma {
     linkedEntitiesJson?: NullableJsonNullValueInput | InputJsonValue
     clusteringMethod?: string | null
     similarityThreshold?: number | null
+    rcaBreakdownJson?: NullableJsonNullValueInput | InputJsonValue
+    solutionSuggestionsJson?: NullableJsonNullValueInput | InputJsonValue
+    decisionMatrixJson?: NullableJsonNullValueInput | InputJsonValue
+    crossFunctionalImpactJson?: NullableJsonNullValueInput | InputJsonValue
+    lastAnalysisAt?: Date | string | null
     createdAt?: Date | string
     updatedAt?: Date | string
     signals?: HotspotSignalUncheckedCreateNestedManyWithoutHotspotInput
@@ -40169,6 +42033,7 @@ export namespace Prisma {
     frdDocuments?: FRDDocumentUpdateManyWithoutCreatorNestedInput
     approvedFRDs?: FRDDocumentUpdateManyWithoutApproverNestedInput
     auditLogs?: AuditLogUpdateManyWithoutUserNestedInput
+    aiAnalysisAudits?: AIAnalysisAuditUpdateManyWithoutUserNestedInput
     inputGroups?: InputGroupUpdateManyWithoutCreatorNestedInput
     departmentManaged?: DepartmentUpdateManyWithoutManagerNestedInput
     departmentObj?: DepartmentUpdateOneWithoutUsersNestedInput
@@ -40208,6 +42073,7 @@ export namespace Prisma {
     frdDocuments?: FRDDocumentUncheckedUpdateManyWithoutCreatorNestedInput
     approvedFRDs?: FRDDocumentUncheckedUpdateManyWithoutApproverNestedInput
     auditLogs?: AuditLogUncheckedUpdateManyWithoutUserNestedInput
+    aiAnalysisAudits?: AIAnalysisAuditUncheckedUpdateManyWithoutUserNestedInput
     inputGroups?: InputGroupUncheckedUpdateManyWithoutCreatorNestedInput
     departmentManaged?: DepartmentUncheckedUpdateManyWithoutManagerNestedInput
     ledTeams?: TeamUncheckedUpdateManyWithoutLeaderNestedInput
@@ -40236,6 +42102,11 @@ export namespace Prisma {
     linkedEntitiesJson?: NullableJsonNullValueInput | InputJsonValue
     clusteringMethod?: NullableStringFieldUpdateOperationsInput | string | null
     similarityThreshold?: NullableFloatFieldUpdateOperationsInput | number | null
+    rcaBreakdownJson?: NullableJsonNullValueInput | InputJsonValue
+    solutionSuggestionsJson?: NullableJsonNullValueInput | InputJsonValue
+    decisionMatrixJson?: NullableJsonNullValueInput | InputJsonValue
+    crossFunctionalImpactJson?: NullableJsonNullValueInput | InputJsonValue
+    lastAnalysisAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     signals?: HotspotSignalUpdateManyWithoutHotspotNestedInput
@@ -40253,6 +42124,11 @@ export namespace Prisma {
     linkedEntitiesJson?: NullableJsonNullValueInput | InputJsonValue
     clusteringMethod?: NullableStringFieldUpdateOperationsInput | string | null
     similarityThreshold?: NullableFloatFieldUpdateOperationsInput | number | null
+    rcaBreakdownJson?: NullableJsonNullValueInput | InputJsonValue
+    solutionSuggestionsJson?: NullableJsonNullValueInput | InputJsonValue
+    decisionMatrixJson?: NullableJsonNullValueInput | InputJsonValue
+    crossFunctionalImpactJson?: NullableJsonNullValueInput | InputJsonValue
+    lastAnalysisAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     signals?: HotspotSignalUncheckedUpdateManyWithoutHotspotNestedInput
@@ -40406,6 +42282,7 @@ export namespace Prisma {
     frdDocuments?: FRDDocumentCreateNestedManyWithoutCreatorInput
     approvedFRDs?: FRDDocumentCreateNestedManyWithoutApproverInput
     auditLogs?: AuditLogCreateNestedManyWithoutUserInput
+    aiAnalysisAudits?: AIAnalysisAuditCreateNestedManyWithoutUserInput
     inputGroups?: InputGroupCreateNestedManyWithoutCreatorInput
     departmentManaged?: DepartmentCreateNestedManyWithoutManagerInput
     departmentObj?: DepartmentCreateNestedOneWithoutUsersInput
@@ -40445,6 +42322,7 @@ export namespace Prisma {
     frdDocuments?: FRDDocumentUncheckedCreateNestedManyWithoutCreatorInput
     approvedFRDs?: FRDDocumentUncheckedCreateNestedManyWithoutApproverInput
     auditLogs?: AuditLogUncheckedCreateNestedManyWithoutUserInput
+    aiAnalysisAudits?: AIAnalysisAuditUncheckedCreateNestedManyWithoutUserInput
     inputGroups?: InputGroupUncheckedCreateNestedManyWithoutCreatorInput
     departmentManaged?: DepartmentUncheckedCreateNestedManyWithoutManagerInput
     ledTeams?: TeamUncheckedCreateNestedManyWithoutLeaderInput
@@ -40593,6 +42471,7 @@ export namespace Prisma {
     frdDocuments?: FRDDocumentUpdateManyWithoutCreatorNestedInput
     approvedFRDs?: FRDDocumentUpdateManyWithoutApproverNestedInput
     auditLogs?: AuditLogUpdateManyWithoutUserNestedInput
+    aiAnalysisAudits?: AIAnalysisAuditUpdateManyWithoutUserNestedInput
     inputGroups?: InputGroupUpdateManyWithoutCreatorNestedInput
     departmentManaged?: DepartmentUpdateManyWithoutManagerNestedInput
     departmentObj?: DepartmentUpdateOneWithoutUsersNestedInput
@@ -40632,6 +42511,7 @@ export namespace Prisma {
     frdDocuments?: FRDDocumentUncheckedUpdateManyWithoutCreatorNestedInput
     approvedFRDs?: FRDDocumentUncheckedUpdateManyWithoutApproverNestedInput
     auditLogs?: AuditLogUncheckedUpdateManyWithoutUserNestedInput
+    aiAnalysisAudits?: AIAnalysisAuditUncheckedUpdateManyWithoutUserNestedInput
     inputGroups?: InputGroupUncheckedUpdateManyWithoutCreatorNestedInput
     departmentManaged?: DepartmentUncheckedUpdateManyWithoutManagerNestedInput
     ledTeams?: TeamUncheckedUpdateManyWithoutLeaderNestedInput
@@ -40681,6 +42561,11 @@ export namespace Prisma {
     linkedEntitiesJson?: NullableJsonNullValueInput | InputJsonValue
     clusteringMethod?: string | null
     similarityThreshold?: number | null
+    rcaBreakdownJson?: NullableJsonNullValueInput | InputJsonValue
+    solutionSuggestionsJson?: NullableJsonNullValueInput | InputJsonValue
+    decisionMatrixJson?: NullableJsonNullValueInput | InputJsonValue
+    crossFunctionalImpactJson?: NullableJsonNullValueInput | InputJsonValue
+    lastAnalysisAt?: Date | string | null
     createdAt?: Date | string
     updatedAt?: Date | string
     signals?: HotspotSignalCreateNestedManyWithoutHotspotInput
@@ -40698,6 +42583,11 @@ export namespace Prisma {
     linkedEntitiesJson?: NullableJsonNullValueInput | InputJsonValue
     clusteringMethod?: string | null
     similarityThreshold?: number | null
+    rcaBreakdownJson?: NullableJsonNullValueInput | InputJsonValue
+    solutionSuggestionsJson?: NullableJsonNullValueInput | InputJsonValue
+    decisionMatrixJson?: NullableJsonNullValueInput | InputJsonValue
+    crossFunctionalImpactJson?: NullableJsonNullValueInput | InputJsonValue
+    lastAnalysisAt?: Date | string | null
     createdAt?: Date | string
     updatedAt?: Date | string
     signals?: HotspotSignalUncheckedCreateNestedManyWithoutHotspotInput
@@ -40873,6 +42763,7 @@ export namespace Prisma {
     frdDocuments?: FRDDocumentCreateNestedManyWithoutCreatorInput
     approvedFRDs?: FRDDocumentCreateNestedManyWithoutApproverInput
     auditLogs?: AuditLogCreateNestedManyWithoutUserInput
+    aiAnalysisAudits?: AIAnalysisAuditCreateNestedManyWithoutUserInput
     inputGroups?: InputGroupCreateNestedManyWithoutCreatorInput
     departmentManaged?: DepartmentCreateNestedManyWithoutManagerInput
     departmentObj?: DepartmentCreateNestedOneWithoutUsersInput
@@ -40912,6 +42803,7 @@ export namespace Prisma {
     frdDocuments?: FRDDocumentUncheckedCreateNestedManyWithoutCreatorInput
     approvedFRDs?: FRDDocumentUncheckedCreateNestedManyWithoutApproverInput
     auditLogs?: AuditLogUncheckedCreateNestedManyWithoutUserInput
+    aiAnalysisAudits?: AIAnalysisAuditUncheckedCreateNestedManyWithoutUserInput
     inputGroups?: InputGroupUncheckedCreateNestedManyWithoutCreatorInput
     departmentManaged?: DepartmentUncheckedCreateNestedManyWithoutManagerInput
     ledTeams?: TeamUncheckedCreateNestedManyWithoutLeaderInput
@@ -41047,6 +42939,11 @@ export namespace Prisma {
     linkedEntitiesJson?: NullableJsonNullValueInput | InputJsonValue
     clusteringMethod?: NullableStringFieldUpdateOperationsInput | string | null
     similarityThreshold?: NullableFloatFieldUpdateOperationsInput | number | null
+    rcaBreakdownJson?: NullableJsonNullValueInput | InputJsonValue
+    solutionSuggestionsJson?: NullableJsonNullValueInput | InputJsonValue
+    decisionMatrixJson?: NullableJsonNullValueInput | InputJsonValue
+    crossFunctionalImpactJson?: NullableJsonNullValueInput | InputJsonValue
+    lastAnalysisAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     signals?: HotspotSignalUpdateManyWithoutHotspotNestedInput
@@ -41064,6 +42961,11 @@ export namespace Prisma {
     linkedEntitiesJson?: NullableJsonNullValueInput | InputJsonValue
     clusteringMethod?: NullableStringFieldUpdateOperationsInput | string | null
     similarityThreshold?: NullableFloatFieldUpdateOperationsInput | number | null
+    rcaBreakdownJson?: NullableJsonNullValueInput | InputJsonValue
+    solutionSuggestionsJson?: NullableJsonNullValueInput | InputJsonValue
+    decisionMatrixJson?: NullableJsonNullValueInput | InputJsonValue
+    crossFunctionalImpactJson?: NullableJsonNullValueInput | InputJsonValue
+    lastAnalysisAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     signals?: HotspotSignalUncheckedUpdateManyWithoutHotspotNestedInput
@@ -41263,6 +43165,7 @@ export namespace Prisma {
     frdDocuments?: FRDDocumentUpdateManyWithoutCreatorNestedInput
     approvedFRDs?: FRDDocumentUpdateManyWithoutApproverNestedInput
     auditLogs?: AuditLogUpdateManyWithoutUserNestedInput
+    aiAnalysisAudits?: AIAnalysisAuditUpdateManyWithoutUserNestedInput
     inputGroups?: InputGroupUpdateManyWithoutCreatorNestedInput
     departmentManaged?: DepartmentUpdateManyWithoutManagerNestedInput
     departmentObj?: DepartmentUpdateOneWithoutUsersNestedInput
@@ -41302,6 +43205,7 @@ export namespace Prisma {
     frdDocuments?: FRDDocumentUncheckedUpdateManyWithoutCreatorNestedInput
     approvedFRDs?: FRDDocumentUncheckedUpdateManyWithoutApproverNestedInput
     auditLogs?: AuditLogUncheckedUpdateManyWithoutUserNestedInput
+    aiAnalysisAudits?: AIAnalysisAuditUncheckedUpdateManyWithoutUserNestedInput
     inputGroups?: InputGroupUncheckedUpdateManyWithoutCreatorNestedInput
     departmentManaged?: DepartmentUncheckedUpdateManyWithoutManagerNestedInput
     ledTeams?: TeamUncheckedUpdateManyWithoutLeaderNestedInput
@@ -41424,6 +43328,7 @@ export namespace Prisma {
     frdDocuments?: FRDDocumentCreateNestedManyWithoutCreatorInput
     approvedFRDs?: FRDDocumentCreateNestedManyWithoutApproverInput
     auditLogs?: AuditLogCreateNestedManyWithoutUserInput
+    aiAnalysisAudits?: AIAnalysisAuditCreateNestedManyWithoutUserInput
     inputGroups?: InputGroupCreateNestedManyWithoutCreatorInput
     departmentManaged?: DepartmentCreateNestedManyWithoutManagerInput
     departmentObj?: DepartmentCreateNestedOneWithoutUsersInput
@@ -41463,6 +43368,7 @@ export namespace Prisma {
     frdDocuments?: FRDDocumentUncheckedCreateNestedManyWithoutCreatorInput
     approvedFRDs?: FRDDocumentUncheckedCreateNestedManyWithoutApproverInput
     auditLogs?: AuditLogUncheckedCreateNestedManyWithoutUserInput
+    aiAnalysisAudits?: AIAnalysisAuditUncheckedCreateNestedManyWithoutUserInput
     inputGroups?: InputGroupUncheckedCreateNestedManyWithoutCreatorInput
     departmentManaged?: DepartmentUncheckedCreateNestedManyWithoutManagerInput
     ledTeams?: TeamUncheckedCreateNestedManyWithoutLeaderInput
@@ -41575,6 +43481,7 @@ export namespace Prisma {
     frdDocuments?: FRDDocumentUpdateManyWithoutCreatorNestedInput
     approvedFRDs?: FRDDocumentUpdateManyWithoutApproverNestedInput
     auditLogs?: AuditLogUpdateManyWithoutUserNestedInput
+    aiAnalysisAudits?: AIAnalysisAuditUpdateManyWithoutUserNestedInput
     inputGroups?: InputGroupUpdateManyWithoutCreatorNestedInput
     departmentManaged?: DepartmentUpdateManyWithoutManagerNestedInput
     departmentObj?: DepartmentUpdateOneWithoutUsersNestedInput
@@ -41614,6 +43521,7 @@ export namespace Prisma {
     frdDocuments?: FRDDocumentUncheckedUpdateManyWithoutCreatorNestedInput
     approvedFRDs?: FRDDocumentUncheckedUpdateManyWithoutApproverNestedInput
     auditLogs?: AuditLogUncheckedUpdateManyWithoutUserNestedInput
+    aiAnalysisAudits?: AIAnalysisAuditUncheckedUpdateManyWithoutUserNestedInput
     inputGroups?: InputGroupUncheckedUpdateManyWithoutCreatorNestedInput
     departmentManaged?: DepartmentUncheckedUpdateManyWithoutManagerNestedInput
     ledTeams?: TeamUncheckedUpdateManyWithoutLeaderNestedInput
@@ -41704,6 +43612,7 @@ export namespace Prisma {
     requirements?: RequirementCreateNestedManyWithoutCreatorInput
     approvedFRDs?: FRDDocumentCreateNestedManyWithoutApproverInput
     auditLogs?: AuditLogCreateNestedManyWithoutUserInput
+    aiAnalysisAudits?: AIAnalysisAuditCreateNestedManyWithoutUserInput
     inputGroups?: InputGroupCreateNestedManyWithoutCreatorInput
     departmentManaged?: DepartmentCreateNestedManyWithoutManagerInput
     departmentObj?: DepartmentCreateNestedOneWithoutUsersInput
@@ -41743,6 +43652,7 @@ export namespace Prisma {
     requirements?: RequirementUncheckedCreateNestedManyWithoutCreatorInput
     approvedFRDs?: FRDDocumentUncheckedCreateNestedManyWithoutApproverInput
     auditLogs?: AuditLogUncheckedCreateNestedManyWithoutUserInput
+    aiAnalysisAudits?: AIAnalysisAuditUncheckedCreateNestedManyWithoutUserInput
     inputGroups?: InputGroupUncheckedCreateNestedManyWithoutCreatorInput
     departmentManaged?: DepartmentUncheckedCreateNestedManyWithoutManagerInput
     ledTeams?: TeamUncheckedCreateNestedManyWithoutLeaderInput
@@ -41785,6 +43695,7 @@ export namespace Prisma {
     requirements?: RequirementCreateNestedManyWithoutCreatorInput
     frdDocuments?: FRDDocumentCreateNestedManyWithoutCreatorInput
     auditLogs?: AuditLogCreateNestedManyWithoutUserInput
+    aiAnalysisAudits?: AIAnalysisAuditCreateNestedManyWithoutUserInput
     inputGroups?: InputGroupCreateNestedManyWithoutCreatorInput
     departmentManaged?: DepartmentCreateNestedManyWithoutManagerInput
     departmentObj?: DepartmentCreateNestedOneWithoutUsersInput
@@ -41824,6 +43735,7 @@ export namespace Prisma {
     requirements?: RequirementUncheckedCreateNestedManyWithoutCreatorInput
     frdDocuments?: FRDDocumentUncheckedCreateNestedManyWithoutCreatorInput
     auditLogs?: AuditLogUncheckedCreateNestedManyWithoutUserInput
+    aiAnalysisAudits?: AIAnalysisAuditUncheckedCreateNestedManyWithoutUserInput
     inputGroups?: InputGroupUncheckedCreateNestedManyWithoutCreatorInput
     departmentManaged?: DepartmentUncheckedCreateNestedManyWithoutManagerInput
     ledTeams?: TeamUncheckedCreateNestedManyWithoutLeaderInput
@@ -41936,6 +43848,7 @@ export namespace Prisma {
     requirements?: RequirementUpdateManyWithoutCreatorNestedInput
     approvedFRDs?: FRDDocumentUpdateManyWithoutApproverNestedInput
     auditLogs?: AuditLogUpdateManyWithoutUserNestedInput
+    aiAnalysisAudits?: AIAnalysisAuditUpdateManyWithoutUserNestedInput
     inputGroups?: InputGroupUpdateManyWithoutCreatorNestedInput
     departmentManaged?: DepartmentUpdateManyWithoutManagerNestedInput
     departmentObj?: DepartmentUpdateOneWithoutUsersNestedInput
@@ -41975,6 +43888,7 @@ export namespace Prisma {
     requirements?: RequirementUncheckedUpdateManyWithoutCreatorNestedInput
     approvedFRDs?: FRDDocumentUncheckedUpdateManyWithoutApproverNestedInput
     auditLogs?: AuditLogUncheckedUpdateManyWithoutUserNestedInput
+    aiAnalysisAudits?: AIAnalysisAuditUncheckedUpdateManyWithoutUserNestedInput
     inputGroups?: InputGroupUncheckedUpdateManyWithoutCreatorNestedInput
     departmentManaged?: DepartmentUncheckedUpdateManyWithoutManagerNestedInput
     ledTeams?: TeamUncheckedUpdateManyWithoutLeaderNestedInput
@@ -42023,6 +43937,7 @@ export namespace Prisma {
     requirements?: RequirementUpdateManyWithoutCreatorNestedInput
     frdDocuments?: FRDDocumentUpdateManyWithoutCreatorNestedInput
     auditLogs?: AuditLogUpdateManyWithoutUserNestedInput
+    aiAnalysisAudits?: AIAnalysisAuditUpdateManyWithoutUserNestedInput
     inputGroups?: InputGroupUpdateManyWithoutCreatorNestedInput
     departmentManaged?: DepartmentUpdateManyWithoutManagerNestedInput
     departmentObj?: DepartmentUpdateOneWithoutUsersNestedInput
@@ -42062,6 +43977,7 @@ export namespace Prisma {
     requirements?: RequirementUncheckedUpdateManyWithoutCreatorNestedInput
     frdDocuments?: FRDDocumentUncheckedUpdateManyWithoutCreatorNestedInput
     auditLogs?: AuditLogUncheckedUpdateManyWithoutUserNestedInput
+    aiAnalysisAudits?: AIAnalysisAuditUncheckedUpdateManyWithoutUserNestedInput
     inputGroups?: InputGroupUncheckedUpdateManyWithoutCreatorNestedInput
     departmentManaged?: DepartmentUncheckedUpdateManyWithoutManagerNestedInput
     ledTeams?: TeamUncheckedUpdateManyWithoutLeaderNestedInput
@@ -42170,6 +44086,7 @@ export namespace Prisma {
     frdDocuments?: FRDDocumentCreateNestedManyWithoutCreatorInput
     approvedFRDs?: FRDDocumentCreateNestedManyWithoutApproverInput
     auditLogs?: AuditLogCreateNestedManyWithoutUserInput
+    aiAnalysisAudits?: AIAnalysisAuditCreateNestedManyWithoutUserInput
     inputGroups?: InputGroupCreateNestedManyWithoutCreatorInput
     departmentManaged?: DepartmentCreateNestedManyWithoutManagerInput
     departmentObj?: DepartmentCreateNestedOneWithoutUsersInput
@@ -42209,6 +44126,7 @@ export namespace Prisma {
     frdDocuments?: FRDDocumentUncheckedCreateNestedManyWithoutCreatorInput
     approvedFRDs?: FRDDocumentUncheckedCreateNestedManyWithoutApproverInput
     auditLogs?: AuditLogUncheckedCreateNestedManyWithoutUserInput
+    aiAnalysisAudits?: AIAnalysisAuditUncheckedCreateNestedManyWithoutUserInput
     inputGroups?: InputGroupUncheckedCreateNestedManyWithoutCreatorInput
     departmentManaged?: DepartmentUncheckedCreateNestedManyWithoutManagerInput
     ledTeams?: TeamUncheckedCreateNestedManyWithoutLeaderInput
@@ -42317,6 +44235,7 @@ export namespace Prisma {
     frdDocuments?: FRDDocumentUpdateManyWithoutCreatorNestedInput
     approvedFRDs?: FRDDocumentUpdateManyWithoutApproverNestedInput
     auditLogs?: AuditLogUpdateManyWithoutUserNestedInput
+    aiAnalysisAudits?: AIAnalysisAuditUpdateManyWithoutUserNestedInput
     inputGroups?: InputGroupUpdateManyWithoutCreatorNestedInput
     departmentManaged?: DepartmentUpdateManyWithoutManagerNestedInput
     departmentObj?: DepartmentUpdateOneWithoutUsersNestedInput
@@ -42356,6 +44275,7 @@ export namespace Prisma {
     frdDocuments?: FRDDocumentUncheckedUpdateManyWithoutCreatorNestedInput
     approvedFRDs?: FRDDocumentUncheckedUpdateManyWithoutApproverNestedInput
     auditLogs?: AuditLogUncheckedUpdateManyWithoutUserNestedInput
+    aiAnalysisAudits?: AIAnalysisAuditUncheckedUpdateManyWithoutUserNestedInput
     inputGroups?: InputGroupUncheckedUpdateManyWithoutCreatorNestedInput
     departmentManaged?: DepartmentUncheckedUpdateManyWithoutManagerNestedInput
     ledTeams?: TeamUncheckedUpdateManyWithoutLeaderNestedInput
@@ -42393,6 +44313,7 @@ export namespace Prisma {
     frdDocuments?: FRDDocumentCreateNestedManyWithoutCreatorInput
     approvedFRDs?: FRDDocumentCreateNestedManyWithoutApproverInput
     auditLogs?: AuditLogCreateNestedManyWithoutUserInput
+    aiAnalysisAudits?: AIAnalysisAuditCreateNestedManyWithoutUserInput
     inputGroups?: InputGroupCreateNestedManyWithoutCreatorInput
     departmentManaged?: DepartmentCreateNestedManyWithoutManagerInput
     departmentObj?: DepartmentCreateNestedOneWithoutUsersInput
@@ -42432,6 +44353,7 @@ export namespace Prisma {
     frdDocuments?: FRDDocumentUncheckedCreateNestedManyWithoutCreatorInput
     approvedFRDs?: FRDDocumentUncheckedCreateNestedManyWithoutApproverInput
     auditLogs?: AuditLogUncheckedCreateNestedManyWithoutUserInput
+    aiAnalysisAudits?: AIAnalysisAuditUncheckedCreateNestedManyWithoutUserInput
     inputGroups?: InputGroupUncheckedCreateNestedManyWithoutCreatorInput
     departmentManaged?: DepartmentUncheckedCreateNestedManyWithoutManagerInput
     ledTeams?: TeamUncheckedCreateNestedManyWithoutLeaderInput
@@ -42485,6 +44407,7 @@ export namespace Prisma {
     frdDocuments?: FRDDocumentUpdateManyWithoutCreatorNestedInput
     approvedFRDs?: FRDDocumentUpdateManyWithoutApproverNestedInput
     auditLogs?: AuditLogUpdateManyWithoutUserNestedInput
+    aiAnalysisAudits?: AIAnalysisAuditUpdateManyWithoutUserNestedInput
     inputGroups?: InputGroupUpdateManyWithoutCreatorNestedInput
     departmentManaged?: DepartmentUpdateManyWithoutManagerNestedInput
     departmentObj?: DepartmentUpdateOneWithoutUsersNestedInput
@@ -42524,6 +44447,7 @@ export namespace Prisma {
     frdDocuments?: FRDDocumentUncheckedUpdateManyWithoutCreatorNestedInput
     approvedFRDs?: FRDDocumentUncheckedUpdateManyWithoutApproverNestedInput
     auditLogs?: AuditLogUncheckedUpdateManyWithoutUserNestedInput
+    aiAnalysisAudits?: AIAnalysisAuditUncheckedUpdateManyWithoutUserNestedInput
     inputGroups?: InputGroupUncheckedUpdateManyWithoutCreatorNestedInput
     departmentManaged?: DepartmentUncheckedUpdateManyWithoutManagerNestedInput
     ledTeams?: TeamUncheckedUpdateManyWithoutLeaderNestedInput
@@ -42562,6 +44486,7 @@ export namespace Prisma {
     frdDocuments?: FRDDocumentCreateNestedManyWithoutCreatorInput
     approvedFRDs?: FRDDocumentCreateNestedManyWithoutApproverInput
     auditLogs?: AuditLogCreateNestedManyWithoutUserInput
+    aiAnalysisAudits?: AIAnalysisAuditCreateNestedManyWithoutUserInput
     departmentManaged?: DepartmentCreateNestedManyWithoutManagerInput
     departmentObj?: DepartmentCreateNestedOneWithoutUsersInput
     ledTeams?: TeamCreateNestedManyWithoutLeaderInput
@@ -42601,6 +44526,7 @@ export namespace Prisma {
     frdDocuments?: FRDDocumentUncheckedCreateNestedManyWithoutCreatorInput
     approvedFRDs?: FRDDocumentUncheckedCreateNestedManyWithoutApproverInput
     auditLogs?: AuditLogUncheckedCreateNestedManyWithoutUserInput
+    aiAnalysisAudits?: AIAnalysisAuditUncheckedCreateNestedManyWithoutUserInput
     departmentManaged?: DepartmentUncheckedCreateNestedManyWithoutManagerInput
     ledTeams?: TeamUncheckedCreateNestedManyWithoutLeaderInput
     teamMemberships?: TeamUncheckedCreateNestedManyWithoutMembersInput
@@ -42697,6 +44623,7 @@ export namespace Prisma {
     frdDocuments?: FRDDocumentUpdateManyWithoutCreatorNestedInput
     approvedFRDs?: FRDDocumentUpdateManyWithoutApproverNestedInput
     auditLogs?: AuditLogUpdateManyWithoutUserNestedInput
+    aiAnalysisAudits?: AIAnalysisAuditUpdateManyWithoutUserNestedInput
     departmentManaged?: DepartmentUpdateManyWithoutManagerNestedInput
     departmentObj?: DepartmentUpdateOneWithoutUsersNestedInput
     ledTeams?: TeamUpdateManyWithoutLeaderNestedInput
@@ -42736,6 +44663,7 @@ export namespace Prisma {
     frdDocuments?: FRDDocumentUncheckedUpdateManyWithoutCreatorNestedInput
     approvedFRDs?: FRDDocumentUncheckedUpdateManyWithoutApproverNestedInput
     auditLogs?: AuditLogUncheckedUpdateManyWithoutUserNestedInput
+    aiAnalysisAudits?: AIAnalysisAuditUncheckedUpdateManyWithoutUserNestedInput
     departmentManaged?: DepartmentUncheckedUpdateManyWithoutManagerNestedInput
     ledTeams?: TeamUncheckedUpdateManyWithoutLeaderNestedInput
     teamMemberships?: TeamUncheckedUpdateManyWithoutMembersNestedInput
@@ -42788,6 +44716,7 @@ export namespace Prisma {
     requirements?: RequirementCreateNestedManyWithoutCreatorInput
     frdDocuments?: FRDDocumentCreateNestedManyWithoutCreatorInput
     approvedFRDs?: FRDDocumentCreateNestedManyWithoutApproverInput
+    aiAnalysisAudits?: AIAnalysisAuditCreateNestedManyWithoutUserInput
     inputGroups?: InputGroupCreateNestedManyWithoutCreatorInput
     departmentManaged?: DepartmentCreateNestedManyWithoutManagerInput
     departmentObj?: DepartmentCreateNestedOneWithoutUsersInput
@@ -42827,6 +44756,7 @@ export namespace Prisma {
     requirements?: RequirementUncheckedCreateNestedManyWithoutCreatorInput
     frdDocuments?: FRDDocumentUncheckedCreateNestedManyWithoutCreatorInput
     approvedFRDs?: FRDDocumentUncheckedCreateNestedManyWithoutApproverInput
+    aiAnalysisAudits?: AIAnalysisAuditUncheckedCreateNestedManyWithoutUserInput
     inputGroups?: InputGroupUncheckedCreateNestedManyWithoutCreatorInput
     departmentManaged?: DepartmentUncheckedCreateNestedManyWithoutManagerInput
     ledTeams?: TeamUncheckedCreateNestedManyWithoutLeaderInput
@@ -42880,6 +44810,7 @@ export namespace Prisma {
     requirements?: RequirementUpdateManyWithoutCreatorNestedInput
     frdDocuments?: FRDDocumentUpdateManyWithoutCreatorNestedInput
     approvedFRDs?: FRDDocumentUpdateManyWithoutApproverNestedInput
+    aiAnalysisAudits?: AIAnalysisAuditUpdateManyWithoutUserNestedInput
     inputGroups?: InputGroupUpdateManyWithoutCreatorNestedInput
     departmentManaged?: DepartmentUpdateManyWithoutManagerNestedInput
     departmentObj?: DepartmentUpdateOneWithoutUsersNestedInput
@@ -42919,6 +44850,179 @@ export namespace Prisma {
     requirements?: RequirementUncheckedUpdateManyWithoutCreatorNestedInput
     frdDocuments?: FRDDocumentUncheckedUpdateManyWithoutCreatorNestedInput
     approvedFRDs?: FRDDocumentUncheckedUpdateManyWithoutApproverNestedInput
+    aiAnalysisAudits?: AIAnalysisAuditUncheckedUpdateManyWithoutUserNestedInput
+    inputGroups?: InputGroupUncheckedUpdateManyWithoutCreatorNestedInput
+    departmentManaged?: DepartmentUncheckedUpdateManyWithoutManagerNestedInput
+    ledTeams?: TeamUncheckedUpdateManyWithoutLeaderNestedInput
+    teamMemberships?: TeamUncheckedUpdateManyWithoutMembersNestedInput
+  }
+
+  export type UserCreateWithoutAiAnalysisAuditsInput = {
+    id?: string
+    email: string
+    name: string
+    role?: $Enums.UserRole
+    department?: string | null
+    title?: string | null
+    utilizationRate?: number | null
+    targetUtilization?: number | null
+    billableRate?: number | null
+    costCenter?: string | null
+    location?: string | null
+    isActive?: boolean
+    lastLoginAt?: Date | string | null
+    avatar?: string | null
+    passwordHash?: string | null
+    profileJson?: NullableJsonNullValueInput | InputJsonValue
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    manager?: UserCreateNestedOneWithoutReportsInput
+    reports?: UserCreateNestedManyWithoutManagerInput
+    inputs?: InputCreateNestedManyWithoutCreatorInput
+    signals?: SignalCreateNestedManyWithoutCreatedByInput
+    ownedInitiatives?: InitiativeCreateNestedManyWithoutOwnerInput
+    ideas?: IdeaCreateNestedManyWithoutCreatedByInput
+    solutions?: SolutionCreateNestedManyWithoutCreatorInput
+    comments?: CommentCreateNestedManyWithoutCreatorInput
+    votes?: VoteCreateNestedManyWithoutCreatorInput
+    requirements?: RequirementCreateNestedManyWithoutCreatorInput
+    frdDocuments?: FRDDocumentCreateNestedManyWithoutCreatorInput
+    approvedFRDs?: FRDDocumentCreateNestedManyWithoutApproverInput
+    auditLogs?: AuditLogCreateNestedManyWithoutUserInput
+    inputGroups?: InputGroupCreateNestedManyWithoutCreatorInput
+    departmentManaged?: DepartmentCreateNestedManyWithoutManagerInput
+    departmentObj?: DepartmentCreateNestedOneWithoutUsersInput
+    ledTeams?: TeamCreateNestedManyWithoutLeaderInput
+    teamMemberships?: TeamCreateNestedManyWithoutMembersInput
+  }
+
+  export type UserUncheckedCreateWithoutAiAnalysisAuditsInput = {
+    id?: string
+    email: string
+    name: string
+    role?: $Enums.UserRole
+    department?: string | null
+    title?: string | null
+    managerId?: string | null
+    utilizationRate?: number | null
+    targetUtilization?: number | null
+    billableRate?: number | null
+    costCenter?: string | null
+    location?: string | null
+    isActive?: boolean
+    lastLoginAt?: Date | string | null
+    avatar?: string | null
+    passwordHash?: string | null
+    profileJson?: NullableJsonNullValueInput | InputJsonValue
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    departmentObjId?: string | null
+    reports?: UserUncheckedCreateNestedManyWithoutManagerInput
+    inputs?: InputUncheckedCreateNestedManyWithoutCreatorInput
+    signals?: SignalUncheckedCreateNestedManyWithoutCreatedByInput
+    ownedInitiatives?: InitiativeUncheckedCreateNestedManyWithoutOwnerInput
+    ideas?: IdeaUncheckedCreateNestedManyWithoutCreatedByInput
+    solutions?: SolutionUncheckedCreateNestedManyWithoutCreatorInput
+    comments?: CommentUncheckedCreateNestedManyWithoutCreatorInput
+    votes?: VoteUncheckedCreateNestedManyWithoutCreatorInput
+    requirements?: RequirementUncheckedCreateNestedManyWithoutCreatorInput
+    frdDocuments?: FRDDocumentUncheckedCreateNestedManyWithoutCreatorInput
+    approvedFRDs?: FRDDocumentUncheckedCreateNestedManyWithoutApproverInput
+    auditLogs?: AuditLogUncheckedCreateNestedManyWithoutUserInput
+    inputGroups?: InputGroupUncheckedCreateNestedManyWithoutCreatorInput
+    departmentManaged?: DepartmentUncheckedCreateNestedManyWithoutManagerInput
+    ledTeams?: TeamUncheckedCreateNestedManyWithoutLeaderInput
+    teamMemberships?: TeamUncheckedCreateNestedManyWithoutMembersInput
+  }
+
+  export type UserCreateOrConnectWithoutAiAnalysisAuditsInput = {
+    where: UserWhereUniqueInput
+    create: XOR<UserCreateWithoutAiAnalysisAuditsInput, UserUncheckedCreateWithoutAiAnalysisAuditsInput>
+  }
+
+  export type UserUpsertWithoutAiAnalysisAuditsInput = {
+    update: XOR<UserUpdateWithoutAiAnalysisAuditsInput, UserUncheckedUpdateWithoutAiAnalysisAuditsInput>
+    create: XOR<UserCreateWithoutAiAnalysisAuditsInput, UserUncheckedCreateWithoutAiAnalysisAuditsInput>
+    where?: UserWhereInput
+  }
+
+  export type UserUpdateToOneWithWhereWithoutAiAnalysisAuditsInput = {
+    where?: UserWhereInput
+    data: XOR<UserUpdateWithoutAiAnalysisAuditsInput, UserUncheckedUpdateWithoutAiAnalysisAuditsInput>
+  }
+
+  export type UserUpdateWithoutAiAnalysisAuditsInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    email?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    role?: EnumUserRoleFieldUpdateOperationsInput | $Enums.UserRole
+    department?: NullableStringFieldUpdateOperationsInput | string | null
+    title?: NullableStringFieldUpdateOperationsInput | string | null
+    utilizationRate?: NullableFloatFieldUpdateOperationsInput | number | null
+    targetUtilization?: NullableFloatFieldUpdateOperationsInput | number | null
+    billableRate?: NullableFloatFieldUpdateOperationsInput | number | null
+    costCenter?: NullableStringFieldUpdateOperationsInput | string | null
+    location?: NullableStringFieldUpdateOperationsInput | string | null
+    isActive?: BoolFieldUpdateOperationsInput | boolean
+    lastLoginAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    avatar?: NullableStringFieldUpdateOperationsInput | string | null
+    passwordHash?: NullableStringFieldUpdateOperationsInput | string | null
+    profileJson?: NullableJsonNullValueInput | InputJsonValue
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    manager?: UserUpdateOneWithoutReportsNestedInput
+    reports?: UserUpdateManyWithoutManagerNestedInput
+    inputs?: InputUpdateManyWithoutCreatorNestedInput
+    signals?: SignalUpdateManyWithoutCreatedByNestedInput
+    ownedInitiatives?: InitiativeUpdateManyWithoutOwnerNestedInput
+    ideas?: IdeaUpdateManyWithoutCreatedByNestedInput
+    solutions?: SolutionUpdateManyWithoutCreatorNestedInput
+    comments?: CommentUpdateManyWithoutCreatorNestedInput
+    votes?: VoteUpdateManyWithoutCreatorNestedInput
+    requirements?: RequirementUpdateManyWithoutCreatorNestedInput
+    frdDocuments?: FRDDocumentUpdateManyWithoutCreatorNestedInput
+    approvedFRDs?: FRDDocumentUpdateManyWithoutApproverNestedInput
+    auditLogs?: AuditLogUpdateManyWithoutUserNestedInput
+    inputGroups?: InputGroupUpdateManyWithoutCreatorNestedInput
+    departmentManaged?: DepartmentUpdateManyWithoutManagerNestedInput
+    departmentObj?: DepartmentUpdateOneWithoutUsersNestedInput
+    ledTeams?: TeamUpdateManyWithoutLeaderNestedInput
+    teamMemberships?: TeamUpdateManyWithoutMembersNestedInput
+  }
+
+  export type UserUncheckedUpdateWithoutAiAnalysisAuditsInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    email?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    role?: EnumUserRoleFieldUpdateOperationsInput | $Enums.UserRole
+    department?: NullableStringFieldUpdateOperationsInput | string | null
+    title?: NullableStringFieldUpdateOperationsInput | string | null
+    managerId?: NullableStringFieldUpdateOperationsInput | string | null
+    utilizationRate?: NullableFloatFieldUpdateOperationsInput | number | null
+    targetUtilization?: NullableFloatFieldUpdateOperationsInput | number | null
+    billableRate?: NullableFloatFieldUpdateOperationsInput | number | null
+    costCenter?: NullableStringFieldUpdateOperationsInput | string | null
+    location?: NullableStringFieldUpdateOperationsInput | string | null
+    isActive?: BoolFieldUpdateOperationsInput | boolean
+    lastLoginAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    avatar?: NullableStringFieldUpdateOperationsInput | string | null
+    passwordHash?: NullableStringFieldUpdateOperationsInput | string | null
+    profileJson?: NullableJsonNullValueInput | InputJsonValue
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    departmentObjId?: NullableStringFieldUpdateOperationsInput | string | null
+    reports?: UserUncheckedUpdateManyWithoutManagerNestedInput
+    inputs?: InputUncheckedUpdateManyWithoutCreatorNestedInput
+    signals?: SignalUncheckedUpdateManyWithoutCreatedByNestedInput
+    ownedInitiatives?: InitiativeUncheckedUpdateManyWithoutOwnerNestedInput
+    ideas?: IdeaUncheckedUpdateManyWithoutCreatedByNestedInput
+    solutions?: SolutionUncheckedUpdateManyWithoutCreatorNestedInput
+    comments?: CommentUncheckedUpdateManyWithoutCreatorNestedInput
+    votes?: VoteUncheckedUpdateManyWithoutCreatorNestedInput
+    requirements?: RequirementUncheckedUpdateManyWithoutCreatorNestedInput
+    frdDocuments?: FRDDocumentUncheckedUpdateManyWithoutCreatorNestedInput
+    approvedFRDs?: FRDDocumentUncheckedUpdateManyWithoutApproverNestedInput
+    auditLogs?: AuditLogUncheckedUpdateManyWithoutUserNestedInput
     inputGroups?: InputGroupUncheckedUpdateManyWithoutCreatorNestedInput
     departmentManaged?: DepartmentUncheckedUpdateManyWithoutManagerNestedInput
     ledTeams?: TeamUncheckedUpdateManyWithoutLeaderNestedInput
@@ -43152,6 +45256,19 @@ export namespace Prisma {
     createdAt?: Date | string
   }
 
+  export type AIAnalysisAuditCreateManyUserInput = {
+    id?: string
+    hotspotId: string
+    analysisType: string
+    requestData?: NullableJsonNullValueInput | InputJsonValue
+    responseData?: NullableJsonNullValueInput | InputJsonValue
+    processingTime?: number | null
+    confidence?: number | null
+    status: string
+    errorMessage?: string | null
+    createdAt?: Date | string
+  }
+
   export type InputGroupCreateManyCreatorInput = {
     id?: string
     name: string
@@ -43229,6 +45346,7 @@ export namespace Prisma {
     frdDocuments?: FRDDocumentUpdateManyWithoutCreatorNestedInput
     approvedFRDs?: FRDDocumentUpdateManyWithoutApproverNestedInput
     auditLogs?: AuditLogUpdateManyWithoutUserNestedInput
+    aiAnalysisAudits?: AIAnalysisAuditUpdateManyWithoutUserNestedInput
     inputGroups?: InputGroupUpdateManyWithoutCreatorNestedInput
     departmentManaged?: DepartmentUpdateManyWithoutManagerNestedInput
     departmentObj?: DepartmentUpdateOneWithoutUsersNestedInput
@@ -43268,6 +45386,7 @@ export namespace Prisma {
     frdDocuments?: FRDDocumentUncheckedUpdateManyWithoutCreatorNestedInput
     approvedFRDs?: FRDDocumentUncheckedUpdateManyWithoutApproverNestedInput
     auditLogs?: AuditLogUncheckedUpdateManyWithoutUserNestedInput
+    aiAnalysisAudits?: AIAnalysisAuditUncheckedUpdateManyWithoutUserNestedInput
     inputGroups?: InputGroupUncheckedUpdateManyWithoutCreatorNestedInput
     departmentManaged?: DepartmentUncheckedUpdateManyWithoutManagerNestedInput
     ledTeams?: TeamUncheckedUpdateManyWithoutLeaderNestedInput
@@ -43929,6 +46048,45 @@ export namespace Prisma {
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
+  export type AIAnalysisAuditUpdateWithoutUserInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    hotspotId?: StringFieldUpdateOperationsInput | string
+    analysisType?: StringFieldUpdateOperationsInput | string
+    requestData?: NullableJsonNullValueInput | InputJsonValue
+    responseData?: NullableJsonNullValueInput | InputJsonValue
+    processingTime?: NullableIntFieldUpdateOperationsInput | number | null
+    confidence?: NullableFloatFieldUpdateOperationsInput | number | null
+    status?: StringFieldUpdateOperationsInput | string
+    errorMessage?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type AIAnalysisAuditUncheckedUpdateWithoutUserInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    hotspotId?: StringFieldUpdateOperationsInput | string
+    analysisType?: StringFieldUpdateOperationsInput | string
+    requestData?: NullableJsonNullValueInput | InputJsonValue
+    responseData?: NullableJsonNullValueInput | InputJsonValue
+    processingTime?: NullableIntFieldUpdateOperationsInput | number | null
+    confidence?: NullableFloatFieldUpdateOperationsInput | number | null
+    status?: StringFieldUpdateOperationsInput | string
+    errorMessage?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type AIAnalysisAuditUncheckedUpdateManyWithoutUserInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    hotspotId?: StringFieldUpdateOperationsInput | string
+    analysisType?: StringFieldUpdateOperationsInput | string
+    requestData?: NullableJsonNullValueInput | InputJsonValue
+    responseData?: NullableJsonNullValueInput | InputJsonValue
+    processingTime?: NullableIntFieldUpdateOperationsInput | number | null
+    confidence?: NullableFloatFieldUpdateOperationsInput | number | null
+    status?: StringFieldUpdateOperationsInput | string
+    errorMessage?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
   export type InputGroupUpdateWithoutCreatorInput = {
     id?: StringFieldUpdateOperationsInput | string
     name?: StringFieldUpdateOperationsInput | string
@@ -44392,6 +46550,7 @@ export namespace Prisma {
     frdDocuments?: FRDDocumentUpdateManyWithoutCreatorNestedInput
     approvedFRDs?: FRDDocumentUpdateManyWithoutApproverNestedInput
     auditLogs?: AuditLogUpdateManyWithoutUserNestedInput
+    aiAnalysisAudits?: AIAnalysisAuditUpdateManyWithoutUserNestedInput
     inputGroups?: InputGroupUpdateManyWithoutCreatorNestedInput
     departmentManaged?: DepartmentUpdateManyWithoutManagerNestedInput
     ledTeams?: TeamUpdateManyWithoutLeaderNestedInput
@@ -44430,6 +46589,7 @@ export namespace Prisma {
     frdDocuments?: FRDDocumentUncheckedUpdateManyWithoutCreatorNestedInput
     approvedFRDs?: FRDDocumentUncheckedUpdateManyWithoutApproverNestedInput
     auditLogs?: AuditLogUncheckedUpdateManyWithoutUserNestedInput
+    aiAnalysisAudits?: AIAnalysisAuditUncheckedUpdateManyWithoutUserNestedInput
     inputGroups?: InputGroupUncheckedUpdateManyWithoutCreatorNestedInput
     departmentManaged?: DepartmentUncheckedUpdateManyWithoutManagerNestedInput
     ledTeams?: TeamUncheckedUpdateManyWithoutLeaderNestedInput
@@ -44628,6 +46788,7 @@ export namespace Prisma {
     frdDocuments?: FRDDocumentUpdateManyWithoutCreatorNestedInput
     approvedFRDs?: FRDDocumentUpdateManyWithoutApproverNestedInput
     auditLogs?: AuditLogUpdateManyWithoutUserNestedInput
+    aiAnalysisAudits?: AIAnalysisAuditUpdateManyWithoutUserNestedInput
     inputGroups?: InputGroupUpdateManyWithoutCreatorNestedInput
     departmentManaged?: DepartmentUpdateManyWithoutManagerNestedInput
     departmentObj?: DepartmentUpdateOneWithoutUsersNestedInput
@@ -44667,6 +46828,7 @@ export namespace Prisma {
     frdDocuments?: FRDDocumentUncheckedUpdateManyWithoutCreatorNestedInput
     approvedFRDs?: FRDDocumentUncheckedUpdateManyWithoutApproverNestedInput
     auditLogs?: AuditLogUncheckedUpdateManyWithoutUserNestedInput
+    aiAnalysisAudits?: AIAnalysisAuditUncheckedUpdateManyWithoutUserNestedInput
     inputGroups?: InputGroupUncheckedUpdateManyWithoutCreatorNestedInput
     departmentManaged?: DepartmentUncheckedUpdateManyWithoutManagerNestedInput
     ledTeams?: TeamUncheckedUpdateManyWithoutLeaderNestedInput

@@ -18,6 +18,7 @@ import {
 } from 'lucide-react';
 import { ClusterAnalysisHeader } from '@/components/hotspots/cluster-analysis-header';
 import { SignalSelectionGrid } from '@/components/hotspots/signal-selection-grid';
+import { RCABreakdownVisualization } from '@/components/hotspots/rca-breakdown-visualization';
 import { Alert, AlertDescription } from '@/components/ui/alert';
 
 interface HotspotDetail {
@@ -91,6 +92,11 @@ export default function HotspotDetailPage() {
   const [hotspot, setHotspot] = useState<HotspotDetail | null>(null);
   const [isLoading, setIsLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
+  const [rcaData, setRcaData] = useState<any>(null);
+  const [rcaLoading, setRcaLoading] = useState(false);
+  const [activeTab, setActiveTab] = useState<
+    'overview' | 'analysis' | 'signals'
+  >('overview');
 
   const fetchHotspotDetail = useCallback(async () => {
     try {
@@ -114,11 +120,71 @@ export default function HotspotDetailPage() {
     }
   }, [hotspotId]);
 
+  // Enhanced RCA Analysis Function (FAE-102)
+  const generateRCAAnalysis = useCallback(async () => {
+    try {
+      setRcaLoading(true);
+      console.log(`🔬 Generating enhanced RCA for hotspot: ${hotspotId}`);
+
+      const response = await fetch(`/api/hotspots/${hotspotId}/analyze`, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+      });
+
+      if (!response.ok) {
+        throw new Error(`RCA analysis failed: ${response.statusText}`);
+      }
+
+      const result = await response.json();
+      setRcaData(result.analysis);
+      console.log('✅ RCA analysis complete:', result);
+    } catch (error) {
+      console.error('RCA analysis error:', error);
+      setError(
+        error instanceof Error
+          ? error.message
+          : 'Failed to generate RCA analysis'
+      );
+    } finally {
+      setRcaLoading(false);
+    }
+  }, [hotspotId]);
+
+  // Fetch cached RCA analysis
+  const fetchCachedRCA = useCallback(async () => {
+    try {
+      const response = await fetch(`/api/hotspots/${hotspotId}/analyze`);
+      if (response.ok) {
+        const result = await response.json();
+        setRcaData(result.analysis);
+      }
+    } catch (error) {
+      // Silently ignore - no cached analysis is expected initially
+      console.log('No cached RCA analysis found:', error);
+    }
+  }, [hotspotId]);
+
+  // Handle solution creation from RCA
+  const handleSolutionCreate = useCallback(
+    (category: string, signals: string[]) => {
+      // For now, log the action - this would integrate with solution creation flow
+      console.log(`Creating solution for category: ${category}`, signals);
+      // Integration with solution creation workflow will be implemented in Phase 2
+      alert(
+        `Solution creation for ${category} category will be implemented in Phase 2`
+      );
+    },
+    []
+  );
+
   useEffect(() => {
     if (status === 'authenticated' && hotspotId) {
       fetchHotspotDetail();
+      fetchCachedRCA();
     }
-  }, [status, hotspotId, fetchHotspotDetail]);
+  }, [status, hotspotId, fetchHotspotDetail, fetchCachedRCA]);
 
   const formatDate = (dateString: string) => {
     return new Date(dateString).toLocaleDateString('en-US', {
@@ -321,35 +387,149 @@ export default function HotspotDetailPage() {
           </CardContent>
         </Card>
 
-        {/* Enhanced Cluster Analysis */}
-        {hotspot.clusterAnalysis && (
-          <Card className="mb-8">
-            <CardHeader>
-              <CardTitle>Cluster Analysis</CardTitle>
-            </CardHeader>
-            <CardContent>
-              <ClusterAnalysisHeader
-                clusteringMethod={hotspot.clusteringMethod}
-                similarityThreshold={hotspot.similarityThreshold}
-                confidence={hotspot.confidence}
-                clusterAnalysis={hotspot.clusterAnalysis}
-                linkedEntities={hotspot.linkedEntities}
-              />
-            </CardContent>
-          </Card>
+        {/* Navigation Tabs - Executive Interface */}
+        <div className="mb-8">
+          <div className="border-b border-gray-200">
+            <nav className="-mb-px flex space-x-8">
+              <button
+                onClick={() => setActiveTab('overview')}
+                className={`border-b-2 px-1 py-2 text-sm font-medium ${
+                  activeTab === 'overview'
+                    ? 'border-blue-500 text-blue-600'
+                    : 'border-transparent text-gray-500 hover:border-gray-300 hover:text-gray-700'
+                }`}
+              >
+                Overview
+              </button>
+              <button
+                onClick={() => setActiveTab('analysis')}
+                className={`border-b-2 px-1 py-2 text-sm font-medium ${
+                  activeTab === 'analysis'
+                    ? 'border-blue-500 text-blue-600'
+                    : 'border-transparent text-gray-500 hover:border-gray-300 hover:text-gray-700'
+                }`}
+              >
+                <Brain className="mr-2 inline h-4 w-4" />
+                RCA Analysis
+              </button>
+              <button
+                onClick={() => setActiveTab('signals')}
+                className={`border-b-2 px-1 py-2 text-sm font-medium ${
+                  activeTab === 'signals'
+                    ? 'border-blue-500 text-blue-600'
+                    : 'border-transparent text-gray-500 hover:border-gray-300 hover:text-gray-700'
+                }`}
+              >
+                Signal Details
+              </button>
+            </nav>
+          </div>
+        </div>
+
+        {/* Tab Content */}
+        {activeTab === 'overview' && (
+          <>
+            {/* Enhanced Cluster Analysis */}
+            {hotspot.clusterAnalysis && (
+              <Card className="mb-8">
+                <CardHeader>
+                  <CardTitle>Cluster Analysis</CardTitle>
+                </CardHeader>
+                <CardContent>
+                  <ClusterAnalysisHeader
+                    clusteringMethod={hotspot.clusteringMethod}
+                    similarityThreshold={hotspot.similarityThreshold}
+                    confidence={hotspot.confidence}
+                    clusterAnalysis={hotspot.clusterAnalysis}
+                    linkedEntities={hotspot.linkedEntities}
+                  />
+                </CardContent>
+              </Card>
+            )}
+          </>
         )}
 
-        {/* Enhanced Signal Selection */}
-        {hotspot.signals && hotspot.signals.length > 0 && (
-          <Card className="mb-8">
-            <CardHeader>
-              <CardTitle>Signal Selection & Idea Creation</CardTitle>
-              <p className="text-sm text-gray-600">
-                Select specific signals to create targeted ideas, or review the
-                clustering quality.
-              </p>
-            </CardHeader>
-            <CardContent>
+        {activeTab === 'analysis' && (
+          <div className="space-y-6">
+            {/* RCA Analysis Section */}
+            <Card>
+              <CardHeader>
+                <div className="flex items-center justify-between">
+                  <CardTitle className="flex items-center space-x-2">
+                    <Brain className="h-5 w-5 text-blue-600" />
+                    <span>Enhanced Root Cause Analysis</span>
+                  </CardTitle>
+                  <div className="flex space-x-2">
+                    {rcaData && (
+                      <Button
+                        variant="outline"
+                        size="sm"
+                        onClick={generateRCAAnalysis}
+                        disabled={rcaLoading}
+                      >
+                        Refresh Analysis
+                      </Button>
+                    )}
+                    {!rcaData && (
+                      <Button
+                        onClick={generateRCAAnalysis}
+                        disabled={rcaLoading}
+                        className="min-h-[44px]"
+                      >
+                        {rcaLoading ? 'Analyzing...' : 'Generate RCA Analysis'}
+                      </Button>
+                    )}
+                  </div>
+                </div>
+              </CardHeader>
+              <CardContent>
+                {rcaLoading && (
+                  <div className="flex items-center justify-center py-12">
+                    <div className="text-center">
+                      <div className="mx-auto h-8 w-8 animate-spin rounded-full border-b-2 border-blue-600"></div>
+                      <p className="mt-2 text-sm text-gray-600">
+                        Analyzing {hotspot._count.signals} signals...
+                      </p>
+                    </div>
+                  </div>
+                )}
+
+                {!rcaLoading && !rcaData && (
+                  <div className="py-12 text-center">
+                    <Brain className="mx-auto mb-4 h-12 w-12 text-gray-400" />
+                    <h3 className="mb-2 text-lg font-medium text-gray-900">
+                      Enhanced RCA Analysis
+                    </h3>
+                    <p className="mb-4 text-sm text-gray-600">
+                      Generate a comprehensive root cause analysis with
+                      AI-powered categorization across 5 key areas: Training,
+                      Process, Communication, Technology, and Resource.
+                    </p>
+                    <Button
+                      onClick={generateRCAAnalysis}
+                      className="min-h-[44px]"
+                    >
+                      Generate Analysis
+                    </Button>
+                  </div>
+                )}
+
+                {rcaData && (
+                  <RCABreakdownVisualization
+                    hotspotId={hotspotId}
+                    rcaData={rcaData}
+                    onSolutionCreate={handleSolutionCreate}
+                  />
+                )}
+              </CardContent>
+            </Card>
+          </div>
+        )}
+
+        {activeTab === 'signals' && (
+          <>
+            {/* Signal Selection Grid */}
+            {hotspot.signals && hotspot.signals.length > 0 ? (
               <SignalSelectionGrid
                 signals={hotspot.signals.map((hs: any) => ({
                   ...hs.signal,
@@ -369,8 +549,16 @@ export default function HotspotDetailPage() {
                   // Could redirect to idea creation page or show success
                 }}
               />
-            </CardContent>
-          </Card>
+            ) : (
+              <Card>
+                <CardContent className="py-12 text-center">
+                  <p className="text-gray-600">
+                    No signals found for this hotspot.
+                  </p>
+                </CardContent>
+              </Card>
+            )}
+          </>
         )}
 
         {/* Generated Ideas */}

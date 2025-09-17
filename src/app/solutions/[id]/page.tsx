@@ -119,7 +119,7 @@ export default function SolutionDetailPage() {
       try {
         setLoading(true);
         const response = await fetch(`/api/solutions/${solutionId}`);
-        
+
         if (!response.ok) {
           if (response.status === 404) {
             setError('Solution not found');
@@ -249,7 +249,10 @@ export default function SolutionDetailPage() {
               </div>
 
               {/* Source Information */}
-              {(solution.input || solution.hotspot || solution.initiative || solution.idea) && (
+              {(solution.input ||
+                solution.hotspot ||
+                solution.initiative ||
+                solution.idea) && (
                 <div>
                   <h3 className="mb-3 text-lg font-semibold text-gray-900">
                     Source
@@ -260,7 +263,8 @@ export default function SolutionDetailPage() {
                         <div className="flex items-center space-x-2 rounded-lg border p-3 hover:bg-gray-50">
                           <MessageSquare className="h-4 w-4 text-gray-500" />
                           <span className="text-sm">
-                            <strong>Strategic Input:</strong> {solution.input.title}
+                            <strong>Strategic Input:</strong>{' '}
+                            {solution.input.title}
                           </span>
                           <ExternalLink className="h-3 w-3 text-gray-400" />
                         </div>
@@ -332,7 +336,9 @@ export default function SolutionDetailPage() {
                             Completed
                           </p>
                           <p className="text-sm text-gray-600">
-                            {new Date(solution.completionDate).toLocaleDateString()}
+                            {new Date(
+                              solution.completionDate
+                            ).toLocaleDateString()}
                           </p>
                         </div>
                       </div>
@@ -392,7 +398,7 @@ export default function SolutionDetailPage() {
             <CardContent>
               {solution.requirements.length > 0 ? (
                 <div className="space-y-3">
-                  {solution.requirements.map((requirement) => (
+                  {solution.requirements.map(requirement => (
                     <div key={requirement.id} className="rounded-lg border p-3">
                       <div className="flex items-start justify-between">
                         <div className="flex-1">
@@ -400,16 +406,10 @@ export default function SolutionDetailPage() {
                             {requirement.title}
                           </p>
                           <div className="mt-1 flex items-center space-x-2">
-                            <Badge
-                              variant="outline"
-                              className="text-xs"
-                            >
+                            <Badge variant="outline" className="text-xs">
                               {requirement.status}
                             </Badge>
-                            <Badge
-                              variant="outline"
-                              className="text-xs"
-                            >
+                            <Badge variant="outline" className="text-xs">
                               {requirement.priority}
                             </Badge>
                           </div>
@@ -443,7 +443,7 @@ export default function SolutionDetailPage() {
             <CardContent>
               {solution.frdDocuments.length > 0 ? (
                 <div className="space-y-3">
-                  {solution.frdDocuments.map((frd) => (
+                  {solution.frdDocuments.map(frd => (
                     <div key={frd.id} className="rounded-lg border p-3">
                       <div className="flex items-start justify-between">
                         <div className="flex-1">
@@ -451,10 +451,7 @@ export default function SolutionDetailPage() {
                             {frd.title}
                           </p>
                           <div className="mt-1 flex items-center space-x-2">
-                            <Badge
-                              variant="outline"
-                              className="text-xs"
-                            >
+                            <Badge variant="outline" className="text-xs">
                               {frd.status}
                             </Badge>
                             <span className="text-xs text-gray-500">

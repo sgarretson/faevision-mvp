@@ -259,6 +259,11 @@ exports.Prisma.HotspotScalarFieldEnum = {
   linkedEntitiesJson: 'linkedEntitiesJson',
   clusteringMethod: 'clusteringMethod',
   similarityThreshold: 'similarityThreshold',
+  rcaBreakdownJson: 'rcaBreakdownJson',
+  solutionSuggestionsJson: 'solutionSuggestionsJson',
+  decisionMatrixJson: 'decisionMatrixJson',
+  crossFunctionalImpactJson: 'crossFunctionalImpactJson',
+  lastAnalysisAt: 'lastAnalysisAt',
   createdAt: 'createdAt',
   updatedAt: 'updatedAt'
 };
@@ -421,6 +426,20 @@ exports.Prisma.AuditLogScalarFieldEnum = {
   userAgent: 'userAgent',
   sessionId: 'sessionId',
   userId: 'userId',
+  createdAt: 'createdAt'
+};
+
+exports.Prisma.AIAnalysisAuditScalarFieldEnum = {
+  id: 'id',
+  hotspotId: 'hotspotId',
+  analysisType: 'analysisType',
+  userId: 'userId',
+  requestData: 'requestData',
+  responseData: 'responseData',
+  processingTime: 'processingTime',
+  confidence: 'confidence',
+  status: 'status',
+  errorMessage: 'errorMessage',
   createdAt: 'createdAt'
 };
 
@@ -595,6 +614,7 @@ exports.Prisma.ModelName = {
   Vote: 'Vote',
   InputGroup: 'InputGroup',
   AuditLog: 'AuditLog',
+  AIAnalysisAudit: 'AIAnalysisAudit',
   Notification: 'Notification'
 };
 

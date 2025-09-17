@@ -86,3 +86,4 @@ pids
 # Generated files
 apps/web/.next/
 packages/database/node_modules/@prisma/client/
+.env*.local

@@ -46,15 +46,16 @@ model User {
   // Enhanced Relationships for all F1-F6 features + V2 enhancements
   inputs           Input[]
   signals          Signal[] // V2: Enhanced signal model
-  ownedInitiatives Initiative[]  @relation("InitiativeOwner") // V2: Strategic initiatives
+  ownedInitiatives Initiative[]      @relation("InitiativeOwner") // V2: Strategic initiatives
   ideas            Idea[] // V2: Ideas from hotspots
   solutions        Solution[]
   comments         Comment[]
   votes            Vote[]
   requirements     Requirement[]
-  frdDocuments     FRDDocument[] @relation("FRDCreator")
-  approvedFRDs     FRDDocument[] @relation("FRDApprover")
+  frdDocuments     FRDDocument[]     @relation("FRDCreator")
+  approvedFRDs     FRDDocument[]     @relation("FRDApprover")
   auditLogs        AuditLog[]
+  aiAnalysisAudits AIAnalysisAudit[]
   inputGroups      InputGroup[]
 
   // New Professional Relationships
@@ -260,9 +261,16 @@ model Hotspot {
   primaryCategoryId  String?
   linkedEntitiesJson Json? // Key entities across signals
 
-  // AI Analysis
+  // AI Analysis (Existing)
   clusteringMethod    String? // HDBSCAN|manual|hybrid
   similarityThreshold Float? // Clustering threshold used
+
+  // Enhanced AI Analysis (FAE-104: New JSON fields for decision support)
+  rcaBreakdownJson          Json? // RCA analysis with granular categories
+  solutionSuggestionsJson   Json? // Multiple solution options with cost/benefit
+  decisionMatrixJson        Json? // Executive decision matrix data
+  crossFunctionalImpactJson Json? // Team/resource impact mapping
+  lastAnalysisAt            DateTime? // When AI analysis was last performed
 
   // Relationships
   signals   HotspotSignal[]
@@ -276,6 +284,7 @@ model Hotspot {
   @@index([rankScore])
   @@index([confidence])
   @@index([primaryCategoryId])
+  @@index([lastAnalysisAt])
   @@map("hotspots")
 }
 
@@ -625,6 +634,30 @@ model AuditLog {
   @@index([action])
   @@index([createdAt])
   @@map("audit_logs")
+}
+
+// Enhanced AI Analysis Audit Logging (FAE-104)
+model AIAnalysisAudit {
+  id             String   @id @default(cuid())
+  hotspotId      String // Reference to hotspot being analyzed
+  analysisType   String // 'rca', 'solutions', 'decision_matrix', 'impact_analysis'
+  userId         String // User who triggered the analysis
+  requestData    Json? // Input parameters for analysis
+  responseData   Json? // AI analysis results
+  processingTime Int? // Processing time in milliseconds
+  confidence     Float? // Overall confidence score (0.0-1.0)
+  status         String // 'success', 'error', 'timeout'
+  errorMessage   String? // Error details if status = 'error'
+  createdAt      DateTime @default(now())
+
+  user User @relation(fields: [userId], references: [id])
+
+  @@index([hotspotId])
+  @@index([analysisType])
+  @@index([userId])
+  @@index([createdAt])
+  @@index([status])
+  @@map("ai_analysis_audit")
 }
 
 // ============================================================================

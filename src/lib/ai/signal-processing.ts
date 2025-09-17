@@ -260,6 +260,178 @@ Return format:
 }
 
 // ============================================================================
+// ENHANCED RCA CLASSIFICATION (FAE-101 - Phase 1)
+// ============================================================================
+
+/**
+ * Enhanced RCA Classification with granular categories
+ * Generates detailed root cause analysis with 5 categories and confidence scoring
+ */
+export async function generateEnhancedRCA(signals: any[]): Promise<any> {
+  if (signals.length === 0) {
+    return {
+      error: 'No signals provided for analysis',
+      confidence: 0,
+    };
+  }
+
+  try {
+    const signalDescriptions = signals
+      .map(s => `${s.title || 'Untitled'}: ${s.description}`)
+      .join('\n---\n');
+
+    const { text } = await generateText({
+      model: openai('gpt-3.5-turbo'),
+      messages: [
+        {
+          role: 'system',
+          content: `You are an expert AI analyst specialized in root cause analysis for Architecture & Engineering firms.
+
+TASK: Analyze the provided signals and generate a comprehensive RCA breakdown with exactly 5 categories.
+
+ANALYSIS CATEGORIES (must total 100%):
+1. TRAINING: Skill gaps, procedure knowledge, certification issues, competency deficits
+2. PROCESS: Workflow problems, approval delays, quality control gaps, procedural failures  
+3. COMMUNICATION: Coordination failures, unclear specifications, language barriers, information gaps
+4. TECHNOLOGY: Tool limitations, system integration issues, data synchronization, software problems
+5. RESOURCE: Staff shortages, material delays, equipment failures, budget constraints
+
+REQUIREMENTS:
+- Analyze ALL signals collectively to identify patterns
+- Assign percentage breakdown that totals exactly 100%
+- Provide confidence score (0.0-1.0) for each category
+- Identify the primary category (highest percentage)
+- Give specific examples from the signals for each category
+- Provide executive-level reasoning for the analysis
+
+RESPONSE FORMAT (valid JSON only):
+{
+  "version": "1.0",
+  "generatedAt": "${new Date().toISOString()}",
+  "overallConfidence": 0.85,
+  "primaryCategory": "process",
+  "categories": {
+    "training": {
+      "percentage": 25,
+      "confidence": 0.8,
+      "specifics": ["Specific training gaps identified from signals"]
+    },
+    "process": {
+      "percentage": 40,
+      "confidence": 0.9,
+      "specifics": ["Specific process issues identified from signals"]
+    },
+    "communication": {
+      "percentage": 20,
+      "confidence": 0.7,
+      "specifics": ["Specific communication issues identified from signals"]
+    },
+    "technology": {
+      "percentage": 10,
+      "confidence": 0.6,
+      "specifics": ["Specific technology issues identified from signals"]
+    },
+    "resource": {
+      "percentage": 5,
+      "confidence": 0.5,
+      "specifics": ["Specific resource issues identified from signals"]
+    }
+  },
+  "reasoning": "Executive summary of why this breakdown reflects the root causes",
+  "signalAnalysis": {
+    "totalSignals": ${signals.length},
+    "categorizedSignals": ${signals.length},
+    "confidenceDistribution": {"high": 3, "medium": 2, "low": 0}
+  }
+}
+
+CRITICAL: Percentages must sum to exactly 100. Provide only valid JSON response.`,
+        },
+        {
+          role: 'user',
+          content: `Analyze these A&E signals for enhanced RCA classification:\n\n${signalDescriptions}`,
+        },
+      ],
+      temperature: 0.3, // Lower temperature for consistent analysis
+    });
+
+    try {
+      const rcaAnalysis = JSON.parse(text);
+
+      // Validate the response structure
+      if (!rcaAnalysis.categories || !rcaAnalysis.primaryCategory) {
+        throw new Error('Invalid RCA analysis structure');
+      }
+
+      // Validate percentages sum to 100
+      const totalPercentage = Object.values(rcaAnalysis.categories).reduce(
+        (sum: number, cat: any) => sum + (cat.percentage || 0),
+        0
+      );
+
+      if (Math.abs(totalPercentage - 100) > 1) {
+        console.warn(`RCA percentages don't sum to 100: ${totalPercentage}`);
+      }
+
+      return rcaAnalysis;
+    } catch (parseError) {
+      console.error('RCA analysis JSON parse failed:', parseError);
+      return generateFallbackRCA(signals);
+    }
+  } catch (error) {
+    console.error('Enhanced RCA classification failed:', error);
+    return generateFallbackRCA(signals);
+  }
+}
+
+/**
+ * Fallback RCA analysis when AI processing fails
+ */
+function generateFallbackRCA(signals: any[]): any {
+  return {
+    version: '1.0',
+    generatedAt: new Date().toISOString(),
+    overallConfidence: 0.3,
+    primaryCategory: 'process',
+    categories: {
+      training: {
+        percentage: 20,
+        confidence: 0.3,
+        specifics: ['Analysis unavailable - fallback data'],
+      },
+      process: {
+        percentage: 30,
+        confidence: 0.3,
+        specifics: ['Analysis unavailable - fallback data'],
+      },
+      communication: {
+        percentage: 25,
+        confidence: 0.3,
+        specifics: ['Analysis unavailable - fallback data'],
+      },
+      technology: {
+        percentage: 15,
+        confidence: 0.3,
+        specifics: ['Analysis unavailable - fallback data'],
+      },
+      resource: {
+        percentage: 10,
+        confidence: 0.3,
+        specifics: ['Analysis unavailable - fallback data'],
+      },
+    },
+    reasoning:
+      'AI analysis failed - using fallback categorization. Please retry analysis.',
+    signalAnalysis: {
+      totalSignals: signals.length,
+      categorizedSignals: 0,
+      confidenceDistribution: { high: 0, medium: 0, low: signals.length },
+    },
+    error: 'AI processing unavailable',
+  };
+}
+
+// ============================================================================
 // SOLUTION SUGGESTIONS (V2 Feature)
 // ============================================================================
 

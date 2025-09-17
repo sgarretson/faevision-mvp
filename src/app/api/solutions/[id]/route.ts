@@ -88,7 +88,10 @@ export async function GET(
     });
 
     if (!solution) {
-      return NextResponse.json({ error: 'Solution not found' }, { status: 404 });
+      return NextResponse.json(
+        { error: 'Solution not found' },
+        { status: 404 }
+      );
     }
 
     // Map to frontend interface
@@ -157,7 +160,10 @@ export async function PUT(
     });
 
     if (!existingSolution) {
-      return NextResponse.json({ error: 'Solution not found' }, { status: 404 });
+      return NextResponse.json(
+        { error: 'Solution not found' },
+        { status: 404 }
+      );
     }
 
     // Only creator or admin can update
@@ -177,7 +183,9 @@ export async function PUT(
         status: body.status,
         priority: body.priority,
         targetDate: body.targetDate ? new Date(body.targetDate) : null,
-        completionDate: body.completionDate ? new Date(body.completionDate) : null,
+        completionDate: body.completionDate
+          ? new Date(body.completionDate)
+          : null,
         estimatedEffort: body.estimatedEffort,
         businessValue: body.businessValue,
         successMetrics: body.successMetrics,
@@ -248,7 +256,10 @@ export async function DELETE(
     });
 
     if (!existingSolution) {
-      return NextResponse.json({ error: 'Solution not found' }, { status: 404 });
+      return NextResponse.json(
+        { error: 'Solution not found' },
+        { status: 404 }
+      );
     }
 
     // Only admin can delete solutions
