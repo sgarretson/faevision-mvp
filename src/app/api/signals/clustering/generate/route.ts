@@ -161,7 +161,7 @@ export async function POST(request: NextRequest) {
     const signalsWithFeatures: any[] = [];
     for (const signal of signals) {
       let clusteringFeatures = null;
-      
+
       if (
         signal.clusteringFeaturesJson &&
         validateClusteringFeatures(signal.clusteringFeaturesJson)
@@ -182,7 +182,7 @@ export async function POST(request: NextRequest) {
           continue; // Skip this signal
         }
       }
-      
+
       // Create the ClusteringFeatures object that the engine expects
       signalsWithFeatures.push(clusteringFeatures);
     }
@@ -660,13 +660,13 @@ function generateClusteringRecommendations(result: any): string[] {
  */
 function validateClusteringFeatures(features: any): boolean {
   if (!features || typeof features !== 'object') return false;
-  
+
   // Check for proper ClusteringFeatures structure
   return Boolean(
     features.domainFeatures?.rootCauseVector?.length === 7 &&
-    features.domainFeatures?.departmentVector?.length === 5 &&
-    features.semanticFeatures?.embedding?.length > 0 &&
-    features.signalId
+      features.domainFeatures?.departmentVector?.length === 5 &&
+      features.semanticFeatures?.embedding?.length > 0 &&
+      features.signalId
   );
 }
 
@@ -703,34 +703,75 @@ function generateBasicClusteringFeatures(signal: any): any {
       embedding.reduce((sum: number, val: number) => sum + val * val, 0)
     );
     const normalizedEmbedding =
-      magnitude > 0 ? embedding.map((val: number) => val / magnitude) : embedding;
+      magnitude > 0
+        ? embedding.map((val: number) => val / magnitude)
+        : embedding;
 
     // Generate basic root cause vector (7 dimensions)
-    // Simple heuristic based on keywords
-    const rootCauseVector: number[] = new Array(7).fill(0 as number); // [PROCESS, RESOURCE, COMMUNICATION, TECHNOLOGY, TRAINING, QUALITY, EXTERNAL]
+    // Simple heuristic based on keywords - explicitly mutable array
+    const rootCauseVector: number[] = Array.from({ length: 7 }, () => 0.0); // [PROCESS, RESOURCE, COMMUNICATION, TECHNOLOGY, TRAINING, QUALITY, EXTERNAL]
     const text = textContent.toLowerCase();
-    
-    if (text.includes('process') || text.includes('workflow') || text.includes('procedure')) rootCauseVector[0] = 0.7;
-    if (text.includes('staff') || text.includes('resource') || text.includes('team')) rootCauseVector[1] = 0.6;
-    if (text.includes('communication') || text.includes('coordinate') || text.includes('inform')) rootCauseVector[2] = 0.6;
-    if (text.includes('technology') || text.includes('software') || text.includes('system')) rootCauseVector[3] = 0.6;
-    if (text.includes('training') || text.includes('knowledge') || text.includes('skill')) rootCauseVector[4] = 0.6;
-    if (text.includes('quality') || text.includes('error') || text.includes('defect')) rootCauseVector[5] = 0.7;
-    if (text.includes('client') || text.includes('external') || text.includes('vendor')) rootCauseVector[6] = 0.5;
-    
+
+    if (
+      text.includes('process') ||
+      text.includes('workflow') ||
+      text.includes('procedure')
+    )
+      rootCauseVector[0] = 0.7;
+    if (
+      text.includes('staff') ||
+      text.includes('resource') ||
+      text.includes('team')
+    )
+      rootCauseVector[1] = 0.6;
+    if (
+      text.includes('communication') ||
+      text.includes('coordinate') ||
+      text.includes('inform')
+    )
+      rootCauseVector[2] = 0.6;
+    if (
+      text.includes('technology') ||
+      text.includes('software') ||
+      text.includes('system')
+    )
+      rootCauseVector[3] = 0.6;
+    if (
+      text.includes('training') ||
+      text.includes('knowledge') ||
+      text.includes('skill')
+    )
+      rootCauseVector[4] = 0.6;
+    if (
+      text.includes('quality') ||
+      text.includes('error') ||
+      text.includes('defect')
+    )
+      rootCauseVector[5] = 0.7;
+    if (
+      text.includes('client') ||
+      text.includes('external') ||
+      text.includes('vendor')
+    )
+      rootCauseVector[6] = 0.5;
+
     // If no specific category detected, default to PROCESS
-    if (rootCauseVector.every((val: number) => val === 0)) {
-      rootCauseVector[0] = 0.5; // Default to PROCESS
+    if (rootCauseVector.every((val: number) => val === 0.0)) {
+      (rootCauseVector as any)[0] = 0.5; // Default to PROCESS - TypeScript strict mode bypass
     }
 
     // Generate basic department vector (5 dimensions)
-    const departmentVector: number[] = new Array(5).fill(0 as number); // [Architecture, Field Services, Project Management, Executive, Other]
+    const departmentVector: number[] = Array.from({ length: 5 }, () => 0.0); // [Architecture, Field Services, Project Management, Executive, Other]
     const deptName = signal.department?.name?.toLowerCase() || '';
-    
-    if (deptName.includes('architecture') || deptName.includes('design')) departmentVector[0] = 1.0;
-    else if (deptName.includes('field') || deptName.includes('construction')) departmentVector[1] = 1.0;
-    else if (deptName.includes('project') || deptName.includes('management')) departmentVector[2] = 1.0;
-    else if (deptName.includes('executive') || deptName.includes('leadership')) departmentVector[3] = 1.0;
+
+    if (deptName.includes('architecture') || deptName.includes('design'))
+      departmentVector[0] = 1.0;
+    else if (deptName.includes('field') || deptName.includes('construction'))
+      departmentVector[1] = 1.0;
+    else if (deptName.includes('project') || deptName.includes('management'))
+      departmentVector[2] = 1.0;
+    else if (deptName.includes('executive') || deptName.includes('leadership'))
+      departmentVector[3] = 1.0;
     else departmentVector[4] = 1.0; // Other
 
     // Create ClusteringFeatures structure
@@ -755,13 +796,22 @@ function generateBasicClusteringFeatures(signal: any): any {
         textStatistics: {
           wordCount: words.length,
           uniqueWordCount: new Set(words).size,
-          avgWordLength: words.reduce((sum: number, word: string) => sum + word.length, 0) / Math.max(words.length, 1),
+          avgWordLength:
+            words.reduce((sum: number, word: string) => sum + word.length, 0) /
+            Math.max(words.length, 1),
           textLength: textContent.length,
         },
-        semanticDensity: Math.min(new Set(words).size / Math.max(words.length, 1), 1.0),
+        semanticDensity: Math.min(
+          new Set(words).size / Math.max(words.length, 1),
+          1.0
+        ),
         contextualRelevance: 0.6,
       },
-      combinedVector: [...rootCauseVector, ...departmentVector, ...normalizedEmbedding.slice(0, 50)], // Simplified combined vector
+      combinedVector: [
+        ...rootCauseVector,
+        ...departmentVector,
+        ...normalizedEmbedding.slice(0, 50),
+      ], // Simplified combined vector
       metadata: {
         generatedOnTheFly: true,
         timestamp: new Date().toISOString(),
