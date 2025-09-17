@@ -205,8 +205,13 @@ export async function POST(request: NextRequest) {
         });
       } catch (error: any) {
         // If clustering columns don't exist, skip cache check and proceed to generate new results
-        if (error.code === 'P2022' && error.message.includes('clusteringResults')) {
-          console.log('⚠️  Hotspot clustering columns missing, skipping cache check');
+        if (
+          error.code === 'P2022' &&
+          error.message.includes('clusteringResults')
+        ) {
+          console.log(
+            '⚠️  Hotspot clustering columns missing, skipping cache check'
+          );
           existingClustering = null;
         } else {
           throw error; // Re-throw if it's a different error
@@ -395,12 +400,18 @@ export async function GET(request: NextRequest) {
       });
     } catch (error: any) {
       // If clustering columns don't exist, return appropriate message
-      if (error.code === 'P2022' && error.message.includes('clusteringResults')) {
-        console.log('⚠️  Hotspot clustering columns missing, no results available');
+      if (
+        error.code === 'P2022' &&
+        error.message.includes('clusteringResults')
+      ) {
+        console.log(
+          '⚠️  Hotspot clustering columns missing, no results available'
+        );
         return NextResponse.json({
           success: false,
           message: 'No clustering results found - schema not ready',
-          suggestion: 'Run the emergency schema fix API first: POST /api/admin/apply-schema-fix',
+          suggestion:
+            'Run the emergency schema fix API first: POST /api/admin/apply-schema-fix',
         });
       } else {
         throw error; // Re-throw if it's a different error
@@ -478,7 +489,9 @@ async function saveClusteringResults(
     } catch (dbError: any) {
       // If clustering columns don't exist, save basic hotspot without clustering fields
       if (dbError.code === 'P2022' && dbError.message.includes('clustering')) {
-        console.log('⚠️  Hotspot clustering columns missing, saving basic hotspot...');
+        console.log(
+          '⚠️  Hotspot clustering columns missing, saving basic hotspot...'
+        );
         await (prisma as any).hotspot.upsert({
           where: {
             id: 'main_hotspot_v2',
@@ -496,7 +509,9 @@ async function saveClusteringResults(
             updatedAt: new Date(),
           },
         });
-        console.log('✅ Basic hotspot saved (clustering fields will be added after schema migration)');
+        console.log(
+          '✅ Basic hotspot saved (clustering fields will be added after schema migration)'
+        );
       } else {
         throw dbError; // Re-throw if it's a different error
       }
