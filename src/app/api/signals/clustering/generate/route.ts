@@ -89,10 +89,40 @@ export async function POST(request: NextRequest) {
         );
         signals = await (prisma as any).signal.findMany({
           where: whereClause,
-          include: {
-            department: true,
-            team: true,
-            createdBy: true,
+          select: {
+            id: true,
+            title: true,
+            description: true,
+            severity: true,
+            severityScore: true,
+            departmentId: true,
+            teamId: true,
+            categoryId: true,
+            metricsJson: true,
+            impactJson: true,
+            tagsJson: true,
+            aiTagsJson: true,
+            enhancedTagsJson: true,
+            createdAt: true,
+            department: {
+              select: {
+                id: true,
+                name: true,
+              },
+            },
+            team: {
+              select: {
+                id: true,
+                name: true,
+              },
+            },
+            createdBy: {
+              select: {
+                id: true,
+                name: true,
+                email: true,
+              },
+            },
           },
           orderBy: { createdAt: 'desc' },
           take: 100,
@@ -164,13 +194,24 @@ export async function POST(request: NextRequest) {
 
     // Check for existing clustering results (unless force regenerate)
     if (!validatedRequest.forceRegenerate) {
-      const existingClustering = await (prisma as any).hotspot.findFirst({
-        where: {
-          clusteringResults: { not: null },
-          // Add timestamp check here for recent clustering
-        },
-        orderBy: { lastClusteredAt: 'desc' },
-      });
+      let existingClustering: any = null;
+      try {
+        existingClustering = await (prisma as any).hotspot.findFirst({
+          where: {
+            clusteringResults: { not: null },
+            // Add timestamp check here for recent clustering
+          },
+          orderBy: { lastClusteredAt: 'desc' },
+        });
+      } catch (error: any) {
+        // If clustering columns don't exist, skip cache check and proceed to generate new results
+        if (error.code === 'P2022' && error.message.includes('clusteringResults')) {
+          console.log('⚠️  Hotspot clustering columns missing, skipping cache check');
+          existingClustering = null;
+        } else {
+          throw error; // Re-throw if it's a different error
+        }
+      }
 
       if (existingClustering && existingClustering.clusteringResults) {
         console.log('✅ Returning cached clustering results');
@@ -336,20 +377,35 @@ export async function GET(request: NextRequest) {
       );
     }
 
-    // Get latest clustering results
-    const latestClustering = await (prisma as any).hotspot.findFirst({
-      where: {
-        clusteringResults: { not: null },
-      },
-      select: {
-        id: true,
-        clusteringResults: true,
-        lastClusteredAt: true,
-        clusteringVersion: true,
-        clusteringQualityScore: true,
-      },
-      orderBy: { lastClusteredAt: 'desc' },
-    });
+    // Get latest clustering results with schema resilience
+    let latestClustering: any = null;
+    try {
+      latestClustering = await (prisma as any).hotspot.findFirst({
+        where: {
+          clusteringResults: { not: null },
+        },
+        select: {
+          id: true,
+          clusteringResults: true,
+          lastClusteredAt: true,
+          clusteringVersion: true,
+          clusteringQualityScore: true,
+        },
+        orderBy: { lastClusteredAt: 'desc' },
+      });
+    } catch (error: any) {
+      // If clustering columns don't exist, return appropriate message
+      if (error.code === 'P2022' && error.message.includes('clusteringResults')) {
+        console.log('⚠️  Hotspot clustering columns missing, no results available');
+        return NextResponse.json({
+          success: false,
+          message: 'No clustering results found - schema not ready',
+          suggestion: 'Run the emergency schema fix API first: POST /api/admin/apply-schema-fix',
+        });
+      } else {
+        throw error; // Re-throw if it's a different error
+      }
+    }
 
     if (!latestClustering) {
       return NextResponse.json({
@@ -391,34 +447,61 @@ async function saveClusteringResults(
   userId: string
 ): Promise<string> {
   try {
-    // Create or update hotspot with clustering results
-    await (prisma as any).hotspot.upsert({
-      where: {
-        // Use a composite key or create a standard hotspot ID
-        id: 'main_hotspot_v2',
-      },
-      create: {
-        id: 'main_hotspot_v2',
-        title: 'Executive Intelligence Clusters',
-        description: `${result.outputClusterCount} actionable business intelligence clusters`,
-        signalIds: signalIds,
-        clusteringResults: result,
-        lastClusteredAt: new Date(),
-        clusteringVersion: result.version,
-        clusteringQualityScore: result.overallQuality,
-        createdAt: new Date(),
-      },
-      update: {
-        signalIds: signalIds,
-        clusteringResults: result,
-        lastClusteredAt: new Date(),
-        clusteringVersion: result.version,
-        clusteringQualityScore: result.overallQuality,
-        updatedAt: new Date(),
-      },
-    });
+    // Try to create or update hotspot with clustering results
+    try {
+      await (prisma as any).hotspot.upsert({
+        where: {
+          // Use a composite key or create a standard hotspot ID
+          id: 'main_hotspot_v2',
+        },
+        create: {
+          id: 'main_hotspot_v2',
+          title: 'Executive Intelligence Clusters',
+          description: `${result.outputClusterCount} actionable business intelligence clusters`,
+          signalIds: signalIds,
+          clusteringResults: result,
+          lastClusteredAt: new Date(),
+          clusteringVersion: result.version,
+          clusteringQualityScore: result.overallQuality,
+          createdAt: new Date(),
+        },
+        update: {
+          signalIds: signalIds,
+          clusteringResults: result,
+          lastClusteredAt: new Date(),
+          clusteringVersion: result.version,
+          clusteringQualityScore: result.overallQuality,
+          updatedAt: new Date(),
+        },
+      });
+      console.log('✅ Clustering results saved to database');
+    } catch (dbError: any) {
+      // If clustering columns don't exist, save basic hotspot without clustering fields
+      if (dbError.code === 'P2022' && dbError.message.includes('clustering')) {
+        console.log('⚠️  Hotspot clustering columns missing, saving basic hotspot...');
+        await (prisma as any).hotspot.upsert({
+          where: {
+            id: 'main_hotspot_v2',
+          },
+          create: {
+            id: 'main_hotspot_v2',
+            title: 'Executive Intelligence Clusters',
+            description: `${result.outputClusterCount} actionable business intelligence clusters`,
+            signalIds: signalIds,
+            createdAt: new Date(),
+          },
+          update: {
+            signalIds: signalIds,
+            description: `${result.outputClusterCount} actionable business intelligence clusters`,
+            updatedAt: new Date(),
+          },
+        });
+        console.log('✅ Basic hotspot saved (clustering fields will be added after schema migration)');
+      } else {
+        throw dbError; // Re-throw if it's a different error
+      }
+    }
 
-    console.log('✅ Clustering results saved to database');
     return 'main_hotspot_v2';
   } catch (error) {
     console.error('Failed to save clustering results:', error);
