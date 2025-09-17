@@ -106,8 +106,22 @@ export function HotspotIntelligenceDashboard() {
         console.log('🔍 Result object:', data.result);
 
         if (data.success && data.result) {
-          setClusteringResults(data.result);
-          generateExecutiveMetrics(data.result);
+          // Map the hybrid clustering results to the expected ClusteringResults interface
+          const mappedResults: ClusteringResults = {
+            success: data.result.success || true,
+            inputSignalCount: data.result.inputSignalCount || 0,
+            outputClusterCount: data.result.outputClusterCount || 0,
+            clusteringEfficiency: data.result.clusteringEfficiency || 1.0,
+            businessRelevanceScore: data.result.businessRelevanceScore || 0,
+            executiveActionability: data.result.executiveActionability || 0,
+            finalClusters: data.result.finalClusters || [],
+            processingTime: data.result.processingTime || 0,
+            lastGenerated: data.result.generatedAt || new Date().toISOString(),
+          };
+
+          console.log('🔄 Mapped clustering results:', mappedResults);
+          setClusteringResults(mappedResults);
+          generateExecutiveMetrics(mappedResults);
           console.log('✅ Clustering results loaded successfully');
         } else {
           console.warn('⚠️ API response missing success or result:', data);

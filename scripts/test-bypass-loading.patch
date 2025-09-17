@@ -1,0 +1,17 @@
+// Temporary patch to bypass loading condition for testing
+// This will help us see if the component can render the actual content
+
+// In hotspot-intelligence-dashboard.tsx, replace:
+if (status === 'loading' || loading) {
+  return <IntelligenceDashboardSkeleton />;
+}
+
+// With:
+if (false) { // Temporarily bypass loading check
+  return <IntelligenceDashboardSkeleton />;
+}
+
+// This will force the component to render the actual dashboard content
+// even during loading states, helping us identify if the issue is:
+// 1. Loading state logic (if content appears)
+// 2. Data rendering logic (if content still doesn't appear)
