@@ -83,31 +83,107 @@ export function HotspotIntelligenceDashboard() {
 
   const loadClusteringResults = useCallback(async () => {
     try {
+      console.log('🔍 Loading clustering results...');
       setLoading(true);
       const response = await fetch('/api/signals/clustering/generate');
 
+      console.log(`📊 API Response status: ${response.status}`);
+
       if (response.ok) {
         const data = await response.json();
+        console.log('📋 API Response data:', {
+          success: data.success,
+          hasResult: !!data.result,
+          resultType: typeof data.result,
+          finalClusters: data.result?.finalClusters?.length || 0,
+        });
+
         if (data.success && data.result) {
           setClusteringResults(data.result);
           generateExecutiveMetrics(data.result);
+          console.log('✅ Clustering results loaded successfully');
+        } else {
+          console.warn('⚠️ API response missing success or result:', data);
+          // Set empty results to avoid infinite loading
+          setClusteringResults({
+            success: false,
+            inputSignalCount: 0,
+            outputClusterCount: 0,
+            clusteringEfficiency: 0,
+            businessRelevanceScore: 0,
+            executiveActionability: 0,
+            finalClusters: [],
+            processingTime: 0,
+            lastGenerated: new Date().toISOString(),
+          });
         }
+      } else {
+        const errorText = await response.text();
+        console.error(
+          `❌ API Error: ${response.status} ${response.statusText}`,
+          errorText
+        );
+        // Set empty results to avoid infinite loading
+        setClusteringResults({
+          success: false,
+          inputSignalCount: 0,
+          outputClusterCount: 0,
+          clusteringEfficiency: 0,
+          businessRelevanceScore: 0,
+          executiveActionability: 0,
+          finalClusters: [],
+          processingTime: 0,
+          lastGenerated: new Date().toISOString(),
+        });
       }
     } catch (error) {
-      console.error('Failed to load clustering results:', error);
+      console.error('❌ Failed to load clustering results:', error);
+      // Set empty results to avoid infinite loading
+      setClusteringResults({
+        success: false,
+        inputSignalCount: 0,
+        outputClusterCount: 0,
+        clusteringEfficiency: 0,
+        businessRelevanceScore: 0,
+        executiveActionability: 0,
+        finalClusters: [],
+        processingTime: 0,
+        lastGenerated: new Date().toISOString(),
+      });
     } finally {
+      console.log('🔚 Setting loading to false');
       setLoading(false);
     }
   }, []);
 
   useEffect(() => {
+    console.log(`🔐 Auth status: ${status}`);
     if (status === 'authenticated') {
+      console.log('✅ User authenticated, loading clustering results...');
       loadClusteringResults();
+    } else if (status === 'unauthenticated') {
+      console.log('❌ User not authenticated');
+      setLoading(false);
     }
   }, [status, loadClusteringResults]);
 
   const generateExecutiveMetrics = (results: ClusteringResults) => {
+    console.log('📊 Generating executive metrics from results:', results);
     const clusters = results.finalClusters || [];
+
+    if (clusters.length === 0) {
+      console.log('⚠️ No clusters found, setting empty metrics');
+      const emptyMetrics: ExecutiveMetrics = {
+        totalClusters: 0,
+        criticalClusters: 0,
+        readyForAction: 0,
+        avgBusinessRelevance: 0,
+        estimatedTotalCost: 0,
+        highestImpactCluster: 'No clusters available',
+      };
+      setMetrics(emptyMetrics);
+      return;
+    }
 
     const metrics: ExecutiveMetrics = {
       totalClusters: clusters.length,
@@ -130,6 +206,7 @@ export function HotspotIntelligenceDashboard() {
         )[0]?.name || 'N/A',
     };
 
+    console.log('📈 Generated metrics:', metrics);
     setMetrics(metrics);
   };
 
