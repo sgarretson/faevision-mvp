@@ -1,9 +1,7 @@
-import { Suspense } from 'react';
 import { HotspotIntelligenceDashboard } from '@/components/hotspots/hotspot-intelligence-dashboard';
 
 // Force dynamic rendering to prevent build-time database calls
 export const dynamic = 'force-dynamic';
-import { HotspotSkeleton } from '@/components/hotspots/hotspot-skeleton';
 
 /**
  * Executive Hotspot Dashboard Page
@@ -51,9 +49,7 @@ export default function HotspotsPage() {
 
       {/* Main Dashboard */}
       <div className="mx-auto max-w-7xl px-4 py-8 sm:px-6 lg:px-8">
-        <Suspense fallback={<HotspotSkeleton />}>
-          <HotspotIntelligenceDashboard />
-        </Suspense>
+        <HotspotIntelligenceDashboard />
       </div>
     </div>
   );
