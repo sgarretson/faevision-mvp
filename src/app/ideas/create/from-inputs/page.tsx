@@ -286,7 +286,7 @@ function CreateIdeaFromInputsContent() {
                           Common Themes:
                         </h4>
                         <div className="mt-1 flex flex-wrap gap-1">
-                          {aiAnalysis.commonThemes.map((theme) => (
+                          {aiAnalysis.commonThemes.map(theme => (
                             <Badge
                               key={theme}
                               variant="outline"
@@ -432,18 +432,22 @@ function CreateIdeaFromInputsContent() {
 
 export default function CreateIdeaFromInputsPage() {
   return (
-    <Suspense fallback={
-      <div className="min-h-screen bg-gray-50 py-8">
-        <div className="mx-auto max-w-4xl px-4 sm:px-6 lg:px-8">
-          <div className="flex items-center justify-center h-64">
-            <div className="flex items-center space-x-3">
-              <div className="h-8 w-8 animate-spin rounded-full border-2 border-blue-600 border-t-transparent" />
-              <span className="text-lg text-gray-600">Loading idea creation form...</span>
+    <Suspense
+      fallback={
+        <div className="min-h-screen bg-gray-50 py-8">
+          <div className="mx-auto max-w-4xl px-4 sm:px-6 lg:px-8">
+            <div className="flex h-64 items-center justify-center">
+              <div className="flex items-center space-x-3">
+                <div className="h-8 w-8 animate-spin rounded-full border-2 border-blue-600 border-t-transparent" />
+                <span className="text-lg text-gray-600">
+                  Loading idea creation form...
+                </span>
+              </div>
             </div>
           </div>
         </div>
-      </div>
-    }>
+      }
+    >
       <CreateIdeaFromInputsContent />
     </Suspense>
   );

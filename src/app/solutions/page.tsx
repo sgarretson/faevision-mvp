@@ -23,9 +23,9 @@ interface Solution {
   title: string;
   description: string;
   status: 'PLANNING' | 'ACTIVE' | 'ON_HOLD' | 'COMPLETED' | 'CANCELLED';
-  priority: 'LOW' | 'MEDIUM' | 'HIGH';
-  impact: 'LOW' | 'MEDIUM' | 'HIGH';
-  estimatedHours?: number;
+  progress: number;
+  estimatedEffort?: string;
+  businessValue?: string;
   targetDate?: string;
   createdAt: string;
   creator: {
@@ -35,16 +35,24 @@ interface Solution {
     role: string;
     department?: string;
   };
-  inputs: Array<{
+  input?: {
     id: string;
     title: string;
-    type: string;
-    priority: string;
-    department?: string;
-  }>;
-  _count: {
-    tasks: number;
-    comments: number;
+    description: string;
+  };
+  hotspot?: {
+    id: string;
+    title: string;
+    summary: string;
+    confidence: number;
+    _count: {
+      signals: number;
+    };
+  };
+  initiative?: {
+    id: string;
+    name: string;
+    description: string;
   };
 }
 
@@ -63,17 +71,6 @@ const STATUS_COLORS = {
   CANCELLED: 'bg-red-100 text-red-800',
 };
 
-const PRIORITY_COLORS = {
-  LOW: 'bg-gray-100 text-gray-800',
-  MEDIUM: 'bg-blue-100 text-blue-800',
-  HIGH: 'bg-red-100 text-red-800',
-};
-
-const IMPACT_COLORS = {
-  LOW: 'bg-gray-100 text-gray-800',
-  MEDIUM: 'bg-yellow-100 text-yellow-800',
-  HIGH: 'bg-orange-100 text-orange-800',
-};
 
 const STATUS_ICONS = {
   PLANNING: '📝',
@@ -92,8 +89,6 @@ export default function SolutionsPage() {
 
   // Filters
   const [statusFilter, setStatusFilter] = useState<string>('');
-  const [priorityFilter, setPriorityFilter] = useState<string>('');
-  const [impactFilter, setImpactFilter] = useState<string>('');
   const [searchQuery, setSearchQuery] = useState<string>('');
 
   const fetchSolutions = useCallback(async () => {
@@ -109,8 +104,6 @@ export default function SolutionsPage() {
 
       const params = new URLSearchParams();
       if (statusFilter) params.append('status', statusFilter);
-      if (priorityFilter) params.append('priority', priorityFilter);
-      if (impactFilter) params.append('impact', impactFilter);
 
       const response = await fetch(`/api/solutions?${params}`);
       const data = await response.json();
@@ -128,7 +121,7 @@ export default function SolutionsPage() {
     } finally {
       setIsLoading(false);
     }
-  }, [statusFilter, priorityFilter, impactFilter, session, status]);
+  }, [statusFilter, session, status]);
 
   useEffect(() => {
     fetchSolutions();
@@ -260,29 +253,6 @@ export default function SolutionsPage() {
                 <option value="CANCELLED">Cancelled</option>
               </select>
 
-              {/* Priority Filter */}
-              <select
-                value={priorityFilter}
-                onChange={e => setPriorityFilter(e.target.value)}
-                className="border-input bg-background ring-offset-background focus:ring-ring flex h-10 w-full rounded-md border px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-offset-2 lg:w-48"
-              >
-                <option value="">All Priorities</option>
-                <option value="LOW">Low Priority</option>
-                <option value="MEDIUM">Medium Priority</option>
-                <option value="HIGH">High Priority</option>
-              </select>
-
-              {/* Impact Filter */}
-              <select
-                value={impactFilter}
-                onChange={e => setImpactFilter(e.target.value)}
-                className="border-input bg-background ring-offset-background focus:ring-ring flex h-10 w-full rounded-md border px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-offset-2 lg:w-48"
-              >
-                <option value="">All Impact Levels</option>
-                <option value="LOW">Low Impact</option>
-                <option value="MEDIUM">Medium Impact</option>
-                <option value="HIGH">High Impact</option>
-              </select>
             </div>
           </CardContent>
         </Card>
@@ -307,10 +277,7 @@ export default function SolutionsPage() {
                       No solutions found
                     </h3>
                     <p className="mt-2 text-gray-600">
-                      {searchQuery ||
-                      statusFilter ||
-                      priorityFilter ||
-                      impactFilter
+                      {searchQuery || statusFilter
                         ? 'Try adjusting your filters or search query.'
                         : 'Get started by creating your first solution from strategic inputs.'}
                     </p>
@@ -358,35 +325,54 @@ export default function SolutionsPage() {
                           <Badge className={STATUS_COLORS[solution.status]}>
                             {solution.status}
                           </Badge>
-                          <Badge className={PRIORITY_COLORS[solution.priority]}>
-                            {solution.priority} Priority
-                          </Badge>
-                          <Badge className={IMPACT_COLORS[solution.impact]}>
-                            {solution.impact} Impact
-                          </Badge>
-                          {solution.estimatedHours && (
+                          {solution.progress > 0 && (
                             <Badge variant="outline">
-                              {solution.estimatedHours}h estimated
+                              {Math.round(solution.progress)}% complete
+                            </Badge>
+                          )}
+                          {solution.estimatedEffort && (
+                            <Badge variant="outline">
+                              Effort: {solution.estimatedEffort}
+                            </Badge>
+                          )}
+                          {solution.businessValue && (
+                            <Badge variant="outline">
+                              Value: {solution.businessValue}
                             </Badge>
                           )}
                         </div>
 
-                        {/* Connected Inputs */}
-                        {solution.inputs.length > 0 && (
+                        {/* Connected Sources */}
+                        {(solution.input || solution.hotspot || solution.initiative) && (
                           <div className="mt-3">
                             <p className="mb-1 text-xs text-gray-500">
-                              Connected Inputs:
+                              Connected Sources:
                             </p>
                             <div className="flex flex-wrap gap-1">
-                              {solution.inputs.map(input => (
+                              {solution.input && (
                                 <Badge
-                                  key={input.id}
                                   variant="outline"
                                   className="text-xs"
                                 >
-                                  {input.title}
+                                  Input: {solution.input.title}
                                 </Badge>
-                              ))}
+                              )}
+                              {solution.hotspot && (
+                                <Badge
+                                  variant="outline"
+                                  className="text-xs"
+                                >
+                                  Hotspot: {solution.hotspot.title}
+                                </Badge>
+                              )}
+                              {solution.initiative && (
+                                <Badge
+                                  variant="outline"
+                                  className="text-xs"
+                                >
+                                  Initiative: {solution.initiative.name}
+                                </Badge>
+                              )}
                             </div>
                           </div>
                         )}
@@ -401,10 +387,12 @@ export default function SolutionsPage() {
 
                       <div className="mt-4 flex items-center space-x-4 lg:ml-6 lg:mt-0">
                         <div className="flex items-center space-x-4 text-sm text-gray-600">
-                          <div className="flex items-center space-x-1">
-                            <Users className="h-4 w-4" />
-                            <span>{solution._count.tasks} tasks</span>
-                          </div>
+                          {solution.hotspot?._count?.signals && (
+                            <div className="flex items-center space-x-1">
+                              <Users className="h-4 w-4" />
+                              <span>{solution.hotspot._count.signals} signals</span>
+                            </div>
+                          )}
                           <div className="flex items-center space-x-1">
                             <Clock className="h-4 w-4" />
                             <span>{formatTimeAgo(solution.createdAt)}</span>
