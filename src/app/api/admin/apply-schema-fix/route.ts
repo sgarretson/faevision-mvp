@@ -1,7 +1,7 @@
 /**
  * EMERGENCY Schema Fix API
  * Expert: Morgan Smith (Database Architect) + Jordan Kim (Vercel Engineer)
- * 
+ *
  * Manually apply clustering features migration when automatic migration fails
  * Route: POST /api/admin/apply-schema-fix
  */
@@ -56,7 +56,7 @@ export async function POST(request: NextRequest) {
       return NextResponse.json({
         success: true,
         message: 'Schema columns already exist - no fix needed',
-        timestamp: new Date().toISOString()
+        timestamp: new Date().toISOString(),
       });
     }
 
@@ -89,35 +89,35 @@ export async function POST(request: NextRequest) {
         LEFT JOIN hotspots h ON true
         LIMIT 1
       `;
-      
+
       return NextResponse.json({
         success: true,
-        message: 'Schema columns added successfully - AI analysis should now work',
+        message:
+          'Schema columns added successfully - AI analysis should now work',
         applied: [
           'signals.clusteringFeaturesJson',
-          'signals.lastFeaturesGeneratedAt', 
+          'signals.lastFeaturesGeneratedAt',
           'signals.featuresVersion',
           'signals.featuresQualityScore',
           'hotspots.clusteringResults',
           'hotspots.lastClusteredAt',
           'hotspots.clusteringVersion',
-          'hotspots.clusteringQualityScore'
+          'hotspots.clusteringQualityScore',
         ],
-        timestamp: new Date().toISOString()
+        timestamp: new Date().toISOString(),
       });
     } catch (verifyError) {
       throw new Error(`Schema fix failed verification: ${verifyError}`);
     }
-
   } catch (error: any) {
     console.error('❌ Schema fix failed:', error);
-    
+
     return NextResponse.json(
       {
         error: 'Schema fix failed',
         message: error.message,
         code: error.code,
-        timestamp: new Date().toISOString()
+        timestamp: new Date().toISOString(),
       },
       { status: 500 }
     );
