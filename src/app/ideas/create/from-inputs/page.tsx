@@ -1,8 +1,7 @@
 'use client';
 
-import { useState, useEffect, useCallback, useMemo } from 'react';
+import { useState, useEffect, useCallback, useMemo, Suspense } from 'react';
 import { useRouter, useSearchParams } from 'next/navigation';
-import { useSession } from 'next-auth/react';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Input } from '@/components/ui/input';
@@ -13,8 +12,6 @@ import {
   ArrowLeft,
   Lightbulb,
   Target,
-  Users,
-  TrendingUp,
   AlertCircle,
   Sparkles,
   CheckCircle,
@@ -57,10 +54,9 @@ interface AIAnalysis {
   confidenceScore: number;
 }
 
-export default function CreateIdeaFromInputsPage() {
+function CreateIdeaFromInputsContent() {
   const router = useRouter();
   const searchParams = useSearchParams();
-  const { data: session } = useSession();
 
   const [selectedInputs, setSelectedInputs] = useState<StrategicInput[]>([]);
   const [ideaTitle, setIdeaTitle] = useState('');
@@ -280,18 +276,19 @@ export default function CreateIdeaFromInputsPage() {
                   </CardTitle>
                 </CardHeader>
                 <CardContent>
-                  {isAnalyzing ? (
+                  {isAnalyzing && (
                     <p className="text-gray-600">Analyzing input patterns...</p>
-                  ) : aiAnalysis ? (
+                  )}
+                  {!isAnalyzing && aiAnalysis && (
                     <div className="space-y-3">
                       <div>
                         <h4 className="font-medium text-gray-900">
                           Common Themes:
                         </h4>
                         <div className="mt-1 flex flex-wrap gap-1">
-                          {aiAnalysis.commonThemes.map((theme, index) => (
+                          {aiAnalysis.commonThemes.map((theme) => (
                             <Badge
-                              key={index}
+                              key={theme}
                               variant="outline"
                               className="text-xs"
                             >
@@ -327,7 +324,7 @@ export default function CreateIdeaFromInputsPage() {
                         </div>
                       </div>
                     </div>
-                  ) : null}
+                  )}
                 </CardContent>
               </Card>
             )}
@@ -430,5 +427,24 @@ export default function CreateIdeaFromInputsPage() {
         </div>
       </div>
     </div>
+  );
+}
+
+export default function CreateIdeaFromInputsPage() {
+  return (
+    <Suspense fallback={
+      <div className="min-h-screen bg-gray-50 py-8">
+        <div className="mx-auto max-w-4xl px-4 sm:px-6 lg:px-8">
+          <div className="flex items-center justify-center h-64">
+            <div className="flex items-center space-x-3">
+              <div className="h-8 w-8 animate-spin rounded-full border-2 border-blue-600 border-t-transparent" />
+              <span className="text-lg text-gray-600">Loading idea creation form...</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    }>
+      <CreateIdeaFromInputsContent />
+    </Suspense>
   );
 }
