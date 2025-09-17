@@ -132,15 +132,32 @@ export async function POST(request: NextRequest) {
       }
     }
 
+    // If no signals with existing clustering features, get all signals for on-the-fly processing
     if (signals.length === 0) {
-      return NextResponse.json(
-        {
-          error: 'No signals with clustering features found',
-          suggestion:
-            'Generate clustering features first using /api/signals/[id]/generate-features',
-        },
-        { status: 400 }
+      console.log(
+        '⚠️  No signals with pre-generated clustering features, loading all signals for on-the-fly processing...'
       );
+      signals = await (prisma as any).signal.findMany({
+        where: whereClause,
+        include: {
+          department: true,
+          team: true,
+          createdBy: true,
+        },
+        orderBy: { createdAt: 'desc' },
+        take: 100, // Limit to prevent overwhelming the system
+      });
+
+      if (signals.length === 0) {
+        return NextResponse.json(
+          {
+            error: 'No signals found in database',
+            suggestion:
+              'Create some signals first before running clustering analysis',
+          },
+          { status: 400 }
+        );
+      }
     }
 
     if (signals.length < 2) {
@@ -798,12 +815,15 @@ function generateBasicClusteringFeatures(signal: any): any {
         descriptionEmbedding: normalizedEmbedding.slice(256, 512), // Next 256 dimensions for description
         businessContextVector: normalizedEmbedding.slice(0, 128), // First 128 dimensions for business context
         domainTerminologyVector: normalizedEmbedding.slice(384, 512), // Last 128 dimensions for domain terms
-        
+
         // Semantic metrics
-        textComplexity: Math.min(words.length / Math.max(textContent.length, 1) * 100, 1.0),
+        textComplexity: Math.min(
+          (words.length / Math.max(textContent.length, 1)) * 100,
+          1.0
+        ),
         domainTerminologyDensity: 0.6,
         businessContextDensity: 0.5,
-        
+
         // Text statistics for backward compatibility
         textStatistics: {
           wordCount: words.length,

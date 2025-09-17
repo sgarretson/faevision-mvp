@@ -456,6 +456,22 @@ exports.Prisma.AIAnalysisAuditScalarFieldEnum = {
   createdAt: 'createdAt'
 };
 
+exports.Prisma.AIInsightOverrideScalarFieldEnum = {
+  id: 'id',
+  signalId: 'signalId',
+  insightId: 'insightId',
+  insightType: 'insightType',
+  originalRecommendation: 'originalRecommendation',
+  overrideReason: 'overrideReason',
+  executiveJustification: 'executiveJustification',
+  newValue: 'newValue',
+  executiveId: 'executiveId',
+  executiveName: 'executiveName',
+  executiveEmail: 'executiveEmail',
+  overriddenAt: 'overriddenAt',
+  createdAt: 'createdAt'
+};
+
 exports.Prisma.NotificationScalarFieldEnum = {
   id: 'id',
   type: 'type',
@@ -628,6 +644,7 @@ exports.Prisma.ModelName = {
   InputGroup: 'InputGroup',
   AuditLog: 'AuditLog',
   AIAnalysisAudit: 'AIAnalysisAudit',
+  AIInsightOverride: 'AIInsightOverride',
   Notification: 'Notification'
 };
 

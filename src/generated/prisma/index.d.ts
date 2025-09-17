@@ -104,6 +104,11 @@ export type AuditLog = $Result.DefaultSelection<Prisma.$AuditLogPayload>
  */
 export type AIAnalysisAudit = $Result.DefaultSelection<Prisma.$AIAnalysisAuditPayload>
 /**
+ * Model AIInsightOverride
+ * 
+ */
+export type AIInsightOverride = $Result.DefaultSelection<Prisma.$AIInsightOverridePayload>
+/**
  * Model Notification
  * 
  */
@@ -621,6 +626,16 @@ export class PrismaClient<
   get aIAnalysisAudit(): Prisma.AIAnalysisAuditDelegate<ExtArgs, ClientOptions>;
 
   /**
+   * `prisma.aIInsightOverride`: Exposes CRUD operations for the **AIInsightOverride** model.
+    * Example usage:
+    * ```ts
+    * // Fetch zero or more AIInsightOverrides
+    * const aIInsightOverrides = await prisma.aIInsightOverride.findMany()
+    * ```
+    */
+  get aIInsightOverride(): Prisma.AIInsightOverrideDelegate<ExtArgs, ClientOptions>;
+
+  /**
    * `prisma.notification`: Exposes CRUD operations for the **Notification** model.
     * Example usage:
     * ```ts
@@ -1087,6 +1102,7 @@ export namespace Prisma {
     InputGroup: 'InputGroup',
     AuditLog: 'AuditLog',
     AIAnalysisAudit: 'AIAnalysisAudit',
+    AIInsightOverride: 'AIInsightOverride',
     Notification: 'Notification'
   };
 
@@ -1106,7 +1122,7 @@ export namespace Prisma {
       omit: GlobalOmitOptions
     }
     meta: {
-      modelProps: "user" | "department" | "team" | "initiative" | "category" | "signal" | "hotspot" | "hotspotSignal" | "idea" | "input" | "solution" | "requirement" | "fRDDocument" | "comment" | "vote" | "inputGroup" | "auditLog" | "aIAnalysisAudit" | "notification"
+      modelProps: "user" | "department" | "team" | "initiative" | "category" | "signal" | "hotspot" | "hotspotSignal" | "idea" | "input" | "solution" | "requirement" | "fRDDocument" | "comment" | "vote" | "inputGroup" | "auditLog" | "aIAnalysisAudit" | "aIInsightOverride" | "notification"
       txIsolationLevel: Prisma.TransactionIsolationLevel
     }
     model: {
@@ -2442,6 +2458,80 @@ export namespace Prisma {
           }
         }
       }
+      AIInsightOverride: {
+        payload: Prisma.$AIInsightOverridePayload<ExtArgs>
+        fields: Prisma.AIInsightOverrideFieldRefs
+        operations: {
+          findUnique: {
+            args: Prisma.AIInsightOverrideFindUniqueArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$AIInsightOverridePayload> | null
+          }
+          findUniqueOrThrow: {
+            args: Prisma.AIInsightOverrideFindUniqueOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$AIInsightOverridePayload>
+          }
+          findFirst: {
+            args: Prisma.AIInsightOverrideFindFirstArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$AIInsightOverridePayload> | null
+          }
+          findFirstOrThrow: {
+            args: Prisma.AIInsightOverrideFindFirstOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$AIInsightOverridePayload>
+          }
+          findMany: {
+            args: Prisma.AIInsightOverrideFindManyArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$AIInsightOverridePayload>[]
+          }
+          create: {
+            args: Prisma.AIInsightOverrideCreateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$AIInsightOverridePayload>
+          }
+          createMany: {
+            args: Prisma.AIInsightOverrideCreateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          createManyAndReturn: {
+            args: Prisma.AIInsightOverrideCreateManyAndReturnArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$AIInsightOverridePayload>[]
+          }
+          delete: {
+            args: Prisma.AIInsightOverrideDeleteArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$AIInsightOverridePayload>
+          }
+          update: {
+            args: Prisma.AIInsightOverrideUpdateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$AIInsightOverridePayload>
+          }
+          deleteMany: {
+            args: Prisma.AIInsightOverrideDeleteManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          updateMany: {
+            args: Prisma.AIInsightOverrideUpdateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          updateManyAndReturn: {
+            args: Prisma.AIInsightOverrideUpdateManyAndReturnArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$AIInsightOverridePayload>[]
+          }
+          upsert: {
+            args: Prisma.AIInsightOverrideUpsertArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$AIInsightOverridePayload>
+          }
+          aggregate: {
+            args: Prisma.AIInsightOverrideAggregateArgs<ExtArgs>
+            result: $Utils.Optional<AggregateAIInsightOverride>
+          }
+          groupBy: {
+            args: Prisma.AIInsightOverrideGroupByArgs<ExtArgs>
+            result: $Utils.Optional<AIInsightOverrideGroupByOutputType>[]
+          }
+          count: {
+            args: Prisma.AIInsightOverrideCountArgs<ExtArgs>
+            result: $Utils.Optional<AIInsightOverrideCountAggregateOutputType> | number
+          }
+        }
+      }
       Notification: {
         payload: Prisma.$NotificationPayload<ExtArgs>
         fields: Prisma.NotificationFieldRefs
@@ -2630,6 +2720,7 @@ export namespace Prisma {
     inputGroup?: InputGroupOmit
     auditLog?: AuditLogOmit
     aIAnalysisAudit?: AIAnalysisAuditOmit
+    aIInsightOverride?: AIInsightOverrideOmit
     notification?: NotificationOmit
   }
 
@@ -2725,6 +2816,7 @@ export namespace Prisma {
     auditLogs: number
     aiAnalysisAudits: number
     inputGroups: number
+    aiInsightOverrides: number
     departmentManaged: number
     ledTeams: number
     teamMemberships: number
@@ -2745,6 +2837,7 @@ export namespace Prisma {
     auditLogs?: boolean | UserCountOutputTypeCountAuditLogsArgs
     aiAnalysisAudits?: boolean | UserCountOutputTypeCountAiAnalysisAuditsArgs
     inputGroups?: boolean | UserCountOutputTypeCountInputGroupsArgs
+    aiInsightOverrides?: boolean | UserCountOutputTypeCountAiInsightOverridesArgs
     departmentManaged?: boolean | UserCountOutputTypeCountDepartmentManagedArgs
     ledTeams?: boolean | UserCountOutputTypeCountLedTeamsArgs
     teamMemberships?: boolean | UserCountOutputTypeCountTeamMembershipsArgs
@@ -2857,6 +2950,13 @@ export namespace Prisma {
    */
   export type UserCountOutputTypeCountInputGroupsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     where?: InputGroupWhereInput
+  }
+
+  /**
+   * UserCountOutputType without action
+   */
+  export type UserCountOutputTypeCountAiInsightOverridesArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: AIInsightOverrideWhereInput
   }
 
   /**
@@ -3056,10 +3156,12 @@ export namespace Prisma {
 
   export type SignalCountOutputType = {
     hotspots: number
+    aiInsightOverrides: number
   }
 
   export type SignalCountOutputTypeSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     hotspots?: boolean | SignalCountOutputTypeCountHotspotsArgs
+    aiInsightOverrides?: boolean | SignalCountOutputTypeCountAiInsightOverridesArgs
   }
 
   // Custom InputTypes
@@ -3078,6 +3180,13 @@ export namespace Prisma {
    */
   export type SignalCountOutputTypeCountHotspotsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     where?: HotspotSignalWhereInput
+  }
+
+  /**
+   * SignalCountOutputType without action
+   */
+  export type SignalCountOutputTypeCountAiInsightOverridesArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: AIInsightOverrideWhereInput
   }
 
 
@@ -3613,6 +3722,7 @@ export namespace Prisma {
     auditLogs?: boolean | User$auditLogsArgs<ExtArgs>
     aiAnalysisAudits?: boolean | User$aiAnalysisAuditsArgs<ExtArgs>
     inputGroups?: boolean | User$inputGroupsArgs<ExtArgs>
+    aiInsightOverrides?: boolean | User$aiInsightOverridesArgs<ExtArgs>
     departmentManaged?: boolean | User$departmentManagedArgs<ExtArgs>
     departmentObj?: boolean | User$departmentObjArgs<ExtArgs>
     ledTeams?: boolean | User$ledTeamsArgs<ExtArgs>
@@ -3710,6 +3820,7 @@ export namespace Prisma {
     auditLogs?: boolean | User$auditLogsArgs<ExtArgs>
     aiAnalysisAudits?: boolean | User$aiAnalysisAuditsArgs<ExtArgs>
     inputGroups?: boolean | User$inputGroupsArgs<ExtArgs>
+    aiInsightOverrides?: boolean | User$aiInsightOverridesArgs<ExtArgs>
     departmentManaged?: boolean | User$departmentManagedArgs<ExtArgs>
     departmentObj?: boolean | User$departmentObjArgs<ExtArgs>
     ledTeams?: boolean | User$ledTeamsArgs<ExtArgs>
@@ -3743,6 +3854,7 @@ export namespace Prisma {
       auditLogs: Prisma.$AuditLogPayload<ExtArgs>[]
       aiAnalysisAudits: Prisma.$AIAnalysisAuditPayload<ExtArgs>[]
       inputGroups: Prisma.$InputGroupPayload<ExtArgs>[]
+      aiInsightOverrides: Prisma.$AIInsightOverridePayload<ExtArgs>[]
       departmentManaged: Prisma.$DepartmentPayload<ExtArgs>[]
       departmentObj: Prisma.$DepartmentPayload<ExtArgs> | null
       ledTeams: Prisma.$TeamPayload<ExtArgs>[]
@@ -4178,6 +4290,7 @@ export namespace Prisma {
     auditLogs<T extends User$auditLogsArgs<ExtArgs> = {}>(args?: Subset<T, User$auditLogsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$AuditLogPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
     aiAnalysisAudits<T extends User$aiAnalysisAuditsArgs<ExtArgs> = {}>(args?: Subset<T, User$aiAnalysisAuditsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$AIAnalysisAuditPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
     inputGroups<T extends User$inputGroupsArgs<ExtArgs> = {}>(args?: Subset<T, User$inputGroupsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$InputGroupPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+    aiInsightOverrides<T extends User$aiInsightOverridesArgs<ExtArgs> = {}>(args?: Subset<T, User$aiInsightOverridesArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$AIInsightOverridePayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
     departmentManaged<T extends User$departmentManagedArgs<ExtArgs> = {}>(args?: Subset<T, User$departmentManagedArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$DepartmentPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
     departmentObj<T extends User$departmentObjArgs<ExtArgs> = {}>(args?: Subset<T, User$departmentObjArgs<ExtArgs>>): Prisma__DepartmentClient<$Result.GetResult<Prisma.$DepartmentPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
     ledTeams<T extends User$ledTeamsArgs<ExtArgs> = {}>(args?: Subset<T, User$ledTeamsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$TeamPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
@@ -4979,6 +5092,30 @@ export namespace Prisma {
     take?: number
     skip?: number
     distinct?: InputGroupScalarFieldEnum | InputGroupScalarFieldEnum[]
+  }
+
+  /**
+   * User.aiInsightOverrides
+   */
+  export type User$aiInsightOverridesArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the AIInsightOverride
+     */
+    select?: AIInsightOverrideSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the AIInsightOverride
+     */
+    omit?: AIInsightOverrideOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: AIInsightOverrideInclude<ExtArgs> | null
+    where?: AIInsightOverrideWhereInput
+    orderBy?: AIInsightOverrideOrderByWithRelationInput | AIInsightOverrideOrderByWithRelationInput[]
+    cursor?: AIInsightOverrideWhereUniqueInput
+    take?: number
+    skip?: number
+    distinct?: AIInsightOverrideScalarFieldEnum | AIInsightOverrideScalarFieldEnum[]
   }
 
   /**
@@ -10795,6 +10932,7 @@ export namespace Prisma {
     category?: boolean | Signal$categoryArgs<ExtArgs>
     createdBy?: boolean | Signal$createdByArgs<ExtArgs>
     hotspots?: boolean | Signal$hotspotsArgs<ExtArgs>
+    aiInsightOverrides?: boolean | Signal$aiInsightOverridesArgs<ExtArgs>
     _count?: boolean | SignalCountOutputTypeDefaultArgs<ExtArgs>
   }, ExtArgs["result"]["signal"]>
 
@@ -10945,6 +11083,7 @@ export namespace Prisma {
     category?: boolean | Signal$categoryArgs<ExtArgs>
     createdBy?: boolean | Signal$createdByArgs<ExtArgs>
     hotspots?: boolean | Signal$hotspotsArgs<ExtArgs>
+    aiInsightOverrides?: boolean | Signal$aiInsightOverridesArgs<ExtArgs>
     _count?: boolean | SignalCountOutputTypeDefaultArgs<ExtArgs>
   }
   export type SignalIncludeCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
@@ -10968,6 +11107,7 @@ export namespace Prisma {
       category: Prisma.$CategoryPayload<ExtArgs> | null
       createdBy: Prisma.$UserPayload<ExtArgs> | null
       hotspots: Prisma.$HotspotSignalPayload<ExtArgs>[]
+      aiInsightOverrides: Prisma.$AIInsightOverridePayload<ExtArgs>[]
     }
     scalars: $Extensions.GetPayloadResult<{
       id: string
@@ -11410,6 +11550,7 @@ export namespace Prisma {
     category<T extends Signal$categoryArgs<ExtArgs> = {}>(args?: Subset<T, Signal$categoryArgs<ExtArgs>>): Prisma__CategoryClient<$Result.GetResult<Prisma.$CategoryPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
     createdBy<T extends Signal$createdByArgs<ExtArgs> = {}>(args?: Subset<T, Signal$createdByArgs<ExtArgs>>): Prisma__UserClient<$Result.GetResult<Prisma.$UserPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
     hotspots<T extends Signal$hotspotsArgs<ExtArgs> = {}>(args?: Subset<T, Signal$hotspotsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$HotspotSignalPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+    aiInsightOverrides<T extends Signal$aiInsightOverridesArgs<ExtArgs> = {}>(args?: Subset<T, Signal$aiInsightOverridesArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$AIInsightOverridePayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
     /**
      * Attaches callbacks for the resolution and/or rejection of the Promise.
      * @param onfulfilled The callback to execute when the Promise is resolved.
@@ -11973,6 +12114,30 @@ export namespace Prisma {
     take?: number
     skip?: number
     distinct?: HotspotSignalScalarFieldEnum | HotspotSignalScalarFieldEnum[]
+  }
+
+  /**
+   * Signal.aiInsightOverrides
+   */
+  export type Signal$aiInsightOverridesArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the AIInsightOverride
+     */
+    select?: AIInsightOverrideSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the AIInsightOverride
+     */
+    omit?: AIInsightOverrideOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: AIInsightOverrideInclude<ExtArgs> | null
+    where?: AIInsightOverrideWhereInput
+    orderBy?: AIInsightOverrideOrderByWithRelationInput | AIInsightOverrideOrderByWithRelationInput[]
+    cursor?: AIInsightOverrideWhereUniqueInput
+    take?: number
+    skip?: number
+    distinct?: AIInsightOverrideScalarFieldEnum | AIInsightOverrideScalarFieldEnum[]
   }
 
   /**
@@ -26753,6 +26918,1168 @@ export namespace Prisma {
 
 
   /**
+   * Model AIInsightOverride
+   */
+
+  export type AggregateAIInsightOverride = {
+    _count: AIInsightOverrideCountAggregateOutputType | null
+    _min: AIInsightOverrideMinAggregateOutputType | null
+    _max: AIInsightOverrideMaxAggregateOutputType | null
+  }
+
+  export type AIInsightOverrideMinAggregateOutputType = {
+    id: string | null
+    signalId: string | null
+    insightId: string | null
+    insightType: string | null
+    overrideReason: string | null
+    executiveJustification: string | null
+    executiveId: string | null
+    executiveName: string | null
+    executiveEmail: string | null
+    overriddenAt: Date | null
+    createdAt: Date | null
+  }
+
+  export type AIInsightOverrideMaxAggregateOutputType = {
+    id: string | null
+    signalId: string | null
+    insightId: string | null
+    insightType: string | null
+    overrideReason: string | null
+    executiveJustification: string | null
+    executiveId: string | null
+    executiveName: string | null
+    executiveEmail: string | null
+    overriddenAt: Date | null
+    createdAt: Date | null
+  }
+
+  export type AIInsightOverrideCountAggregateOutputType = {
+    id: number
+    signalId: number
+    insightId: number
+    insightType: number
+    originalRecommendation: number
+    overrideReason: number
+    executiveJustification: number
+    newValue: number
+    executiveId: number
+    executiveName: number
+    executiveEmail: number
+    overriddenAt: number
+    createdAt: number
+    _all: number
+  }
+
+
+  export type AIInsightOverrideMinAggregateInputType = {
+    id?: true
+    signalId?: true
+    insightId?: true
+    insightType?: true
+    overrideReason?: true
+    executiveJustification?: true
+    executiveId?: true
+    executiveName?: true
+    executiveEmail?: true
+    overriddenAt?: true
+    createdAt?: true
+  }
+
+  export type AIInsightOverrideMaxAggregateInputType = {
+    id?: true
+    signalId?: true
+    insightId?: true
+    insightType?: true
+    overrideReason?: true
+    executiveJustification?: true
+    executiveId?: true
+    executiveName?: true
+    executiveEmail?: true
+    overriddenAt?: true
+    createdAt?: true
+  }
+
+  export type AIInsightOverrideCountAggregateInputType = {
+    id?: true
+    signalId?: true
+    insightId?: true
+    insightType?: true
+    originalRecommendation?: true
+    overrideReason?: true
+    executiveJustification?: true
+    newValue?: true
+    executiveId?: true
+    executiveName?: true
+    executiveEmail?: true
+    overriddenAt?: true
+    createdAt?: true
+    _all?: true
+  }
+
+  export type AIInsightOverrideAggregateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which AIInsightOverride to aggregate.
+     */
+    where?: AIInsightOverrideWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of AIInsightOverrides to fetch.
+     */
+    orderBy?: AIInsightOverrideOrderByWithRelationInput | AIInsightOverrideOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the start position
+     */
+    cursor?: AIInsightOverrideWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` AIInsightOverrides from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` AIInsightOverrides.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Count returned AIInsightOverrides
+    **/
+    _count?: true | AIInsightOverrideCountAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the minimum value
+    **/
+    _min?: AIInsightOverrideMinAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the maximum value
+    **/
+    _max?: AIInsightOverrideMaxAggregateInputType
+  }
+
+  export type GetAIInsightOverrideAggregateType<T extends AIInsightOverrideAggregateArgs> = {
+        [P in keyof T & keyof AggregateAIInsightOverride]: P extends '_count' | 'count'
+      ? T[P] extends true
+        ? number
+        : GetScalarType<T[P], AggregateAIInsightOverride[P]>
+      : GetScalarType<T[P], AggregateAIInsightOverride[P]>
+  }
+
+
+
+
+  export type AIInsightOverrideGroupByArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: AIInsightOverrideWhereInput
+    orderBy?: AIInsightOverrideOrderByWithAggregationInput | AIInsightOverrideOrderByWithAggregationInput[]
+    by: AIInsightOverrideScalarFieldEnum[] | AIInsightOverrideScalarFieldEnum
+    having?: AIInsightOverrideScalarWhereWithAggregatesInput
+    take?: number
+    skip?: number
+    _count?: AIInsightOverrideCountAggregateInputType | true
+    _min?: AIInsightOverrideMinAggregateInputType
+    _max?: AIInsightOverrideMaxAggregateInputType
+  }
+
+  export type AIInsightOverrideGroupByOutputType = {
+    id: string
+    signalId: string
+    insightId: string
+    insightType: string
+    originalRecommendation: JsonValue | null
+    overrideReason: string
+    executiveJustification: string | null
+    newValue: JsonValue | null
+    executiveId: string
+    executiveName: string
+    executiveEmail: string
+    overriddenAt: Date
+    createdAt: Date
+    _count: AIInsightOverrideCountAggregateOutputType | null
+    _min: AIInsightOverrideMinAggregateOutputType | null
+    _max: AIInsightOverrideMaxAggregateOutputType | null
+  }
+
+  type GetAIInsightOverrideGroupByPayload<T extends AIInsightOverrideGroupByArgs> = Prisma.PrismaPromise<
+    Array<
+      PickEnumerable<AIInsightOverrideGroupByOutputType, T['by']> &
+        {
+          [P in ((keyof T) & (keyof AIInsightOverrideGroupByOutputType))]: P extends '_count'
+            ? T[P] extends boolean
+              ? number
+              : GetScalarType<T[P], AIInsightOverrideGroupByOutputType[P]>
+            : GetScalarType<T[P], AIInsightOverrideGroupByOutputType[P]>
+        }
+      >
+    >
+
+
+  export type AIInsightOverrideSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    signalId?: boolean
+    insightId?: boolean
+    insightType?: boolean
+    originalRecommendation?: boolean
+    overrideReason?: boolean
+    executiveJustification?: boolean
+    newValue?: boolean
+    executiveId?: boolean
+    executiveName?: boolean
+    executiveEmail?: boolean
+    overriddenAt?: boolean
+    createdAt?: boolean
+    signal?: boolean | SignalDefaultArgs<ExtArgs>
+    executive?: boolean | UserDefaultArgs<ExtArgs>
+  }, ExtArgs["result"]["aIInsightOverride"]>
+
+  export type AIInsightOverrideSelectCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    signalId?: boolean
+    insightId?: boolean
+    insightType?: boolean
+    originalRecommendation?: boolean
+    overrideReason?: boolean
+    executiveJustification?: boolean
+    newValue?: boolean
+    executiveId?: boolean
+    executiveName?: boolean
+    executiveEmail?: boolean
+    overriddenAt?: boolean
+    createdAt?: boolean
+    signal?: boolean | SignalDefaultArgs<ExtArgs>
+    executive?: boolean | UserDefaultArgs<ExtArgs>
+  }, ExtArgs["result"]["aIInsightOverride"]>
+
+  export type AIInsightOverrideSelectUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    signalId?: boolean
+    insightId?: boolean
+    insightType?: boolean
+    originalRecommendation?: boolean
+    overrideReason?: boolean
+    executiveJustification?: boolean
+    newValue?: boolean
+    executiveId?: boolean
+    executiveName?: boolean
+    executiveEmail?: boolean
+    overriddenAt?: boolean
+    createdAt?: boolean
+    signal?: boolean | SignalDefaultArgs<ExtArgs>
+    executive?: boolean | UserDefaultArgs<ExtArgs>
+  }, ExtArgs["result"]["aIInsightOverride"]>
+
+  export type AIInsightOverrideSelectScalar = {
+    id?: boolean
+    signalId?: boolean
+    insightId?: boolean
+    insightType?: boolean
+    originalRecommendation?: boolean
+    overrideReason?: boolean
+    executiveJustification?: boolean
+    newValue?: boolean
+    executiveId?: boolean
+    executiveName?: boolean
+    executiveEmail?: boolean
+    overriddenAt?: boolean
+    createdAt?: boolean
+  }
+
+  export type AIInsightOverrideOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "signalId" | "insightId" | "insightType" | "originalRecommendation" | "overrideReason" | "executiveJustification" | "newValue" | "executiveId" | "executiveName" | "executiveEmail" | "overriddenAt" | "createdAt", ExtArgs["result"]["aIInsightOverride"]>
+  export type AIInsightOverrideInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    signal?: boolean | SignalDefaultArgs<ExtArgs>
+    executive?: boolean | UserDefaultArgs<ExtArgs>
+  }
+  export type AIInsightOverrideIncludeCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    signal?: boolean | SignalDefaultArgs<ExtArgs>
+    executive?: boolean | UserDefaultArgs<ExtArgs>
+  }
+  export type AIInsightOverrideIncludeUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    signal?: boolean | SignalDefaultArgs<ExtArgs>
+    executive?: boolean | UserDefaultArgs<ExtArgs>
+  }
+
+  export type $AIInsightOverridePayload<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    name: "AIInsightOverride"
+    objects: {
+      signal: Prisma.$SignalPayload<ExtArgs>
+      executive: Prisma.$UserPayload<ExtArgs>
+    }
+    scalars: $Extensions.GetPayloadResult<{
+      id: string
+      signalId: string
+      insightId: string
+      insightType: string
+      originalRecommendation: Prisma.JsonValue | null
+      overrideReason: string
+      executiveJustification: string | null
+      newValue: Prisma.JsonValue | null
+      executiveId: string
+      executiveName: string
+      executiveEmail: string
+      overriddenAt: Date
+      createdAt: Date
+    }, ExtArgs["result"]["aIInsightOverride"]>
+    composites: {}
+  }
+
+  type AIInsightOverrideGetPayload<S extends boolean | null | undefined | AIInsightOverrideDefaultArgs> = $Result.GetResult<Prisma.$AIInsightOverridePayload, S>
+
+  type AIInsightOverrideCountArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> =
+    Omit<AIInsightOverrideFindManyArgs, 'select' | 'include' | 'distinct' | 'omit'> & {
+      select?: AIInsightOverrideCountAggregateInputType | true
+    }
+
+  export interface AIInsightOverrideDelegate<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> {
+    [K: symbol]: { types: Prisma.TypeMap<ExtArgs>['model']['AIInsightOverride'], meta: { name: 'AIInsightOverride' } }
+    /**
+     * Find zero or one AIInsightOverride that matches the filter.
+     * @param {AIInsightOverrideFindUniqueArgs} args - Arguments to find a AIInsightOverride
+     * @example
+     * // Get one AIInsightOverride
+     * const aIInsightOverride = await prisma.aIInsightOverride.findUnique({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUnique<T extends AIInsightOverrideFindUniqueArgs>(args: SelectSubset<T, AIInsightOverrideFindUniqueArgs<ExtArgs>>): Prisma__AIInsightOverrideClient<$Result.GetResult<Prisma.$AIInsightOverridePayload<ExtArgs>, T, "findUnique", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find one AIInsightOverride that matches the filter or throw an error with `error.code='P2025'`
+     * if no matches were found.
+     * @param {AIInsightOverrideFindUniqueOrThrowArgs} args - Arguments to find a AIInsightOverride
+     * @example
+     * // Get one AIInsightOverride
+     * const aIInsightOverride = await prisma.aIInsightOverride.findUniqueOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUniqueOrThrow<T extends AIInsightOverrideFindUniqueOrThrowArgs>(args: SelectSubset<T, AIInsightOverrideFindUniqueOrThrowArgs<ExtArgs>>): Prisma__AIInsightOverrideClient<$Result.GetResult<Prisma.$AIInsightOverridePayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find the first AIInsightOverride that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {AIInsightOverrideFindFirstArgs} args - Arguments to find a AIInsightOverride
+     * @example
+     * // Get one AIInsightOverride
+     * const aIInsightOverride = await prisma.aIInsightOverride.findFirst({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirst<T extends AIInsightOverrideFindFirstArgs>(args?: SelectSubset<T, AIInsightOverrideFindFirstArgs<ExtArgs>>): Prisma__AIInsightOverrideClient<$Result.GetResult<Prisma.$AIInsightOverridePayload<ExtArgs>, T, "findFirst", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find the first AIInsightOverride that matches the filter or
+     * throw `PrismaKnownClientError` with `P2025` code if no matches were found.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {AIInsightOverrideFindFirstOrThrowArgs} args - Arguments to find a AIInsightOverride
+     * @example
+     * // Get one AIInsightOverride
+     * const aIInsightOverride = await prisma.aIInsightOverride.findFirstOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirstOrThrow<T extends AIInsightOverrideFindFirstOrThrowArgs>(args?: SelectSubset<T, AIInsightOverrideFindFirstOrThrowArgs<ExtArgs>>): Prisma__AIInsightOverrideClient<$Result.GetResult<Prisma.$AIInsightOverridePayload<ExtArgs>, T, "findFirstOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find zero or more AIInsightOverrides that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {AIInsightOverrideFindManyArgs} args - Arguments to filter and select certain fields only.
+     * @example
+     * // Get all AIInsightOverrides
+     * const aIInsightOverrides = await prisma.aIInsightOverride.findMany()
+     * 
+     * // Get first 10 AIInsightOverrides
+     * const aIInsightOverrides = await prisma.aIInsightOverride.findMany({ take: 10 })
+     * 
+     * // Only select the `id`
+     * const aIInsightOverrideWithIdOnly = await prisma.aIInsightOverride.findMany({ select: { id: true } })
+     * 
+     */
+    findMany<T extends AIInsightOverrideFindManyArgs>(args?: SelectSubset<T, AIInsightOverrideFindManyArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$AIInsightOverridePayload<ExtArgs>, T, "findMany", GlobalOmitOptions>>
+
+    /**
+     * Create a AIInsightOverride.
+     * @param {AIInsightOverrideCreateArgs} args - Arguments to create a AIInsightOverride.
+     * @example
+     * // Create one AIInsightOverride
+     * const AIInsightOverride = await prisma.aIInsightOverride.create({
+     *   data: {
+     *     // ... data to create a AIInsightOverride
+     *   }
+     * })
+     * 
+     */
+    create<T extends AIInsightOverrideCreateArgs>(args: SelectSubset<T, AIInsightOverrideCreateArgs<ExtArgs>>): Prisma__AIInsightOverrideClient<$Result.GetResult<Prisma.$AIInsightOverridePayload<ExtArgs>, T, "create", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Create many AIInsightOverrides.
+     * @param {AIInsightOverrideCreateManyArgs} args - Arguments to create many AIInsightOverrides.
+     * @example
+     * // Create many AIInsightOverrides
+     * const aIInsightOverride = await prisma.aIInsightOverride.createMany({
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     *     
+     */
+    createMany<T extends AIInsightOverrideCreateManyArgs>(args?: SelectSubset<T, AIInsightOverrideCreateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Create many AIInsightOverrides and returns the data saved in the database.
+     * @param {AIInsightOverrideCreateManyAndReturnArgs} args - Arguments to create many AIInsightOverrides.
+     * @example
+     * // Create many AIInsightOverrides
+     * const aIInsightOverride = await prisma.aIInsightOverride.createManyAndReturn({
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * 
+     * // Create many AIInsightOverrides and only return the `id`
+     * const aIInsightOverrideWithIdOnly = await prisma.aIInsightOverride.createManyAndReturn({
+     *   select: { id: true },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * 
+     */
+    createManyAndReturn<T extends AIInsightOverrideCreateManyAndReturnArgs>(args?: SelectSubset<T, AIInsightOverrideCreateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$AIInsightOverridePayload<ExtArgs>, T, "createManyAndReturn", GlobalOmitOptions>>
+
+    /**
+     * Delete a AIInsightOverride.
+     * @param {AIInsightOverrideDeleteArgs} args - Arguments to delete one AIInsightOverride.
+     * @example
+     * // Delete one AIInsightOverride
+     * const AIInsightOverride = await prisma.aIInsightOverride.delete({
+     *   where: {
+     *     // ... filter to delete one AIInsightOverride
+     *   }
+     * })
+     * 
+     */
+    delete<T extends AIInsightOverrideDeleteArgs>(args: SelectSubset<T, AIInsightOverrideDeleteArgs<ExtArgs>>): Prisma__AIInsightOverrideClient<$Result.GetResult<Prisma.$AIInsightOverridePayload<ExtArgs>, T, "delete", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Update one AIInsightOverride.
+     * @param {AIInsightOverrideUpdateArgs} args - Arguments to update one AIInsightOverride.
+     * @example
+     * // Update one AIInsightOverride
+     * const aIInsightOverride = await prisma.aIInsightOverride.update({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    update<T extends AIInsightOverrideUpdateArgs>(args: SelectSubset<T, AIInsightOverrideUpdateArgs<ExtArgs>>): Prisma__AIInsightOverrideClient<$Result.GetResult<Prisma.$AIInsightOverridePayload<ExtArgs>, T, "update", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Delete zero or more AIInsightOverrides.
+     * @param {AIInsightOverrideDeleteManyArgs} args - Arguments to filter AIInsightOverrides to delete.
+     * @example
+     * // Delete a few AIInsightOverrides
+     * const { count } = await prisma.aIInsightOverride.deleteMany({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     * 
+     */
+    deleteMany<T extends AIInsightOverrideDeleteManyArgs>(args?: SelectSubset<T, AIInsightOverrideDeleteManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Update zero or more AIInsightOverrides.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {AIInsightOverrideUpdateManyArgs} args - Arguments to update one or more rows.
+     * @example
+     * // Update many AIInsightOverrides
+     * const aIInsightOverride = await prisma.aIInsightOverride.updateMany({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    updateMany<T extends AIInsightOverrideUpdateManyArgs>(args: SelectSubset<T, AIInsightOverrideUpdateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Update zero or more AIInsightOverrides and returns the data updated in the database.
+     * @param {AIInsightOverrideUpdateManyAndReturnArgs} args - Arguments to update many AIInsightOverrides.
+     * @example
+     * // Update many AIInsightOverrides
+     * const aIInsightOverride = await prisma.aIInsightOverride.updateManyAndReturn({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * 
+     * // Update zero or more AIInsightOverrides and only return the `id`
+     * const aIInsightOverrideWithIdOnly = await prisma.aIInsightOverride.updateManyAndReturn({
+     *   select: { id: true },
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * 
+     */
+    updateManyAndReturn<T extends AIInsightOverrideUpdateManyAndReturnArgs>(args: SelectSubset<T, AIInsightOverrideUpdateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$AIInsightOverridePayload<ExtArgs>, T, "updateManyAndReturn", GlobalOmitOptions>>
+
+    /**
+     * Create or update one AIInsightOverride.
+     * @param {AIInsightOverrideUpsertArgs} args - Arguments to update or create a AIInsightOverride.
+     * @example
+     * // Update or create a AIInsightOverride
+     * const aIInsightOverride = await prisma.aIInsightOverride.upsert({
+     *   create: {
+     *     // ... data to create a AIInsightOverride
+     *   },
+     *   update: {
+     *     // ... in case it already exists, update
+     *   },
+     *   where: {
+     *     // ... the filter for the AIInsightOverride we want to update
+     *   }
+     * })
+     */
+    upsert<T extends AIInsightOverrideUpsertArgs>(args: SelectSubset<T, AIInsightOverrideUpsertArgs<ExtArgs>>): Prisma__AIInsightOverrideClient<$Result.GetResult<Prisma.$AIInsightOverridePayload<ExtArgs>, T, "upsert", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+
+    /**
+     * Count the number of AIInsightOverrides.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {AIInsightOverrideCountArgs} args - Arguments to filter AIInsightOverrides to count.
+     * @example
+     * // Count the number of AIInsightOverrides
+     * const count = await prisma.aIInsightOverride.count({
+     *   where: {
+     *     // ... the filter for the AIInsightOverrides we want to count
+     *   }
+     * })
+    **/
+    count<T extends AIInsightOverrideCountArgs>(
+      args?: Subset<T, AIInsightOverrideCountArgs>,
+    ): Prisma.PrismaPromise<
+      T extends $Utils.Record<'select', any>
+        ? T['select'] extends true
+          ? number
+          : GetScalarType<T['select'], AIInsightOverrideCountAggregateOutputType>
+        : number
+    >
+
+    /**
+     * Allows you to perform aggregations operations on a AIInsightOverride.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {AIInsightOverrideAggregateArgs} args - Select which aggregations you would like to apply and on what fields.
+     * @example
+     * // Ordered by age ascending
+     * // Where email contains prisma.io
+     * // Limited to the 10 users
+     * const aggregations = await prisma.user.aggregate({
+     *   _avg: {
+     *     age: true,
+     *   },
+     *   where: {
+     *     email: {
+     *       contains: "prisma.io",
+     *     },
+     *   },
+     *   orderBy: {
+     *     age: "asc",
+     *   },
+     *   take: 10,
+     * })
+    **/
+    aggregate<T extends AIInsightOverrideAggregateArgs>(args: Subset<T, AIInsightOverrideAggregateArgs>): Prisma.PrismaPromise<GetAIInsightOverrideAggregateType<T>>
+
+    /**
+     * Group by AIInsightOverride.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {AIInsightOverrideGroupByArgs} args - Group by arguments.
+     * @example
+     * // Group by city, order by createdAt, get count
+     * const result = await prisma.user.groupBy({
+     *   by: ['city', 'createdAt'],
+     *   orderBy: {
+     *     createdAt: true
+     *   },
+     *   _count: {
+     *     _all: true
+     *   },
+     * })
+     * 
+    **/
+    groupBy<
+      T extends AIInsightOverrideGroupByArgs,
+      HasSelectOrTake extends Or<
+        Extends<'skip', Keys<T>>,
+        Extends<'take', Keys<T>>
+      >,
+      OrderByArg extends True extends HasSelectOrTake
+        ? { orderBy: AIInsightOverrideGroupByArgs['orderBy'] }
+        : { orderBy?: AIInsightOverrideGroupByArgs['orderBy'] },
+      OrderFields extends ExcludeUnderscoreKeys<Keys<MaybeTupleToUnion<T['orderBy']>>>,
+      ByFields extends MaybeTupleToUnion<T['by']>,
+      ByValid extends Has<ByFields, OrderFields>,
+      HavingFields extends GetHavingFields<T['having']>,
+      HavingValid extends Has<ByFields, HavingFields>,
+      ByEmpty extends T['by'] extends never[] ? True : False,
+      InputErrors extends ByEmpty extends True
+      ? `Error: "by" must not be empty.`
+      : HavingValid extends False
+      ? {
+          [P in HavingFields]: P extends ByFields
+            ? never
+            : P extends string
+            ? `Error: Field "${P}" used in "having" needs to be provided in "by".`
+            : [
+                Error,
+                'Field ',
+                P,
+                ` in "having" needs to be provided in "by"`,
+              ]
+        }[HavingFields]
+      : 'take' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "take", you also need to provide "orderBy"'
+      : 'skip' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "skip", you also need to provide "orderBy"'
+      : ByValid extends True
+      ? {}
+      : {
+          [P in OrderFields]: P extends ByFields
+            ? never
+            : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+        }[OrderFields]
+    >(args: SubsetIntersection<T, AIInsightOverrideGroupByArgs, OrderByArg> & InputErrors): {} extends InputErrors ? GetAIInsightOverrideGroupByPayload<T> : Prisma.PrismaPromise<InputErrors>
+  /**
+   * Fields of the AIInsightOverride model
+   */
+  readonly fields: AIInsightOverrideFieldRefs;
+  }
+
+  /**
+   * The delegate class that acts as a "Promise-like" for AIInsightOverride.
+   * Why is this prefixed with `Prisma__`?
+   * Because we want to prevent naming conflicts as mentioned in
+   * https://github.com/prisma/prisma-client-js/issues/707
+   */
+  export interface Prisma__AIInsightOverrideClient<T, Null = never, ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
+    readonly [Symbol.toStringTag]: "PrismaPromise"
+    signal<T extends SignalDefaultArgs<ExtArgs> = {}>(args?: Subset<T, SignalDefaultArgs<ExtArgs>>): Prisma__SignalClient<$Result.GetResult<Prisma.$SignalPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
+    executive<T extends UserDefaultArgs<ExtArgs> = {}>(args?: Subset<T, UserDefaultArgs<ExtArgs>>): Prisma__UserClient<$Result.GetResult<Prisma.$UserPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
+    /**
+     * Attaches callbacks for the resolution and/or rejection of the Promise.
+     * @param onfulfilled The callback to execute when the Promise is resolved.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of which ever callback is executed.
+     */
+    then<TResult1 = T, TResult2 = never>(onfulfilled?: ((value: T) => TResult1 | PromiseLike<TResult1>) | undefined | null, onrejected?: ((reason: any) => TResult2 | PromiseLike<TResult2>) | undefined | null): $Utils.JsPromise<TResult1 | TResult2>
+    /**
+     * Attaches a callback for only the rejection of the Promise.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of the callback.
+     */
+    catch<TResult = never>(onrejected?: ((reason: any) => TResult | PromiseLike<TResult>) | undefined | null): $Utils.JsPromise<T | TResult>
+    /**
+     * Attaches a callback that is invoked when the Promise is settled (fulfilled or rejected). The
+     * resolved value cannot be modified from the callback.
+     * @param onfinally The callback to execute when the Promise is settled (fulfilled or rejected).
+     * @returns A Promise for the completion of the callback.
+     */
+    finally(onfinally?: (() => void) | undefined | null): $Utils.JsPromise<T>
+  }
+
+
+
+
+  /**
+   * Fields of the AIInsightOverride model
+   */
+  interface AIInsightOverrideFieldRefs {
+    readonly id: FieldRef<"AIInsightOverride", 'String'>
+    readonly signalId: FieldRef<"AIInsightOverride", 'String'>
+    readonly insightId: FieldRef<"AIInsightOverride", 'String'>
+    readonly insightType: FieldRef<"AIInsightOverride", 'String'>
+    readonly originalRecommendation: FieldRef<"AIInsightOverride", 'Json'>
+    readonly overrideReason: FieldRef<"AIInsightOverride", 'String'>
+    readonly executiveJustification: FieldRef<"AIInsightOverride", 'String'>
+    readonly newValue: FieldRef<"AIInsightOverride", 'Json'>
+    readonly executiveId: FieldRef<"AIInsightOverride", 'String'>
+    readonly executiveName: FieldRef<"AIInsightOverride", 'String'>
+    readonly executiveEmail: FieldRef<"AIInsightOverride", 'String'>
+    readonly overriddenAt: FieldRef<"AIInsightOverride", 'DateTime'>
+    readonly createdAt: FieldRef<"AIInsightOverride", 'DateTime'>
+  }
+    
+
+  // Custom InputTypes
+  /**
+   * AIInsightOverride findUnique
+   */
+  export type AIInsightOverrideFindUniqueArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the AIInsightOverride
+     */
+    select?: AIInsightOverrideSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the AIInsightOverride
+     */
+    omit?: AIInsightOverrideOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: AIInsightOverrideInclude<ExtArgs> | null
+    /**
+     * Filter, which AIInsightOverride to fetch.
+     */
+    where: AIInsightOverrideWhereUniqueInput
+  }
+
+  /**
+   * AIInsightOverride findUniqueOrThrow
+   */
+  export type AIInsightOverrideFindUniqueOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the AIInsightOverride
+     */
+    select?: AIInsightOverrideSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the AIInsightOverride
+     */
+    omit?: AIInsightOverrideOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: AIInsightOverrideInclude<ExtArgs> | null
+    /**
+     * Filter, which AIInsightOverride to fetch.
+     */
+    where: AIInsightOverrideWhereUniqueInput
+  }
+
+  /**
+   * AIInsightOverride findFirst
+   */
+  export type AIInsightOverrideFindFirstArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the AIInsightOverride
+     */
+    select?: AIInsightOverrideSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the AIInsightOverride
+     */
+    omit?: AIInsightOverrideOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: AIInsightOverrideInclude<ExtArgs> | null
+    /**
+     * Filter, which AIInsightOverride to fetch.
+     */
+    where?: AIInsightOverrideWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of AIInsightOverrides to fetch.
+     */
+    orderBy?: AIInsightOverrideOrderByWithRelationInput | AIInsightOverrideOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for AIInsightOverrides.
+     */
+    cursor?: AIInsightOverrideWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` AIInsightOverrides from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` AIInsightOverrides.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of AIInsightOverrides.
+     */
+    distinct?: AIInsightOverrideScalarFieldEnum | AIInsightOverrideScalarFieldEnum[]
+  }
+
+  /**
+   * AIInsightOverride findFirstOrThrow
+   */
+  export type AIInsightOverrideFindFirstOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the AIInsightOverride
+     */
+    select?: AIInsightOverrideSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the AIInsightOverride
+     */
+    omit?: AIInsightOverrideOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: AIInsightOverrideInclude<ExtArgs> | null
+    /**
+     * Filter, which AIInsightOverride to fetch.
+     */
+    where?: AIInsightOverrideWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of AIInsightOverrides to fetch.
+     */
+    orderBy?: AIInsightOverrideOrderByWithRelationInput | AIInsightOverrideOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for AIInsightOverrides.
+     */
+    cursor?: AIInsightOverrideWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` AIInsightOverrides from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` AIInsightOverrides.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of AIInsightOverrides.
+     */
+    distinct?: AIInsightOverrideScalarFieldEnum | AIInsightOverrideScalarFieldEnum[]
+  }
+
+  /**
+   * AIInsightOverride findMany
+   */
+  export type AIInsightOverrideFindManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the AIInsightOverride
+     */
+    select?: AIInsightOverrideSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the AIInsightOverride
+     */
+    omit?: AIInsightOverrideOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: AIInsightOverrideInclude<ExtArgs> | null
+    /**
+     * Filter, which AIInsightOverrides to fetch.
+     */
+    where?: AIInsightOverrideWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of AIInsightOverrides to fetch.
+     */
+    orderBy?: AIInsightOverrideOrderByWithRelationInput | AIInsightOverrideOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for listing AIInsightOverrides.
+     */
+    cursor?: AIInsightOverrideWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` AIInsightOverrides from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` AIInsightOverrides.
+     */
+    skip?: number
+    distinct?: AIInsightOverrideScalarFieldEnum | AIInsightOverrideScalarFieldEnum[]
+  }
+
+  /**
+   * AIInsightOverride create
+   */
+  export type AIInsightOverrideCreateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the AIInsightOverride
+     */
+    select?: AIInsightOverrideSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the AIInsightOverride
+     */
+    omit?: AIInsightOverrideOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: AIInsightOverrideInclude<ExtArgs> | null
+    /**
+     * The data needed to create a AIInsightOverride.
+     */
+    data: XOR<AIInsightOverrideCreateInput, AIInsightOverrideUncheckedCreateInput>
+  }
+
+  /**
+   * AIInsightOverride createMany
+   */
+  export type AIInsightOverrideCreateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to create many AIInsightOverrides.
+     */
+    data: AIInsightOverrideCreateManyInput | AIInsightOverrideCreateManyInput[]
+    skipDuplicates?: boolean
+  }
+
+  /**
+   * AIInsightOverride createManyAndReturn
+   */
+  export type AIInsightOverrideCreateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the AIInsightOverride
+     */
+    select?: AIInsightOverrideSelectCreateManyAndReturn<ExtArgs> | null
+    /**
+     * Omit specific fields from the AIInsightOverride
+     */
+    omit?: AIInsightOverrideOmit<ExtArgs> | null
+    /**
+     * The data used to create many AIInsightOverrides.
+     */
+    data: AIInsightOverrideCreateManyInput | AIInsightOverrideCreateManyInput[]
+    skipDuplicates?: boolean
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: AIInsightOverrideIncludeCreateManyAndReturn<ExtArgs> | null
+  }
+
+  /**
+   * AIInsightOverride update
+   */
+  export type AIInsightOverrideUpdateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the AIInsightOverride
+     */
+    select?: AIInsightOverrideSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the AIInsightOverride
+     */
+    omit?: AIInsightOverrideOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: AIInsightOverrideInclude<ExtArgs> | null
+    /**
+     * The data needed to update a AIInsightOverride.
+     */
+    data: XOR<AIInsightOverrideUpdateInput, AIInsightOverrideUncheckedUpdateInput>
+    /**
+     * Choose, which AIInsightOverride to update.
+     */
+    where: AIInsightOverrideWhereUniqueInput
+  }
+
+  /**
+   * AIInsightOverride updateMany
+   */
+  export type AIInsightOverrideUpdateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to update AIInsightOverrides.
+     */
+    data: XOR<AIInsightOverrideUpdateManyMutationInput, AIInsightOverrideUncheckedUpdateManyInput>
+    /**
+     * Filter which AIInsightOverrides to update
+     */
+    where?: AIInsightOverrideWhereInput
+    /**
+     * Limit how many AIInsightOverrides to update.
+     */
+    limit?: number
+  }
+
+  /**
+   * AIInsightOverride updateManyAndReturn
+   */
+  export type AIInsightOverrideUpdateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the AIInsightOverride
+     */
+    select?: AIInsightOverrideSelectUpdateManyAndReturn<ExtArgs> | null
+    /**
+     * Omit specific fields from the AIInsightOverride
+     */
+    omit?: AIInsightOverrideOmit<ExtArgs> | null
+    /**
+     * The data used to update AIInsightOverrides.
+     */
+    data: XOR<AIInsightOverrideUpdateManyMutationInput, AIInsightOverrideUncheckedUpdateManyInput>
+    /**
+     * Filter which AIInsightOverrides to update
+     */
+    where?: AIInsightOverrideWhereInput
+    /**
+     * Limit how many AIInsightOverrides to update.
+     */
+    limit?: number
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: AIInsightOverrideIncludeUpdateManyAndReturn<ExtArgs> | null
+  }
+
+  /**
+   * AIInsightOverride upsert
+   */
+  export type AIInsightOverrideUpsertArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the AIInsightOverride
+     */
+    select?: AIInsightOverrideSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the AIInsightOverride
+     */
+    omit?: AIInsightOverrideOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: AIInsightOverrideInclude<ExtArgs> | null
+    /**
+     * The filter to search for the AIInsightOverride to update in case it exists.
+     */
+    where: AIInsightOverrideWhereUniqueInput
+    /**
+     * In case the AIInsightOverride found by the `where` argument doesn't exist, create a new AIInsightOverride with this data.
+     */
+    create: XOR<AIInsightOverrideCreateInput, AIInsightOverrideUncheckedCreateInput>
+    /**
+     * In case the AIInsightOverride was found with the provided `where` argument, update it with this data.
+     */
+    update: XOR<AIInsightOverrideUpdateInput, AIInsightOverrideUncheckedUpdateInput>
+  }
+
+  /**
+   * AIInsightOverride delete
+   */
+  export type AIInsightOverrideDeleteArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the AIInsightOverride
+     */
+    select?: AIInsightOverrideSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the AIInsightOverride
+     */
+    omit?: AIInsightOverrideOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: AIInsightOverrideInclude<ExtArgs> | null
+    /**
+     * Filter which AIInsightOverride to delete.
+     */
+    where: AIInsightOverrideWhereUniqueInput
+  }
+
+  /**
+   * AIInsightOverride deleteMany
+   */
+  export type AIInsightOverrideDeleteManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which AIInsightOverrides to delete
+     */
+    where?: AIInsightOverrideWhereInput
+    /**
+     * Limit how many AIInsightOverrides to delete.
+     */
+    limit?: number
+  }
+
+  /**
+   * AIInsightOverride without action
+   */
+  export type AIInsightOverrideDefaultArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the AIInsightOverride
+     */
+    select?: AIInsightOverrideSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the AIInsightOverride
+     */
+    omit?: AIInsightOverrideOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: AIInsightOverrideInclude<ExtArgs> | null
+  }
+
+
+  /**
    * Model Notification
    */
 
@@ -28229,6 +29556,25 @@ export namespace Prisma {
   export type AIAnalysisAuditScalarFieldEnum = (typeof AIAnalysisAuditScalarFieldEnum)[keyof typeof AIAnalysisAuditScalarFieldEnum]
 
 
+  export const AIInsightOverrideScalarFieldEnum: {
+    id: 'id',
+    signalId: 'signalId',
+    insightId: 'insightId',
+    insightType: 'insightType',
+    originalRecommendation: 'originalRecommendation',
+    overrideReason: 'overrideReason',
+    executiveJustification: 'executiveJustification',
+    newValue: 'newValue',
+    executiveId: 'executiveId',
+    executiveName: 'executiveName',
+    executiveEmail: 'executiveEmail',
+    overriddenAt: 'overriddenAt',
+    createdAt: 'createdAt'
+  };
+
+  export type AIInsightOverrideScalarFieldEnum = (typeof AIInsightOverrideScalarFieldEnum)[keyof typeof AIInsightOverrideScalarFieldEnum]
+
+
   export const NotificationScalarFieldEnum: {
     id: 'id',
     type: 'type',
@@ -28628,6 +29974,7 @@ export namespace Prisma {
     auditLogs?: AuditLogListRelationFilter
     aiAnalysisAudits?: AIAnalysisAuditListRelationFilter
     inputGroups?: InputGroupListRelationFilter
+    aiInsightOverrides?: AIInsightOverrideListRelationFilter
     departmentManaged?: DepartmentListRelationFilter
     departmentObj?: XOR<DepartmentNullableScalarRelationFilter, DepartmentWhereInput> | null
     ledTeams?: TeamListRelationFilter
@@ -28670,6 +30017,7 @@ export namespace Prisma {
     auditLogs?: AuditLogOrderByRelationAggregateInput
     aiAnalysisAudits?: AIAnalysisAuditOrderByRelationAggregateInput
     inputGroups?: InputGroupOrderByRelationAggregateInput
+    aiInsightOverrides?: AIInsightOverrideOrderByRelationAggregateInput
     departmentManaged?: DepartmentOrderByRelationAggregateInput
     departmentObj?: DepartmentOrderByWithRelationInput
     ledTeams?: TeamOrderByRelationAggregateInput
@@ -28715,6 +30063,7 @@ export namespace Prisma {
     auditLogs?: AuditLogListRelationFilter
     aiAnalysisAudits?: AIAnalysisAuditListRelationFilter
     inputGroups?: InputGroupListRelationFilter
+    aiInsightOverrides?: AIInsightOverrideListRelationFilter
     departmentManaged?: DepartmentListRelationFilter
     departmentObj?: XOR<DepartmentNullableScalarRelationFilter, DepartmentWhereInput> | null
     ledTeams?: TeamListRelationFilter
@@ -29273,6 +30622,7 @@ export namespace Prisma {
     category?: XOR<CategoryNullableScalarRelationFilter, CategoryWhereInput> | null
     createdBy?: XOR<UserNullableScalarRelationFilter, UserWhereInput> | null
     hotspots?: HotspotSignalListRelationFilter
+    aiInsightOverrides?: AIInsightOverrideListRelationFilter
   }
 
   export type SignalOrderByWithRelationInput = {
@@ -29322,6 +30672,7 @@ export namespace Prisma {
     category?: CategoryOrderByWithRelationInput
     createdBy?: UserOrderByWithRelationInput
     hotspots?: HotspotSignalOrderByRelationAggregateInput
+    aiInsightOverrides?: AIInsightOverrideOrderByRelationAggregateInput
   }
 
   export type SignalWhereUniqueInput = Prisma.AtLeast<{
@@ -29374,6 +30725,7 @@ export namespace Prisma {
     category?: XOR<CategoryNullableScalarRelationFilter, CategoryWhereInput> | null
     createdBy?: XOR<UserNullableScalarRelationFilter, UserWhereInput> | null
     hotspots?: HotspotSignalListRelationFilter
+    aiInsightOverrides?: AIInsightOverrideListRelationFilter
   }, "id" | "inputId" | "dedupeKey">
 
   export type SignalOrderByWithAggregationInput = {
@@ -30725,6 +32077,104 @@ export namespace Prisma {
     createdAt?: DateTimeWithAggregatesFilter<"AIAnalysisAudit"> | Date | string
   }
 
+  export type AIInsightOverrideWhereInput = {
+    AND?: AIInsightOverrideWhereInput | AIInsightOverrideWhereInput[]
+    OR?: AIInsightOverrideWhereInput[]
+    NOT?: AIInsightOverrideWhereInput | AIInsightOverrideWhereInput[]
+    id?: StringFilter<"AIInsightOverride"> | string
+    signalId?: StringFilter<"AIInsightOverride"> | string
+    insightId?: StringFilter<"AIInsightOverride"> | string
+    insightType?: StringFilter<"AIInsightOverride"> | string
+    originalRecommendation?: JsonNullableFilter<"AIInsightOverride">
+    overrideReason?: StringFilter<"AIInsightOverride"> | string
+    executiveJustification?: StringNullableFilter<"AIInsightOverride"> | string | null
+    newValue?: JsonNullableFilter<"AIInsightOverride">
+    executiveId?: StringFilter<"AIInsightOverride"> | string
+    executiveName?: StringFilter<"AIInsightOverride"> | string
+    executiveEmail?: StringFilter<"AIInsightOverride"> | string
+    overriddenAt?: DateTimeFilter<"AIInsightOverride"> | Date | string
+    createdAt?: DateTimeFilter<"AIInsightOverride"> | Date | string
+    signal?: XOR<SignalScalarRelationFilter, SignalWhereInput>
+    executive?: XOR<UserScalarRelationFilter, UserWhereInput>
+  }
+
+  export type AIInsightOverrideOrderByWithRelationInput = {
+    id?: SortOrder
+    signalId?: SortOrder
+    insightId?: SortOrder
+    insightType?: SortOrder
+    originalRecommendation?: SortOrderInput | SortOrder
+    overrideReason?: SortOrder
+    executiveJustification?: SortOrderInput | SortOrder
+    newValue?: SortOrderInput | SortOrder
+    executiveId?: SortOrder
+    executiveName?: SortOrder
+    executiveEmail?: SortOrder
+    overriddenAt?: SortOrder
+    createdAt?: SortOrder
+    signal?: SignalOrderByWithRelationInput
+    executive?: UserOrderByWithRelationInput
+  }
+
+  export type AIInsightOverrideWhereUniqueInput = Prisma.AtLeast<{
+    id?: string
+    AND?: AIInsightOverrideWhereInput | AIInsightOverrideWhereInput[]
+    OR?: AIInsightOverrideWhereInput[]
+    NOT?: AIInsightOverrideWhereInput | AIInsightOverrideWhereInput[]
+    signalId?: StringFilter<"AIInsightOverride"> | string
+    insightId?: StringFilter<"AIInsightOverride"> | string
+    insightType?: StringFilter<"AIInsightOverride"> | string
+    originalRecommendation?: JsonNullableFilter<"AIInsightOverride">
+    overrideReason?: StringFilter<"AIInsightOverride"> | string
+    executiveJustification?: StringNullableFilter<"AIInsightOverride"> | string | null
+    newValue?: JsonNullableFilter<"AIInsightOverride">
+    executiveId?: StringFilter<"AIInsightOverride"> | string
+    executiveName?: StringFilter<"AIInsightOverride"> | string
+    executiveEmail?: StringFilter<"AIInsightOverride"> | string
+    overriddenAt?: DateTimeFilter<"AIInsightOverride"> | Date | string
+    createdAt?: DateTimeFilter<"AIInsightOverride"> | Date | string
+    signal?: XOR<SignalScalarRelationFilter, SignalWhereInput>
+    executive?: XOR<UserScalarRelationFilter, UserWhereInput>
+  }, "id">
+
+  export type AIInsightOverrideOrderByWithAggregationInput = {
+    id?: SortOrder
+    signalId?: SortOrder
+    insightId?: SortOrder
+    insightType?: SortOrder
+    originalRecommendation?: SortOrderInput | SortOrder
+    overrideReason?: SortOrder
+    executiveJustification?: SortOrderInput | SortOrder
+    newValue?: SortOrderInput | SortOrder
+    executiveId?: SortOrder
+    executiveName?: SortOrder
+    executiveEmail?: SortOrder
+    overriddenAt?: SortOrder
+    createdAt?: SortOrder
+    _count?: AIInsightOverrideCountOrderByAggregateInput
+    _max?: AIInsightOverrideMaxOrderByAggregateInput
+    _min?: AIInsightOverrideMinOrderByAggregateInput
+  }
+
+  export type AIInsightOverrideScalarWhereWithAggregatesInput = {
+    AND?: AIInsightOverrideScalarWhereWithAggregatesInput | AIInsightOverrideScalarWhereWithAggregatesInput[]
+    OR?: AIInsightOverrideScalarWhereWithAggregatesInput[]
+    NOT?: AIInsightOverrideScalarWhereWithAggregatesInput | AIInsightOverrideScalarWhereWithAggregatesInput[]
+    id?: StringWithAggregatesFilter<"AIInsightOverride"> | string
+    signalId?: StringWithAggregatesFilter<"AIInsightOverride"> | string
+    insightId?: StringWithAggregatesFilter<"AIInsightOverride"> | string
+    insightType?: StringWithAggregatesFilter<"AIInsightOverride"> | string
+    originalRecommendation?: JsonNullableWithAggregatesFilter<"AIInsightOverride">
+    overrideReason?: StringWithAggregatesFilter<"AIInsightOverride"> | string
+    executiveJustification?: StringNullableWithAggregatesFilter<"AIInsightOverride"> | string | null
+    newValue?: JsonNullableWithAggregatesFilter<"AIInsightOverride">
+    executiveId?: StringWithAggregatesFilter<"AIInsightOverride"> | string
+    executiveName?: StringWithAggregatesFilter<"AIInsightOverride"> | string
+    executiveEmail?: StringWithAggregatesFilter<"AIInsightOverride"> | string
+    overriddenAt?: DateTimeWithAggregatesFilter<"AIInsightOverride"> | Date | string
+    createdAt?: DateTimeWithAggregatesFilter<"AIInsightOverride"> | Date | string
+  }
+
   export type NotificationWhereInput = {
     AND?: NotificationWhereInput | NotificationWhereInput[]
     OR?: NotificationWhereInput[]
@@ -30841,6 +32291,7 @@ export namespace Prisma {
     auditLogs?: AuditLogCreateNestedManyWithoutUserInput
     aiAnalysisAudits?: AIAnalysisAuditCreateNestedManyWithoutUserInput
     inputGroups?: InputGroupCreateNestedManyWithoutCreatorInput
+    aiInsightOverrides?: AIInsightOverrideCreateNestedManyWithoutExecutiveInput
     departmentManaged?: DepartmentCreateNestedManyWithoutManagerInput
     departmentObj?: DepartmentCreateNestedOneWithoutUsersInput
     ledTeams?: TeamCreateNestedManyWithoutLeaderInput
@@ -30882,6 +32333,7 @@ export namespace Prisma {
     auditLogs?: AuditLogUncheckedCreateNestedManyWithoutUserInput
     aiAnalysisAudits?: AIAnalysisAuditUncheckedCreateNestedManyWithoutUserInput
     inputGroups?: InputGroupUncheckedCreateNestedManyWithoutCreatorInput
+    aiInsightOverrides?: AIInsightOverrideUncheckedCreateNestedManyWithoutExecutiveInput
     departmentManaged?: DepartmentUncheckedCreateNestedManyWithoutManagerInput
     ledTeams?: TeamUncheckedCreateNestedManyWithoutLeaderInput
     teamMemberships?: TeamUncheckedCreateNestedManyWithoutMembersInput
@@ -30921,6 +32373,7 @@ export namespace Prisma {
     auditLogs?: AuditLogUpdateManyWithoutUserNestedInput
     aiAnalysisAudits?: AIAnalysisAuditUpdateManyWithoutUserNestedInput
     inputGroups?: InputGroupUpdateManyWithoutCreatorNestedInput
+    aiInsightOverrides?: AIInsightOverrideUpdateManyWithoutExecutiveNestedInput
     departmentManaged?: DepartmentUpdateManyWithoutManagerNestedInput
     departmentObj?: DepartmentUpdateOneWithoutUsersNestedInput
     ledTeams?: TeamUpdateManyWithoutLeaderNestedInput
@@ -30962,6 +32415,7 @@ export namespace Prisma {
     auditLogs?: AuditLogUncheckedUpdateManyWithoutUserNestedInput
     aiAnalysisAudits?: AIAnalysisAuditUncheckedUpdateManyWithoutUserNestedInput
     inputGroups?: InputGroupUncheckedUpdateManyWithoutCreatorNestedInput
+    aiInsightOverrides?: AIInsightOverrideUncheckedUpdateManyWithoutExecutiveNestedInput
     departmentManaged?: DepartmentUncheckedUpdateManyWithoutManagerNestedInput
     ledTeams?: TeamUncheckedUpdateManyWithoutLeaderNestedInput
     teamMemberships?: TeamUncheckedUpdateManyWithoutMembersNestedInput
@@ -31598,6 +33052,7 @@ export namespace Prisma {
     category?: CategoryCreateNestedOneWithoutSignalsInput
     createdBy?: UserCreateNestedOneWithoutSignalsInput
     hotspots?: HotspotSignalCreateNestedManyWithoutSignalInput
+    aiInsightOverrides?: AIInsightOverrideCreateNestedManyWithoutSignalInput
   }
 
   export type SignalUncheckedCreateInput = {
@@ -31643,6 +33098,7 @@ export namespace Prisma {
     createdAt?: Date | string
     updatedAt?: Date | string
     hotspots?: HotspotSignalUncheckedCreateNestedManyWithoutSignalInput
+    aiInsightOverrides?: AIInsightOverrideUncheckedCreateNestedManyWithoutSignalInput
   }
 
   export type SignalUpdateInput = {
@@ -31688,6 +33144,7 @@ export namespace Prisma {
     category?: CategoryUpdateOneWithoutSignalsNestedInput
     createdBy?: UserUpdateOneWithoutSignalsNestedInput
     hotspots?: HotspotSignalUpdateManyWithoutSignalNestedInput
+    aiInsightOverrides?: AIInsightOverrideUpdateManyWithoutSignalNestedInput
   }
 
   export type SignalUncheckedUpdateInput = {
@@ -31733,6 +33190,7 @@ export namespace Prisma {
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     hotspots?: HotspotSignalUncheckedUpdateManyWithoutSignalNestedInput
+    aiInsightOverrides?: AIInsightOverrideUncheckedUpdateManyWithoutSignalNestedInput
   }
 
   export type SignalCreateManyInput = {
@@ -33274,6 +34732,116 @@ export namespace Prisma {
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
+  export type AIInsightOverrideCreateInput = {
+    id?: string
+    insightId: string
+    insightType: string
+    originalRecommendation?: NullableJsonNullValueInput | InputJsonValue
+    overrideReason: string
+    executiveJustification?: string | null
+    newValue?: NullableJsonNullValueInput | InputJsonValue
+    executiveName: string
+    executiveEmail: string
+    overriddenAt?: Date | string
+    createdAt?: Date | string
+    signal: SignalCreateNestedOneWithoutAiInsightOverridesInput
+    executive: UserCreateNestedOneWithoutAiInsightOverridesInput
+  }
+
+  export type AIInsightOverrideUncheckedCreateInput = {
+    id?: string
+    signalId: string
+    insightId: string
+    insightType: string
+    originalRecommendation?: NullableJsonNullValueInput | InputJsonValue
+    overrideReason: string
+    executiveJustification?: string | null
+    newValue?: NullableJsonNullValueInput | InputJsonValue
+    executiveId: string
+    executiveName: string
+    executiveEmail: string
+    overriddenAt?: Date | string
+    createdAt?: Date | string
+  }
+
+  export type AIInsightOverrideUpdateInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    insightId?: StringFieldUpdateOperationsInput | string
+    insightType?: StringFieldUpdateOperationsInput | string
+    originalRecommendation?: NullableJsonNullValueInput | InputJsonValue
+    overrideReason?: StringFieldUpdateOperationsInput | string
+    executiveJustification?: NullableStringFieldUpdateOperationsInput | string | null
+    newValue?: NullableJsonNullValueInput | InputJsonValue
+    executiveName?: StringFieldUpdateOperationsInput | string
+    executiveEmail?: StringFieldUpdateOperationsInput | string
+    overriddenAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    signal?: SignalUpdateOneRequiredWithoutAiInsightOverridesNestedInput
+    executive?: UserUpdateOneRequiredWithoutAiInsightOverridesNestedInput
+  }
+
+  export type AIInsightOverrideUncheckedUpdateInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    signalId?: StringFieldUpdateOperationsInput | string
+    insightId?: StringFieldUpdateOperationsInput | string
+    insightType?: StringFieldUpdateOperationsInput | string
+    originalRecommendation?: NullableJsonNullValueInput | InputJsonValue
+    overrideReason?: StringFieldUpdateOperationsInput | string
+    executiveJustification?: NullableStringFieldUpdateOperationsInput | string | null
+    newValue?: NullableJsonNullValueInput | InputJsonValue
+    executiveId?: StringFieldUpdateOperationsInput | string
+    executiveName?: StringFieldUpdateOperationsInput | string
+    executiveEmail?: StringFieldUpdateOperationsInput | string
+    overriddenAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type AIInsightOverrideCreateManyInput = {
+    id?: string
+    signalId: string
+    insightId: string
+    insightType: string
+    originalRecommendation?: NullableJsonNullValueInput | InputJsonValue
+    overrideReason: string
+    executiveJustification?: string | null
+    newValue?: NullableJsonNullValueInput | InputJsonValue
+    executiveId: string
+    executiveName: string
+    executiveEmail: string
+    overriddenAt?: Date | string
+    createdAt?: Date | string
+  }
+
+  export type AIInsightOverrideUpdateManyMutationInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    insightId?: StringFieldUpdateOperationsInput | string
+    insightType?: StringFieldUpdateOperationsInput | string
+    originalRecommendation?: NullableJsonNullValueInput | InputJsonValue
+    overrideReason?: StringFieldUpdateOperationsInput | string
+    executiveJustification?: NullableStringFieldUpdateOperationsInput | string | null
+    newValue?: NullableJsonNullValueInput | InputJsonValue
+    executiveName?: StringFieldUpdateOperationsInput | string
+    executiveEmail?: StringFieldUpdateOperationsInput | string
+    overriddenAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type AIInsightOverrideUncheckedUpdateManyInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    signalId?: StringFieldUpdateOperationsInput | string
+    insightId?: StringFieldUpdateOperationsInput | string
+    insightType?: StringFieldUpdateOperationsInput | string
+    originalRecommendation?: NullableJsonNullValueInput | InputJsonValue
+    overrideReason?: StringFieldUpdateOperationsInput | string
+    executiveJustification?: NullableStringFieldUpdateOperationsInput | string | null
+    newValue?: NullableJsonNullValueInput | InputJsonValue
+    executiveId?: StringFieldUpdateOperationsInput | string
+    executiveName?: StringFieldUpdateOperationsInput | string
+    executiveEmail?: StringFieldUpdateOperationsInput | string
+    overriddenAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
   export type NotificationCreateInput = {
     id?: string
     type: $Enums.NotificationType
@@ -33553,6 +35121,12 @@ export namespace Prisma {
     none?: InputGroupWhereInput
   }
 
+  export type AIInsightOverrideListRelationFilter = {
+    every?: AIInsightOverrideWhereInput
+    some?: AIInsightOverrideWhereInput
+    none?: AIInsightOverrideWhereInput
+  }
+
   export type DepartmentListRelationFilter = {
     every?: DepartmentWhereInput
     some?: DepartmentWhereInput
@@ -33624,6 +35198,10 @@ export namespace Prisma {
   }
 
   export type InputGroupOrderByRelationAggregateInput = {
+    _count?: SortOrder
+  }
+
+  export type AIInsightOverrideOrderByRelationAggregateInput = {
     _count?: SortOrder
   }
 
@@ -35289,6 +36867,50 @@ export namespace Prisma {
     confidence?: SortOrder
   }
 
+  export type AIInsightOverrideCountOrderByAggregateInput = {
+    id?: SortOrder
+    signalId?: SortOrder
+    insightId?: SortOrder
+    insightType?: SortOrder
+    originalRecommendation?: SortOrder
+    overrideReason?: SortOrder
+    executiveJustification?: SortOrder
+    newValue?: SortOrder
+    executiveId?: SortOrder
+    executiveName?: SortOrder
+    executiveEmail?: SortOrder
+    overriddenAt?: SortOrder
+    createdAt?: SortOrder
+  }
+
+  export type AIInsightOverrideMaxOrderByAggregateInput = {
+    id?: SortOrder
+    signalId?: SortOrder
+    insightId?: SortOrder
+    insightType?: SortOrder
+    overrideReason?: SortOrder
+    executiveJustification?: SortOrder
+    executiveId?: SortOrder
+    executiveName?: SortOrder
+    executiveEmail?: SortOrder
+    overriddenAt?: SortOrder
+    createdAt?: SortOrder
+  }
+
+  export type AIInsightOverrideMinOrderByAggregateInput = {
+    id?: SortOrder
+    signalId?: SortOrder
+    insightId?: SortOrder
+    insightType?: SortOrder
+    overrideReason?: SortOrder
+    executiveJustification?: SortOrder
+    executiveId?: SortOrder
+    executiveName?: SortOrder
+    executiveEmail?: SortOrder
+    overriddenAt?: SortOrder
+    createdAt?: SortOrder
+  }
+
   export type EnumNotificationTypeFilter<$PrismaModel = never> = {
     equals?: $Enums.NotificationType | EnumNotificationTypeFieldRefInput<$PrismaModel>
     in?: $Enums.NotificationType[] | ListEnumNotificationTypeFieldRefInput<$PrismaModel>
@@ -35469,6 +37091,13 @@ export namespace Prisma {
     connect?: InputGroupWhereUniqueInput | InputGroupWhereUniqueInput[]
   }
 
+  export type AIInsightOverrideCreateNestedManyWithoutExecutiveInput = {
+    create?: XOR<AIInsightOverrideCreateWithoutExecutiveInput, AIInsightOverrideUncheckedCreateWithoutExecutiveInput> | AIInsightOverrideCreateWithoutExecutiveInput[] | AIInsightOverrideUncheckedCreateWithoutExecutiveInput[]
+    connectOrCreate?: AIInsightOverrideCreateOrConnectWithoutExecutiveInput | AIInsightOverrideCreateOrConnectWithoutExecutiveInput[]
+    createMany?: AIInsightOverrideCreateManyExecutiveInputEnvelope
+    connect?: AIInsightOverrideWhereUniqueInput | AIInsightOverrideWhereUniqueInput[]
+  }
+
   export type DepartmentCreateNestedManyWithoutManagerInput = {
     create?: XOR<DepartmentCreateWithoutManagerInput, DepartmentUncheckedCreateWithoutManagerInput> | DepartmentCreateWithoutManagerInput[] | DepartmentUncheckedCreateWithoutManagerInput[]
     connectOrCreate?: DepartmentCreateOrConnectWithoutManagerInput | DepartmentCreateOrConnectWithoutManagerInput[]
@@ -35591,6 +37220,13 @@ export namespace Prisma {
     connectOrCreate?: InputGroupCreateOrConnectWithoutCreatorInput | InputGroupCreateOrConnectWithoutCreatorInput[]
     createMany?: InputGroupCreateManyCreatorInputEnvelope
     connect?: InputGroupWhereUniqueInput | InputGroupWhereUniqueInput[]
+  }
+
+  export type AIInsightOverrideUncheckedCreateNestedManyWithoutExecutiveInput = {
+    create?: XOR<AIInsightOverrideCreateWithoutExecutiveInput, AIInsightOverrideUncheckedCreateWithoutExecutiveInput> | AIInsightOverrideCreateWithoutExecutiveInput[] | AIInsightOverrideUncheckedCreateWithoutExecutiveInput[]
+    connectOrCreate?: AIInsightOverrideCreateOrConnectWithoutExecutiveInput | AIInsightOverrideCreateOrConnectWithoutExecutiveInput[]
+    createMany?: AIInsightOverrideCreateManyExecutiveInputEnvelope
+    connect?: AIInsightOverrideWhereUniqueInput | AIInsightOverrideWhereUniqueInput[]
   }
 
   export type DepartmentUncheckedCreateNestedManyWithoutManagerInput = {
@@ -35851,6 +37487,20 @@ export namespace Prisma {
     deleteMany?: InputGroupScalarWhereInput | InputGroupScalarWhereInput[]
   }
 
+  export type AIInsightOverrideUpdateManyWithoutExecutiveNestedInput = {
+    create?: XOR<AIInsightOverrideCreateWithoutExecutiveInput, AIInsightOverrideUncheckedCreateWithoutExecutiveInput> | AIInsightOverrideCreateWithoutExecutiveInput[] | AIInsightOverrideUncheckedCreateWithoutExecutiveInput[]
+    connectOrCreate?: AIInsightOverrideCreateOrConnectWithoutExecutiveInput | AIInsightOverrideCreateOrConnectWithoutExecutiveInput[]
+    upsert?: AIInsightOverrideUpsertWithWhereUniqueWithoutExecutiveInput | AIInsightOverrideUpsertWithWhereUniqueWithoutExecutiveInput[]
+    createMany?: AIInsightOverrideCreateManyExecutiveInputEnvelope
+    set?: AIInsightOverrideWhereUniqueInput | AIInsightOverrideWhereUniqueInput[]
+    disconnect?: AIInsightOverrideWhereUniqueInput | AIInsightOverrideWhereUniqueInput[]
+    delete?: AIInsightOverrideWhereUniqueInput | AIInsightOverrideWhereUniqueInput[]
+    connect?: AIInsightOverrideWhereUniqueInput | AIInsightOverrideWhereUniqueInput[]
+    update?: AIInsightOverrideUpdateWithWhereUniqueWithoutExecutiveInput | AIInsightOverrideUpdateWithWhereUniqueWithoutExecutiveInput[]
+    updateMany?: AIInsightOverrideUpdateManyWithWhereWithoutExecutiveInput | AIInsightOverrideUpdateManyWithWhereWithoutExecutiveInput[]
+    deleteMany?: AIInsightOverrideScalarWhereInput | AIInsightOverrideScalarWhereInput[]
+  }
+
   export type DepartmentUpdateManyWithoutManagerNestedInput = {
     create?: XOR<DepartmentCreateWithoutManagerInput, DepartmentUncheckedCreateWithoutManagerInput> | DepartmentCreateWithoutManagerInput[] | DepartmentUncheckedCreateWithoutManagerInput[]
     connectOrCreate?: DepartmentCreateOrConnectWithoutManagerInput | DepartmentCreateOrConnectWithoutManagerInput[]
@@ -36096,6 +37746,20 @@ export namespace Prisma {
     update?: InputGroupUpdateWithWhereUniqueWithoutCreatorInput | InputGroupUpdateWithWhereUniqueWithoutCreatorInput[]
     updateMany?: InputGroupUpdateManyWithWhereWithoutCreatorInput | InputGroupUpdateManyWithWhereWithoutCreatorInput[]
     deleteMany?: InputGroupScalarWhereInput | InputGroupScalarWhereInput[]
+  }
+
+  export type AIInsightOverrideUncheckedUpdateManyWithoutExecutiveNestedInput = {
+    create?: XOR<AIInsightOverrideCreateWithoutExecutiveInput, AIInsightOverrideUncheckedCreateWithoutExecutiveInput> | AIInsightOverrideCreateWithoutExecutiveInput[] | AIInsightOverrideUncheckedCreateWithoutExecutiveInput[]
+    connectOrCreate?: AIInsightOverrideCreateOrConnectWithoutExecutiveInput | AIInsightOverrideCreateOrConnectWithoutExecutiveInput[]
+    upsert?: AIInsightOverrideUpsertWithWhereUniqueWithoutExecutiveInput | AIInsightOverrideUpsertWithWhereUniqueWithoutExecutiveInput[]
+    createMany?: AIInsightOverrideCreateManyExecutiveInputEnvelope
+    set?: AIInsightOverrideWhereUniqueInput | AIInsightOverrideWhereUniqueInput[]
+    disconnect?: AIInsightOverrideWhereUniqueInput | AIInsightOverrideWhereUniqueInput[]
+    delete?: AIInsightOverrideWhereUniqueInput | AIInsightOverrideWhereUniqueInput[]
+    connect?: AIInsightOverrideWhereUniqueInput | AIInsightOverrideWhereUniqueInput[]
+    update?: AIInsightOverrideUpdateWithWhereUniqueWithoutExecutiveInput | AIInsightOverrideUpdateWithWhereUniqueWithoutExecutiveInput[]
+    updateMany?: AIInsightOverrideUpdateManyWithWhereWithoutExecutiveInput | AIInsightOverrideUpdateManyWithWhereWithoutExecutiveInput[]
+    deleteMany?: AIInsightOverrideScalarWhereInput | AIInsightOverrideScalarWhereInput[]
   }
 
   export type DepartmentUncheckedUpdateManyWithoutManagerNestedInput = {
@@ -36660,11 +38324,25 @@ export namespace Prisma {
     connect?: HotspotSignalWhereUniqueInput | HotspotSignalWhereUniqueInput[]
   }
 
+  export type AIInsightOverrideCreateNestedManyWithoutSignalInput = {
+    create?: XOR<AIInsightOverrideCreateWithoutSignalInput, AIInsightOverrideUncheckedCreateWithoutSignalInput> | AIInsightOverrideCreateWithoutSignalInput[] | AIInsightOverrideUncheckedCreateWithoutSignalInput[]
+    connectOrCreate?: AIInsightOverrideCreateOrConnectWithoutSignalInput | AIInsightOverrideCreateOrConnectWithoutSignalInput[]
+    createMany?: AIInsightOverrideCreateManySignalInputEnvelope
+    connect?: AIInsightOverrideWhereUniqueInput | AIInsightOverrideWhereUniqueInput[]
+  }
+
   export type HotspotSignalUncheckedCreateNestedManyWithoutSignalInput = {
     create?: XOR<HotspotSignalCreateWithoutSignalInput, HotspotSignalUncheckedCreateWithoutSignalInput> | HotspotSignalCreateWithoutSignalInput[] | HotspotSignalUncheckedCreateWithoutSignalInput[]
     connectOrCreate?: HotspotSignalCreateOrConnectWithoutSignalInput | HotspotSignalCreateOrConnectWithoutSignalInput[]
     createMany?: HotspotSignalCreateManySignalInputEnvelope
     connect?: HotspotSignalWhereUniqueInput | HotspotSignalWhereUniqueInput[]
+  }
+
+  export type AIInsightOverrideUncheckedCreateNestedManyWithoutSignalInput = {
+    create?: XOR<AIInsightOverrideCreateWithoutSignalInput, AIInsightOverrideUncheckedCreateWithoutSignalInput> | AIInsightOverrideCreateWithoutSignalInput[] | AIInsightOverrideUncheckedCreateWithoutSignalInput[]
+    connectOrCreate?: AIInsightOverrideCreateOrConnectWithoutSignalInput | AIInsightOverrideCreateOrConnectWithoutSignalInput[]
+    createMany?: AIInsightOverrideCreateManySignalInputEnvelope
+    connect?: AIInsightOverrideWhereUniqueInput | AIInsightOverrideWhereUniqueInput[]
   }
 
   export type EnumSeverityFieldUpdateOperationsInput = {
@@ -36729,6 +38407,20 @@ export namespace Prisma {
     deleteMany?: HotspotSignalScalarWhereInput | HotspotSignalScalarWhereInput[]
   }
 
+  export type AIInsightOverrideUpdateManyWithoutSignalNestedInput = {
+    create?: XOR<AIInsightOverrideCreateWithoutSignalInput, AIInsightOverrideUncheckedCreateWithoutSignalInput> | AIInsightOverrideCreateWithoutSignalInput[] | AIInsightOverrideUncheckedCreateWithoutSignalInput[]
+    connectOrCreate?: AIInsightOverrideCreateOrConnectWithoutSignalInput | AIInsightOverrideCreateOrConnectWithoutSignalInput[]
+    upsert?: AIInsightOverrideUpsertWithWhereUniqueWithoutSignalInput | AIInsightOverrideUpsertWithWhereUniqueWithoutSignalInput[]
+    createMany?: AIInsightOverrideCreateManySignalInputEnvelope
+    set?: AIInsightOverrideWhereUniqueInput | AIInsightOverrideWhereUniqueInput[]
+    disconnect?: AIInsightOverrideWhereUniqueInput | AIInsightOverrideWhereUniqueInput[]
+    delete?: AIInsightOverrideWhereUniqueInput | AIInsightOverrideWhereUniqueInput[]
+    connect?: AIInsightOverrideWhereUniqueInput | AIInsightOverrideWhereUniqueInput[]
+    update?: AIInsightOverrideUpdateWithWhereUniqueWithoutSignalInput | AIInsightOverrideUpdateWithWhereUniqueWithoutSignalInput[]
+    updateMany?: AIInsightOverrideUpdateManyWithWhereWithoutSignalInput | AIInsightOverrideUpdateManyWithWhereWithoutSignalInput[]
+    deleteMany?: AIInsightOverrideScalarWhereInput | AIInsightOverrideScalarWhereInput[]
+  }
+
   export type HotspotSignalUncheckedUpdateManyWithoutSignalNestedInput = {
     create?: XOR<HotspotSignalCreateWithoutSignalInput, HotspotSignalUncheckedCreateWithoutSignalInput> | HotspotSignalCreateWithoutSignalInput[] | HotspotSignalUncheckedCreateWithoutSignalInput[]
     connectOrCreate?: HotspotSignalCreateOrConnectWithoutSignalInput | HotspotSignalCreateOrConnectWithoutSignalInput[]
@@ -36741,6 +38433,20 @@ export namespace Prisma {
     update?: HotspotSignalUpdateWithWhereUniqueWithoutSignalInput | HotspotSignalUpdateWithWhereUniqueWithoutSignalInput[]
     updateMany?: HotspotSignalUpdateManyWithWhereWithoutSignalInput | HotspotSignalUpdateManyWithWhereWithoutSignalInput[]
     deleteMany?: HotspotSignalScalarWhereInput | HotspotSignalScalarWhereInput[]
+  }
+
+  export type AIInsightOverrideUncheckedUpdateManyWithoutSignalNestedInput = {
+    create?: XOR<AIInsightOverrideCreateWithoutSignalInput, AIInsightOverrideUncheckedCreateWithoutSignalInput> | AIInsightOverrideCreateWithoutSignalInput[] | AIInsightOverrideUncheckedCreateWithoutSignalInput[]
+    connectOrCreate?: AIInsightOverrideCreateOrConnectWithoutSignalInput | AIInsightOverrideCreateOrConnectWithoutSignalInput[]
+    upsert?: AIInsightOverrideUpsertWithWhereUniqueWithoutSignalInput | AIInsightOverrideUpsertWithWhereUniqueWithoutSignalInput[]
+    createMany?: AIInsightOverrideCreateManySignalInputEnvelope
+    set?: AIInsightOverrideWhereUniqueInput | AIInsightOverrideWhereUniqueInput[]
+    disconnect?: AIInsightOverrideWhereUniqueInput | AIInsightOverrideWhereUniqueInput[]
+    delete?: AIInsightOverrideWhereUniqueInput | AIInsightOverrideWhereUniqueInput[]
+    connect?: AIInsightOverrideWhereUniqueInput | AIInsightOverrideWhereUniqueInput[]
+    update?: AIInsightOverrideUpdateWithWhereUniqueWithoutSignalInput | AIInsightOverrideUpdateWithWhereUniqueWithoutSignalInput[]
+    updateMany?: AIInsightOverrideUpdateManyWithWhereWithoutSignalInput | AIInsightOverrideUpdateManyWithWhereWithoutSignalInput[]
+    deleteMany?: AIInsightOverrideScalarWhereInput | AIInsightOverrideScalarWhereInput[]
   }
 
   export type HotspotSignalCreateNestedManyWithoutHotspotInput = {
@@ -37501,6 +39207,34 @@ export namespace Prisma {
     update?: XOR<XOR<UserUpdateToOneWithWhereWithoutAiAnalysisAuditsInput, UserUpdateWithoutAiAnalysisAuditsInput>, UserUncheckedUpdateWithoutAiAnalysisAuditsInput>
   }
 
+  export type SignalCreateNestedOneWithoutAiInsightOverridesInput = {
+    create?: XOR<SignalCreateWithoutAiInsightOverridesInput, SignalUncheckedCreateWithoutAiInsightOverridesInput>
+    connectOrCreate?: SignalCreateOrConnectWithoutAiInsightOverridesInput
+    connect?: SignalWhereUniqueInput
+  }
+
+  export type UserCreateNestedOneWithoutAiInsightOverridesInput = {
+    create?: XOR<UserCreateWithoutAiInsightOverridesInput, UserUncheckedCreateWithoutAiInsightOverridesInput>
+    connectOrCreate?: UserCreateOrConnectWithoutAiInsightOverridesInput
+    connect?: UserWhereUniqueInput
+  }
+
+  export type SignalUpdateOneRequiredWithoutAiInsightOverridesNestedInput = {
+    create?: XOR<SignalCreateWithoutAiInsightOverridesInput, SignalUncheckedCreateWithoutAiInsightOverridesInput>
+    connectOrCreate?: SignalCreateOrConnectWithoutAiInsightOverridesInput
+    upsert?: SignalUpsertWithoutAiInsightOverridesInput
+    connect?: SignalWhereUniqueInput
+    update?: XOR<XOR<SignalUpdateToOneWithWhereWithoutAiInsightOverridesInput, SignalUpdateWithoutAiInsightOverridesInput>, SignalUncheckedUpdateWithoutAiInsightOverridesInput>
+  }
+
+  export type UserUpdateOneRequiredWithoutAiInsightOverridesNestedInput = {
+    create?: XOR<UserCreateWithoutAiInsightOverridesInput, UserUncheckedCreateWithoutAiInsightOverridesInput>
+    connectOrCreate?: UserCreateOrConnectWithoutAiInsightOverridesInput
+    upsert?: UserUpsertWithoutAiInsightOverridesInput
+    connect?: UserWhereUniqueInput
+    update?: XOR<XOR<UserUpdateToOneWithWhereWithoutAiInsightOverridesInput, UserUpdateWithoutAiInsightOverridesInput>, UserUncheckedUpdateWithoutAiInsightOverridesInput>
+  }
+
   export type EnumNotificationTypeFieldUpdateOperationsInput = {
     set?: $Enums.NotificationType
   }
@@ -38093,6 +39827,7 @@ export namespace Prisma {
     auditLogs?: AuditLogCreateNestedManyWithoutUserInput
     aiAnalysisAudits?: AIAnalysisAuditCreateNestedManyWithoutUserInput
     inputGroups?: InputGroupCreateNestedManyWithoutCreatorInput
+    aiInsightOverrides?: AIInsightOverrideCreateNestedManyWithoutExecutiveInput
     departmentManaged?: DepartmentCreateNestedManyWithoutManagerInput
     departmentObj?: DepartmentCreateNestedOneWithoutUsersInput
     ledTeams?: TeamCreateNestedManyWithoutLeaderInput
@@ -38133,6 +39868,7 @@ export namespace Prisma {
     auditLogs?: AuditLogUncheckedCreateNestedManyWithoutUserInput
     aiAnalysisAudits?: AIAnalysisAuditUncheckedCreateNestedManyWithoutUserInput
     inputGroups?: InputGroupUncheckedCreateNestedManyWithoutCreatorInput
+    aiInsightOverrides?: AIInsightOverrideUncheckedCreateNestedManyWithoutExecutiveInput
     departmentManaged?: DepartmentUncheckedCreateNestedManyWithoutManagerInput
     ledTeams?: TeamUncheckedCreateNestedManyWithoutLeaderInput
     teamMemberships?: TeamUncheckedCreateNestedManyWithoutMembersInput
@@ -38176,6 +39912,7 @@ export namespace Prisma {
     auditLogs?: AuditLogCreateNestedManyWithoutUserInput
     aiAnalysisAudits?: AIAnalysisAuditCreateNestedManyWithoutUserInput
     inputGroups?: InputGroupCreateNestedManyWithoutCreatorInput
+    aiInsightOverrides?: AIInsightOverrideCreateNestedManyWithoutExecutiveInput
     departmentManaged?: DepartmentCreateNestedManyWithoutManagerInput
     departmentObj?: DepartmentCreateNestedOneWithoutUsersInput
     ledTeams?: TeamCreateNestedManyWithoutLeaderInput
@@ -38216,6 +39953,7 @@ export namespace Prisma {
     auditLogs?: AuditLogUncheckedCreateNestedManyWithoutUserInput
     aiAnalysisAudits?: AIAnalysisAuditUncheckedCreateNestedManyWithoutUserInput
     inputGroups?: InputGroupUncheckedCreateNestedManyWithoutCreatorInput
+    aiInsightOverrides?: AIInsightOverrideUncheckedCreateNestedManyWithoutExecutiveInput
     departmentManaged?: DepartmentUncheckedCreateNestedManyWithoutManagerInput
     ledTeams?: TeamUncheckedCreateNestedManyWithoutLeaderInput
     teamMemberships?: TeamUncheckedCreateNestedManyWithoutMembersInput
@@ -38321,6 +40059,7 @@ export namespace Prisma {
     team?: TeamCreateNestedOneWithoutSignalsInput
     category?: CategoryCreateNestedOneWithoutSignalsInput
     hotspots?: HotspotSignalCreateNestedManyWithoutSignalInput
+    aiInsightOverrides?: AIInsightOverrideCreateNestedManyWithoutSignalInput
   }
 
   export type SignalUncheckedCreateWithoutCreatedByInput = {
@@ -38365,6 +40104,7 @@ export namespace Prisma {
     createdAt?: Date | string
     updatedAt?: Date | string
     hotspots?: HotspotSignalUncheckedCreateNestedManyWithoutSignalInput
+    aiInsightOverrides?: AIInsightOverrideUncheckedCreateNestedManyWithoutSignalInput
   }
 
   export type SignalCreateOrConnectWithoutCreatedByInput = {
@@ -38865,6 +40605,46 @@ export namespace Prisma {
     skipDuplicates?: boolean
   }
 
+  export type AIInsightOverrideCreateWithoutExecutiveInput = {
+    id?: string
+    insightId: string
+    insightType: string
+    originalRecommendation?: NullableJsonNullValueInput | InputJsonValue
+    overrideReason: string
+    executiveJustification?: string | null
+    newValue?: NullableJsonNullValueInput | InputJsonValue
+    executiveName: string
+    executiveEmail: string
+    overriddenAt?: Date | string
+    createdAt?: Date | string
+    signal: SignalCreateNestedOneWithoutAiInsightOverridesInput
+  }
+
+  export type AIInsightOverrideUncheckedCreateWithoutExecutiveInput = {
+    id?: string
+    signalId: string
+    insightId: string
+    insightType: string
+    originalRecommendation?: NullableJsonNullValueInput | InputJsonValue
+    overrideReason: string
+    executiveJustification?: string | null
+    newValue?: NullableJsonNullValueInput | InputJsonValue
+    executiveName: string
+    executiveEmail: string
+    overriddenAt?: Date | string
+    createdAt?: Date | string
+  }
+
+  export type AIInsightOverrideCreateOrConnectWithoutExecutiveInput = {
+    where: AIInsightOverrideWhereUniqueInput
+    create: XOR<AIInsightOverrideCreateWithoutExecutiveInput, AIInsightOverrideUncheckedCreateWithoutExecutiveInput>
+  }
+
+  export type AIInsightOverrideCreateManyExecutiveInputEnvelope = {
+    data: AIInsightOverrideCreateManyExecutiveInput | AIInsightOverrideCreateManyExecutiveInput[]
+    skipDuplicates?: boolean
+  }
+
   export type DepartmentCreateWithoutManagerInput = {
     id?: string
     name: string
@@ -39083,6 +40863,7 @@ export namespace Prisma {
     auditLogs?: AuditLogUpdateManyWithoutUserNestedInput
     aiAnalysisAudits?: AIAnalysisAuditUpdateManyWithoutUserNestedInput
     inputGroups?: InputGroupUpdateManyWithoutCreatorNestedInput
+    aiInsightOverrides?: AIInsightOverrideUpdateManyWithoutExecutiveNestedInput
     departmentManaged?: DepartmentUpdateManyWithoutManagerNestedInput
     departmentObj?: DepartmentUpdateOneWithoutUsersNestedInput
     ledTeams?: TeamUpdateManyWithoutLeaderNestedInput
@@ -39123,6 +40904,7 @@ export namespace Prisma {
     auditLogs?: AuditLogUncheckedUpdateManyWithoutUserNestedInput
     aiAnalysisAudits?: AIAnalysisAuditUncheckedUpdateManyWithoutUserNestedInput
     inputGroups?: InputGroupUncheckedUpdateManyWithoutCreatorNestedInput
+    aiInsightOverrides?: AIInsightOverrideUncheckedUpdateManyWithoutExecutiveNestedInput
     departmentManaged?: DepartmentUncheckedUpdateManyWithoutManagerNestedInput
     ledTeams?: TeamUncheckedUpdateManyWithoutLeaderNestedInput
     teamMemberships?: TeamUncheckedUpdateManyWithoutMembersNestedInput
@@ -39647,6 +41429,41 @@ export namespace Prisma {
     updatedAt?: DateTimeFilter<"InputGroup"> | Date | string
   }
 
+  export type AIInsightOverrideUpsertWithWhereUniqueWithoutExecutiveInput = {
+    where: AIInsightOverrideWhereUniqueInput
+    update: XOR<AIInsightOverrideUpdateWithoutExecutiveInput, AIInsightOverrideUncheckedUpdateWithoutExecutiveInput>
+    create: XOR<AIInsightOverrideCreateWithoutExecutiveInput, AIInsightOverrideUncheckedCreateWithoutExecutiveInput>
+  }
+
+  export type AIInsightOverrideUpdateWithWhereUniqueWithoutExecutiveInput = {
+    where: AIInsightOverrideWhereUniqueInput
+    data: XOR<AIInsightOverrideUpdateWithoutExecutiveInput, AIInsightOverrideUncheckedUpdateWithoutExecutiveInput>
+  }
+
+  export type AIInsightOverrideUpdateManyWithWhereWithoutExecutiveInput = {
+    where: AIInsightOverrideScalarWhereInput
+    data: XOR<AIInsightOverrideUpdateManyMutationInput, AIInsightOverrideUncheckedUpdateManyWithoutExecutiveInput>
+  }
+
+  export type AIInsightOverrideScalarWhereInput = {
+    AND?: AIInsightOverrideScalarWhereInput | AIInsightOverrideScalarWhereInput[]
+    OR?: AIInsightOverrideScalarWhereInput[]
+    NOT?: AIInsightOverrideScalarWhereInput | AIInsightOverrideScalarWhereInput[]
+    id?: StringFilter<"AIInsightOverride"> | string
+    signalId?: StringFilter<"AIInsightOverride"> | string
+    insightId?: StringFilter<"AIInsightOverride"> | string
+    insightType?: StringFilter<"AIInsightOverride"> | string
+    originalRecommendation?: JsonNullableFilter<"AIInsightOverride">
+    overrideReason?: StringFilter<"AIInsightOverride"> | string
+    executiveJustification?: StringNullableFilter<"AIInsightOverride"> | string | null
+    newValue?: JsonNullableFilter<"AIInsightOverride">
+    executiveId?: StringFilter<"AIInsightOverride"> | string
+    executiveName?: StringFilter<"AIInsightOverride"> | string
+    executiveEmail?: StringFilter<"AIInsightOverride"> | string
+    overriddenAt?: DateTimeFilter<"AIInsightOverride"> | Date | string
+    createdAt?: DateTimeFilter<"AIInsightOverride"> | Date | string
+  }
+
   export type DepartmentUpsertWithWhereUniqueWithoutManagerInput = {
     where: DepartmentWhereUniqueInput
     update: XOR<DepartmentUpdateWithoutManagerInput, DepartmentUncheckedUpdateWithoutManagerInput>
@@ -39815,6 +41632,7 @@ export namespace Prisma {
     auditLogs?: AuditLogCreateNestedManyWithoutUserInput
     aiAnalysisAudits?: AIAnalysisAuditCreateNestedManyWithoutUserInput
     inputGroups?: InputGroupCreateNestedManyWithoutCreatorInput
+    aiInsightOverrides?: AIInsightOverrideCreateNestedManyWithoutExecutiveInput
     departmentObj?: DepartmentCreateNestedOneWithoutUsersInput
     ledTeams?: TeamCreateNestedManyWithoutLeaderInput
     teamMemberships?: TeamCreateNestedManyWithoutMembersInput
@@ -39855,6 +41673,7 @@ export namespace Prisma {
     auditLogs?: AuditLogUncheckedCreateNestedManyWithoutUserInput
     aiAnalysisAudits?: AIAnalysisAuditUncheckedCreateNestedManyWithoutUserInput
     inputGroups?: InputGroupUncheckedCreateNestedManyWithoutCreatorInput
+    aiInsightOverrides?: AIInsightOverrideUncheckedCreateNestedManyWithoutExecutiveInput
     ledTeams?: TeamUncheckedCreateNestedManyWithoutLeaderInput
     teamMemberships?: TeamUncheckedCreateNestedManyWithoutMembersInput
   }
@@ -39952,6 +41771,7 @@ export namespace Prisma {
     category?: CategoryCreateNestedOneWithoutSignalsInput
     createdBy?: UserCreateNestedOneWithoutSignalsInput
     hotspots?: HotspotSignalCreateNestedManyWithoutSignalInput
+    aiInsightOverrides?: AIInsightOverrideCreateNestedManyWithoutSignalInput
   }
 
   export type SignalUncheckedCreateWithoutDepartmentInput = {
@@ -39996,6 +41816,7 @@ export namespace Prisma {
     createdAt?: Date | string
     updatedAt?: Date | string
     hotspots?: HotspotSignalUncheckedCreateNestedManyWithoutSignalInput
+    aiInsightOverrides?: AIInsightOverrideUncheckedCreateNestedManyWithoutSignalInput
   }
 
   export type SignalCreateOrConnectWithoutDepartmentInput = {
@@ -40042,6 +41863,7 @@ export namespace Prisma {
     auditLogs?: AuditLogCreateNestedManyWithoutUserInput
     aiAnalysisAudits?: AIAnalysisAuditCreateNestedManyWithoutUserInput
     inputGroups?: InputGroupCreateNestedManyWithoutCreatorInput
+    aiInsightOverrides?: AIInsightOverrideCreateNestedManyWithoutExecutiveInput
     departmentManaged?: DepartmentCreateNestedManyWithoutManagerInput
     ledTeams?: TeamCreateNestedManyWithoutLeaderInput
     teamMemberships?: TeamCreateNestedManyWithoutMembersInput
@@ -40081,6 +41903,7 @@ export namespace Prisma {
     auditLogs?: AuditLogUncheckedCreateNestedManyWithoutUserInput
     aiAnalysisAudits?: AIAnalysisAuditUncheckedCreateNestedManyWithoutUserInput
     inputGroups?: InputGroupUncheckedCreateNestedManyWithoutCreatorInput
+    aiInsightOverrides?: AIInsightOverrideUncheckedCreateNestedManyWithoutExecutiveInput
     departmentManaged?: DepartmentUncheckedCreateNestedManyWithoutManagerInput
     ledTeams?: TeamUncheckedCreateNestedManyWithoutLeaderInput
     teamMemberships?: TeamUncheckedCreateNestedManyWithoutMembersInput
@@ -40141,6 +41964,7 @@ export namespace Prisma {
     auditLogs?: AuditLogUpdateManyWithoutUserNestedInput
     aiAnalysisAudits?: AIAnalysisAuditUpdateManyWithoutUserNestedInput
     inputGroups?: InputGroupUpdateManyWithoutCreatorNestedInput
+    aiInsightOverrides?: AIInsightOverrideUpdateManyWithoutExecutiveNestedInput
     departmentObj?: DepartmentUpdateOneWithoutUsersNestedInput
     ledTeams?: TeamUpdateManyWithoutLeaderNestedInput
     teamMemberships?: TeamUpdateManyWithoutMembersNestedInput
@@ -40181,6 +42005,7 @@ export namespace Prisma {
     auditLogs?: AuditLogUncheckedUpdateManyWithoutUserNestedInput
     aiAnalysisAudits?: AIAnalysisAuditUncheckedUpdateManyWithoutUserNestedInput
     inputGroups?: InputGroupUncheckedUpdateManyWithoutCreatorNestedInput
+    aiInsightOverrides?: AIInsightOverrideUncheckedUpdateManyWithoutExecutiveNestedInput
     ledTeams?: TeamUncheckedUpdateManyWithoutLeaderNestedInput
     teamMemberships?: TeamUncheckedUpdateManyWithoutMembersNestedInput
   }
@@ -40308,6 +42133,7 @@ export namespace Prisma {
     auditLogs?: AuditLogCreateNestedManyWithoutUserInput
     aiAnalysisAudits?: AIAnalysisAuditCreateNestedManyWithoutUserInput
     inputGroups?: InputGroupCreateNestedManyWithoutCreatorInput
+    aiInsightOverrides?: AIInsightOverrideCreateNestedManyWithoutExecutiveInput
     departmentManaged?: DepartmentCreateNestedManyWithoutManagerInput
     departmentObj?: DepartmentCreateNestedOneWithoutUsersInput
     teamMemberships?: TeamCreateNestedManyWithoutMembersInput
@@ -40348,6 +42174,7 @@ export namespace Prisma {
     auditLogs?: AuditLogUncheckedCreateNestedManyWithoutUserInput
     aiAnalysisAudits?: AIAnalysisAuditUncheckedCreateNestedManyWithoutUserInput
     inputGroups?: InputGroupUncheckedCreateNestedManyWithoutCreatorInput
+    aiInsightOverrides?: AIInsightOverrideUncheckedCreateNestedManyWithoutExecutiveInput
     departmentManaged?: DepartmentUncheckedCreateNestedManyWithoutManagerInput
     teamMemberships?: TeamUncheckedCreateNestedManyWithoutMembersInput
   }
@@ -40399,6 +42226,7 @@ export namespace Prisma {
     category?: CategoryCreateNestedOneWithoutSignalsInput
     createdBy?: UserCreateNestedOneWithoutSignalsInput
     hotspots?: HotspotSignalCreateNestedManyWithoutSignalInput
+    aiInsightOverrides?: AIInsightOverrideCreateNestedManyWithoutSignalInput
   }
 
   export type SignalUncheckedCreateWithoutTeamInput = {
@@ -40443,6 +42271,7 @@ export namespace Prisma {
     createdAt?: Date | string
     updatedAt?: Date | string
     hotspots?: HotspotSignalUncheckedCreateNestedManyWithoutSignalInput
+    aiInsightOverrides?: AIInsightOverrideUncheckedCreateNestedManyWithoutSignalInput
   }
 
   export type SignalCreateOrConnectWithoutTeamInput = {
@@ -40489,6 +42318,7 @@ export namespace Prisma {
     auditLogs?: AuditLogCreateNestedManyWithoutUserInput
     aiAnalysisAudits?: AIAnalysisAuditCreateNestedManyWithoutUserInput
     inputGroups?: InputGroupCreateNestedManyWithoutCreatorInput
+    aiInsightOverrides?: AIInsightOverrideCreateNestedManyWithoutExecutiveInput
     departmentManaged?: DepartmentCreateNestedManyWithoutManagerInput
     departmentObj?: DepartmentCreateNestedOneWithoutUsersInput
     ledTeams?: TeamCreateNestedManyWithoutLeaderInput
@@ -40529,6 +42359,7 @@ export namespace Prisma {
     auditLogs?: AuditLogUncheckedCreateNestedManyWithoutUserInput
     aiAnalysisAudits?: AIAnalysisAuditUncheckedCreateNestedManyWithoutUserInput
     inputGroups?: InputGroupUncheckedCreateNestedManyWithoutCreatorInput
+    aiInsightOverrides?: AIInsightOverrideUncheckedCreateNestedManyWithoutExecutiveInput
     departmentManaged?: DepartmentUncheckedCreateNestedManyWithoutManagerInput
     ledTeams?: TeamUncheckedCreateNestedManyWithoutLeaderInput
   }
@@ -40630,6 +42461,7 @@ export namespace Prisma {
     auditLogs?: AuditLogUpdateManyWithoutUserNestedInput
     aiAnalysisAudits?: AIAnalysisAuditUpdateManyWithoutUserNestedInput
     inputGroups?: InputGroupUpdateManyWithoutCreatorNestedInput
+    aiInsightOverrides?: AIInsightOverrideUpdateManyWithoutExecutiveNestedInput
     departmentManaged?: DepartmentUpdateManyWithoutManagerNestedInput
     departmentObj?: DepartmentUpdateOneWithoutUsersNestedInput
     teamMemberships?: TeamUpdateManyWithoutMembersNestedInput
@@ -40670,6 +42502,7 @@ export namespace Prisma {
     auditLogs?: AuditLogUncheckedUpdateManyWithoutUserNestedInput
     aiAnalysisAudits?: AIAnalysisAuditUncheckedUpdateManyWithoutUserNestedInput
     inputGroups?: InputGroupUncheckedUpdateManyWithoutCreatorNestedInput
+    aiInsightOverrides?: AIInsightOverrideUncheckedUpdateManyWithoutExecutiveNestedInput
     departmentManaged?: DepartmentUncheckedUpdateManyWithoutManagerNestedInput
     teamMemberships?: TeamUncheckedUpdateManyWithoutMembersNestedInput
   }
@@ -40739,6 +42572,7 @@ export namespace Prisma {
     auditLogs?: AuditLogCreateNestedManyWithoutUserInput
     aiAnalysisAudits?: AIAnalysisAuditCreateNestedManyWithoutUserInput
     inputGroups?: InputGroupCreateNestedManyWithoutCreatorInput
+    aiInsightOverrides?: AIInsightOverrideCreateNestedManyWithoutExecutiveInput
     departmentManaged?: DepartmentCreateNestedManyWithoutManagerInput
     departmentObj?: DepartmentCreateNestedOneWithoutUsersInput
     ledTeams?: TeamCreateNestedManyWithoutLeaderInput
@@ -40779,6 +42613,7 @@ export namespace Prisma {
     auditLogs?: AuditLogUncheckedCreateNestedManyWithoutUserInput
     aiAnalysisAudits?: AIAnalysisAuditUncheckedCreateNestedManyWithoutUserInput
     inputGroups?: InputGroupUncheckedCreateNestedManyWithoutCreatorInput
+    aiInsightOverrides?: AIInsightOverrideUncheckedCreateNestedManyWithoutExecutiveInput
     departmentManaged?: DepartmentUncheckedCreateNestedManyWithoutManagerInput
     ledTeams?: TeamUncheckedCreateNestedManyWithoutLeaderInput
     teamMemberships?: TeamUncheckedCreateNestedManyWithoutMembersInput
@@ -40935,6 +42770,7 @@ export namespace Prisma {
     auditLogs?: AuditLogUpdateManyWithoutUserNestedInput
     aiAnalysisAudits?: AIAnalysisAuditUpdateManyWithoutUserNestedInput
     inputGroups?: InputGroupUpdateManyWithoutCreatorNestedInput
+    aiInsightOverrides?: AIInsightOverrideUpdateManyWithoutExecutiveNestedInput
     departmentManaged?: DepartmentUpdateManyWithoutManagerNestedInput
     departmentObj?: DepartmentUpdateOneWithoutUsersNestedInput
     ledTeams?: TeamUpdateManyWithoutLeaderNestedInput
@@ -40975,6 +42811,7 @@ export namespace Prisma {
     auditLogs?: AuditLogUncheckedUpdateManyWithoutUserNestedInput
     aiAnalysisAudits?: AIAnalysisAuditUncheckedUpdateManyWithoutUserNestedInput
     inputGroups?: InputGroupUncheckedUpdateManyWithoutCreatorNestedInput
+    aiInsightOverrides?: AIInsightOverrideUncheckedUpdateManyWithoutExecutiveNestedInput
     departmentManaged?: DepartmentUncheckedUpdateManyWithoutManagerNestedInput
     ledTeams?: TeamUncheckedUpdateManyWithoutLeaderNestedInput
     teamMemberships?: TeamUncheckedUpdateManyWithoutMembersNestedInput
@@ -41133,6 +42970,7 @@ export namespace Prisma {
     team?: TeamCreateNestedOneWithoutSignalsInput
     createdBy?: UserCreateNestedOneWithoutSignalsInput
     hotspots?: HotspotSignalCreateNestedManyWithoutSignalInput
+    aiInsightOverrides?: AIInsightOverrideCreateNestedManyWithoutSignalInput
   }
 
   export type SignalUncheckedCreateWithoutCategoryInput = {
@@ -41177,6 +43015,7 @@ export namespace Prisma {
     createdAt?: Date | string
     updatedAt?: Date | string
     hotspots?: HotspotSignalUncheckedCreateNestedManyWithoutSignalInput
+    aiInsightOverrides?: AIInsightOverrideUncheckedCreateNestedManyWithoutSignalInput
   }
 
   export type SignalCreateOrConnectWithoutCategoryInput = {
@@ -41434,6 +43273,7 @@ export namespace Prisma {
     auditLogs?: AuditLogCreateNestedManyWithoutUserInput
     aiAnalysisAudits?: AIAnalysisAuditCreateNestedManyWithoutUserInput
     inputGroups?: InputGroupCreateNestedManyWithoutCreatorInput
+    aiInsightOverrides?: AIInsightOverrideCreateNestedManyWithoutExecutiveInput
     departmentManaged?: DepartmentCreateNestedManyWithoutManagerInput
     departmentObj?: DepartmentCreateNestedOneWithoutUsersInput
     ledTeams?: TeamCreateNestedManyWithoutLeaderInput
@@ -41474,6 +43314,7 @@ export namespace Prisma {
     auditLogs?: AuditLogUncheckedCreateNestedManyWithoutUserInput
     aiAnalysisAudits?: AIAnalysisAuditUncheckedCreateNestedManyWithoutUserInput
     inputGroups?: InputGroupUncheckedCreateNestedManyWithoutCreatorInput
+    aiInsightOverrides?: AIInsightOverrideUncheckedCreateNestedManyWithoutExecutiveInput
     departmentManaged?: DepartmentUncheckedCreateNestedManyWithoutManagerInput
     ledTeams?: TeamUncheckedCreateNestedManyWithoutLeaderInput
     teamMemberships?: TeamUncheckedCreateNestedManyWithoutMembersInput
@@ -41505,6 +43346,46 @@ export namespace Prisma {
 
   export type HotspotSignalCreateManySignalInputEnvelope = {
     data: HotspotSignalCreateManySignalInput | HotspotSignalCreateManySignalInput[]
+    skipDuplicates?: boolean
+  }
+
+  export type AIInsightOverrideCreateWithoutSignalInput = {
+    id?: string
+    insightId: string
+    insightType: string
+    originalRecommendation?: NullableJsonNullValueInput | InputJsonValue
+    overrideReason: string
+    executiveJustification?: string | null
+    newValue?: NullableJsonNullValueInput | InputJsonValue
+    executiveName: string
+    executiveEmail: string
+    overriddenAt?: Date | string
+    createdAt?: Date | string
+    executive: UserCreateNestedOneWithoutAiInsightOverridesInput
+  }
+
+  export type AIInsightOverrideUncheckedCreateWithoutSignalInput = {
+    id?: string
+    insightId: string
+    insightType: string
+    originalRecommendation?: NullableJsonNullValueInput | InputJsonValue
+    overrideReason: string
+    executiveJustification?: string | null
+    newValue?: NullableJsonNullValueInput | InputJsonValue
+    executiveId: string
+    executiveName: string
+    executiveEmail: string
+    overriddenAt?: Date | string
+    createdAt?: Date | string
+  }
+
+  export type AIInsightOverrideCreateOrConnectWithoutSignalInput = {
+    where: AIInsightOverrideWhereUniqueInput
+    create: XOR<AIInsightOverrideCreateWithoutSignalInput, AIInsightOverrideUncheckedCreateWithoutSignalInput>
+  }
+
+  export type AIInsightOverrideCreateManySignalInputEnvelope = {
+    data: AIInsightOverrideCreateManySignalInput | AIInsightOverrideCreateManySignalInput[]
     skipDuplicates?: boolean
   }
 
@@ -41689,6 +43570,7 @@ export namespace Prisma {
     auditLogs?: AuditLogUpdateManyWithoutUserNestedInput
     aiAnalysisAudits?: AIAnalysisAuditUpdateManyWithoutUserNestedInput
     inputGroups?: InputGroupUpdateManyWithoutCreatorNestedInput
+    aiInsightOverrides?: AIInsightOverrideUpdateManyWithoutExecutiveNestedInput
     departmentManaged?: DepartmentUpdateManyWithoutManagerNestedInput
     departmentObj?: DepartmentUpdateOneWithoutUsersNestedInput
     ledTeams?: TeamUpdateManyWithoutLeaderNestedInput
@@ -41729,6 +43611,7 @@ export namespace Prisma {
     auditLogs?: AuditLogUncheckedUpdateManyWithoutUserNestedInput
     aiAnalysisAudits?: AIAnalysisAuditUncheckedUpdateManyWithoutUserNestedInput
     inputGroups?: InputGroupUncheckedUpdateManyWithoutCreatorNestedInput
+    aiInsightOverrides?: AIInsightOverrideUncheckedUpdateManyWithoutExecutiveNestedInput
     departmentManaged?: DepartmentUncheckedUpdateManyWithoutManagerNestedInput
     ledTeams?: TeamUncheckedUpdateManyWithoutLeaderNestedInput
     teamMemberships?: TeamUncheckedUpdateManyWithoutMembersNestedInput
@@ -41759,6 +43642,22 @@ export namespace Prisma {
     membershipStrength?: FloatFilter<"HotspotSignal"> | number
     isOutlier?: BoolFilter<"HotspotSignal"> | boolean
     addedAt?: DateTimeFilter<"HotspotSignal"> | Date | string
+  }
+
+  export type AIInsightOverrideUpsertWithWhereUniqueWithoutSignalInput = {
+    where: AIInsightOverrideWhereUniqueInput
+    update: XOR<AIInsightOverrideUpdateWithoutSignalInput, AIInsightOverrideUncheckedUpdateWithoutSignalInput>
+    create: XOR<AIInsightOverrideCreateWithoutSignalInput, AIInsightOverrideUncheckedCreateWithoutSignalInput>
+  }
+
+  export type AIInsightOverrideUpdateWithWhereUniqueWithoutSignalInput = {
+    where: AIInsightOverrideWhereUniqueInput
+    data: XOR<AIInsightOverrideUpdateWithoutSignalInput, AIInsightOverrideUncheckedUpdateWithoutSignalInput>
+  }
+
+  export type AIInsightOverrideUpdateManyWithWhereWithoutSignalInput = {
+    where: AIInsightOverrideScalarWhereInput
+    data: XOR<AIInsightOverrideUpdateManyMutationInput, AIInsightOverrideUncheckedUpdateManyWithoutSignalInput>
   }
 
   export type HotspotSignalCreateWithoutHotspotInput = {
@@ -42034,6 +43933,7 @@ export namespace Prisma {
     team?: TeamCreateNestedOneWithoutSignalsInput
     category?: CategoryCreateNestedOneWithoutSignalsInput
     createdBy?: UserCreateNestedOneWithoutSignalsInput
+    aiInsightOverrides?: AIInsightOverrideCreateNestedManyWithoutSignalInput
   }
 
   export type SignalUncheckedCreateWithoutHotspotsInput = {
@@ -42078,6 +43978,7 @@ export namespace Prisma {
     createdById?: string | null
     createdAt?: Date | string
     updatedAt?: Date | string
+    aiInsightOverrides?: AIInsightOverrideUncheckedCreateNestedManyWithoutSignalInput
   }
 
   export type SignalCreateOrConnectWithoutHotspotsInput = {
@@ -42201,6 +44102,7 @@ export namespace Prisma {
     team?: TeamUpdateOneWithoutSignalsNestedInput
     category?: CategoryUpdateOneWithoutSignalsNestedInput
     createdBy?: UserUpdateOneWithoutSignalsNestedInput
+    aiInsightOverrides?: AIInsightOverrideUpdateManyWithoutSignalNestedInput
   }
 
   export type SignalUncheckedUpdateWithoutHotspotsInput = {
@@ -42245,6 +44147,7 @@ export namespace Prisma {
     createdById?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    aiInsightOverrides?: AIInsightOverrideUncheckedUpdateManyWithoutSignalNestedInput
   }
 
   export type UserCreateWithoutIdeasInput = {
@@ -42280,6 +44183,7 @@ export namespace Prisma {
     auditLogs?: AuditLogCreateNestedManyWithoutUserInput
     aiAnalysisAudits?: AIAnalysisAuditCreateNestedManyWithoutUserInput
     inputGroups?: InputGroupCreateNestedManyWithoutCreatorInput
+    aiInsightOverrides?: AIInsightOverrideCreateNestedManyWithoutExecutiveInput
     departmentManaged?: DepartmentCreateNestedManyWithoutManagerInput
     departmentObj?: DepartmentCreateNestedOneWithoutUsersInput
     ledTeams?: TeamCreateNestedManyWithoutLeaderInput
@@ -42320,6 +44224,7 @@ export namespace Prisma {
     auditLogs?: AuditLogUncheckedCreateNestedManyWithoutUserInput
     aiAnalysisAudits?: AIAnalysisAuditUncheckedCreateNestedManyWithoutUserInput
     inputGroups?: InputGroupUncheckedCreateNestedManyWithoutCreatorInput
+    aiInsightOverrides?: AIInsightOverrideUncheckedCreateNestedManyWithoutExecutiveInput
     departmentManaged?: DepartmentUncheckedCreateNestedManyWithoutManagerInput
     ledTeams?: TeamUncheckedCreateNestedManyWithoutLeaderInput
     teamMemberships?: TeamUncheckedCreateNestedManyWithoutMembersInput
@@ -42535,6 +44440,7 @@ export namespace Prisma {
     auditLogs?: AuditLogUpdateManyWithoutUserNestedInput
     aiAnalysisAudits?: AIAnalysisAuditUpdateManyWithoutUserNestedInput
     inputGroups?: InputGroupUpdateManyWithoutCreatorNestedInput
+    aiInsightOverrides?: AIInsightOverrideUpdateManyWithoutExecutiveNestedInput
     departmentManaged?: DepartmentUpdateManyWithoutManagerNestedInput
     departmentObj?: DepartmentUpdateOneWithoutUsersNestedInput
     ledTeams?: TeamUpdateManyWithoutLeaderNestedInput
@@ -42575,6 +44481,7 @@ export namespace Prisma {
     auditLogs?: AuditLogUncheckedUpdateManyWithoutUserNestedInput
     aiAnalysisAudits?: AIAnalysisAuditUncheckedUpdateManyWithoutUserNestedInput
     inputGroups?: InputGroupUncheckedUpdateManyWithoutCreatorNestedInput
+    aiInsightOverrides?: AIInsightOverrideUncheckedUpdateManyWithoutExecutiveNestedInput
     departmentManaged?: DepartmentUncheckedUpdateManyWithoutManagerNestedInput
     ledTeams?: TeamUncheckedUpdateManyWithoutLeaderNestedInput
     teamMemberships?: TeamUncheckedUpdateManyWithoutMembersNestedInput
@@ -42792,6 +44699,7 @@ export namespace Prisma {
     auditLogs?: AuditLogCreateNestedManyWithoutUserInput
     aiAnalysisAudits?: AIAnalysisAuditCreateNestedManyWithoutUserInput
     inputGroups?: InputGroupCreateNestedManyWithoutCreatorInput
+    aiInsightOverrides?: AIInsightOverrideCreateNestedManyWithoutExecutiveInput
     departmentManaged?: DepartmentCreateNestedManyWithoutManagerInput
     departmentObj?: DepartmentCreateNestedOneWithoutUsersInput
     ledTeams?: TeamCreateNestedManyWithoutLeaderInput
@@ -42832,6 +44740,7 @@ export namespace Prisma {
     auditLogs?: AuditLogUncheckedCreateNestedManyWithoutUserInput
     aiAnalysisAudits?: AIAnalysisAuditUncheckedCreateNestedManyWithoutUserInput
     inputGroups?: InputGroupUncheckedCreateNestedManyWithoutCreatorInput
+    aiInsightOverrides?: AIInsightOverrideUncheckedCreateNestedManyWithoutExecutiveInput
     departmentManaged?: DepartmentUncheckedCreateNestedManyWithoutManagerInput
     ledTeams?: TeamUncheckedCreateNestedManyWithoutLeaderInput
     teamMemberships?: TeamUncheckedCreateNestedManyWithoutMembersInput
@@ -42981,6 +44890,7 @@ export namespace Prisma {
     auditLogs?: AuditLogUpdateManyWithoutUserNestedInput
     aiAnalysisAudits?: AIAnalysisAuditUpdateManyWithoutUserNestedInput
     inputGroups?: InputGroupUpdateManyWithoutCreatorNestedInput
+    aiInsightOverrides?: AIInsightOverrideUpdateManyWithoutExecutiveNestedInput
     departmentManaged?: DepartmentUpdateManyWithoutManagerNestedInput
     departmentObj?: DepartmentUpdateOneWithoutUsersNestedInput
     ledTeams?: TeamUpdateManyWithoutLeaderNestedInput
@@ -43021,6 +44931,7 @@ export namespace Prisma {
     auditLogs?: AuditLogUncheckedUpdateManyWithoutUserNestedInput
     aiAnalysisAudits?: AIAnalysisAuditUncheckedUpdateManyWithoutUserNestedInput
     inputGroups?: InputGroupUncheckedUpdateManyWithoutCreatorNestedInput
+    aiInsightOverrides?: AIInsightOverrideUncheckedUpdateManyWithoutExecutiveNestedInput
     departmentManaged?: DepartmentUncheckedUpdateManyWithoutManagerNestedInput
     ledTeams?: TeamUncheckedUpdateManyWithoutLeaderNestedInput
     teamMemberships?: TeamUncheckedUpdateManyWithoutMembersNestedInput
@@ -43281,6 +45192,7 @@ export namespace Prisma {
     auditLogs?: AuditLogCreateNestedManyWithoutUserInput
     aiAnalysisAudits?: AIAnalysisAuditCreateNestedManyWithoutUserInput
     inputGroups?: InputGroupCreateNestedManyWithoutCreatorInput
+    aiInsightOverrides?: AIInsightOverrideCreateNestedManyWithoutExecutiveInput
     departmentManaged?: DepartmentCreateNestedManyWithoutManagerInput
     departmentObj?: DepartmentCreateNestedOneWithoutUsersInput
     ledTeams?: TeamCreateNestedManyWithoutLeaderInput
@@ -43321,6 +45233,7 @@ export namespace Prisma {
     auditLogs?: AuditLogUncheckedCreateNestedManyWithoutUserInput
     aiAnalysisAudits?: AIAnalysisAuditUncheckedCreateNestedManyWithoutUserInput
     inputGroups?: InputGroupUncheckedCreateNestedManyWithoutCreatorInput
+    aiInsightOverrides?: AIInsightOverrideUncheckedCreateNestedManyWithoutExecutiveInput
     departmentManaged?: DepartmentUncheckedCreateNestedManyWithoutManagerInput
     ledTeams?: TeamUncheckedCreateNestedManyWithoutLeaderInput
     teamMemberships?: TeamUncheckedCreateNestedManyWithoutMembersInput
@@ -43691,6 +45604,7 @@ export namespace Prisma {
     auditLogs?: AuditLogUpdateManyWithoutUserNestedInput
     aiAnalysisAudits?: AIAnalysisAuditUpdateManyWithoutUserNestedInput
     inputGroups?: InputGroupUpdateManyWithoutCreatorNestedInput
+    aiInsightOverrides?: AIInsightOverrideUpdateManyWithoutExecutiveNestedInput
     departmentManaged?: DepartmentUpdateManyWithoutManagerNestedInput
     departmentObj?: DepartmentUpdateOneWithoutUsersNestedInput
     ledTeams?: TeamUpdateManyWithoutLeaderNestedInput
@@ -43731,6 +45645,7 @@ export namespace Prisma {
     auditLogs?: AuditLogUncheckedUpdateManyWithoutUserNestedInput
     aiAnalysisAudits?: AIAnalysisAuditUncheckedUpdateManyWithoutUserNestedInput
     inputGroups?: InputGroupUncheckedUpdateManyWithoutCreatorNestedInput
+    aiInsightOverrides?: AIInsightOverrideUncheckedUpdateManyWithoutExecutiveNestedInput
     departmentManaged?: DepartmentUncheckedUpdateManyWithoutManagerNestedInput
     ledTeams?: TeamUncheckedUpdateManyWithoutLeaderNestedInput
     teamMemberships?: TeamUncheckedUpdateManyWithoutMembersNestedInput
@@ -43854,6 +45769,7 @@ export namespace Prisma {
     auditLogs?: AuditLogCreateNestedManyWithoutUserInput
     aiAnalysisAudits?: AIAnalysisAuditCreateNestedManyWithoutUserInput
     inputGroups?: InputGroupCreateNestedManyWithoutCreatorInput
+    aiInsightOverrides?: AIInsightOverrideCreateNestedManyWithoutExecutiveInput
     departmentManaged?: DepartmentCreateNestedManyWithoutManagerInput
     departmentObj?: DepartmentCreateNestedOneWithoutUsersInput
     ledTeams?: TeamCreateNestedManyWithoutLeaderInput
@@ -43894,6 +45810,7 @@ export namespace Prisma {
     auditLogs?: AuditLogUncheckedCreateNestedManyWithoutUserInput
     aiAnalysisAudits?: AIAnalysisAuditUncheckedCreateNestedManyWithoutUserInput
     inputGroups?: InputGroupUncheckedCreateNestedManyWithoutCreatorInput
+    aiInsightOverrides?: AIInsightOverrideUncheckedCreateNestedManyWithoutExecutiveInput
     departmentManaged?: DepartmentUncheckedCreateNestedManyWithoutManagerInput
     ledTeams?: TeamUncheckedCreateNestedManyWithoutLeaderInput
     teamMemberships?: TeamUncheckedCreateNestedManyWithoutMembersInput
@@ -44007,6 +45924,7 @@ export namespace Prisma {
     auditLogs?: AuditLogUpdateManyWithoutUserNestedInput
     aiAnalysisAudits?: AIAnalysisAuditUpdateManyWithoutUserNestedInput
     inputGroups?: InputGroupUpdateManyWithoutCreatorNestedInput
+    aiInsightOverrides?: AIInsightOverrideUpdateManyWithoutExecutiveNestedInput
     departmentManaged?: DepartmentUpdateManyWithoutManagerNestedInput
     departmentObj?: DepartmentUpdateOneWithoutUsersNestedInput
     ledTeams?: TeamUpdateManyWithoutLeaderNestedInput
@@ -44047,6 +45965,7 @@ export namespace Prisma {
     auditLogs?: AuditLogUncheckedUpdateManyWithoutUserNestedInput
     aiAnalysisAudits?: AIAnalysisAuditUncheckedUpdateManyWithoutUserNestedInput
     inputGroups?: InputGroupUncheckedUpdateManyWithoutCreatorNestedInput
+    aiInsightOverrides?: AIInsightOverrideUncheckedUpdateManyWithoutExecutiveNestedInput
     departmentManaged?: DepartmentUncheckedUpdateManyWithoutManagerNestedInput
     ledTeams?: TeamUncheckedUpdateManyWithoutLeaderNestedInput
     teamMemberships?: TeamUncheckedUpdateManyWithoutMembersNestedInput
@@ -44138,6 +46057,7 @@ export namespace Prisma {
     auditLogs?: AuditLogCreateNestedManyWithoutUserInput
     aiAnalysisAudits?: AIAnalysisAuditCreateNestedManyWithoutUserInput
     inputGroups?: InputGroupCreateNestedManyWithoutCreatorInput
+    aiInsightOverrides?: AIInsightOverrideCreateNestedManyWithoutExecutiveInput
     departmentManaged?: DepartmentCreateNestedManyWithoutManagerInput
     departmentObj?: DepartmentCreateNestedOneWithoutUsersInput
     ledTeams?: TeamCreateNestedManyWithoutLeaderInput
@@ -44178,6 +46098,7 @@ export namespace Prisma {
     auditLogs?: AuditLogUncheckedCreateNestedManyWithoutUserInput
     aiAnalysisAudits?: AIAnalysisAuditUncheckedCreateNestedManyWithoutUserInput
     inputGroups?: InputGroupUncheckedCreateNestedManyWithoutCreatorInput
+    aiInsightOverrides?: AIInsightOverrideUncheckedCreateNestedManyWithoutExecutiveInput
     departmentManaged?: DepartmentUncheckedCreateNestedManyWithoutManagerInput
     ledTeams?: TeamUncheckedCreateNestedManyWithoutLeaderInput
     teamMemberships?: TeamUncheckedCreateNestedManyWithoutMembersInput
@@ -44221,6 +46142,7 @@ export namespace Prisma {
     auditLogs?: AuditLogCreateNestedManyWithoutUserInput
     aiAnalysisAudits?: AIAnalysisAuditCreateNestedManyWithoutUserInput
     inputGroups?: InputGroupCreateNestedManyWithoutCreatorInput
+    aiInsightOverrides?: AIInsightOverrideCreateNestedManyWithoutExecutiveInput
     departmentManaged?: DepartmentCreateNestedManyWithoutManagerInput
     departmentObj?: DepartmentCreateNestedOneWithoutUsersInput
     ledTeams?: TeamCreateNestedManyWithoutLeaderInput
@@ -44261,6 +46183,7 @@ export namespace Prisma {
     auditLogs?: AuditLogUncheckedCreateNestedManyWithoutUserInput
     aiAnalysisAudits?: AIAnalysisAuditUncheckedCreateNestedManyWithoutUserInput
     inputGroups?: InputGroupUncheckedCreateNestedManyWithoutCreatorInput
+    aiInsightOverrides?: AIInsightOverrideUncheckedCreateNestedManyWithoutExecutiveInput
     departmentManaged?: DepartmentUncheckedCreateNestedManyWithoutManagerInput
     ledTeams?: TeamUncheckedCreateNestedManyWithoutLeaderInput
     teamMemberships?: TeamUncheckedCreateNestedManyWithoutMembersInput
@@ -44374,6 +46297,7 @@ export namespace Prisma {
     auditLogs?: AuditLogUpdateManyWithoutUserNestedInput
     aiAnalysisAudits?: AIAnalysisAuditUpdateManyWithoutUserNestedInput
     inputGroups?: InputGroupUpdateManyWithoutCreatorNestedInput
+    aiInsightOverrides?: AIInsightOverrideUpdateManyWithoutExecutiveNestedInput
     departmentManaged?: DepartmentUpdateManyWithoutManagerNestedInput
     departmentObj?: DepartmentUpdateOneWithoutUsersNestedInput
     ledTeams?: TeamUpdateManyWithoutLeaderNestedInput
@@ -44414,6 +46338,7 @@ export namespace Prisma {
     auditLogs?: AuditLogUncheckedUpdateManyWithoutUserNestedInput
     aiAnalysisAudits?: AIAnalysisAuditUncheckedUpdateManyWithoutUserNestedInput
     inputGroups?: InputGroupUncheckedUpdateManyWithoutCreatorNestedInput
+    aiInsightOverrides?: AIInsightOverrideUncheckedUpdateManyWithoutExecutiveNestedInput
     departmentManaged?: DepartmentUncheckedUpdateManyWithoutManagerNestedInput
     ledTeams?: TeamUncheckedUpdateManyWithoutLeaderNestedInput
     teamMemberships?: TeamUncheckedUpdateManyWithoutMembersNestedInput
@@ -44463,6 +46388,7 @@ export namespace Prisma {
     auditLogs?: AuditLogUpdateManyWithoutUserNestedInput
     aiAnalysisAudits?: AIAnalysisAuditUpdateManyWithoutUserNestedInput
     inputGroups?: InputGroupUpdateManyWithoutCreatorNestedInput
+    aiInsightOverrides?: AIInsightOverrideUpdateManyWithoutExecutiveNestedInput
     departmentManaged?: DepartmentUpdateManyWithoutManagerNestedInput
     departmentObj?: DepartmentUpdateOneWithoutUsersNestedInput
     ledTeams?: TeamUpdateManyWithoutLeaderNestedInput
@@ -44503,6 +46429,7 @@ export namespace Prisma {
     auditLogs?: AuditLogUncheckedUpdateManyWithoutUserNestedInput
     aiAnalysisAudits?: AIAnalysisAuditUncheckedUpdateManyWithoutUserNestedInput
     inputGroups?: InputGroupUncheckedUpdateManyWithoutCreatorNestedInput
+    aiInsightOverrides?: AIInsightOverrideUncheckedUpdateManyWithoutExecutiveNestedInput
     departmentManaged?: DepartmentUncheckedUpdateManyWithoutManagerNestedInput
     ledTeams?: TeamUncheckedUpdateManyWithoutLeaderNestedInput
     teamMemberships?: TeamUncheckedUpdateManyWithoutMembersNestedInput
@@ -44612,6 +46539,7 @@ export namespace Prisma {
     auditLogs?: AuditLogCreateNestedManyWithoutUserInput
     aiAnalysisAudits?: AIAnalysisAuditCreateNestedManyWithoutUserInput
     inputGroups?: InputGroupCreateNestedManyWithoutCreatorInput
+    aiInsightOverrides?: AIInsightOverrideCreateNestedManyWithoutExecutiveInput
     departmentManaged?: DepartmentCreateNestedManyWithoutManagerInput
     departmentObj?: DepartmentCreateNestedOneWithoutUsersInput
     ledTeams?: TeamCreateNestedManyWithoutLeaderInput
@@ -44652,6 +46580,7 @@ export namespace Prisma {
     auditLogs?: AuditLogUncheckedCreateNestedManyWithoutUserInput
     aiAnalysisAudits?: AIAnalysisAuditUncheckedCreateNestedManyWithoutUserInput
     inputGroups?: InputGroupUncheckedCreateNestedManyWithoutCreatorInput
+    aiInsightOverrides?: AIInsightOverrideUncheckedCreateNestedManyWithoutExecutiveInput
     departmentManaged?: DepartmentUncheckedCreateNestedManyWithoutManagerInput
     ledTeams?: TeamUncheckedCreateNestedManyWithoutLeaderInput
     teamMemberships?: TeamUncheckedCreateNestedManyWithoutMembersInput
@@ -44761,6 +46690,7 @@ export namespace Prisma {
     auditLogs?: AuditLogUpdateManyWithoutUserNestedInput
     aiAnalysisAudits?: AIAnalysisAuditUpdateManyWithoutUserNestedInput
     inputGroups?: InputGroupUpdateManyWithoutCreatorNestedInput
+    aiInsightOverrides?: AIInsightOverrideUpdateManyWithoutExecutiveNestedInput
     departmentManaged?: DepartmentUpdateManyWithoutManagerNestedInput
     departmentObj?: DepartmentUpdateOneWithoutUsersNestedInput
     ledTeams?: TeamUpdateManyWithoutLeaderNestedInput
@@ -44801,6 +46731,7 @@ export namespace Prisma {
     auditLogs?: AuditLogUncheckedUpdateManyWithoutUserNestedInput
     aiAnalysisAudits?: AIAnalysisAuditUncheckedUpdateManyWithoutUserNestedInput
     inputGroups?: InputGroupUncheckedUpdateManyWithoutCreatorNestedInput
+    aiInsightOverrides?: AIInsightOverrideUncheckedUpdateManyWithoutExecutiveNestedInput
     departmentManaged?: DepartmentUncheckedUpdateManyWithoutManagerNestedInput
     ledTeams?: TeamUncheckedUpdateManyWithoutLeaderNestedInput
     teamMemberships?: TeamUncheckedUpdateManyWithoutMembersNestedInput
@@ -44839,6 +46770,7 @@ export namespace Prisma {
     auditLogs?: AuditLogCreateNestedManyWithoutUserInput
     aiAnalysisAudits?: AIAnalysisAuditCreateNestedManyWithoutUserInput
     inputGroups?: InputGroupCreateNestedManyWithoutCreatorInput
+    aiInsightOverrides?: AIInsightOverrideCreateNestedManyWithoutExecutiveInput
     departmentManaged?: DepartmentCreateNestedManyWithoutManagerInput
     departmentObj?: DepartmentCreateNestedOneWithoutUsersInput
     ledTeams?: TeamCreateNestedManyWithoutLeaderInput
@@ -44879,6 +46811,7 @@ export namespace Prisma {
     auditLogs?: AuditLogUncheckedCreateNestedManyWithoutUserInput
     aiAnalysisAudits?: AIAnalysisAuditUncheckedCreateNestedManyWithoutUserInput
     inputGroups?: InputGroupUncheckedCreateNestedManyWithoutCreatorInput
+    aiInsightOverrides?: AIInsightOverrideUncheckedCreateNestedManyWithoutExecutiveInput
     departmentManaged?: DepartmentUncheckedCreateNestedManyWithoutManagerInput
     ledTeams?: TeamUncheckedCreateNestedManyWithoutLeaderInput
     teamMemberships?: TeamUncheckedCreateNestedManyWithoutMembersInput
@@ -44933,6 +46866,7 @@ export namespace Prisma {
     auditLogs?: AuditLogUpdateManyWithoutUserNestedInput
     aiAnalysisAudits?: AIAnalysisAuditUpdateManyWithoutUserNestedInput
     inputGroups?: InputGroupUpdateManyWithoutCreatorNestedInput
+    aiInsightOverrides?: AIInsightOverrideUpdateManyWithoutExecutiveNestedInput
     departmentManaged?: DepartmentUpdateManyWithoutManagerNestedInput
     departmentObj?: DepartmentUpdateOneWithoutUsersNestedInput
     ledTeams?: TeamUpdateManyWithoutLeaderNestedInput
@@ -44973,6 +46907,7 @@ export namespace Prisma {
     auditLogs?: AuditLogUncheckedUpdateManyWithoutUserNestedInput
     aiAnalysisAudits?: AIAnalysisAuditUncheckedUpdateManyWithoutUserNestedInput
     inputGroups?: InputGroupUncheckedUpdateManyWithoutCreatorNestedInput
+    aiInsightOverrides?: AIInsightOverrideUncheckedUpdateManyWithoutExecutiveNestedInput
     departmentManaged?: DepartmentUncheckedUpdateManyWithoutManagerNestedInput
     ledTeams?: TeamUncheckedUpdateManyWithoutLeaderNestedInput
     teamMemberships?: TeamUncheckedUpdateManyWithoutMembersNestedInput
@@ -45011,6 +46946,7 @@ export namespace Prisma {
     approvedFRDs?: FRDDocumentCreateNestedManyWithoutApproverInput
     auditLogs?: AuditLogCreateNestedManyWithoutUserInput
     aiAnalysisAudits?: AIAnalysisAuditCreateNestedManyWithoutUserInput
+    aiInsightOverrides?: AIInsightOverrideCreateNestedManyWithoutExecutiveInput
     departmentManaged?: DepartmentCreateNestedManyWithoutManagerInput
     departmentObj?: DepartmentCreateNestedOneWithoutUsersInput
     ledTeams?: TeamCreateNestedManyWithoutLeaderInput
@@ -45051,6 +46987,7 @@ export namespace Prisma {
     approvedFRDs?: FRDDocumentUncheckedCreateNestedManyWithoutApproverInput
     auditLogs?: AuditLogUncheckedCreateNestedManyWithoutUserInput
     aiAnalysisAudits?: AIAnalysisAuditUncheckedCreateNestedManyWithoutUserInput
+    aiInsightOverrides?: AIInsightOverrideUncheckedCreateNestedManyWithoutExecutiveInput
     departmentManaged?: DepartmentUncheckedCreateNestedManyWithoutManagerInput
     ledTeams?: TeamUncheckedCreateNestedManyWithoutLeaderInput
     teamMemberships?: TeamUncheckedCreateNestedManyWithoutMembersInput
@@ -45148,6 +47085,7 @@ export namespace Prisma {
     approvedFRDs?: FRDDocumentUpdateManyWithoutApproverNestedInput
     auditLogs?: AuditLogUpdateManyWithoutUserNestedInput
     aiAnalysisAudits?: AIAnalysisAuditUpdateManyWithoutUserNestedInput
+    aiInsightOverrides?: AIInsightOverrideUpdateManyWithoutExecutiveNestedInput
     departmentManaged?: DepartmentUpdateManyWithoutManagerNestedInput
     departmentObj?: DepartmentUpdateOneWithoutUsersNestedInput
     ledTeams?: TeamUpdateManyWithoutLeaderNestedInput
@@ -45188,6 +47126,7 @@ export namespace Prisma {
     approvedFRDs?: FRDDocumentUncheckedUpdateManyWithoutApproverNestedInput
     auditLogs?: AuditLogUncheckedUpdateManyWithoutUserNestedInput
     aiAnalysisAudits?: AIAnalysisAuditUncheckedUpdateManyWithoutUserNestedInput
+    aiInsightOverrides?: AIInsightOverrideUncheckedUpdateManyWithoutExecutiveNestedInput
     departmentManaged?: DepartmentUncheckedUpdateManyWithoutManagerNestedInput
     ledTeams?: TeamUncheckedUpdateManyWithoutLeaderNestedInput
     teamMemberships?: TeamUncheckedUpdateManyWithoutMembersNestedInput
@@ -45242,6 +47181,7 @@ export namespace Prisma {
     approvedFRDs?: FRDDocumentCreateNestedManyWithoutApproverInput
     aiAnalysisAudits?: AIAnalysisAuditCreateNestedManyWithoutUserInput
     inputGroups?: InputGroupCreateNestedManyWithoutCreatorInput
+    aiInsightOverrides?: AIInsightOverrideCreateNestedManyWithoutExecutiveInput
     departmentManaged?: DepartmentCreateNestedManyWithoutManagerInput
     departmentObj?: DepartmentCreateNestedOneWithoutUsersInput
     ledTeams?: TeamCreateNestedManyWithoutLeaderInput
@@ -45282,6 +47222,7 @@ export namespace Prisma {
     approvedFRDs?: FRDDocumentUncheckedCreateNestedManyWithoutApproverInput
     aiAnalysisAudits?: AIAnalysisAuditUncheckedCreateNestedManyWithoutUserInput
     inputGroups?: InputGroupUncheckedCreateNestedManyWithoutCreatorInput
+    aiInsightOverrides?: AIInsightOverrideUncheckedCreateNestedManyWithoutExecutiveInput
     departmentManaged?: DepartmentUncheckedCreateNestedManyWithoutManagerInput
     ledTeams?: TeamUncheckedCreateNestedManyWithoutLeaderInput
     teamMemberships?: TeamUncheckedCreateNestedManyWithoutMembersInput
@@ -45336,6 +47277,7 @@ export namespace Prisma {
     approvedFRDs?: FRDDocumentUpdateManyWithoutApproverNestedInput
     aiAnalysisAudits?: AIAnalysisAuditUpdateManyWithoutUserNestedInput
     inputGroups?: InputGroupUpdateManyWithoutCreatorNestedInput
+    aiInsightOverrides?: AIInsightOverrideUpdateManyWithoutExecutiveNestedInput
     departmentManaged?: DepartmentUpdateManyWithoutManagerNestedInput
     departmentObj?: DepartmentUpdateOneWithoutUsersNestedInput
     ledTeams?: TeamUpdateManyWithoutLeaderNestedInput
@@ -45376,6 +47318,7 @@ export namespace Prisma {
     approvedFRDs?: FRDDocumentUncheckedUpdateManyWithoutApproverNestedInput
     aiAnalysisAudits?: AIAnalysisAuditUncheckedUpdateManyWithoutUserNestedInput
     inputGroups?: InputGroupUncheckedUpdateManyWithoutCreatorNestedInput
+    aiInsightOverrides?: AIInsightOverrideUncheckedUpdateManyWithoutExecutiveNestedInput
     departmentManaged?: DepartmentUncheckedUpdateManyWithoutManagerNestedInput
     ledTeams?: TeamUncheckedUpdateManyWithoutLeaderNestedInput
     teamMemberships?: TeamUncheckedUpdateManyWithoutMembersNestedInput
@@ -45414,6 +47357,7 @@ export namespace Prisma {
     approvedFRDs?: FRDDocumentCreateNestedManyWithoutApproverInput
     auditLogs?: AuditLogCreateNestedManyWithoutUserInput
     inputGroups?: InputGroupCreateNestedManyWithoutCreatorInput
+    aiInsightOverrides?: AIInsightOverrideCreateNestedManyWithoutExecutiveInput
     departmentManaged?: DepartmentCreateNestedManyWithoutManagerInput
     departmentObj?: DepartmentCreateNestedOneWithoutUsersInput
     ledTeams?: TeamCreateNestedManyWithoutLeaderInput
@@ -45454,6 +47398,7 @@ export namespace Prisma {
     approvedFRDs?: FRDDocumentUncheckedCreateNestedManyWithoutApproverInput
     auditLogs?: AuditLogUncheckedCreateNestedManyWithoutUserInput
     inputGroups?: InputGroupUncheckedCreateNestedManyWithoutCreatorInput
+    aiInsightOverrides?: AIInsightOverrideUncheckedCreateNestedManyWithoutExecutiveInput
     departmentManaged?: DepartmentUncheckedCreateNestedManyWithoutManagerInput
     ledTeams?: TeamUncheckedCreateNestedManyWithoutLeaderInput
     teamMemberships?: TeamUncheckedCreateNestedManyWithoutMembersInput
@@ -45508,6 +47453,7 @@ export namespace Prisma {
     approvedFRDs?: FRDDocumentUpdateManyWithoutApproverNestedInput
     auditLogs?: AuditLogUpdateManyWithoutUserNestedInput
     inputGroups?: InputGroupUpdateManyWithoutCreatorNestedInput
+    aiInsightOverrides?: AIInsightOverrideUpdateManyWithoutExecutiveNestedInput
     departmentManaged?: DepartmentUpdateManyWithoutManagerNestedInput
     departmentObj?: DepartmentUpdateOneWithoutUsersNestedInput
     ledTeams?: TeamUpdateManyWithoutLeaderNestedInput
@@ -45547,6 +47493,379 @@ export namespace Prisma {
     frdDocuments?: FRDDocumentUncheckedUpdateManyWithoutCreatorNestedInput
     approvedFRDs?: FRDDocumentUncheckedUpdateManyWithoutApproverNestedInput
     auditLogs?: AuditLogUncheckedUpdateManyWithoutUserNestedInput
+    inputGroups?: InputGroupUncheckedUpdateManyWithoutCreatorNestedInput
+    aiInsightOverrides?: AIInsightOverrideUncheckedUpdateManyWithoutExecutiveNestedInput
+    departmentManaged?: DepartmentUncheckedUpdateManyWithoutManagerNestedInput
+    ledTeams?: TeamUncheckedUpdateManyWithoutLeaderNestedInput
+    teamMemberships?: TeamUncheckedUpdateManyWithoutMembersNestedInput
+  }
+
+  export type SignalCreateWithoutAiInsightOverridesInput = {
+    id?: string
+    inputId: string
+    timestamp: Date | string
+    receivedAt?: Date | string
+    schemaVersion?: string
+    sourceJson?: NullableJsonNullValueInput | InputJsonValue
+    confidence?: number | null
+    attachmentsJson?: NullableJsonNullValueInput | InputJsonValue
+    sourceType: string
+    sourceId?: string | null
+    systemName?: string | null
+    title?: string | null
+    description: string
+    severity: $Enums.Severity
+    severityScore?: number
+    metricsJson?: NullableJsonNullValueInput | InputJsonValue
+    baselineJson?: NullableJsonNullValueInput | InputJsonValue
+    impactJson?: NullableJsonNullValueInput | InputJsonValue
+    tagsJson?: NullableJsonNullValueInput | InputJsonValue
+    entitiesJson?: NullableJsonNullValueInput | InputJsonValue
+    privacyLevel?: string | null
+    dedupeKey?: string | null
+    embedding?: Uint8Array | null
+    aiProcessed?: boolean
+    aiTagsJson?: NullableJsonNullValueInput | InputJsonValue
+    enhancedTagsJson?: NullableJsonNullValueInput | InputJsonValue
+    tagGenerationMeta?: NullableJsonNullValueInput | InputJsonValue
+    domainClassification?: NullableJsonNullValueInput | InputJsonValue
+    lastTaggedAt?: Date | string | null
+    tagModelVersion?: string | null
+    clusteringFeaturesJson?: NullableJsonNullValueInput | InputJsonValue
+    lastFeaturesGeneratedAt?: Date | string | null
+    featuresVersion?: string | null
+    featuresQualityScore?: number | null
+    lineageJson?: NullableJsonNullValueInput | InputJsonValue
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    department?: DepartmentCreateNestedOneWithoutSignalsInput
+    team?: TeamCreateNestedOneWithoutSignalsInput
+    category?: CategoryCreateNestedOneWithoutSignalsInput
+    createdBy?: UserCreateNestedOneWithoutSignalsInput
+    hotspots?: HotspotSignalCreateNestedManyWithoutSignalInput
+  }
+
+  export type SignalUncheckedCreateWithoutAiInsightOverridesInput = {
+    id?: string
+    inputId: string
+    timestamp: Date | string
+    receivedAt?: Date | string
+    schemaVersion?: string
+    sourceJson?: NullableJsonNullValueInput | InputJsonValue
+    confidence?: number | null
+    attachmentsJson?: NullableJsonNullValueInput | InputJsonValue
+    sourceType: string
+    sourceId?: string | null
+    systemName?: string | null
+    title?: string | null
+    description: string
+    severity: $Enums.Severity
+    severityScore?: number
+    departmentId?: string | null
+    teamId?: string | null
+    categoryId?: string | null
+    metricsJson?: NullableJsonNullValueInput | InputJsonValue
+    baselineJson?: NullableJsonNullValueInput | InputJsonValue
+    impactJson?: NullableJsonNullValueInput | InputJsonValue
+    tagsJson?: NullableJsonNullValueInput | InputJsonValue
+    entitiesJson?: NullableJsonNullValueInput | InputJsonValue
+    privacyLevel?: string | null
+    dedupeKey?: string | null
+    embedding?: Uint8Array | null
+    aiProcessed?: boolean
+    aiTagsJson?: NullableJsonNullValueInput | InputJsonValue
+    enhancedTagsJson?: NullableJsonNullValueInput | InputJsonValue
+    tagGenerationMeta?: NullableJsonNullValueInput | InputJsonValue
+    domainClassification?: NullableJsonNullValueInput | InputJsonValue
+    lastTaggedAt?: Date | string | null
+    tagModelVersion?: string | null
+    clusteringFeaturesJson?: NullableJsonNullValueInput | InputJsonValue
+    lastFeaturesGeneratedAt?: Date | string | null
+    featuresVersion?: string | null
+    featuresQualityScore?: number | null
+    lineageJson?: NullableJsonNullValueInput | InputJsonValue
+    createdById?: string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    hotspots?: HotspotSignalUncheckedCreateNestedManyWithoutSignalInput
+  }
+
+  export type SignalCreateOrConnectWithoutAiInsightOverridesInput = {
+    where: SignalWhereUniqueInput
+    create: XOR<SignalCreateWithoutAiInsightOverridesInput, SignalUncheckedCreateWithoutAiInsightOverridesInput>
+  }
+
+  export type UserCreateWithoutAiInsightOverridesInput = {
+    id?: string
+    email: string
+    name: string
+    role?: $Enums.UserRole
+    department?: string | null
+    title?: string | null
+    utilizationRate?: number | null
+    targetUtilization?: number | null
+    billableRate?: number | null
+    costCenter?: string | null
+    location?: string | null
+    isActive?: boolean
+    lastLoginAt?: Date | string | null
+    avatar?: string | null
+    passwordHash?: string | null
+    profileJson?: NullableJsonNullValueInput | InputJsonValue
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    manager?: UserCreateNestedOneWithoutReportsInput
+    reports?: UserCreateNestedManyWithoutManagerInput
+    inputs?: InputCreateNestedManyWithoutCreatorInput
+    signals?: SignalCreateNestedManyWithoutCreatedByInput
+    ownedInitiatives?: InitiativeCreateNestedManyWithoutOwnerInput
+    ideas?: IdeaCreateNestedManyWithoutCreatedByInput
+    solutions?: SolutionCreateNestedManyWithoutCreatorInput
+    comments?: CommentCreateNestedManyWithoutCreatorInput
+    votes?: VoteCreateNestedManyWithoutCreatorInput
+    requirements?: RequirementCreateNestedManyWithoutCreatorInput
+    frdDocuments?: FRDDocumentCreateNestedManyWithoutCreatorInput
+    approvedFRDs?: FRDDocumentCreateNestedManyWithoutApproverInput
+    auditLogs?: AuditLogCreateNestedManyWithoutUserInput
+    aiAnalysisAudits?: AIAnalysisAuditCreateNestedManyWithoutUserInput
+    inputGroups?: InputGroupCreateNestedManyWithoutCreatorInput
+    departmentManaged?: DepartmentCreateNestedManyWithoutManagerInput
+    departmentObj?: DepartmentCreateNestedOneWithoutUsersInput
+    ledTeams?: TeamCreateNestedManyWithoutLeaderInput
+    teamMemberships?: TeamCreateNestedManyWithoutMembersInput
+  }
+
+  export type UserUncheckedCreateWithoutAiInsightOverridesInput = {
+    id?: string
+    email: string
+    name: string
+    role?: $Enums.UserRole
+    department?: string | null
+    title?: string | null
+    managerId?: string | null
+    utilizationRate?: number | null
+    targetUtilization?: number | null
+    billableRate?: number | null
+    costCenter?: string | null
+    location?: string | null
+    isActive?: boolean
+    lastLoginAt?: Date | string | null
+    avatar?: string | null
+    passwordHash?: string | null
+    profileJson?: NullableJsonNullValueInput | InputJsonValue
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    departmentObjId?: string | null
+    reports?: UserUncheckedCreateNestedManyWithoutManagerInput
+    inputs?: InputUncheckedCreateNestedManyWithoutCreatorInput
+    signals?: SignalUncheckedCreateNestedManyWithoutCreatedByInput
+    ownedInitiatives?: InitiativeUncheckedCreateNestedManyWithoutOwnerInput
+    ideas?: IdeaUncheckedCreateNestedManyWithoutCreatedByInput
+    solutions?: SolutionUncheckedCreateNestedManyWithoutCreatorInput
+    comments?: CommentUncheckedCreateNestedManyWithoutCreatorInput
+    votes?: VoteUncheckedCreateNestedManyWithoutCreatorInput
+    requirements?: RequirementUncheckedCreateNestedManyWithoutCreatorInput
+    frdDocuments?: FRDDocumentUncheckedCreateNestedManyWithoutCreatorInput
+    approvedFRDs?: FRDDocumentUncheckedCreateNestedManyWithoutApproverInput
+    auditLogs?: AuditLogUncheckedCreateNestedManyWithoutUserInput
+    aiAnalysisAudits?: AIAnalysisAuditUncheckedCreateNestedManyWithoutUserInput
+    inputGroups?: InputGroupUncheckedCreateNestedManyWithoutCreatorInput
+    departmentManaged?: DepartmentUncheckedCreateNestedManyWithoutManagerInput
+    ledTeams?: TeamUncheckedCreateNestedManyWithoutLeaderInput
+    teamMemberships?: TeamUncheckedCreateNestedManyWithoutMembersInput
+  }
+
+  export type UserCreateOrConnectWithoutAiInsightOverridesInput = {
+    where: UserWhereUniqueInput
+    create: XOR<UserCreateWithoutAiInsightOverridesInput, UserUncheckedCreateWithoutAiInsightOverridesInput>
+  }
+
+  export type SignalUpsertWithoutAiInsightOverridesInput = {
+    update: XOR<SignalUpdateWithoutAiInsightOverridesInput, SignalUncheckedUpdateWithoutAiInsightOverridesInput>
+    create: XOR<SignalCreateWithoutAiInsightOverridesInput, SignalUncheckedCreateWithoutAiInsightOverridesInput>
+    where?: SignalWhereInput
+  }
+
+  export type SignalUpdateToOneWithWhereWithoutAiInsightOverridesInput = {
+    where?: SignalWhereInput
+    data: XOR<SignalUpdateWithoutAiInsightOverridesInput, SignalUncheckedUpdateWithoutAiInsightOverridesInput>
+  }
+
+  export type SignalUpdateWithoutAiInsightOverridesInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    inputId?: StringFieldUpdateOperationsInput | string
+    timestamp?: DateTimeFieldUpdateOperationsInput | Date | string
+    receivedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    schemaVersion?: StringFieldUpdateOperationsInput | string
+    sourceJson?: NullableJsonNullValueInput | InputJsonValue
+    confidence?: NullableFloatFieldUpdateOperationsInput | number | null
+    attachmentsJson?: NullableJsonNullValueInput | InputJsonValue
+    sourceType?: StringFieldUpdateOperationsInput | string
+    sourceId?: NullableStringFieldUpdateOperationsInput | string | null
+    systemName?: NullableStringFieldUpdateOperationsInput | string | null
+    title?: NullableStringFieldUpdateOperationsInput | string | null
+    description?: StringFieldUpdateOperationsInput | string
+    severity?: EnumSeverityFieldUpdateOperationsInput | $Enums.Severity
+    severityScore?: IntFieldUpdateOperationsInput | number
+    metricsJson?: NullableJsonNullValueInput | InputJsonValue
+    baselineJson?: NullableJsonNullValueInput | InputJsonValue
+    impactJson?: NullableJsonNullValueInput | InputJsonValue
+    tagsJson?: NullableJsonNullValueInput | InputJsonValue
+    entitiesJson?: NullableJsonNullValueInput | InputJsonValue
+    privacyLevel?: NullableStringFieldUpdateOperationsInput | string | null
+    dedupeKey?: NullableStringFieldUpdateOperationsInput | string | null
+    embedding?: NullableBytesFieldUpdateOperationsInput | Uint8Array | null
+    aiProcessed?: BoolFieldUpdateOperationsInput | boolean
+    aiTagsJson?: NullableJsonNullValueInput | InputJsonValue
+    enhancedTagsJson?: NullableJsonNullValueInput | InputJsonValue
+    tagGenerationMeta?: NullableJsonNullValueInput | InputJsonValue
+    domainClassification?: NullableJsonNullValueInput | InputJsonValue
+    lastTaggedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    tagModelVersion?: NullableStringFieldUpdateOperationsInput | string | null
+    clusteringFeaturesJson?: NullableJsonNullValueInput | InputJsonValue
+    lastFeaturesGeneratedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    featuresVersion?: NullableStringFieldUpdateOperationsInput | string | null
+    featuresQualityScore?: NullableFloatFieldUpdateOperationsInput | number | null
+    lineageJson?: NullableJsonNullValueInput | InputJsonValue
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    department?: DepartmentUpdateOneWithoutSignalsNestedInput
+    team?: TeamUpdateOneWithoutSignalsNestedInput
+    category?: CategoryUpdateOneWithoutSignalsNestedInput
+    createdBy?: UserUpdateOneWithoutSignalsNestedInput
+    hotspots?: HotspotSignalUpdateManyWithoutSignalNestedInput
+  }
+
+  export type SignalUncheckedUpdateWithoutAiInsightOverridesInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    inputId?: StringFieldUpdateOperationsInput | string
+    timestamp?: DateTimeFieldUpdateOperationsInput | Date | string
+    receivedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    schemaVersion?: StringFieldUpdateOperationsInput | string
+    sourceJson?: NullableJsonNullValueInput | InputJsonValue
+    confidence?: NullableFloatFieldUpdateOperationsInput | number | null
+    attachmentsJson?: NullableJsonNullValueInput | InputJsonValue
+    sourceType?: StringFieldUpdateOperationsInput | string
+    sourceId?: NullableStringFieldUpdateOperationsInput | string | null
+    systemName?: NullableStringFieldUpdateOperationsInput | string | null
+    title?: NullableStringFieldUpdateOperationsInput | string | null
+    description?: StringFieldUpdateOperationsInput | string
+    severity?: EnumSeverityFieldUpdateOperationsInput | $Enums.Severity
+    severityScore?: IntFieldUpdateOperationsInput | number
+    departmentId?: NullableStringFieldUpdateOperationsInput | string | null
+    teamId?: NullableStringFieldUpdateOperationsInput | string | null
+    categoryId?: NullableStringFieldUpdateOperationsInput | string | null
+    metricsJson?: NullableJsonNullValueInput | InputJsonValue
+    baselineJson?: NullableJsonNullValueInput | InputJsonValue
+    impactJson?: NullableJsonNullValueInput | InputJsonValue
+    tagsJson?: NullableJsonNullValueInput | InputJsonValue
+    entitiesJson?: NullableJsonNullValueInput | InputJsonValue
+    privacyLevel?: NullableStringFieldUpdateOperationsInput | string | null
+    dedupeKey?: NullableStringFieldUpdateOperationsInput | string | null
+    embedding?: NullableBytesFieldUpdateOperationsInput | Uint8Array | null
+    aiProcessed?: BoolFieldUpdateOperationsInput | boolean
+    aiTagsJson?: NullableJsonNullValueInput | InputJsonValue
+    enhancedTagsJson?: NullableJsonNullValueInput | InputJsonValue
+    tagGenerationMeta?: NullableJsonNullValueInput | InputJsonValue
+    domainClassification?: NullableJsonNullValueInput | InputJsonValue
+    lastTaggedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    tagModelVersion?: NullableStringFieldUpdateOperationsInput | string | null
+    clusteringFeaturesJson?: NullableJsonNullValueInput | InputJsonValue
+    lastFeaturesGeneratedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    featuresVersion?: NullableStringFieldUpdateOperationsInput | string | null
+    featuresQualityScore?: NullableFloatFieldUpdateOperationsInput | number | null
+    lineageJson?: NullableJsonNullValueInput | InputJsonValue
+    createdById?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    hotspots?: HotspotSignalUncheckedUpdateManyWithoutSignalNestedInput
+  }
+
+  export type UserUpsertWithoutAiInsightOverridesInput = {
+    update: XOR<UserUpdateWithoutAiInsightOverridesInput, UserUncheckedUpdateWithoutAiInsightOverridesInput>
+    create: XOR<UserCreateWithoutAiInsightOverridesInput, UserUncheckedCreateWithoutAiInsightOverridesInput>
+    where?: UserWhereInput
+  }
+
+  export type UserUpdateToOneWithWhereWithoutAiInsightOverridesInput = {
+    where?: UserWhereInput
+    data: XOR<UserUpdateWithoutAiInsightOverridesInput, UserUncheckedUpdateWithoutAiInsightOverridesInput>
+  }
+
+  export type UserUpdateWithoutAiInsightOverridesInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    email?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    role?: EnumUserRoleFieldUpdateOperationsInput | $Enums.UserRole
+    department?: NullableStringFieldUpdateOperationsInput | string | null
+    title?: NullableStringFieldUpdateOperationsInput | string | null
+    utilizationRate?: NullableFloatFieldUpdateOperationsInput | number | null
+    targetUtilization?: NullableFloatFieldUpdateOperationsInput | number | null
+    billableRate?: NullableFloatFieldUpdateOperationsInput | number | null
+    costCenter?: NullableStringFieldUpdateOperationsInput | string | null
+    location?: NullableStringFieldUpdateOperationsInput | string | null
+    isActive?: BoolFieldUpdateOperationsInput | boolean
+    lastLoginAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    avatar?: NullableStringFieldUpdateOperationsInput | string | null
+    passwordHash?: NullableStringFieldUpdateOperationsInput | string | null
+    profileJson?: NullableJsonNullValueInput | InputJsonValue
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    manager?: UserUpdateOneWithoutReportsNestedInput
+    reports?: UserUpdateManyWithoutManagerNestedInput
+    inputs?: InputUpdateManyWithoutCreatorNestedInput
+    signals?: SignalUpdateManyWithoutCreatedByNestedInput
+    ownedInitiatives?: InitiativeUpdateManyWithoutOwnerNestedInput
+    ideas?: IdeaUpdateManyWithoutCreatedByNestedInput
+    solutions?: SolutionUpdateManyWithoutCreatorNestedInput
+    comments?: CommentUpdateManyWithoutCreatorNestedInput
+    votes?: VoteUpdateManyWithoutCreatorNestedInput
+    requirements?: RequirementUpdateManyWithoutCreatorNestedInput
+    frdDocuments?: FRDDocumentUpdateManyWithoutCreatorNestedInput
+    approvedFRDs?: FRDDocumentUpdateManyWithoutApproverNestedInput
+    auditLogs?: AuditLogUpdateManyWithoutUserNestedInput
+    aiAnalysisAudits?: AIAnalysisAuditUpdateManyWithoutUserNestedInput
+    inputGroups?: InputGroupUpdateManyWithoutCreatorNestedInput
+    departmentManaged?: DepartmentUpdateManyWithoutManagerNestedInput
+    departmentObj?: DepartmentUpdateOneWithoutUsersNestedInput
+    ledTeams?: TeamUpdateManyWithoutLeaderNestedInput
+    teamMemberships?: TeamUpdateManyWithoutMembersNestedInput
+  }
+
+  export type UserUncheckedUpdateWithoutAiInsightOverridesInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    email?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    role?: EnumUserRoleFieldUpdateOperationsInput | $Enums.UserRole
+    department?: NullableStringFieldUpdateOperationsInput | string | null
+    title?: NullableStringFieldUpdateOperationsInput | string | null
+    managerId?: NullableStringFieldUpdateOperationsInput | string | null
+    utilizationRate?: NullableFloatFieldUpdateOperationsInput | number | null
+    targetUtilization?: NullableFloatFieldUpdateOperationsInput | number | null
+    billableRate?: NullableFloatFieldUpdateOperationsInput | number | null
+    costCenter?: NullableStringFieldUpdateOperationsInput | string | null
+    location?: NullableStringFieldUpdateOperationsInput | string | null
+    isActive?: BoolFieldUpdateOperationsInput | boolean
+    lastLoginAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    avatar?: NullableStringFieldUpdateOperationsInput | string | null
+    passwordHash?: NullableStringFieldUpdateOperationsInput | string | null
+    profileJson?: NullableJsonNullValueInput | InputJsonValue
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    departmentObjId?: NullableStringFieldUpdateOperationsInput | string | null
+    reports?: UserUncheckedUpdateManyWithoutManagerNestedInput
+    inputs?: InputUncheckedUpdateManyWithoutCreatorNestedInput
+    signals?: SignalUncheckedUpdateManyWithoutCreatedByNestedInput
+    ownedInitiatives?: InitiativeUncheckedUpdateManyWithoutOwnerNestedInput
+    ideas?: IdeaUncheckedUpdateManyWithoutCreatedByNestedInput
+    solutions?: SolutionUncheckedUpdateManyWithoutCreatorNestedInput
+    comments?: CommentUncheckedUpdateManyWithoutCreatorNestedInput
+    votes?: VoteUncheckedUpdateManyWithoutCreatorNestedInput
+    requirements?: RequirementUncheckedUpdateManyWithoutCreatorNestedInput
+    frdDocuments?: FRDDocumentUncheckedUpdateManyWithoutCreatorNestedInput
+    approvedFRDs?: FRDDocumentUncheckedUpdateManyWithoutApproverNestedInput
+    auditLogs?: AuditLogUncheckedUpdateManyWithoutUserNestedInput
+    aiAnalysisAudits?: AIAnalysisAuditUncheckedUpdateManyWithoutUserNestedInput
     inputGroups?: InputGroupUncheckedUpdateManyWithoutCreatorNestedInput
     departmentManaged?: DepartmentUncheckedUpdateManyWithoutManagerNestedInput
     ledTeams?: TeamUncheckedUpdateManyWithoutLeaderNestedInput
@@ -45817,6 +48136,21 @@ export namespace Prisma {
     updatedAt?: Date | string
   }
 
+  export type AIInsightOverrideCreateManyExecutiveInput = {
+    id?: string
+    signalId: string
+    insightId: string
+    insightType: string
+    originalRecommendation?: NullableJsonNullValueInput | InputJsonValue
+    overrideReason: string
+    executiveJustification?: string | null
+    newValue?: NullableJsonNullValueInput | InputJsonValue
+    executiveName: string
+    executiveEmail: string
+    overriddenAt?: Date | string
+    createdAt?: Date | string
+  }
+
   export type DepartmentCreateManyManagerInput = {
     id?: string
     name: string
@@ -45881,6 +48215,7 @@ export namespace Prisma {
     auditLogs?: AuditLogUpdateManyWithoutUserNestedInput
     aiAnalysisAudits?: AIAnalysisAuditUpdateManyWithoutUserNestedInput
     inputGroups?: InputGroupUpdateManyWithoutCreatorNestedInput
+    aiInsightOverrides?: AIInsightOverrideUpdateManyWithoutExecutiveNestedInput
     departmentManaged?: DepartmentUpdateManyWithoutManagerNestedInput
     departmentObj?: DepartmentUpdateOneWithoutUsersNestedInput
     ledTeams?: TeamUpdateManyWithoutLeaderNestedInput
@@ -45921,6 +48256,7 @@ export namespace Prisma {
     auditLogs?: AuditLogUncheckedUpdateManyWithoutUserNestedInput
     aiAnalysisAudits?: AIAnalysisAuditUncheckedUpdateManyWithoutUserNestedInput
     inputGroups?: InputGroupUncheckedUpdateManyWithoutCreatorNestedInput
+    aiInsightOverrides?: AIInsightOverrideUncheckedUpdateManyWithoutExecutiveNestedInput
     departmentManaged?: DepartmentUncheckedUpdateManyWithoutManagerNestedInput
     ledTeams?: TeamUncheckedUpdateManyWithoutLeaderNestedInput
     teamMemberships?: TeamUncheckedUpdateManyWithoutMembersNestedInput
@@ -46045,6 +48381,7 @@ export namespace Prisma {
     team?: TeamUpdateOneWithoutSignalsNestedInput
     category?: CategoryUpdateOneWithoutSignalsNestedInput
     hotspots?: HotspotSignalUpdateManyWithoutSignalNestedInput
+    aiInsightOverrides?: AIInsightOverrideUpdateManyWithoutSignalNestedInput
   }
 
   export type SignalUncheckedUpdateWithoutCreatedByInput = {
@@ -46089,6 +48426,7 @@ export namespace Prisma {
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     hotspots?: HotspotSignalUncheckedUpdateManyWithoutSignalNestedInput
+    aiInsightOverrides?: AIInsightOverrideUncheckedUpdateManyWithoutSignalNestedInput
   }
 
   export type SignalUncheckedUpdateManyWithoutCreatedByInput = {
@@ -46694,6 +49032,51 @@ export namespace Prisma {
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
+  export type AIInsightOverrideUpdateWithoutExecutiveInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    insightId?: StringFieldUpdateOperationsInput | string
+    insightType?: StringFieldUpdateOperationsInput | string
+    originalRecommendation?: NullableJsonNullValueInput | InputJsonValue
+    overrideReason?: StringFieldUpdateOperationsInput | string
+    executiveJustification?: NullableStringFieldUpdateOperationsInput | string | null
+    newValue?: NullableJsonNullValueInput | InputJsonValue
+    executiveName?: StringFieldUpdateOperationsInput | string
+    executiveEmail?: StringFieldUpdateOperationsInput | string
+    overriddenAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    signal?: SignalUpdateOneRequiredWithoutAiInsightOverridesNestedInput
+  }
+
+  export type AIInsightOverrideUncheckedUpdateWithoutExecutiveInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    signalId?: StringFieldUpdateOperationsInput | string
+    insightId?: StringFieldUpdateOperationsInput | string
+    insightType?: StringFieldUpdateOperationsInput | string
+    originalRecommendation?: NullableJsonNullValueInput | InputJsonValue
+    overrideReason?: StringFieldUpdateOperationsInput | string
+    executiveJustification?: NullableStringFieldUpdateOperationsInput | string | null
+    newValue?: NullableJsonNullValueInput | InputJsonValue
+    executiveName?: StringFieldUpdateOperationsInput | string
+    executiveEmail?: StringFieldUpdateOperationsInput | string
+    overriddenAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type AIInsightOverrideUncheckedUpdateManyWithoutExecutiveInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    signalId?: StringFieldUpdateOperationsInput | string
+    insightId?: StringFieldUpdateOperationsInput | string
+    insightType?: StringFieldUpdateOperationsInput | string
+    originalRecommendation?: NullableJsonNullValueInput | InputJsonValue
+    overrideReason?: StringFieldUpdateOperationsInput | string
+    executiveJustification?: NullableStringFieldUpdateOperationsInput | string | null
+    newValue?: NullableJsonNullValueInput | InputJsonValue
+    executiveName?: StringFieldUpdateOperationsInput | string
+    executiveEmail?: StringFieldUpdateOperationsInput | string
+    overriddenAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
   export type DepartmentUpdateWithoutManagerInput = {
     id?: StringFieldUpdateOperationsInput | string
     name?: StringFieldUpdateOperationsInput | string
@@ -47025,6 +49408,7 @@ export namespace Prisma {
     category?: CategoryUpdateOneWithoutSignalsNestedInput
     createdBy?: UserUpdateOneWithoutSignalsNestedInput
     hotspots?: HotspotSignalUpdateManyWithoutSignalNestedInput
+    aiInsightOverrides?: AIInsightOverrideUpdateManyWithoutSignalNestedInput
   }
 
   export type SignalUncheckedUpdateWithoutDepartmentInput = {
@@ -47069,6 +49453,7 @@ export namespace Prisma {
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     hotspots?: HotspotSignalUncheckedUpdateManyWithoutSignalNestedInput
+    aiInsightOverrides?: AIInsightOverrideUncheckedUpdateManyWithoutSignalNestedInput
   }
 
   export type SignalUncheckedUpdateManyWithoutDepartmentInput = {
@@ -47148,6 +49533,7 @@ export namespace Prisma {
     auditLogs?: AuditLogUpdateManyWithoutUserNestedInput
     aiAnalysisAudits?: AIAnalysisAuditUpdateManyWithoutUserNestedInput
     inputGroups?: InputGroupUpdateManyWithoutCreatorNestedInput
+    aiInsightOverrides?: AIInsightOverrideUpdateManyWithoutExecutiveNestedInput
     departmentManaged?: DepartmentUpdateManyWithoutManagerNestedInput
     ledTeams?: TeamUpdateManyWithoutLeaderNestedInput
     teamMemberships?: TeamUpdateManyWithoutMembersNestedInput
@@ -47187,6 +49573,7 @@ export namespace Prisma {
     auditLogs?: AuditLogUncheckedUpdateManyWithoutUserNestedInput
     aiAnalysisAudits?: AIAnalysisAuditUncheckedUpdateManyWithoutUserNestedInput
     inputGroups?: InputGroupUncheckedUpdateManyWithoutCreatorNestedInput
+    aiInsightOverrides?: AIInsightOverrideUncheckedUpdateManyWithoutExecutiveNestedInput
     departmentManaged?: DepartmentUncheckedUpdateManyWithoutManagerNestedInput
     ledTeams?: TeamUncheckedUpdateManyWithoutLeaderNestedInput
     teamMemberships?: TeamUncheckedUpdateManyWithoutMembersNestedInput
@@ -47299,6 +49686,7 @@ export namespace Prisma {
     category?: CategoryUpdateOneWithoutSignalsNestedInput
     createdBy?: UserUpdateOneWithoutSignalsNestedInput
     hotspots?: HotspotSignalUpdateManyWithoutSignalNestedInput
+    aiInsightOverrides?: AIInsightOverrideUpdateManyWithoutSignalNestedInput
   }
 
   export type SignalUncheckedUpdateWithoutTeamInput = {
@@ -47343,6 +49731,7 @@ export namespace Prisma {
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     hotspots?: HotspotSignalUncheckedUpdateManyWithoutSignalNestedInput
+    aiInsightOverrides?: AIInsightOverrideUncheckedUpdateManyWithoutSignalNestedInput
   }
 
   export type SignalUncheckedUpdateManyWithoutTeamInput = {
@@ -47422,6 +49811,7 @@ export namespace Prisma {
     auditLogs?: AuditLogUpdateManyWithoutUserNestedInput
     aiAnalysisAudits?: AIAnalysisAuditUpdateManyWithoutUserNestedInput
     inputGroups?: InputGroupUpdateManyWithoutCreatorNestedInput
+    aiInsightOverrides?: AIInsightOverrideUpdateManyWithoutExecutiveNestedInput
     departmentManaged?: DepartmentUpdateManyWithoutManagerNestedInput
     departmentObj?: DepartmentUpdateOneWithoutUsersNestedInput
     ledTeams?: TeamUpdateManyWithoutLeaderNestedInput
@@ -47462,6 +49852,7 @@ export namespace Prisma {
     auditLogs?: AuditLogUncheckedUpdateManyWithoutUserNestedInput
     aiAnalysisAudits?: AIAnalysisAuditUncheckedUpdateManyWithoutUserNestedInput
     inputGroups?: InputGroupUncheckedUpdateManyWithoutCreatorNestedInput
+    aiInsightOverrides?: AIInsightOverrideUncheckedUpdateManyWithoutExecutiveNestedInput
     departmentManaged?: DepartmentUncheckedUpdateManyWithoutManagerNestedInput
     ledTeams?: TeamUncheckedUpdateManyWithoutLeaderNestedInput
   }
@@ -47792,6 +50183,7 @@ export namespace Prisma {
     team?: TeamUpdateOneWithoutSignalsNestedInput
     createdBy?: UserUpdateOneWithoutSignalsNestedInput
     hotspots?: HotspotSignalUpdateManyWithoutSignalNestedInput
+    aiInsightOverrides?: AIInsightOverrideUpdateManyWithoutSignalNestedInput
   }
 
   export type SignalUncheckedUpdateWithoutCategoryInput = {
@@ -47836,6 +50228,7 @@ export namespace Prisma {
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     hotspots?: HotspotSignalUncheckedUpdateManyWithoutSignalNestedInput
+    aiInsightOverrides?: AIInsightOverrideUncheckedUpdateManyWithoutSignalNestedInput
   }
 
   export type SignalUncheckedUpdateManyWithoutCategoryInput = {
@@ -47888,6 +50281,21 @@ export namespace Prisma {
     addedAt?: Date | string
   }
 
+  export type AIInsightOverrideCreateManySignalInput = {
+    id?: string
+    insightId: string
+    insightType: string
+    originalRecommendation?: NullableJsonNullValueInput | InputJsonValue
+    overrideReason: string
+    executiveJustification?: string | null
+    newValue?: NullableJsonNullValueInput | InputJsonValue
+    executiveId: string
+    executiveName: string
+    executiveEmail: string
+    overriddenAt?: Date | string
+    createdAt?: Date | string
+  }
+
   export type HotspotSignalUpdateWithoutSignalInput = {
     membershipStrength?: FloatFieldUpdateOperationsInput | number
     isOutlier?: BoolFieldUpdateOperationsInput | boolean
@@ -47907,6 +50315,51 @@ export namespace Prisma {
     membershipStrength?: FloatFieldUpdateOperationsInput | number
     isOutlier?: BoolFieldUpdateOperationsInput | boolean
     addedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type AIInsightOverrideUpdateWithoutSignalInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    insightId?: StringFieldUpdateOperationsInput | string
+    insightType?: StringFieldUpdateOperationsInput | string
+    originalRecommendation?: NullableJsonNullValueInput | InputJsonValue
+    overrideReason?: StringFieldUpdateOperationsInput | string
+    executiveJustification?: NullableStringFieldUpdateOperationsInput | string | null
+    newValue?: NullableJsonNullValueInput | InputJsonValue
+    executiveName?: StringFieldUpdateOperationsInput | string
+    executiveEmail?: StringFieldUpdateOperationsInput | string
+    overriddenAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    executive?: UserUpdateOneRequiredWithoutAiInsightOverridesNestedInput
+  }
+
+  export type AIInsightOverrideUncheckedUpdateWithoutSignalInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    insightId?: StringFieldUpdateOperationsInput | string
+    insightType?: StringFieldUpdateOperationsInput | string
+    originalRecommendation?: NullableJsonNullValueInput | InputJsonValue
+    overrideReason?: StringFieldUpdateOperationsInput | string
+    executiveJustification?: NullableStringFieldUpdateOperationsInput | string | null
+    newValue?: NullableJsonNullValueInput | InputJsonValue
+    executiveId?: StringFieldUpdateOperationsInput | string
+    executiveName?: StringFieldUpdateOperationsInput | string
+    executiveEmail?: StringFieldUpdateOperationsInput | string
+    overriddenAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type AIInsightOverrideUncheckedUpdateManyWithoutSignalInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    insightId?: StringFieldUpdateOperationsInput | string
+    insightType?: StringFieldUpdateOperationsInput | string
+    originalRecommendation?: NullableJsonNullValueInput | InputJsonValue
+    overrideReason?: StringFieldUpdateOperationsInput | string
+    executiveJustification?: NullableStringFieldUpdateOperationsInput | string | null
+    newValue?: NullableJsonNullValueInput | InputJsonValue
+    executiveId?: StringFieldUpdateOperationsInput | string
+    executiveName?: StringFieldUpdateOperationsInput | string
+    executiveEmail?: StringFieldUpdateOperationsInput | string
+    overriddenAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
   export type HotspotSignalCreateManyHotspotInput = {

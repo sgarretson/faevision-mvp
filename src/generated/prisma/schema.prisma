@@ -44,19 +44,20 @@ model User {
   updatedAt         DateTime  @updatedAt
 
   // Enhanced Relationships for all F1-F6 features + V2 enhancements
-  inputs           Input[]
-  signals          Signal[] // V2: Enhanced signal model
-  ownedInitiatives Initiative[]      @relation("InitiativeOwner") // V2: Strategic initiatives
-  ideas            Idea[] // V2: Ideas from hotspots
-  solutions        Solution[]
-  comments         Comment[]
-  votes            Vote[]
-  requirements     Requirement[]
-  frdDocuments     FRDDocument[]     @relation("FRDCreator")
-  approvedFRDs     FRDDocument[]     @relation("FRDApprover")
-  auditLogs        AuditLog[]
-  aiAnalysisAudits AIAnalysisAudit[]
-  inputGroups      InputGroup[]
+  inputs             Input[]
+  signals            Signal[] // V2: Enhanced signal model
+  ownedInitiatives   Initiative[]        @relation("InitiativeOwner") // V2: Strategic initiatives
+  ideas              Idea[] // V2: Ideas from hotspots
+  solutions          Solution[]
+  comments           Comment[]
+  votes              Vote[]
+  requirements       Requirement[]
+  frdDocuments       FRDDocument[]       @relation("FRDCreator")
+  approvedFRDs       FRDDocument[]       @relation("FRDApprover")
+  auditLogs          AuditLog[]
+  aiAnalysisAudits   AIAnalysisAudit[]
+  inputGroups        InputGroup[]
+  aiInsightOverrides AIInsightOverride[]
 
   // New Professional Relationships
   departmentManaged Department[] @relation("DepartmentManager")
@@ -242,7 +243,8 @@ model Signal {
   createdBy   User?   @relation(fields: [createdById], references: [id])
 
   // Relationships
-  hotspots HotspotSignal[]
+  hotspots           HotspotSignal[]
+  aiInsightOverrides AIInsightOverride[]
 
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
@@ -677,6 +679,31 @@ model AIAnalysisAudit {
   @@index([createdAt])
   @@index([status])
   @@map("ai_analysis_audit")
+}
+
+model AIInsightOverride {
+  id                     String   @id @default(cuid())
+  signalId               String
+  insightId              String
+  insightType            String // TAGGING_CONFIDENCE, BUSINESS_IMPACT, etc.
+  originalRecommendation Json?
+  overrideReason         String
+  executiveJustification String?
+  newValue               Json?
+  executiveId            String
+  executiveName          String
+  executiveEmail         String
+  overriddenAt           DateTime @default(now())
+  createdAt              DateTime @default(now())
+
+  // Relationships
+  signal    Signal @relation(fields: [signalId], references: [id], onDelete: Cascade)
+  executive User   @relation(fields: [executiveId], references: [id])
+
+  @@index([signalId])
+  @@index([insightId])
+  @@index([executiveId])
+  @@map("ai_insight_overrides")
 }
 
 // ============================================================================
