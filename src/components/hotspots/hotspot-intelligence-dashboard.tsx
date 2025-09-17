@@ -87,6 +87,12 @@ export function HotspotIntelligenceDashboard() {
   }, [loading]);
 
   const loadClusteringResults = useCallback(async () => {
+    // Prevent multiple simultaneous calls
+    if (loading) {
+      console.log('🔄 Already loading, skipping duplicate call');
+      return;
+    }
+
     try {
       console.log('🔍 Loading clustering results...');
       setLoading(true);
@@ -121,7 +127,52 @@ export function HotspotIntelligenceDashboard() {
 
           console.log('🔄 Mapped clustering results:', mappedResults);
           setClusteringResults(mappedResults);
-          generateExecutiveMetrics(mappedResults);
+
+          // Generate metrics directly inline to prevent re-renders
+          const clusters = mappedResults.finalClusters || [];
+          if (clusters.length === 0) {
+            setMetrics({
+              totalClusters: 0,
+              criticalClusters: 0,
+              readyForAction: 0,
+              avgBusinessRelevance: 0,
+              estimatedTotalCost: 0,
+              highestImpactCluster: 'No clusters available',
+            });
+          } else {
+            const criticalClusters = clusters.filter(
+              (c: any) => c.type === 'CRITICAL'
+            ).length;
+            const readyForAction = clusters.filter(
+              (c: any) => c.actionability && c.actionability > 0.7
+            ).length;
+            const avgBusinessRelevance =
+              clusters.reduce(
+                (sum: number, c: any) => sum + (c.businessRelevance || 0),
+                0
+              ) / clusters.length;
+            const totalCost = clusters.reduce(
+              (sum: number, c: any) =>
+                sum + (c.businessImpact?.costImpact || 0),
+              0
+            );
+            const highestImpactCluster =
+              clusters.sort(
+                (a: any, b: any) =>
+                  (b.businessImpact?.costImpact || 0) -
+                  (a.businessImpact?.costImpact || 0)
+              )[0]?.name || 'N/A';
+
+            setMetrics({
+              totalClusters: clusters.length,
+              criticalClusters,
+              readyForAction,
+              avgBusinessRelevance,
+              estimatedTotalCost: totalCost,
+              highestImpactCluster,
+            });
+          }
+
           console.log('✅ Clustering results loaded successfully');
         } else {
           console.warn('⚠️ API response missing success or result:', data);
@@ -179,11 +230,11 @@ export function HotspotIntelligenceDashboard() {
         console.log('🔍 Component state after load: loading set to false');
       }, 100);
     }
-  }, []);
+  }, [loading]);
 
   useEffect(() => {
     console.log(`🔐 Auth status changed to: ${status}`);
-    if (status === 'authenticated') {
+    if (status === 'authenticated' && !clusteringResults) {
       console.log('✅ User authenticated, loading clustering results...');
       loadClusteringResults();
     } else if (status === 'unauthenticated') {
@@ -192,7 +243,7 @@ export function HotspotIntelligenceDashboard() {
     } else if (status === 'loading') {
       console.log('⏳ Auth still loading...');
     }
-  }, [status, loadClusteringResults]);
+  }, [status, loadClusteringResults, clusteringResults]);
 
   const generateExecutiveMetrics = (results: ClusteringResults) => {
     console.log('📊 Generating executive metrics from results:', results);
