@@ -10,12 +10,7 @@ import { Button } from '@/components/ui/button';
 import { Card, CardContent } from '@/components/ui/card';
 // import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select'
 import { Input } from '@/components/ui/input';
-import {
-  Plus,
-  Filter,
-  Search,
-  AlertCircle,
-} from 'lucide-react';
+import { Plus, Filter, Search, AlertCircle } from 'lucide-react';
 import { InputsBulkSelection } from '@/components/inputs/inputs-bulk-selection';
 import { Alert, AlertDescription } from '@/components/ui/alert';
 

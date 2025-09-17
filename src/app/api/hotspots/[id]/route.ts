@@ -81,7 +81,13 @@ export async function GET(
       return NextResponse.json({ error: 'Hotspot not found' }, { status: 404 });
     }
 
-    // Format the response
+    // Calculate clustering statistics for detail view
+    const signals = hotspot.signals || [];
+    const membershipStrengths = signals.map((hs: any) => hs.membershipStrength || 0);
+    const outlierSignals = signals.filter((hs: any) => hs.isOutlier);
+    const coreSignals = signals.filter((hs: any) => !hs.isOutlier && hs.membershipStrength > 0.7);
+
+    // Format the response with enhanced clustering data
     const formattedHotspot = {
       id: hotspot.id,
       title: hotspot.title,
@@ -89,10 +95,40 @@ export async function GET(
       status: hotspot.status || 'active',
       confidence: hotspot.confidence || 0.8,
       priority: hotspot.priority || 'MEDIUM',
+      
+      // Enhanced clustering metadata
+      clusteringMethod: hotspot.clusteringMethod || 'HDBSCAN',
+      similarityThreshold: hotspot.similarityThreshold || 0.5,
+      linkedEntities: hotspot.linkedEntitiesJson || [],
+      
+      // Clustering analysis
+      clusterAnalysis: {
+        totalSignals: signals.length,
+        coreSignals: coreSignals.length,
+        outlierSignals: outlierSignals.length,
+        avgMembershipStrength: membershipStrengths.length > 0 
+          ? membershipStrengths.reduce((sum: number, strength: number) => sum + strength, 0) / membershipStrengths.length 
+          : 0,
+        clusterQuality: membershipStrengths.length > 0 
+          ? (coreSignals.length / signals.length) * 100 
+          : 0,
+      },
+      
       createdAt: hotspot.createdAt.toISOString(),
       updatedAt: hotspot.updatedAt.toISOString(),
       _count: hotspot._count,
-      signals: hotspot.signals || [],
+      
+      // Enhanced signals with clustering metadata
+      signals: signals.map((hs: any) => ({
+        id: hs.id,
+        signal: hs.signal,
+        membershipStrength: hs.membershipStrength || 1.0,
+        isOutlier: hs.isOutlier || false,
+        signalStatus: hs.isOutlier ? 'outlier' : 
+                    (hs.membershipStrength || 1.0) > 0.7 ? 'core' : 'peripheral',
+        addedAt: hs.addedAt,
+      })),
+      
       ideas: hotspot.ideas || [],
     };
 

@@ -16,6 +16,8 @@ import {
   Calendar,
   Brain,
 } from 'lucide-react';
+import { ClusterAnalysisHeader } from '@/components/hotspots/cluster-analysis-header';
+import { SignalSelectionGrid } from '@/components/hotspots/signal-selection-grid';
 import { Alert, AlertDescription } from '@/components/ui/alert';
 
 interface HotspotDetail {
@@ -27,13 +29,29 @@ interface HotspotDetail {
   priority: 'LOW' | 'MEDIUM' | 'HIGH' | 'CRITICAL';
   createdAt: string;
   updatedAt: string;
+  clusteringMethod?: string;
+  similarityThreshold?: number;
+  linkedEntities?: any[];
+  clusterAnalysis?: {
+    totalSignals: number;
+    coreSignals: number;
+    outlierSignals: number;
+    avgMembershipStrength: number;
+    clusterQuality: number;
+  };
   _count: {
     signals: number;
     ideas: number;
     solutions: number;
+    comments?: number;
+    votes?: number;
   };
   signals?: Array<{
     id: string;
+    membershipStrength: number;
+    isOutlier: boolean;
+    signalStatus: 'core' | 'peripheral' | 'outlier';
+    addedAt: string;
     signal: {
       id: string;
       title: string;
@@ -245,6 +263,18 @@ export default function HotspotDetailPage() {
                     {hotspot._count.ideas}
                   </div>
                 </div>
+                <div className="text-right">
+                  <div className="text-sm text-gray-600">Discussions</div>
+                  <div className="text-2xl font-bold">
+                    {hotspot._count.comments || 0}
+                  </div>
+                </div>
+                <div className="text-right">
+                  <div className="text-sm text-gray-600">Votes</div>
+                  <div className="text-2xl font-bold">
+                    {hotspot._count.votes || 0}
+                  </div>
+                </div>
               </div>
             </div>
           </CardHeader>
@@ -291,31 +321,50 @@ export default function HotspotDetailPage() {
           </CardContent>
         </Card>
 
-        {/* Related Signals */}
+        {/* Enhanced Cluster Analysis */}
+        {hotspot.clusterAnalysis && (
+          <Card className="mb-8">
+            <CardHeader>
+              <CardTitle>Cluster Analysis</CardTitle>
+            </CardHeader>
+            <CardContent>
+              <ClusterAnalysisHeader
+                clusteringMethod={hotspot.clusteringMethod}
+                similarityThreshold={hotspot.similarityThreshold}
+                confidence={hotspot.confidence}
+                clusterAnalysis={hotspot.clusterAnalysis}
+                linkedEntities={hotspot.linkedEntities}
+              />
+            </CardContent>
+          </Card>
+        )}
+
+        {/* Enhanced Signal Selection */}
         {hotspot.signals && hotspot.signals.length > 0 && (
           <Card className="mb-8">
             <CardHeader>
-              <CardTitle>Related Signals ({hotspot.signals.length})</CardTitle>
+              <CardTitle>Signal Selection & Idea Creation</CardTitle>
+              <p className="text-sm text-gray-600">
+                Select specific signals to create targeted ideas, or review the clustering quality.
+              </p>
             </CardHeader>
             <CardContent>
-              <div className="space-y-4">
-                {hotspot.signals.map((hotspotSignal: any) => (
-                  <div key={hotspotSignal.id} className="rounded-lg border p-4">
-                    <h4 className="font-medium text-gray-900">
-                      {hotspotSignal.signal.title}
-                    </h4>
-                    <p className="mt-1 line-clamp-2 text-sm text-gray-600">
-                      {hotspotSignal.signal.description}
-                    </p>
-                    <div className="mt-2 flex items-center space-x-4 text-xs text-gray-500">
-                      <span className="capitalize">
-                        {hotspotSignal.signal.severity} severity
-                      </span>
-                      <span>{formatDate(hotspotSignal.signal.createdAt)}</span>
-                    </div>
-                  </div>
-                ))}
-              </div>
+              <SignalSelectionGrid
+                signals={hotspot.signals.map((hs: any) => ({
+                  ...hs.signal,
+                  id: hs.signal.id,
+                  membershipStrength: hs.membershipStrength,
+                  isOutlier: hs.isOutlier,
+                  signalStatus: hs.signalStatus,
+                  addedAt: hs.addedAt,
+                }))}
+                hotspotId={hotspot.id}
+                hotspotTitle={hotspot.title}
+                onCreateIdea={(selectedSignals) => {
+                  console.log('Creating idea from selected signals:', selectedSignals);
+                  // Could redirect to idea creation page or show success
+                }}
+              />
             </CardContent>
           </Card>
         )}

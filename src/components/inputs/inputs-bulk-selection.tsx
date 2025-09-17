@@ -224,7 +224,7 @@ export function InputsBulkSelection({
                     {/* Hot Topic Indicator */}
                     {(input._count.comments > 5 || input._count.votes > 10) && (
                       <div className="mb-2">
-                        <Badge className="bg-red-100 text-red-800 border-red-200">
+                        <Badge className="border-red-200 bg-red-100 text-red-800">
                           <TrendingUp className="mr-1 h-3 w-3" />
                           Hot Topic
                         </Badge>
@@ -234,26 +234,26 @@ export function InputsBulkSelection({
                     {/* Header: Icon + Title + Priority (F-pattern optimized) */}
                     <div className="flex items-start space-x-3">
                       <span
-                        className="text-2xl flex-shrink-0"
+                        className="flex-shrink-0 text-2xl"
                         role="img"
                         aria-label={input.type}
                       >
                         {TYPE_ICONS[input.type]}
                       </span>
-                      <div className="flex-1 min-w-0">
+                      <div className="min-w-0 flex-1">
                         <div className="flex items-start justify-between">
-                          <h3 className="text-lg font-bold text-gray-900 hover:text-blue-600 line-clamp-1">
+                          <h3 className="line-clamp-1 text-lg font-bold text-gray-900 hover:text-blue-600">
                             <Link href={`/inputs/${input.id}`}>
                               {input.title || 'Untitled Input'}
                             </Link>
                           </h3>
-                          <Badge 
+                          <Badge
                             className={`ml-2 flex-shrink-0 font-bold ${
-                              input.priority === 'HIGH' 
-                                ? 'bg-red-100 text-red-800 border-red-300' 
+                              input.priority === 'HIGH'
+                                ? 'border-red-300 bg-red-100 text-red-800'
                                 : input.priority === 'MEDIUM'
-                                ? 'bg-yellow-100 text-yellow-800 border-yellow-300'
-                                : 'bg-gray-100 text-gray-800 border-gray-300'
+                                  ? 'border-yellow-300 bg-yellow-100 text-yellow-800'
+                                  : 'border-gray-300 bg-gray-100 text-gray-800'
                             }`}
                           >
                             {input.priority}
@@ -269,17 +269,25 @@ export function InputsBulkSelection({
                     <div className="mt-3 flex items-center space-x-6">
                       <div className="flex items-center space-x-1 text-sm">
                         <MessageSquare className="h-4 w-4 text-blue-500" />
-                        <span className="font-medium text-gray-700">{input._count.comments}</span>
+                        <span className="font-medium text-gray-700">
+                          {input._count.comments}
+                        </span>
                         <span className="text-gray-500">comments</span>
                       </div>
                       <div className="flex items-center space-x-1 text-sm">
                         <ThumbsUp className="h-4 w-4 text-green-500" />
-                        <span className="font-medium text-gray-700">{input._count.votes}</span>
+                        <span className="font-medium text-gray-700">
+                          {input._count.votes}
+                        </span>
                         <span className="text-gray-500">votes</span>
                       </div>
                       {/* High engagement indicator */}
-                      {(input._count.comments > 3 || input._count.votes > 5) && (
-                        <Badge variant="outline" className="bg-blue-50 text-blue-700 border-blue-200">
+                      {(input._count.comments > 3 ||
+                        input._count.votes > 5) && (
+                        <Badge
+                          variant="outline"
+                          className="border-blue-200 bg-blue-50 text-blue-700"
+                        >
                           <Users className="mr-1 h-3 w-3" />
                           Active Discussion
                         </Badge>
@@ -292,31 +300,43 @@ export function InputsBulkSelection({
                       <Badge className={STATUS_COLORS[input.status]}>
                         {input.status.replace('_', ' ')}
                       </Badge>
-                      
+
                       {/* Department Badge */}
                       {input.department && (
-                        <Badge variant="outline" className="border-blue-200 text-blue-700">
+                        <Badge
+                          variant="outline"
+                          className="border-blue-200 text-blue-700"
+                        >
                           📊 {input.department}
                         </Badge>
                       )}
-                      
+
                       {/* Issue Type Badge */}
                       {input.issueType && (
-                        <Badge variant="outline" className="border-orange-200 text-orange-700">
+                        <Badge
+                          variant="outline"
+                          className="border-orange-200 text-orange-700"
+                        >
                           🏷️ {input.issueType}
                         </Badge>
                       )}
-                      
+
                       {/* Root Cause Badge */}
                       {input.rootCause && (
-                        <Badge variant="outline" className="border-red-200 text-red-700">
+                        <Badge
+                          variant="outline"
+                          className="border-red-200 text-red-700"
+                        >
                           🔍 {input.rootCause}
                         </Badge>
                       )}
-                      
+
                       {/* AI Confidence Badge */}
                       {input.aiConfidence && input.aiConfidence > 0.7 && (
-                        <Badge variant="outline" className="border-purple-200 text-purple-700 bg-purple-50">
+                        <Badge
+                          variant="outline"
+                          className="border-purple-200 bg-purple-50 text-purple-700"
+                        >
                           🤖 AI: {Math.round(input.aiConfidence * 100)}%
                         </Badge>
                       )}
@@ -325,16 +345,21 @@ export function InputsBulkSelection({
                     {/* Footer: Creator + Date */}
                     <div className="mt-4 flex items-center justify-between text-sm text-gray-500">
                       <span className="font-medium">
-                        {input.creator?.name || input.creator?.email || 'Unknown User'}
+                        {input.creator?.name ||
+                          input.creator?.email ||
+                          'Unknown User'}
                         {input.creator?.department && (
-                          <span className="text-gray-400"> • {input.creator.department}</span>
+                          <span className="text-gray-400">
+                            {' '}
+                            • {input.creator.department}
+                          </span>
                         )}
                       </span>
                       <span className="text-gray-400">
                         {new Date(input.createdAt).toLocaleDateString('en-US', {
                           month: 'short',
                           day: 'numeric',
-                          year: '2-digit'
+                          year: '2-digit',
                         })}
                       </span>
                     </div>

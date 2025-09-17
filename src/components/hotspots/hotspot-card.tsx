@@ -8,9 +8,14 @@ import {
   CheckCircle,
   ChevronDown,
   ChevronUp,
-  ExternalLink,
   Plus,
+  MessageSquare,
+  ThumbsUp,
+  Lightbulb,
 } from 'lucide-react';
+import { Badge } from '@/components/ui/badge';
+import { ClusterAnalysisHeader } from './cluster-analysis-header';
+import { SignalSelectionGrid } from './signal-selection-grid';
 
 /**
  * Executive Hotspot Card Component
@@ -36,6 +41,21 @@ interface HotspotCardProps {
     signalCount: number;
     linkedEntities: any[];
     signals: any[];
+    clusteringMethod?: string;
+    similarityThreshold?: number;
+    clusterAnalysis?: {
+      totalSignals: number;
+      coreSignals: number;
+      outlierSignals: number;
+      avgMembershipStrength: number;
+      clusterQuality: number;
+    };
+    // Add engagement metrics like Strategic Inputs
+    _count?: {
+      comments?: number;
+      votes?: number;
+      ideas?: number;
+    };
   };
   isSelected: boolean;
   onSelect: () => void;
@@ -120,23 +140,93 @@ export function HotspotCard({
           </button>
         </div>
 
-        {/* Executive Metrics Row */}
-        <div className="mb-4 grid grid-cols-3 gap-4">
-          <MetricItem
-            icon={<Users className="h-4 w-4" />}
-            label="Signals"
-            value={hotspot.signalCount}
-          />
-          <MetricItem
-            icon={<TrendingUp className="h-4 w-4" />}
-            label="Confidence"
-            value={`${Math.round(hotspot.confidence * 100)}%`}
-          />
-          <MetricItem
-            icon={<AlertTriangle className="h-4 w-4" />}
-            label="Priority"
-            value={priorityLevel}
-          />
+        {/* Enhanced Metrics Row - Matching Strategic Input Cards */}
+        <div className="mb-4">
+          {/* Hot Topic Indicator */}
+          {(hotspot._count?.comments && hotspot._count.comments > 5) || 
+           (hotspot._count?.votes && hotspot._count.votes > 10) ? (
+            <div className="mb-3">
+              <Badge className="border-red-200 bg-red-100 text-red-800">
+                <TrendingUp className="mr-1 h-3 w-3" />
+                Hot Cluster
+              </Badge>
+            </div>
+          ) : null}
+
+          {/* Engagement Metrics Row */}
+          <div className="mb-3 flex items-center space-x-6">
+            <div className="flex items-center space-x-1 text-sm">
+              <MessageSquare className="h-4 w-4 text-blue-500" />
+              <span className="font-medium text-gray-700">
+                {hotspot._count?.comments || 0}
+              </span>
+              <span className="text-gray-500">discussions</span>
+            </div>
+            <div className="flex items-center space-x-1 text-sm">
+              <ThumbsUp className="h-4 w-4 text-green-500" />
+              <span className="font-medium text-gray-700">
+                {hotspot._count?.votes || 0}
+              </span>
+              <span className="text-gray-500">votes</span>
+            </div>
+            <div className="flex items-center space-x-1 text-sm">
+              <Lightbulb className="h-4 w-4 text-purple-500" />
+              <span className="font-medium text-gray-700">
+                {hotspot._count?.ideas || 0}
+              </span>
+              <span className="text-gray-500">ideas</span>
+            </div>
+            {/* Active discussion indicator */}
+            {((hotspot._count?.comments || 0) > 3 || (hotspot._count?.votes || 0) > 5) && (
+              <Badge variant="outline" className="border-blue-200 bg-blue-50 text-blue-700">
+                <Users className="mr-1 h-3 w-3" />
+                Active Discussion
+              </Badge>
+            )}
+          </div>
+
+          {/* Traditional Metrics Grid */}
+          <div className="grid grid-cols-3 gap-4">
+            <MetricItem
+              icon={<Users className="h-4 w-4" />}
+              label="Signals"
+              value={hotspot.signalCount}
+            />
+            <MetricItem
+              icon={<TrendingUp className="h-4 w-4" />}
+              label="Confidence"
+              value={`${Math.round(hotspot.confidence * 100)}%`}
+            />
+            <MetricItem
+              icon={<AlertTriangle className="h-4 w-4" />}
+              label="Priority"
+              value={priorityLevel}
+            />
+          </div>
+
+          {/* Cluster Quality Indicator */}
+          {hotspot.clusterAnalysis && (
+            <div className="mt-3 rounded bg-gray-50 p-2">
+              <div className="flex items-center justify-between text-xs">
+                <span className="text-gray-600">Cluster Quality</span>
+                <span className={`font-medium ${
+                  hotspot.clusterAnalysis.clusterQuality >= 80 ? 'text-green-600' :
+                  hotspot.clusterAnalysis.clusterQuality >= 60 ? 'text-yellow-600' : 'text-red-600'
+                }`}>
+                  {Math.round(hotspot.clusterAnalysis.clusterQuality)}%
+                </span>
+              </div>
+              <div className="mt-1 h-1 w-full rounded-full bg-gray-200">
+                <div
+                  className={`h-1 rounded-full transition-all duration-300 ${
+                    hotspot.clusterAnalysis.clusterQuality >= 80 ? 'bg-green-500' :
+                    hotspot.clusterAnalysis.clusterQuality >= 60 ? 'bg-yellow-500' : 'bg-red-500'
+                  }`}
+                  style={{ width: `${Math.max(hotspot.clusterAnalysis.clusterQuality, 10)}%` }}
+                />
+              </div>
+            </div>
+          )}
         </div>
 
         {/* Summary */}
@@ -175,6 +265,48 @@ export function HotspotCard({
       {(isSelected || showDetails) && (
         <div className="border-t border-gray-100 bg-gray-50">
           <div className="space-y-6 p-6">
+            {/* Enhanced Cluster Analysis */}
+            {hotspot.clusterAnalysis && (
+              <ClusterAnalysisHeader
+                clusteringMethod={hotspot.clusteringMethod}
+                similarityThreshold={hotspot.similarityThreshold}
+                confidence={hotspot.confidence}
+                clusterAnalysis={hotspot.clusterAnalysis}
+                linkedEntities={hotspot.linkedEntities}
+              />
+            )}
+
+            {/* Signal Selection Grid */}
+            <div>
+              <h4 className="mb-3 text-sm font-medium text-gray-900">
+                Select Signals for Idea Creation
+              </h4>
+              <SignalSelectionGrid
+                signals={hotspot.signals.map((signal: any) => ({
+                  ...signal,
+                  // Map signal data structure
+                  id: signal.id || signal.signal?.id,
+                  title: signal.title || signal.signal?.title,
+                  description: signal.description || signal.signal?.description,
+                  severity: signal.severity || signal.signal?.severity || 'MEDIUM',
+                  membershipStrength: signal.membershipStrength || 1.0,
+                  isOutlier: signal.isOutlier || false,
+                  signalStatus: signal.signalStatus || 
+                    (signal.isOutlier ? 'outlier' : 
+                     (signal.membershipStrength || 1.0) > 0.7 ? 'core' : 'peripheral'),
+                  departmentName: signal.departmentName,
+                  teamName: signal.teamName,
+                  createdAt: signal.createdAt || signal.signal?.createdAt,
+                }))}
+                hotspotId={hotspot.id}
+                hotspotTitle={hotspot.title}
+                onCreateIdea={(selectedSignals) => {
+                  console.log('Creating idea from selected signals:', selectedSignals);
+                  onAction('idea-created');
+                }}
+              />
+            </div>
+
             {/* Linked Entities */}
             {hotspot.linkedEntities && hotspot.linkedEntities.length > 0 && (
               <div>
@@ -193,29 +325,6 @@ export function HotspotCard({
                 </div>
               </div>
             )}
-
-            {/* Signal Preview */}
-            <div>
-              <h4 className="mb-3 text-sm font-medium text-gray-900">
-                Related Signals ({hotspot.signalCount})
-              </h4>
-              <div className="space-y-2">
-                {hotspot.signals.slice(0, 3).map((signal, index) => (
-                  <SignalPreview key={signal.id || index} signal={signal} />
-                ))}
-                {hotspot.signalCount > 3 && (
-                  <button
-                    onClick={() =>
-                      window.open(`/hotspots/${hotspot.id}`, '_blank')
-                    }
-                    className="flex items-center text-sm font-medium text-blue-600 hover:text-blue-700"
-                  >
-                    View all {hotspot.signalCount} signals
-                    <ExternalLink className="ml-1 h-3 w-3" />
-                  </button>
-                )}
-              </div>
-            </div>
 
             {/* Action History */}
             <div className="flex items-center justify-between border-t border-gray-200 pt-4">
