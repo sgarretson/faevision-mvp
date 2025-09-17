@@ -435,23 +435,27 @@ export function HotspotIntelligenceDashboard() {
     }
   };
 
+  const shouldShowSkeleton =
+    ((status === 'loading' && !clusteringResults) || loading) &&
+    !clusteringResults;
+
   console.log('🎨 Render check:', {
     authStatus: status,
     authStatusType: typeof status,
     loading: loading,
     loadingType: typeof loading,
     apiRequestInProgress: apiRequestInProgress,
-    shouldShowSkeleton: status === 'loading' || loading,
+    shouldShowSkeleton,
     hasResults: !!clusteringResults,
     hasMetrics: !!metrics,
   });
 
-  if (status === 'loading' || loading) {
+  if (shouldShowSkeleton) {
     console.log('🔄 Showing skeleton because:', {
       authStatus: status,
       authLoading: status === 'loading',
       componentLoading: loading,
-      combinedCondition: status === 'loading' || loading,
+      combinedCondition: shouldShowSkeleton,
     });
     return <IntelligenceDashboardSkeleton />;
   }
