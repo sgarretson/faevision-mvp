@@ -515,21 +515,36 @@ async function saveClusteringResults(
           id: 'main_hotspot_v2',
           title: 'Executive Intelligence Clusters',
           summary: executiveSummary,
-          signalIds: signalIds,
           clusteringResults: result,
           lastClusteredAt: new Date(),
           clusteringVersion: result.version,
           clusteringQualityScore: result.overallQuality,
           createdAt: new Date(),
+          // Create signal relationships through HotspotSignal junction table
+          signals: {
+            create: signalIds.map((signalId: string) => ({
+              signalId: signalId,
+              membershipStrength: 1.0,
+              isOutlier: false,
+            })),
+          },
         },
         update: {
-          signalIds: signalIds,
           summary: executiveSummary,
           clusteringResults: result,
           lastClusteredAt: new Date(),
           clusteringVersion: result.version,
           clusteringQualityScore: result.overallQuality,
           updatedAt: new Date(),
+          // Update signal relationships by replacing them
+          signals: {
+            deleteMany: {}, // Remove all existing signal relationships
+            create: signalIds.map((signalId: string) => ({
+              signalId: signalId,
+              membershipStrength: 1.0,
+              isOutlier: false,
+            })),
+          },
         },
       });
       console.log('✅ Clustering results saved to database');
@@ -562,13 +577,28 @@ async function saveClusteringResults(
               id: 'main_hotspot_v2',
               title: 'Executive Intelligence Clusters',
               summary: executiveSummary,
-              signalIds: signalIds,
               createdAt: new Date(),
+              // Create signal relationships through HotspotSignal junction table
+              signals: {
+                create: signalIds.map((signalId: string) => ({
+                  signalId: signalId,
+                  membershipStrength: 1.0,
+                  isOutlier: false,
+                })),
+              },
             },
             update: {
-              signalIds: signalIds,
               summary: executiveSummary,
               updatedAt: new Date(),
+              // Update signal relationships by replacing them
+              signals: {
+                deleteMany: {}, // Remove all existing signal relationships
+                create: signalIds.map((signalId: string) => ({
+                  signalId: signalId,
+                  membershipStrength: 1.0,
+                  isOutlier: false,
+                })),
+              },
             },
           });
           console.log(

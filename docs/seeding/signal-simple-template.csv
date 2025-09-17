@@ -1,0 +1,6 @@
+title,description,severity,department_name,created_by_email
+"Project Coordination Issue","Communication gaps between design and field teams causing rework","HIGH","Architecture","sarah.martinez@aetech.com"
+"CAD Standard Update Needed","Current CAD standards don't reflect new BIM requirements","MEDIUM","Architecture","mike.thompson@aetech.com"
+"Client Change Request Delays","Change request approval process taking too long","HIGH","Executive","sarah.martinez@aetech.com"
+"Quality Control Gap","Missing accessibility compliance checks in current QC process","HIGH","Architecture","lisa.johnson@aetech.com"
+"Field Communication Technology","Need mobile access to drawings for field teams","MEDIUM","Field Services","tom.wilson@aetech.com"
