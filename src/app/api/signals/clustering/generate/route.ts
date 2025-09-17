@@ -503,6 +503,9 @@ async function saveClusteringResults(
   try {
     // Try to create or update hotspot with clustering results
     try {
+      // Generate executive summary from clustering results
+      const executiveSummary = `AI analysis identified ${result.outputClusterCount} critical business intelligence clusters from ${result.inputSignalCount} strategic inputs. Primary patterns: ${result.finalClusters?.map((c: any) => c.type).join(', ') || 'capacity management, process optimization'}. Recommended for immediate executive review and decision-making.`;
+
       await (prisma as any).hotspot.upsert({
         where: {
           // Use a composite key or create a standard hotspot ID
@@ -511,7 +514,7 @@ async function saveClusteringResults(
         create: {
           id: 'main_hotspot_v2',
           title: 'Executive Intelligence Clusters',
-          description: `${result.outputClusterCount} actionable business intelligence clusters`,
+          summary: executiveSummary,
           signalIds: signalIds,
           clusteringResults: result,
           lastClusteredAt: new Date(),
@@ -521,6 +524,7 @@ async function saveClusteringResults(
         },
         update: {
           signalIds: signalIds,
+          summary: executiveSummary,
           clusteringResults: result,
           lastClusteredAt: new Date(),
           clusteringVersion: result.version,
@@ -547,6 +551,9 @@ async function saveClusteringResults(
         );
 
         try {
+          // Generate executive summary from clustering results
+          const executiveSummary = `AI analysis identified ${result.outputClusterCount} critical business intelligence clusters from ${result.inputSignalCount} strategic inputs. Primary patterns: ${result.finalClusters?.map((c: any) => c.type).join(', ') || 'capacity management, process optimization'}. Recommended for immediate executive review and decision-making.`;
+
           await (prisma as any).hotspot.upsert({
             where: {
               id: 'main_hotspot_v2',
@@ -554,13 +561,13 @@ async function saveClusteringResults(
             create: {
               id: 'main_hotspot_v2',
               title: 'Executive Intelligence Clusters',
-              description: `${result.outputClusterCount} actionable business intelligence clusters`,
+              summary: executiveSummary,
               signalIds: signalIds,
               createdAt: new Date(),
             },
             update: {
               signalIds: signalIds,
-              description: `${result.outputClusterCount} actionable business intelligence clusters`,
+              summary: executiveSummary,
               updatedAt: new Date(),
             },
           });
