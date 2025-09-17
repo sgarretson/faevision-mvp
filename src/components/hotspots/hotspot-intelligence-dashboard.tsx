@@ -80,21 +80,30 @@ export function HotspotIntelligenceDashboard() {
   const [loading, setLoading] = useState(true);
   const [selectedCluster, setSelectedCluster] = useState<string | null>(null);
   const [generating, setGenerating] = useState(false);
+  const [apiRequestInProgress, setApiRequestInProgress] = useState(false);
 
   // Debug loading state changes
   useEffect(() => {
     console.log('🔧 Loading state changed to:', loading);
   }, [loading]);
 
+  // Debug API request state changes
+  useEffect(() => {
+    console.log('🌐 API request state changed to:', apiRequestInProgress);
+  }, [apiRequestInProgress]);
+
   const loadClusteringResults = useCallback(async () => {
-    // Prevent multiple simultaneous calls
-    if (loading) {
-      console.log('🔄 Already loading, skipping duplicate call');
+    // Prevent multiple simultaneous API requests
+    if (apiRequestInProgress) {
+      console.log(
+        '🔄 API request already in progress, skipping duplicate call'
+      );
       return;
     }
 
     try {
       console.log('🔍 Loading clustering results...');
+      setApiRequestInProgress(true);
       setLoading(true);
       const response = await fetch('/api/signals/clustering/generate');
 
@@ -223,27 +232,38 @@ export function HotspotIntelligenceDashboard() {
         lastGenerated: new Date().toISOString(),
       });
     } finally {
-      console.log('🔚 Setting loading to false');
+      console.log('🔚 Setting loading to false and clearing API request flag');
       setLoading(false);
+      setApiRequestInProgress(false);
       // Debug state after loading
       setTimeout(() => {
-        console.log('🔍 Component state after load: loading set to false');
+        console.log(
+          '🔍 Component state after load: loading=false, apiRequestInProgress=false'
+        );
       }, 100);
     }
-  }, [loading]);
+  }, [apiRequestInProgress]);
 
   useEffect(() => {
     console.log(`🔐 Auth status changed to: ${status}`);
-    if (status === 'authenticated' && !clusteringResults) {
+    if (
+      status === 'authenticated' &&
+      !clusteringResults &&
+      !apiRequestInProgress
+    ) {
       console.log('✅ User authenticated, loading clustering results...');
       loadClusteringResults();
     } else if (status === 'unauthenticated') {
       console.log('❌ User not authenticated');
       setLoading(false);
+      setApiRequestInProgress(false);
     } else if (status === 'loading') {
       console.log('⏳ Auth still loading...');
+      // Reset states when auth is loading
+      setLoading(true);
+      setApiRequestInProgress(false);
     }
-  }, [status, loadClusteringResults, clusteringResults]);
+  }, [status, loadClusteringResults, clusteringResults, apiRequestInProgress]);
 
   const generateExecutiveMetrics = (results: ClusteringResults) => {
     console.log('📊 Generating executive metrics from results:', results);
@@ -342,6 +362,7 @@ export function HotspotIntelligenceDashboard() {
     authStatusType: typeof status,
     loading: loading,
     loadingType: typeof loading,
+    apiRequestInProgress: apiRequestInProgress,
     shouldShowSkeleton: status === 'loading' || loading,
     hasResults: !!clusteringResults,
     hasMetrics: !!metrics,
