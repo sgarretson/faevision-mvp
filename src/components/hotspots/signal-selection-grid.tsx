@@ -326,7 +326,8 @@ export function SignalSelectionGrid({
               <div className="flex items-center space-x-2">
                 <CheckCircle className="h-5 w-5 text-blue-600" />
                 <span className="font-medium text-gray-900">
-                  {selectedCount} signal{selectedCount !== 1 ? 's' : ''} selected
+                  {selectedCount} signal{selectedCount !== 1 ? 's' : ''}{' '}
+                  selected
                 </span>
               </div>
 

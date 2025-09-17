@@ -91,21 +91,29 @@ export async function POST(request: NextRequest) {
     });
 
     // Map Signal model fields to frontend interface
+    const mappedType = input.severity === 'HIGH' || input.severity === 'CRITICAL' 
+      ? 'PROBLEM' 
+      : input.severity === 'LOW' 
+        ? 'OPPORTUNITY' 
+        : 'GENERAL';
+        
     const mappedInput = {
       id: input.id,
       title: input.title || 'Untitled Signal',
       description: input.description,
-      type: 'GENERAL',
+      type: mappedType, // Map severity to logical type
       status: 'ACTIVE',
       department: input.department?.name,
       issueType: input.category?.name || 'General',
-      rootCause: '',
+      rootCause: '', // Signal model doesn't have rootCause field
       priority:
-        input.severity === 'HIGH'
+        input.severity === 'CRITICAL'
           ? 'HIGH'
-          : input.severity === 'LOW'
-            ? 'LOW'
-            : 'MEDIUM',
+          : input.severity === 'HIGH'
+            ? 'HIGH'
+            : input.severity === 'LOW'
+              ? 'LOW'
+              : 'MEDIUM',
       createdAt: input.receivedAt.toISOString(),
       creator: input.createdBy
         ? {
@@ -160,11 +168,40 @@ export async function GET(request: NextRequest) {
     const limit = parseInt(searchParams.get('limit') || '50');
     const offset = parseInt(searchParams.get('offset') || '0');
 
-    // Build where clause
+    // Build where clause for Signal model
     const where: Record<string, unknown> = {};
-    if (status) where.status = status;
-    if (type) where.type = type;
-    if (department) where.department = department;
+    
+    // Map frontend status to Signal fields - no direct status field in Signal
+    // Status filtering would be based on signal state, for now ignore
+    
+    // Map frontend type to Signal sourceType or severity
+    if (type) {
+      // Map input types to Signal characteristics
+      switch (type) {
+        case 'PROBLEM':
+          where.severity = { in: ['HIGH', 'CRITICAL'] }; // Problems are high severity
+          break;
+        case 'OPPORTUNITY':
+          where.severity = { in: ['LOW', 'MEDIUM'] }; // Opportunities are lower severity
+          break;
+        case 'GENERAL':
+          // No specific filter for general - show all
+          break;
+        default:
+          // If unknown type, ignore filter
+          break;
+      }
+    }
+    
+    // Map department filter to departmentId via department relation
+    if (department) {
+      where.department = {
+        name: {
+          equals: department,
+          mode: 'insensitive'
+        }
+      };
+    }
 
     // Get signals (V2 model) with creator info
     const inputs =
@@ -219,21 +256,29 @@ export async function GET(request: NextRequest) {
         ]);
 
         // Map Signal model fields to frontend interface with enhanced tagging
+        const mappedType = signal.severity === 'HIGH' || signal.severity === 'CRITICAL' 
+          ? 'PROBLEM' 
+          : signal.severity === 'LOW' 
+            ? 'OPPORTUNITY' 
+            : 'GENERAL';
+            
         return {
           id: signal.id,
           title: signal.title || 'Untitled Signal',
           description: signal.description,
-          type: 'GENERAL', // Map severity to type for now
-          status: 'ACTIVE', // Default status
+          type: mappedType, // Map severity to logical type
+          status: 'ACTIVE', // Default status - signals are active by default
           department: signal.department?.name || signal.team?.name,
           issueType: signal.category?.name || 'General',
-          rootCause: signal.rootCause || '',
+          rootCause: '', // Signal model doesn't have rootCause field
           priority:
-            signal.severity === 'HIGH'
+            signal.severity === 'CRITICAL'
               ? 'HIGH'
-              : signal.severity === 'LOW'
-                ? 'LOW'
-                : 'MEDIUM',
+              : signal.severity === 'HIGH'
+                ? 'HIGH'
+                : signal.severity === 'LOW'
+                  ? 'LOW'
+                  : 'MEDIUM',
           // AI enhancement fields
           aiTags: signal.aiTagsJson || null,
           aiConfidence: signal.aiProcessed ? Math.random() * 0.3 + 0.7 : null, // Simulated for demo

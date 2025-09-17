@@ -123,7 +123,7 @@ export function HotspotCard({
               <StatusBadge status={hotspot.status} color={statusColor} />
             </div>
 
-            <h3 className="mb-2 break-words text-lg font-semibold leading-6 text-gray-900 line-clamp-2">
+            <h3 className="mb-2 line-clamp-2 break-words text-lg font-semibold leading-6 text-gray-900">
               {hotspot.title}
             </h3>
           </div>
@@ -160,7 +160,9 @@ export function HotspotCard({
               <span className="font-medium text-gray-700">
                 {hotspot._count?.comments || 0}
               </span>
-              <span className="hidden text-gray-500 sm:inline">discussions</span>
+              <span className="hidden text-gray-500 sm:inline">
+                discussions
+              </span>
             </div>
             <div className="flex items-center space-x-1 text-sm">
               <ThumbsUp className="h-4 w-4 text-green-500" />
@@ -245,7 +247,7 @@ export function HotspotCard({
         </div>
 
         {/* Summary */}
-        <p className="mb-4 break-words text-sm leading-relaxed text-gray-600 line-clamp-3">
+        <p className="mb-4 line-clamp-3 break-words text-sm leading-relaxed text-gray-600">
           {hotspot.summary}
         </p>
 
