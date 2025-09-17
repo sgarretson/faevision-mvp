@@ -97,6 +97,8 @@ export function HotspotIntelligenceDashboard() {
           resultType: typeof data.result,
           finalClusters: data.result?.finalClusters?.length || 0,
         });
+        console.log('🔍 Full API Response:', data);
+        console.log('🔍 Result object:', data.result);
 
         if (data.success && data.result) {
           setClusteringResults(data.result);
@@ -153,6 +155,10 @@ export function HotspotIntelligenceDashboard() {
     } finally {
       console.log('🔚 Setting loading to false');
       setLoading(false);
+      // Debug state after loading
+      setTimeout(() => {
+        console.log('🔍 Component state after load: loading set to false');
+      }, 100);
     }
   }, []);
 
@@ -259,7 +265,19 @@ export function HotspotIntelligenceDashboard() {
     }
   };
 
+  console.log('🎨 Render check:', {
+    authStatus: status,
+    loading: loading,
+    shouldShowSkeleton: status === 'loading' || loading,
+    hasResults: !!clusteringResults,
+    hasMetrics: !!metrics,
+  });
+
   if (status === 'loading' || loading) {
+    console.log('🔄 Showing skeleton because:', {
+      authLoading: status === 'loading',
+      componentLoading: loading,
+    });
     return <IntelligenceDashboardSkeleton />;
   }
 
