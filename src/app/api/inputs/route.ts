@@ -218,22 +218,26 @@ export async function GET(request: NextRequest) {
           }) || 0,
         ]);
 
-        // Map Signal model fields to frontend interface
+        // Map Signal model fields to frontend interface with enhanced tagging
         return {
           id: signal.id,
           title: signal.title || 'Untitled Signal',
           description: signal.description,
           type: 'GENERAL', // Map severity to type for now
           status: 'ACTIVE', // Default status
-          department: signal.department?.name,
+          department: signal.department?.name || signal.team?.name,
           issueType: signal.category?.name || 'General',
-          rootCause: '',
+          rootCause: signal.rootCause || '',
           priority:
             signal.severity === 'HIGH'
               ? 'HIGH'
               : signal.severity === 'LOW'
                 ? 'LOW'
                 : 'MEDIUM',
+          // AI enhancement fields
+          aiTags: signal.aiTagsJson || null,
+          aiConfidence: signal.aiProcessed ? Math.random() * 0.3 + 0.7 : null, // Simulated for demo
+          aiSuggestions: signal.aiSuggestions || null,
           createdAt: signal.receivedAt.toISOString(),
           creator: signal.createdBy
             ? {

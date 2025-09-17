@@ -8,20 +8,16 @@ import { useSession } from 'next-auth/react';
 import Link from 'next/link';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent } from '@/components/ui/card';
-import { Badge } from '@/components/ui/badge';
 // import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select'
 import { Input } from '@/components/ui/input';
 import {
   Plus,
-  MessageSquare,
-  Eye,
   Filter,
   Search,
   AlertCircle,
 } from 'lucide-react';
 import { InputsBulkSelection } from '@/components/inputs/inputs-bulk-selection';
 import { Alert, AlertDescription } from '@/components/ui/alert';
-import { VoteButtons } from '@/components/inputs/vote-buttons';
 
 interface InputItem {
   id: string;
@@ -31,7 +27,11 @@ interface InputItem {
   status: 'NEW' | 'DISCUSSING' | 'ORGANIZED' | 'IN_SOLUTION' | 'ARCHIVED';
   department?: string;
   issueType?: string;
+  rootCause?: string;
   priority: 'LOW' | 'MEDIUM' | 'HIGH';
+  aiTags?: any;
+  aiConfidence?: number;
+  aiSuggestions?: any;
   createdAt: string;
   creator?: {
     id: string;

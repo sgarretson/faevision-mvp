@@ -9,10 +9,10 @@ import {
   Lightbulb,
   X,
   CheckSquare,
-  Square,
-  Plus,
   Users,
-  Target,
+  MessageSquare,
+  ThumbsUp,
+  TrendingUp,
 } from 'lucide-react';
 import Link from 'next/link';
 
@@ -43,7 +43,11 @@ interface Input {
     | string;
   department?: string;
   issueType?: string;
+  rootCause?: string;
   priority: 'LOW' | 'MEDIUM' | 'HIGH' | string;
+  aiTags?: any;
+  aiConfidence?: number;
+  aiSuggestions?: any;
   createdAt: string;
   creator?: {
     id: string;
@@ -215,49 +219,123 @@ export function InputsBulkSelection({
                     className="mt-1 h-5 w-5"
                   />
 
-                  {/* Input Content */}
+                  {/* Input Content - Executive Optimized Layout */}
                   <div className="flex-1">
+                    {/* Hot Topic Indicator */}
+                    {(input._count.comments > 5 || input._count.votes > 10) && (
+                      <div className="mb-2">
+                        <Badge className="bg-red-100 text-red-800 border-red-200">
+                          <TrendingUp className="mr-1 h-3 w-3" />
+                          Hot Topic
+                        </Badge>
+                      </div>
+                    )}
+
+                    {/* Header: Icon + Title + Priority (F-pattern optimized) */}
                     <div className="flex items-start space-x-3">
                       <span
-                        className="text-2xl"
+                        className="text-2xl flex-shrink-0"
                         role="img"
                         aria-label={input.type}
                       >
                         {TYPE_ICONS[input.type]}
                       </span>
-                      <div className="flex-1">
-                        <h3 className="text-lg font-semibold text-gray-900 hover:text-blue-600">
-                          <Link href={`/inputs/${input.id}`}>
-                            {input.title || 'Untitled Input'}
-                          </Link>
-                        </h3>
+                      <div className="flex-1 min-w-0">
+                        <div className="flex items-start justify-between">
+                          <h3 className="text-lg font-bold text-gray-900 hover:text-blue-600 line-clamp-1">
+                            <Link href={`/inputs/${input.id}`}>
+                              {input.title || 'Untitled Input'}
+                            </Link>
+                          </h3>
+                          <Badge 
+                            className={`ml-2 flex-shrink-0 font-bold ${
+                              input.priority === 'HIGH' 
+                                ? 'bg-red-100 text-red-800 border-red-300' 
+                                : input.priority === 'MEDIUM'
+                                ? 'bg-yellow-100 text-yellow-800 border-yellow-300'
+                                : 'bg-gray-100 text-gray-800 border-gray-300'
+                            }`}
+                          >
+                            {input.priority}
+                          </Badge>
+                        </div>
                         <p className="mt-1 line-clamp-2 text-sm text-gray-600">
                           {input.description || 'No description available'}
                         </p>
                       </div>
                     </div>
 
-                    <div className="mt-4 flex flex-wrap gap-2">
-                      <Badge className={STATUS_COLORS[input.status]}>
-                        {input.status.replace('_', ' ')}
-                      </Badge>
-                      <Badge className={PRIORITY_COLORS[input.priority]}>
-                        {input.priority}
-                      </Badge>
-                      {input.department && (
-                        <Badge variant="outline">{input.department}</Badge>
+                    {/* Engagement Metrics Row */}
+                    <div className="mt-3 flex items-center space-x-6">
+                      <div className="flex items-center space-x-1 text-sm">
+                        <MessageSquare className="h-4 w-4 text-blue-500" />
+                        <span className="font-medium text-gray-700">{input._count.comments}</span>
+                        <span className="text-gray-500">comments</span>
+                      </div>
+                      <div className="flex items-center space-x-1 text-sm">
+                        <ThumbsUp className="h-4 w-4 text-green-500" />
+                        <span className="font-medium text-gray-700">{input._count.votes}</span>
+                        <span className="text-gray-500">votes</span>
+                      </div>
+                      {/* High engagement indicator */}
+                      {(input._count.comments > 3 || input._count.votes > 5) && (
+                        <Badge variant="outline" className="bg-blue-50 text-blue-700 border-blue-200">
+                          <Users className="mr-1 h-3 w-3" />
+                          Active Discussion
+                        </Badge>
                       )}
                     </div>
 
-                    <div className="mt-3 flex items-center justify-between text-sm text-gray-500">
-                      <span>
-                        Created by{' '}
-                        {input.creator?.name ||
-                          input.creator?.email ||
-                          'Unknown User'}
+                    {/* Comprehensive Tagging System */}
+                    <div className="mt-4 flex flex-wrap gap-2">
+                      {/* Status Badge */}
+                      <Badge className={STATUS_COLORS[input.status]}>
+                        {input.status.replace('_', ' ')}
+                      </Badge>
+                      
+                      {/* Department Badge */}
+                      {input.department && (
+                        <Badge variant="outline" className="border-blue-200 text-blue-700">
+                          📊 {input.department}
+                        </Badge>
+                      )}
+                      
+                      {/* Issue Type Badge */}
+                      {input.issueType && (
+                        <Badge variant="outline" className="border-orange-200 text-orange-700">
+                          🏷️ {input.issueType}
+                        </Badge>
+                      )}
+                      
+                      {/* Root Cause Badge */}
+                      {input.rootCause && (
+                        <Badge variant="outline" className="border-red-200 text-red-700">
+                          🔍 {input.rootCause}
+                        </Badge>
+                      )}
+                      
+                      {/* AI Confidence Badge */}
+                      {input.aiConfidence && input.aiConfidence > 0.7 && (
+                        <Badge variant="outline" className="border-purple-200 text-purple-700 bg-purple-50">
+                          🤖 AI: {Math.round(input.aiConfidence * 100)}%
+                        </Badge>
+                      )}
+                    </div>
+
+                    {/* Footer: Creator + Date */}
+                    <div className="mt-4 flex items-center justify-between text-sm text-gray-500">
+                      <span className="font-medium">
+                        {input.creator?.name || input.creator?.email || 'Unknown User'}
+                        {input.creator?.department && (
+                          <span className="text-gray-400"> • {input.creator.department}</span>
+                        )}
                       </span>
-                      <span>
-                        {new Date(input.createdAt).toLocaleDateString()}
+                      <span className="text-gray-400">
+                        {new Date(input.createdAt).toLocaleDateString('en-US', {
+                          month: 'short',
+                          day: 'numeric',
+                          year: '2-digit'
+                        })}
                       </span>
                     </div>
                   </div>
