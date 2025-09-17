@@ -15,7 +15,6 @@ export const dynamic = 'force-dynamic';
 export const runtime = 'nodejs';
 import { hybridClusteringEngine } from '@/lib/clustering/hybrid-clustering-engine';
 import { featureEngineeringEngine } from '@/lib/clustering/feature-engineering';
-import { validateClusteringFeatures } from '@/types/clustering-features';
 import { z } from 'zod';
 
 // Request validation schema
@@ -81,8 +80,13 @@ export async function POST(request: NextRequest) {
       });
     } catch (error: any) {
       // If clustering features column doesn't exist, get all signals and generate features on-the-fly
-      if (error.code === 'P2022' && error.message.includes('clusteringFeaturesJson')) {
-        console.log('⚠️  Clustering features column missing, using basic signal data...');
+      if (
+        error.code === 'P2022' &&
+        error.message.includes('clusteringFeaturesJson')
+      ) {
+        console.log(
+          '⚠️  Clustering features column missing, using basic signal data...'
+        );
         signals = await (prisma as any).signal.findMany({
           where: whereClause,
           include: {
@@ -126,11 +130,16 @@ export async function POST(request: NextRequest) {
     // Extract and validate clustering features
     const clusteringFeatures = [];
     for (const signal of signals) {
-      if (signal.clusteringFeaturesJson && validateClusteringFeatures(signal.clusteringFeaturesJson)) {
+      if (
+        signal.clusteringFeaturesJson &&
+        validateClusteringFeatures(signal.clusteringFeaturesJson)
+      ) {
         clusteringFeatures.push(signal.clusteringFeaturesJson);
       } else {
         // Generate features on-the-fly for signals without pre-generated features
-        console.log(`🔧 Generating clustering features for signal ${signal.id}...`);
+        console.log(
+          `🔧 Generating clustering features for signal ${signal.id}...`
+        );
         const generatedFeatures = generateBasicClusteringFeatures(signal);
         if (validateClusteringFeatures(generatedFeatures)) {
           clusteringFeatures.push(generatedFeatures);
@@ -543,6 +552,7 @@ function generateClusteringRecommendations(result: any): string[] {
 
 /**
  * Validate clustering features structure
+ * Local implementation to avoid import conflicts
  */
 function validateClusteringFeatures(features: any): boolean {
   if (!features || typeof features !== 'object') return false;
@@ -555,41 +565,53 @@ function validateClusteringFeatures(features: any): boolean {
 function generateBasicClusteringFeatures(signal: any): any {
   try {
     // Create a simple text representation for embedding
-    const textContent = `${signal.title || ''} ${signal.description || ''}`.trim();
-    
+    const textContent =
+      `${signal.title || ''} ${signal.description || ''}`.trim();
+
     // Generate a basic feature vector (simplified version)
-    const words = textContent.toLowerCase().split(/\s+/).filter(w => w.length > 2);
-    const uniqueWords = [...new Set(words)];
-    
+    const words = textContent
+      .toLowerCase()
+      .split(/\s+/)
+      .filter((w: string) => w.length > 2);
+    const uniqueWords = Array.from(new Set(words));
+
     // Create a simple bag-of-words style embedding (128 dimensions)
     const embedding = new Array(128).fill(0);
-    uniqueWords.forEach((word, index) => {
-      const hash = word.split('').reduce((a, b) => ((a << 5) - a + b.charCodeAt(0)) | 0, 0);
+    uniqueWords.forEach((word: string, index: number) => {
+      const hash = word
+        .split('')
+        .reduce(
+          (a: number, b: string) => ((a << 5) - a + b.charCodeAt(0)) | 0,
+          0
+        );
       embedding[Math.abs(hash) % 128] += 1;
     });
-    
+
     // Normalize the embedding
-    const magnitude = Math.sqrt(embedding.reduce((sum, val) => sum + val * val, 0));
-    const normalizedEmbedding = magnitude > 0 ? embedding.map(val => val / magnitude) : embedding;
-    
+    const magnitude = Math.sqrt(
+      embedding.reduce((sum, val) => sum + val * val, 0)
+    );
+    const normalizedEmbedding =
+      magnitude > 0 ? embedding.map(val => val / magnitude) : embedding;
+
     return {
       semantic: {
         embedding: normalizedEmbedding,
         textLength: textContent.length,
         wordCount: words.length,
-        uniqueWordCount: uniqueWords.length
+        uniqueWordCount: uniqueWords.length,
       },
       structural: {
         severity: signal.severity || 'MEDIUM',
         department: signal.department?.name || 'Unknown',
         hasMetrics: Boolean(signal.metricsJson),
-        hasImpact: Boolean(signal.impactJson)
+        hasImpact: Boolean(signal.impactJson),
       },
       generated: {
         onTheFly: true,
         timestamp: new Date().toISOString(),
-        method: 'basic_bow_embedding'
-      }
+        method: 'basic_bow_embedding',
+      },
     };
   } catch (error) {
     console.error('Error generating basic clustering features:', error);
