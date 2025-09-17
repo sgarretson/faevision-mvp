@@ -23,6 +23,7 @@ import {
 } from 'lucide-react';
 import { Alert, AlertDescription } from '@/components/ui/alert';
 import { VoteButtons } from '@/components/inputs/vote-buttons';
+import { AIInsightsPanel } from '@/components/ai/ai-insights-panel';
 
 interface InputDetail {
   id: string;
@@ -353,6 +354,20 @@ export default function InputDetailPage() {
             </div>
           </CardContent>
         </Card>
+
+        {/* AI Insights Panel */}
+        <AIInsightsPanel
+          entityType="signal"
+          entityId={input.id}
+          showAdvanced={true}
+          allowOverrides={true}
+          onInsightOverride={(insightId, reason) => {
+            console.log(`AI insight ${insightId} overridden: ${reason}`);
+          }}
+          onRefreshInsights={() => {
+            console.log('Refreshing AI insights...');
+          }}
+        />
 
         {/* Comments Section */}
         <Card>

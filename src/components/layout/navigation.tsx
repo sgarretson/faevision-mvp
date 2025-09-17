@@ -16,6 +16,7 @@ import {
   Lightbulb,
   Zap,
   Brain,
+  Activity,
 } from 'lucide-react';
 import { cn } from '@/lib/utils';
 
@@ -25,6 +26,7 @@ const navigation = [
   { name: 'Strategic Inputs', href: '/inputs', icon: Target },
   { name: 'Ideas', href: '/ideas', icon: Brain },
   { name: 'Solutions', href: '/solutions', icon: Lightbulb },
+  { name: 'Performance', href: '/monitoring/performance', icon: Activity },
 ];
 
 export function Navigation() {

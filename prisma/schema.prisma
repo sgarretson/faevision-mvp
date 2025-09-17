@@ -57,6 +57,7 @@ model User {
   auditLogs         AuditLog[]
   aiAnalysisAudits  AIAnalysisAudit[]
   inputGroups       InputGroup[]
+  aiInsightOverrides AIInsightOverride[]
   
   // New Professional Relationships
   departmentManaged Department[]    @relation("DepartmentManager")
@@ -223,6 +224,19 @@ model Signal {
   aiProcessed     Boolean   @default(false)
   aiTagsJson      Json?                // AI-generated tags and confidence
   
+  // Enhanced AI Tagging System (Sprint 1)
+  enhancedTagsJson     Json?           // Comprehensive tagging structure
+  tagGenerationMeta    Json?           // Tag generation metadata and confidence
+  domainClassification Json?           // A&E domain-specific classification
+  lastTaggedAt         DateTime?       // Last time tags were generated
+  tagModelVersion      String?         // AI model version used for tagging
+  
+  // Clustering Features System (Sprint 2)
+  clusteringFeaturesJson      Json?    // Multi-dimensional clustering features
+  lastFeaturesGeneratedAt     DateTime? // Last time features were generated
+  featuresVersion             String?  // Feature engineering version
+  featuresQualityScore        Float?   // Overall feature quality score
+  
   // Lineage & Collaboration
   lineageJson     Json?                // Processing history
   createdById     String?
@@ -230,6 +244,7 @@ model Signal {
   
   // Relationships
   hotspots        HotspotSignal[]
+  aiInsightOverrides AIInsightOverride[]
   
   createdAt       DateTime  @default(now())
   updatedAt       DateTime  @updatedAt
@@ -271,6 +286,12 @@ model Hotspot {
   decisionMatrixJson    Json?       // Executive decision matrix data
   crossFunctionalImpactJson Json?   // Team/resource impact mapping
   lastAnalysisAt        DateTime?   // When AI analysis was last performed
+  
+  // Hybrid Clustering Results (Sprint 2)
+  clusteringResults     Json?       // Complete hybrid clustering algorithm results
+  lastClusteredAt       DateTime?   // Last time clustering was performed
+  clusteringVersion     String?     // Clustering algorithm version
+  clusteringQualityScore Float?     // Overall clustering quality score
   
   // Relationships
   signals            HotspotSignal[]
@@ -658,6 +679,31 @@ model AIAnalysisAudit {
   @@index([userId])
   @@index([createdAt])
   @@index([status])
+}
+
+model AIInsightOverride {
+  id                     String   @id @default(cuid())
+  signalId               String
+  insightId              String
+  insightType            String   // TAGGING_CONFIDENCE, BUSINESS_IMPACT, etc.
+  originalRecommendation Json?
+  overrideReason         String
+  executiveJustification String?
+  newValue               Json?
+  executiveId            String
+  executiveName          String
+  executiveEmail         String
+  overriddenAt           DateTime @default(now())
+  createdAt              DateTime @default(now())
+
+  // Relationships
+  signal    Signal @relation(fields: [signalId], references: [id], onDelete: Cascade)
+  executive User   @relation(fields: [executiveId], references: [id])
+
+  @@index([signalId])
+  @@index([insightId])
+  @@index([executiveId])
+  @@map("ai_insight_overrides")
 }
 
 // ============================================================================

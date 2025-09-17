@@ -1,5 +1,5 @@
 import { Suspense } from 'react';
-import { HotspotDashboard } from '@/components/hotspots/hotspot-dashboard';
+import { HotspotIntelligenceDashboard } from '@/components/hotspots/hotspot-intelligence-dashboard';
 
 // Force dynamic rendering to prevent build-time database calls
 export const dynamic = 'force-dynamic';
@@ -27,10 +27,10 @@ export default function HotspotsPage() {
           <div className="flex items-center justify-between">
             <div>
               <h1 className="text-2xl font-bold tracking-tight">
-                Signal Hotspots
+                Business Intelligence Hotspots
               </h1>
               <p className="mt-1 text-blue-100">
-                AI-clustered patterns requiring executive attention
+                Revolutionary hybrid clustering for executive decision-making
               </p>
             </div>
 
@@ -52,7 +52,7 @@ export default function HotspotsPage() {
       {/* Main Dashboard */}
       <div className="mx-auto max-w-7xl px-4 py-8 sm:px-6 lg:px-8">
         <Suspense fallback={<HotspotSkeleton />}>
-          <HotspotDashboard />
+          <HotspotIntelligenceDashboard />
         </Suspense>
       </div>
     </div>
@@ -60,7 +60,7 @@ export default function HotspotsPage() {
 }
 
 export const metadata = {
-  title: 'Signal Hotspots - FAEVision',
+  title: 'Business Intelligence Hotspots - FAEVision',
   description:
-    'Executive dashboard for AI-clustered signal hotspots requiring attention',
+    'Executive dashboard for revolutionary hybrid clustering intelligence and business decision support',
 };

@@ -223,6 +223,19 @@ model Signal {
   aiProcessed Boolean @default(false)
   aiTagsJson  Json? // AI-generated tags and confidence
 
+  // Enhanced AI Tagging System (Sprint 1)
+  enhancedTagsJson     Json? // Comprehensive tagging structure
+  tagGenerationMeta    Json? // Tag generation metadata and confidence
+  domainClassification Json? // A&E domain-specific classification
+  lastTaggedAt         DateTime? // Last time tags were generated
+  tagModelVersion      String? // AI model version used for tagging
+
+  // Clustering Features System (Sprint 2)
+  clusteringFeaturesJson  Json? // Multi-dimensional clustering features
+  lastFeaturesGeneratedAt DateTime? // Last time features were generated
+  featuresVersion         String? // Feature engineering version
+  featuresQualityScore    Float? // Overall feature quality score
+
   // Lineage & Collaboration
   lineageJson Json? // Processing history
   createdById String?
@@ -271,6 +284,12 @@ model Hotspot {
   decisionMatrixJson        Json? // Executive decision matrix data
   crossFunctionalImpactJson Json? // Team/resource impact mapping
   lastAnalysisAt            DateTime? // When AI analysis was last performed
+
+  // Hybrid Clustering Results (Sprint 2)
+  clusteringResults      Json? // Complete hybrid clustering algorithm results
+  lastClusteredAt        DateTime? // Last time clustering was performed
+  clusteringVersion      String? // Clustering algorithm version
+  clusteringQualityScore Float? // Overall clustering quality score
 
   // Relationships
   signals   HotspotSignal[]

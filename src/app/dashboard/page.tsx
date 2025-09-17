@@ -14,6 +14,10 @@ import {
   CardTitle,
 } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
+import { RealTimePerformanceTracker } from '@/components/monitoring/real-time-performance-tracker';
+import { MobileExecutiveLayout } from '@/components/mobile/mobile-executive-layout';
+import { MobileExecutiveDashboard } from '@/components/mobile/mobile-executive-dashboard';
+import { useExecutiveMobile } from '@/hooks/use-mobile';
 import {
   BarChart3,
   TrendingUp,
@@ -79,6 +83,7 @@ const TYPE_ICONS = {
 };
 
 export default function ExecutiveDashboard() {
+  const mobile = useExecutiveMobile();
   const [stats, setStats] = useState<DashboardStats>({
     totalInputs: 0,
     newInputs: 0,
@@ -175,6 +180,37 @@ export default function ExecutiveDashboard() {
           </Alert>
         </div>
       </div>
+    );
+  }
+
+  // Use mobile layout for executive mobile experience
+  if (mobile.shouldUseMobileLayout) {
+    return (
+      <MobileExecutiveLayout
+        title="Dashboard"
+        subtitle="Strategic insights and intelligence"
+        showNotifications={true}
+        primaryAction={{
+          label: 'Capture Input',
+          href: '/inputs/create',
+          icon: <Plus className="h-5 w-5" />,
+        }}
+        quickActions={[
+          {
+            label: 'Review Hotspots',
+            href: '/hotspots',
+            icon: <TrendingUp className="h-4 w-4" />,
+            badge: stats.organized,
+          },
+          {
+            label: 'Check Performance',
+            href: '/monitoring/performance',
+            icon: <BarChart3 className="h-4 w-4" />,
+          },
+        ]}
+      >
+        <MobileExecutiveDashboard />
+      </MobileExecutiveLayout>
     );
   }
 
@@ -538,6 +574,9 @@ export default function ExecutiveDashboard() {
           </>
         )}
       </div>
+
+      {/* Real-Time Performance Tracker */}
+      <RealTimePerformanceTracker />
     </div>
   );
 }

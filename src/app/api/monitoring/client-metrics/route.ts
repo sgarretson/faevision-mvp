@@ -1,79 +1,88 @@
-import { NextRequest, NextResponse } from 'next/server';
-
 /**
- * Client-Side Performance Metrics Collection
+ * Client-Side Performance Metrics Collection API
+ * Sprint 3 Story 3: Performance Monitoring & Optimization
+ * Expert: Jordan Kim (Vercel Engineer) + Alex Thompson (Lead Developer)
  *
- * Collects and analyzes client-side performance metrics:
- * - Page load times and Core Web Vitals
- * - API response times from client perspective
- * - User interaction performance
- * - Mobile performance specific metrics
- *
- * Expert: Jordan Kim (Vercel Engineer)
- * Support: Alex Thompson (Lead Developer)
+ * Collect real-time performance data from client-side monitoring
  */
 
-interface ClientMetric {
-  name: string;
-  value: number;
-  timestamp: number;
-  context?: Record<string, any>;
-}
+import { NextRequest, NextResponse } from 'next/server';
+import { auth } from '@/lib/auth';
 
-interface MetricsPayload {
-  metrics: ClientMetric[];
-  sessionId?: string;
-  userAgent?: string;
-  viewport?: {
-    width: number;
-    height: number;
-  };
-}
-
+/**
+ * POST /api/monitoring/client-metrics
+ * Collect performance metrics from client-side tracking
+ */
 export async function POST(request: NextRequest) {
   try {
-    const body: MetricsPayload = await request.json();
-    const { metrics, sessionId, userAgent, viewport } = body;
+    // Optional authentication - allow anonymous performance data
+    const session = await auth();
 
-    console.log(`📊 Received ${metrics.length} client performance metrics`);
+    const body = await request.json();
+    const { type, data, userAgent, timestamp } = body;
 
-    // Process and analyze metrics
-    const analysis = analyzeMetrics(metrics);
+    // Validate required fields
+    if (!type || !data) {
+      return NextResponse.json(
+        { error: 'Missing required fields: type, data' },
+        { status: 400 }
+      );
+    }
 
-    // Store metrics for monitoring (in production, this would go to a monitoring service)
-    await storeMetrics({
-      metrics,
-      analysis,
-      sessionInfo: {
-        sessionId,
-        userAgent,
-        viewport,
-        timestamp: new Date().toISOString(),
-        ip: getClientIP(request),
-      },
+    // Process different types of performance data
+    let processedData;
+
+    switch (type) {
+      case 'api_performance':
+        processedData = processAPIPerformanceData(data);
+        break;
+      case 'page_load':
+        processedData = processPageLoadData(data);
+        break;
+      case 'user_interaction':
+        processedData = processUserInteractionData(data);
+        break;
+      case 'error_tracking':
+        processedData = processErrorData(data);
+        break;
+      default:
+        processedData = data;
+    }
+
+    // In production, this would be sent to a metrics collection service
+    // For now, we'll log it and store basic analytics
+    console.log('📊 Client Performance Metric:', {
+      type,
+      processedData,
+      userAgent: userAgent?.substring(0, 100), // Truncate user agent
+      timestamp,
+      userId: session?.user?.id,
+      sessionId: generateSessionId(request),
     });
 
-    // Check for performance issues and alert if necessary
-    const alerts = checkPerformanceAlerts(analysis);
+    // Store performance data for trend analysis
+    await storePerformanceMetric({
+      type,
+      data: processedData,
+      userAgent,
+      timestamp,
+      userId: session?.user?.id,
+      ip: getClientIP(request),
+    });
 
     return NextResponse.json({
       success: true,
-      processed: metrics.length,
-      analysis: {
-        summary: analysis,
-        alerts,
-      },
-      timestamp: new Date().toISOString(),
+      message: 'Performance metric recorded',
+      type,
+      timestamp: Date.now(),
     });
-  } catch (error) {
-    console.error('❌ Error processing client metrics:', error);
+  } catch (error: any) {
+    console.error('Failed to record client metric:', error);
 
     return NextResponse.json(
       {
-        success: false,
-        error:
-          error instanceof Error ? error.message : 'Failed to process metrics',
-        timestamp: new Date().toISOString(),
+        error: 'Failed to record metric',
+        message: error.message,
       },
       { status: 500 }
     );
@@ -81,274 +90,248 @@ export async function POST(request: NextRequest) {
 }
 
 /**
- * Analyze performance metrics for insights
+ * Process API performance data
  */
-function analyzeMetrics(metrics: ClientMetric[]) {
-  const analysis: Record<string, any> = {
-    totalMetrics: metrics.length,
-    timeRange: {
-      start: Math.min(...metrics.map(m => m.timestamp)),
-      end: Math.max(...metrics.map(m => m.timestamp)),
-    },
-    categories: {},
-  };
+function processAPIPerformanceData(data: any) {
+  const { name, duration, type } = data;
 
-  // Group metrics by category
-  const categories = groupMetricsByCategory(metrics);
-
-  for (const [category, categoryMetrics] of Object.entries(categories)) {
-    analysis.categories[category] = {
-      count: categoryMetrics.length,
-      avg:
-        categoryMetrics.reduce((sum, m) => sum + m.value, 0) /
-        categoryMetrics.length,
-      min: Math.min(...categoryMetrics.map(m => m.value)),
-      max: Math.max(...categoryMetrics.map(m => m.value)),
-      p95: calculatePercentile(
-        categoryMetrics.map(m => m.value),
-        95
-      ),
-    };
-  }
-
-  // Core Web Vitals analysis
-  analysis.webVitals = analyzeWebVitals(metrics);
-
-  // Mobile performance analysis
-  analysis.mobile = analyzeMobilePerformance(metrics);
-
-  return analysis;
-}
-
-/**
- * Group metrics by category for analysis
- */
-function groupMetricsByCategory(
-  metrics: ClientMetric[]
-): Record<string, ClientMetric[]> {
-  const categories: Record<string, ClientMetric[]> = {};
-
-  for (const metric of metrics) {
-    let category = 'other';
-
-    // Categorize metrics
-    if (
-      metric.name.includes('page_load') ||
-      metric.name.includes('navigation')
-    ) {
-      category = 'page_load';
-    } else if (
-      metric.name.includes('paint') ||
-      metric.name.includes('render')
-    ) {
-      category = 'rendering';
-    } else if (metric.name.includes('api') || metric.name.includes('fetch')) {
-      category = 'api';
-    } else if (
-      metric.name.includes('click') ||
-      metric.name.includes('interaction')
-    ) {
-      category = 'interaction';
-    } else if (
-      metric.name.includes('clustering') ||
-      metric.name.includes('ai')
-    ) {
-      category = 'ai_processing';
-    }
-
-    if (!categories[category]) {
-      categories[category] = [];
-    }
-    categories[category].push(metric);
-  }
-
-  return categories;
-}
-
-/**
- * Analyze Core Web Vitals metrics
- */
-function analyzeWebVitals(metrics: ClientMetric[]) {
-  const webVitals = {
-    lcp: null as number | null, // Largest Contentful Paint
-    fid: null as number | null, // First Input Delay
-    cls: null as number | null, // Cumulative Layout Shift
-    fcp: null as number | null, // First Contentful Paint
-    ttfb: null as number | null, // Time to First Byte
-  };
-
-  for (const metric of metrics) {
-    switch (metric.name) {
-      case 'largest-contentful-paint':
-        webVitals.lcp = metric.value;
-        break;
-      case 'first-input-delay':
-        webVitals.fid = metric.value;
-        break;
-      case 'cumulative-layout-shift':
-        webVitals.cls = metric.value;
-        break;
-      case 'first-contentful-paint':
-        webVitals.fcp = metric.value;
-        break;
-      case 'time-to-first-byte':
-        webVitals.ttfb = metric.value;
-        break;
-    }
-  }
-
-  // Score web vitals (good/needs improvement/poor)
-  const scores = {
-    lcp: webVitals.lcp
-      ? webVitals.lcp <= 2500
-        ? 'good'
-        : webVitals.lcp <= 4000
-          ? 'needs-improvement'
-          : 'poor'
-      : null,
-    fid: webVitals.fid
-      ? webVitals.fid <= 100
-        ? 'good'
-        : webVitals.fid <= 300
-          ? 'needs-improvement'
-          : 'poor'
-      : null,
-    cls: webVitals.cls
-      ? webVitals.cls <= 0.1
-        ? 'good'
-        : webVitals.cls <= 0.25
-          ? 'needs-improvement'
-          : 'poor'
-      : null,
-  };
-
-  return { values: webVitals, scores };
-}
-
-/**
- * Analyze mobile-specific performance metrics
- */
-function analyzeMobilePerformance(metrics: ClientMetric[]) {
-  const mobileMetrics = metrics.filter(
-    m => m.context?.isMobile || m.context?.viewport?.width < 768
-  );
-
-  if (mobileMetrics.length === 0) {
-    return { available: false };
-  }
-
-  const pageLoadMetrics = mobileMetrics.filter(m =>
-    m.name.includes('page_load')
-  );
-  const interactionMetrics = mobileMetrics.filter(m =>
-    m.name.includes('interaction')
-  );
+  // Extract useful information from API call
+  const endpoint = name.replace('/api/', '');
+  const isSlowCall = duration > 1000; // Calls over 1 second
+  const isCriticalEndpoint =
+    endpoint.includes('clustering') || endpoint.includes('ai-insights');
 
   return {
-    available: true,
-    pageLoadAvg:
-      pageLoadMetrics.length > 0
-        ? pageLoadMetrics.reduce((sum, m) => sum + m.value, 0) /
-          pageLoadMetrics.length
-        : null,
-    interactionAvg:
-      interactionMetrics.length > 0
-        ? interactionMetrics.reduce((sum, m) => sum + m.value, 0) /
-          interactionMetrics.length
-        : null,
-    totalSamples: mobileMetrics.length,
+    endpoint,
+    duration: Math.round(duration),
+    type,
+    isSlowCall,
+    isCriticalEndpoint,
+    performanceCategory:
+      duration < 200
+        ? 'excellent'
+        : duration < 500
+          ? 'good'
+          : duration < 1000
+            ? 'acceptable'
+            : 'poor',
   };
 }
 
 /**
- * Check for performance alerts
+ * Process page load performance data
  */
-function checkPerformanceAlerts(analysis: any): string[] {
-  const alerts: string[] = [];
+function processPageLoadData(data: any) {
+  const {
+    loadEventEnd,
+    navigationStart,
+    domContentLoadedEventEnd,
+    firstContentfulPaint,
+    largestContentfulPaint,
+  } = data;
 
-  // Core Web Vitals alerts
-  if (analysis.webVitals.scores.lcp === 'poor') {
-    alerts.push(
-      'LCP (Largest Contentful Paint) is poor - consider optimizing images and server response time'
-    );
-  }
+  const totalLoadTime = loadEventEnd - navigationStart;
+  const domLoadTime = domContentLoadedEventEnd - navigationStart;
 
-  if (analysis.webVitals.scores.fid === 'poor') {
-    alerts.push(
-      'FID (First Input Delay) is poor - consider reducing JavaScript execution time'
-    );
-  }
-
-  if (analysis.webVitals.scores.cls === 'poor') {
-    alerts.push(
-      'CLS (Cumulative Layout Shift) is poor - consider fixing layout shifts'
-    );
-  }
-
-  // API performance alerts
-  if (analysis.categories.api && analysis.categories.api.avg > 1000) {
-    alerts.push(
-      'API response times averaging over 1 second - investigate server performance'
-    );
-  }
-
-  // Page load alerts
-  if (
-    analysis.categories.page_load &&
-    analysis.categories.page_load.avg > 3000
-  ) {
-    alerts.push(
-      'Page load times averaging over 3 seconds - optimize critical rendering path'
-    );
-  }
-
-  // Mobile performance alerts
-  if (analysis.mobile.available && analysis.mobile.pageLoadAvg > 5000) {
-    alerts.push(
-      'Mobile page load times over 5 seconds - optimize for mobile networks'
-    );
-  }
-
-  return alerts;
+  return {
+    totalLoadTime: Math.round(totalLoadTime),
+    domLoadTime: Math.round(domLoadTime),
+    firstContentfulPaint: firstContentfulPaint
+      ? Math.round(firstContentfulPaint)
+      : null,
+    largestContentfulPaint: largestContentfulPaint
+      ? Math.round(largestContentfulPaint)
+      : null,
+    performanceCategory:
+      totalLoadTime < 1000
+        ? 'excellent'
+        : totalLoadTime < 2000
+          ? 'good'
+          : totalLoadTime < 3000
+            ? 'acceptable'
+            : 'poor',
+  };
 }
 
 /**
- * Store metrics for monitoring and analysis
+ * Process user interaction data
  */
-async function storeMetrics(data: any): Promise<void> {
-  // In production, this would store to:
-  // - Vercel Analytics
-  // - Application monitoring service (DataDog, New Relic, etc.)
-  // - Custom metrics database
+function processUserInteractionData(data: any) {
+  const { action, target, duration, timestamp } = data;
 
-  console.log('📊 Performance metrics stored:', {
-    metricCount: data.metrics.length,
-    sessionId: data.sessionInfo.sessionId,
-    alerts: data.analysis?.alerts?.length || 0,
-  });
+  return {
+    action,
+    target: target?.substring(0, 100), // Truncate target info
+    duration: duration ? Math.round(duration) : null,
+    timestamp,
+    interactionType: action.includes('click')
+      ? 'click'
+      : action.includes('scroll')
+        ? 'scroll'
+        : action.includes('input')
+          ? 'input'
+          : 'other',
+  };
+}
 
-  // For now, we'll just log critical performance issues
-  if (data.analysis?.alerts?.length > 0) {
-    console.warn('🚨 Performance alerts detected:', data.analysis.alerts);
+/**
+ * Process error tracking data
+ */
+function processErrorData(data: any) {
+  const { message, stack, url, line, column } = data;
+
+  return {
+    message: message?.substring(0, 200), // Truncate error message
+    url,
+    line,
+    column,
+    errorType: message?.includes('Network')
+      ? 'network'
+      : message?.includes('TypeError')
+        ? 'type'
+        : message?.includes('ReferenceError')
+          ? 'reference'
+          : 'other',
+    stackTrace: stack?.substring(0, 500), // Truncate stack trace
+  };
+}
+
+/**
+ * Store performance metric for trend analysis
+ */
+async function storePerformanceMetric(metric: any) {
+  try {
+    // In a production environment, this would:
+    // 1. Send to a metrics aggregation service (e.g., DataDog, New Relic)
+    // 2. Store in a time-series database
+    // 3. Update real-time dashboards
+
+    // For now, we'll simulate storage by logging structured data
+    const metricData = {
+      ...metric,
+      timestamp: new Date().toISOString(),
+      environment: process.env.VERCEL_ENV || 'development',
+    };
+
+    // Log in a format that could be easily ingested by log aggregation services
+    console.log('PERFORMANCE_METRIC:', JSON.stringify(metricData));
+
+    // TODO: Integrate with actual metrics storage service
+    // await metricsService.store(metricData);
+  } catch (error) {
+    console.error('Failed to store performance metric:', error);
+    // Don't fail the main request if metric storage fails
   }
 }
 
 /**
- * Calculate percentile value
+ * Generate a session ID for tracking user sessions
  */
-function calculatePercentile(values: number[], percentile: number): number {
-  const sorted = values.sort((a, b) => a - b);
-  const index = Math.ceil((percentile / 100) * sorted.length) - 1;
-  return sorted[index] || 0;
+function generateSessionId(request: NextRequest): string {
+  // In production, this would be more sophisticated
+  const userAgent = request.headers.get('user-agent') || '';
+  const ip = getClientIP(request);
+  const timestamp = Date.now();
+
+  // Create a simple hash for session identification
+  const sessionData = `${ip}-${userAgent}-${Math.floor(timestamp / 3600000)}`; // Group by hour
+
+  // Simple hash function (in production, use a proper hashing library)
+  let hash = 0;
+  for (let i = 0; i < sessionData.length; i++) {
+    const char = sessionData.charCodeAt(i);
+    hash = (hash << 5) - hash + char;
+    hash = hash & hash; // Convert to 32-bit integer
+  }
+
+  return Math.abs(hash).toString(36);
 }
 
 /**
- * Get client IP address
+ * Extract client IP address
  */
 function getClientIP(request: NextRequest): string {
-  return (
-    request.headers.get('x-forwarded-for')?.split(',')[0] ||
-    request.headers.get('x-real-ip') ||
-    'unknown'
-  );
+  // Check various headers for the real IP address
+  const forwarded = request.headers.get('x-forwarded-for');
+  const realIP = request.headers.get('x-real-ip');
+  const clientIP = request.headers.get('x-client-ip');
+
+  if (forwarded) {
+    return forwarded.split(',')[0].trim();
+  }
+
+  if (realIP) {
+    return realIP;
+  }
+
+  if (clientIP) {
+    return clientIP;
+  }
+
+  // Fallback to connection remote address
+  return 'unknown';
+}
+
+/**
+ * GET /api/monitoring/client-metrics
+ * Get aggregated client performance metrics (for admin/monitoring purposes)
+ */
+export async function GET(request: NextRequest) {
+  try {
+    // Require authentication for reading metrics
+    const session = await auth();
+    if (!session?.user) {
+      return NextResponse.json(
+        { error: 'Unauthorized - Authentication required' },
+        { status: 401 }
+      );
+    }
+
+    // In production, this would query the metrics database
+    // For now, return simulated aggregated data
+    const aggregatedMetrics = {
+      summary: {
+        totalSessions: 150,
+        averagePageLoad: 1200,
+        averageApiResponse: 350,
+        errorRate: 0.5,
+        topPerformingPages: [
+          { page: '/dashboard', avgLoadTime: 800 },
+          { page: '/hotspots', avgLoadTime: 1100 },
+          { page: '/inputs', avgLoadTime: 900 },
+        ],
+        slowestAPIs: [
+          { endpoint: 'clustering/generate', avgDuration: 2500 },
+          { endpoint: 'signals/ai-insights', avgDuration: 800 },
+          { endpoint: 'hotspots/analyze', avgDuration: 1200 },
+        ],
+      },
+      trends: {
+        last24Hours: {
+          pageLoadTrend: 'improving',
+          apiResponseTrend: 'stable',
+          errorTrend: 'decreasing',
+        },
+      },
+      alerts: [
+        // Active performance alerts would be listed here
+      ],
+    };
+
+    return NextResponse.json({
+      success: true,
+      metrics: aggregatedMetrics,
+      collectedAt: new Date().toISOString(),
+    });
+  } catch (error: any) {
+    console.error('Failed to get client metrics:', error);
+
+    return NextResponse.json(
+      {
+        error: 'Failed to retrieve metrics',
+        message: error.message,
+      },
+      { status: 500 }
+    );
+  }
 }

@@ -1,7 +1,17 @@
+'use client';
+
 import { Suspense } from 'react';
 import { InputForm } from '@/components/inputs/input-form';
+import { MobileInputCapture } from '@/components/mobile/mobile-input-capture';
+import { useExecutiveMobile } from '@/hooks/use-mobile';
 
 export default function CreateInputPage() {
+  const mobile = useExecutiveMobile();
+  // Use mobile input capture for executive mobile experience
+  if (mobile.shouldUseMobileLayout) {
+    return <MobileInputCapture />;
+  }
+
   return (
     <div className="min-h-screen bg-gray-50 py-8">
       <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">

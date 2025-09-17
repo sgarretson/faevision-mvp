@@ -10363,11 +10363,13 @@ export namespace Prisma {
   export type SignalAvgAggregateOutputType = {
     confidence: number | null
     severityScore: number | null
+    featuresQualityScore: number | null
   }
 
   export type SignalSumAggregateOutputType = {
     confidence: number | null
     severityScore: number | null
+    featuresQualityScore: number | null
   }
 
   export type SignalMinAggregateOutputType = {
@@ -10391,6 +10393,11 @@ export namespace Prisma {
     dedupeKey: string | null
     embedding: Uint8Array | null
     aiProcessed: boolean | null
+    lastTaggedAt: Date | null
+    tagModelVersion: string | null
+    lastFeaturesGeneratedAt: Date | null
+    featuresVersion: string | null
+    featuresQualityScore: number | null
     createdById: string | null
     createdAt: Date | null
     updatedAt: Date | null
@@ -10417,6 +10424,11 @@ export namespace Prisma {
     dedupeKey: string | null
     embedding: Uint8Array | null
     aiProcessed: boolean | null
+    lastTaggedAt: Date | null
+    tagModelVersion: string | null
+    lastFeaturesGeneratedAt: Date | null
+    featuresVersion: string | null
+    featuresQualityScore: number | null
     createdById: string | null
     createdAt: Date | null
     updatedAt: Date | null
@@ -10451,6 +10463,15 @@ export namespace Prisma {
     embedding: number
     aiProcessed: number
     aiTagsJson: number
+    enhancedTagsJson: number
+    tagGenerationMeta: number
+    domainClassification: number
+    lastTaggedAt: number
+    tagModelVersion: number
+    clusteringFeaturesJson: number
+    lastFeaturesGeneratedAt: number
+    featuresVersion: number
+    featuresQualityScore: number
     lineageJson: number
     createdById: number
     createdAt: number
@@ -10462,11 +10483,13 @@ export namespace Prisma {
   export type SignalAvgAggregateInputType = {
     confidence?: true
     severityScore?: true
+    featuresQualityScore?: true
   }
 
   export type SignalSumAggregateInputType = {
     confidence?: true
     severityScore?: true
+    featuresQualityScore?: true
   }
 
   export type SignalMinAggregateInputType = {
@@ -10490,6 +10513,11 @@ export namespace Prisma {
     dedupeKey?: true
     embedding?: true
     aiProcessed?: true
+    lastTaggedAt?: true
+    tagModelVersion?: true
+    lastFeaturesGeneratedAt?: true
+    featuresVersion?: true
+    featuresQualityScore?: true
     createdById?: true
     createdAt?: true
     updatedAt?: true
@@ -10516,6 +10544,11 @@ export namespace Prisma {
     dedupeKey?: true
     embedding?: true
     aiProcessed?: true
+    lastTaggedAt?: true
+    tagModelVersion?: true
+    lastFeaturesGeneratedAt?: true
+    featuresVersion?: true
+    featuresQualityScore?: true
     createdById?: true
     createdAt?: true
     updatedAt?: true
@@ -10550,6 +10583,15 @@ export namespace Prisma {
     embedding?: true
     aiProcessed?: true
     aiTagsJson?: true
+    enhancedTagsJson?: true
+    tagGenerationMeta?: true
+    domainClassification?: true
+    lastTaggedAt?: true
+    tagModelVersion?: true
+    clusteringFeaturesJson?: true
+    lastFeaturesGeneratedAt?: true
+    featuresVersion?: true
+    featuresQualityScore?: true
     lineageJson?: true
     createdById?: true
     createdAt?: true
@@ -10672,6 +10714,15 @@ export namespace Prisma {
     embedding: Uint8Array | null
     aiProcessed: boolean
     aiTagsJson: JsonValue | null
+    enhancedTagsJson: JsonValue | null
+    tagGenerationMeta: JsonValue | null
+    domainClassification: JsonValue | null
+    lastTaggedAt: Date | null
+    tagModelVersion: string | null
+    clusteringFeaturesJson: JsonValue | null
+    lastFeaturesGeneratedAt: Date | null
+    featuresVersion: string | null
+    featuresQualityScore: number | null
     lineageJson: JsonValue | null
     createdById: string | null
     createdAt: Date
@@ -10726,6 +10777,15 @@ export namespace Prisma {
     embedding?: boolean
     aiProcessed?: boolean
     aiTagsJson?: boolean
+    enhancedTagsJson?: boolean
+    tagGenerationMeta?: boolean
+    domainClassification?: boolean
+    lastTaggedAt?: boolean
+    tagModelVersion?: boolean
+    clusteringFeaturesJson?: boolean
+    lastFeaturesGeneratedAt?: boolean
+    featuresVersion?: boolean
+    featuresQualityScore?: boolean
     lineageJson?: boolean
     createdById?: boolean
     createdAt?: boolean
@@ -10767,6 +10827,15 @@ export namespace Prisma {
     embedding?: boolean
     aiProcessed?: boolean
     aiTagsJson?: boolean
+    enhancedTagsJson?: boolean
+    tagGenerationMeta?: boolean
+    domainClassification?: boolean
+    lastTaggedAt?: boolean
+    tagModelVersion?: boolean
+    clusteringFeaturesJson?: boolean
+    lastFeaturesGeneratedAt?: boolean
+    featuresVersion?: boolean
+    featuresQualityScore?: boolean
     lineageJson?: boolean
     createdById?: boolean
     createdAt?: boolean
@@ -10806,6 +10875,15 @@ export namespace Prisma {
     embedding?: boolean
     aiProcessed?: boolean
     aiTagsJson?: boolean
+    enhancedTagsJson?: boolean
+    tagGenerationMeta?: boolean
+    domainClassification?: boolean
+    lastTaggedAt?: boolean
+    tagModelVersion?: boolean
+    clusteringFeaturesJson?: boolean
+    lastFeaturesGeneratedAt?: boolean
+    featuresVersion?: boolean
+    featuresQualityScore?: boolean
     lineageJson?: boolean
     createdById?: boolean
     createdAt?: boolean
@@ -10845,13 +10923,22 @@ export namespace Prisma {
     embedding?: boolean
     aiProcessed?: boolean
     aiTagsJson?: boolean
+    enhancedTagsJson?: boolean
+    tagGenerationMeta?: boolean
+    domainClassification?: boolean
+    lastTaggedAt?: boolean
+    tagModelVersion?: boolean
+    clusteringFeaturesJson?: boolean
+    lastFeaturesGeneratedAt?: boolean
+    featuresVersion?: boolean
+    featuresQualityScore?: boolean
     lineageJson?: boolean
     createdById?: boolean
     createdAt?: boolean
     updatedAt?: boolean
   }
 
-  export type SignalOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "inputId" | "timestamp" | "receivedAt" | "schemaVersion" | "sourceJson" | "confidence" | "attachmentsJson" | "sourceType" | "sourceId" | "systemName" | "title" | "description" | "severity" | "severityScore" | "departmentId" | "teamId" | "categoryId" | "metricsJson" | "baselineJson" | "impactJson" | "tagsJson" | "entitiesJson" | "privacyLevel" | "dedupeKey" | "embedding" | "aiProcessed" | "aiTagsJson" | "lineageJson" | "createdById" | "createdAt" | "updatedAt", ExtArgs["result"]["signal"]>
+  export type SignalOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "inputId" | "timestamp" | "receivedAt" | "schemaVersion" | "sourceJson" | "confidence" | "attachmentsJson" | "sourceType" | "sourceId" | "systemName" | "title" | "description" | "severity" | "severityScore" | "departmentId" | "teamId" | "categoryId" | "metricsJson" | "baselineJson" | "impactJson" | "tagsJson" | "entitiesJson" | "privacyLevel" | "dedupeKey" | "embedding" | "aiProcessed" | "aiTagsJson" | "enhancedTagsJson" | "tagGenerationMeta" | "domainClassification" | "lastTaggedAt" | "tagModelVersion" | "clusteringFeaturesJson" | "lastFeaturesGeneratedAt" | "featuresVersion" | "featuresQualityScore" | "lineageJson" | "createdById" | "createdAt" | "updatedAt", ExtArgs["result"]["signal"]>
   export type SignalInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     department?: boolean | Signal$departmentArgs<ExtArgs>
     team?: boolean | Signal$teamArgs<ExtArgs>
@@ -10911,6 +10998,15 @@ export namespace Prisma {
       embedding: Uint8Array | null
       aiProcessed: boolean
       aiTagsJson: Prisma.JsonValue | null
+      enhancedTagsJson: Prisma.JsonValue | null
+      tagGenerationMeta: Prisma.JsonValue | null
+      domainClassification: Prisma.JsonValue | null
+      lastTaggedAt: Date | null
+      tagModelVersion: string | null
+      clusteringFeaturesJson: Prisma.JsonValue | null
+      lastFeaturesGeneratedAt: Date | null
+      featuresVersion: string | null
+      featuresQualityScore: number | null
       lineageJson: Prisma.JsonValue | null
       createdById: string | null
       createdAt: Date
@@ -11371,6 +11467,15 @@ export namespace Prisma {
     readonly embedding: FieldRef<"Signal", 'Bytes'>
     readonly aiProcessed: FieldRef<"Signal", 'Boolean'>
     readonly aiTagsJson: FieldRef<"Signal", 'Json'>
+    readonly enhancedTagsJson: FieldRef<"Signal", 'Json'>
+    readonly tagGenerationMeta: FieldRef<"Signal", 'Json'>
+    readonly domainClassification: FieldRef<"Signal", 'Json'>
+    readonly lastTaggedAt: FieldRef<"Signal", 'DateTime'>
+    readonly tagModelVersion: FieldRef<"Signal", 'String'>
+    readonly clusteringFeaturesJson: FieldRef<"Signal", 'Json'>
+    readonly lastFeaturesGeneratedAt: FieldRef<"Signal", 'DateTime'>
+    readonly featuresVersion: FieldRef<"Signal", 'String'>
+    readonly featuresQualityScore: FieldRef<"Signal", 'Float'>
     readonly lineageJson: FieldRef<"Signal", 'Json'>
     readonly createdById: FieldRef<"Signal", 'String'>
     readonly createdAt: FieldRef<"Signal", 'DateTime'>
@@ -11905,12 +12010,14 @@ export namespace Prisma {
     rankScore: number | null
     confidence: number | null
     similarityThreshold: number | null
+    clusteringQualityScore: number | null
   }
 
   export type HotspotSumAggregateOutputType = {
     rankScore: number | null
     confidence: number | null
     similarityThreshold: number | null
+    clusteringQualityScore: number | null
   }
 
   export type HotspotMinAggregateOutputType = {
@@ -11924,6 +12031,9 @@ export namespace Prisma {
     clusteringMethod: string | null
     similarityThreshold: number | null
     lastAnalysisAt: Date | null
+    lastClusteredAt: Date | null
+    clusteringVersion: string | null
+    clusteringQualityScore: number | null
     createdAt: Date | null
     updatedAt: Date | null
   }
@@ -11939,6 +12049,9 @@ export namespace Prisma {
     clusteringMethod: string | null
     similarityThreshold: number | null
     lastAnalysisAt: Date | null
+    lastClusteredAt: Date | null
+    clusteringVersion: string | null
+    clusteringQualityScore: number | null
     createdAt: Date | null
     updatedAt: Date | null
   }
@@ -11959,6 +12072,10 @@ export namespace Prisma {
     decisionMatrixJson: number
     crossFunctionalImpactJson: number
     lastAnalysisAt: number
+    clusteringResults: number
+    lastClusteredAt: number
+    clusteringVersion: number
+    clusteringQualityScore: number
     createdAt: number
     updatedAt: number
     _all: number
@@ -11969,12 +12086,14 @@ export namespace Prisma {
     rankScore?: true
     confidence?: true
     similarityThreshold?: true
+    clusteringQualityScore?: true
   }
 
   export type HotspotSumAggregateInputType = {
     rankScore?: true
     confidence?: true
     similarityThreshold?: true
+    clusteringQualityScore?: true
   }
 
   export type HotspotMinAggregateInputType = {
@@ -11988,6 +12107,9 @@ export namespace Prisma {
     clusteringMethod?: true
     similarityThreshold?: true
     lastAnalysisAt?: true
+    lastClusteredAt?: true
+    clusteringVersion?: true
+    clusteringQualityScore?: true
     createdAt?: true
     updatedAt?: true
   }
@@ -12003,6 +12125,9 @@ export namespace Prisma {
     clusteringMethod?: true
     similarityThreshold?: true
     lastAnalysisAt?: true
+    lastClusteredAt?: true
+    clusteringVersion?: true
+    clusteringQualityScore?: true
     createdAt?: true
     updatedAt?: true
   }
@@ -12023,6 +12148,10 @@ export namespace Prisma {
     decisionMatrixJson?: true
     crossFunctionalImpactJson?: true
     lastAnalysisAt?: true
+    clusteringResults?: true
+    lastClusteredAt?: true
+    clusteringVersion?: true
+    clusteringQualityScore?: true
     createdAt?: true
     updatedAt?: true
     _all?: true
@@ -12130,6 +12259,10 @@ export namespace Prisma {
     decisionMatrixJson: JsonValue | null
     crossFunctionalImpactJson: JsonValue | null
     lastAnalysisAt: Date | null
+    clusteringResults: JsonValue | null
+    lastClusteredAt: Date | null
+    clusteringVersion: string | null
+    clusteringQualityScore: number | null
     createdAt: Date
     updatedAt: Date
     _count: HotspotCountAggregateOutputType | null
@@ -12169,6 +12302,10 @@ export namespace Prisma {
     decisionMatrixJson?: boolean
     crossFunctionalImpactJson?: boolean
     lastAnalysisAt?: boolean
+    clusteringResults?: boolean
+    lastClusteredAt?: boolean
+    clusteringVersion?: boolean
+    clusteringQualityScore?: boolean
     createdAt?: boolean
     updatedAt?: boolean
     signals?: boolean | Hotspot$signalsArgs<ExtArgs>
@@ -12193,6 +12330,10 @@ export namespace Prisma {
     decisionMatrixJson?: boolean
     crossFunctionalImpactJson?: boolean
     lastAnalysisAt?: boolean
+    clusteringResults?: boolean
+    lastClusteredAt?: boolean
+    clusteringVersion?: boolean
+    clusteringQualityScore?: boolean
     createdAt?: boolean
     updatedAt?: boolean
   }, ExtArgs["result"]["hotspot"]>
@@ -12213,6 +12354,10 @@ export namespace Prisma {
     decisionMatrixJson?: boolean
     crossFunctionalImpactJson?: boolean
     lastAnalysisAt?: boolean
+    clusteringResults?: boolean
+    lastClusteredAt?: boolean
+    clusteringVersion?: boolean
+    clusteringQualityScore?: boolean
     createdAt?: boolean
     updatedAt?: boolean
   }, ExtArgs["result"]["hotspot"]>
@@ -12233,11 +12378,15 @@ export namespace Prisma {
     decisionMatrixJson?: boolean
     crossFunctionalImpactJson?: boolean
     lastAnalysisAt?: boolean
+    clusteringResults?: boolean
+    lastClusteredAt?: boolean
+    clusteringVersion?: boolean
+    clusteringQualityScore?: boolean
     createdAt?: boolean
     updatedAt?: boolean
   }
 
-  export type HotspotOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "title" | "summary" | "status" | "rankScore" | "confidence" | "primaryCategoryId" | "linkedEntitiesJson" | "clusteringMethod" | "similarityThreshold" | "rcaBreakdownJson" | "solutionSuggestionsJson" | "decisionMatrixJson" | "crossFunctionalImpactJson" | "lastAnalysisAt" | "createdAt" | "updatedAt", ExtArgs["result"]["hotspot"]>
+  export type HotspotOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "title" | "summary" | "status" | "rankScore" | "confidence" | "primaryCategoryId" | "linkedEntitiesJson" | "clusteringMethod" | "similarityThreshold" | "rcaBreakdownJson" | "solutionSuggestionsJson" | "decisionMatrixJson" | "crossFunctionalImpactJson" | "lastAnalysisAt" | "clusteringResults" | "lastClusteredAt" | "clusteringVersion" | "clusteringQualityScore" | "createdAt" | "updatedAt", ExtArgs["result"]["hotspot"]>
   export type HotspotInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     signals?: boolean | Hotspot$signalsArgs<ExtArgs>
     ideas?: boolean | Hotspot$ideasArgs<ExtArgs>
@@ -12270,6 +12419,10 @@ export namespace Prisma {
       decisionMatrixJson: Prisma.JsonValue | null
       crossFunctionalImpactJson: Prisma.JsonValue | null
       lastAnalysisAt: Date | null
+      clusteringResults: Prisma.JsonValue | null
+      lastClusteredAt: Date | null
+      clusteringVersion: string | null
+      clusteringQualityScore: number | null
       createdAt: Date
       updatedAt: Date
     }, ExtArgs["result"]["hotspot"]>
@@ -12713,6 +12866,10 @@ export namespace Prisma {
     readonly decisionMatrixJson: FieldRef<"Hotspot", 'Json'>
     readonly crossFunctionalImpactJson: FieldRef<"Hotspot", 'Json'>
     readonly lastAnalysisAt: FieldRef<"Hotspot", 'DateTime'>
+    readonly clusteringResults: FieldRef<"Hotspot", 'Json'>
+    readonly lastClusteredAt: FieldRef<"Hotspot", 'DateTime'>
+    readonly clusteringVersion: FieldRef<"Hotspot", 'String'>
+    readonly clusteringQualityScore: FieldRef<"Hotspot", 'Float'>
     readonly createdAt: FieldRef<"Hotspot", 'DateTime'>
     readonly updatedAt: FieldRef<"Hotspot", 'DateTime'>
   }
@@ -27819,6 +27976,15 @@ export namespace Prisma {
     embedding: 'embedding',
     aiProcessed: 'aiProcessed',
     aiTagsJson: 'aiTagsJson',
+    enhancedTagsJson: 'enhancedTagsJson',
+    tagGenerationMeta: 'tagGenerationMeta',
+    domainClassification: 'domainClassification',
+    lastTaggedAt: 'lastTaggedAt',
+    tagModelVersion: 'tagModelVersion',
+    clusteringFeaturesJson: 'clusteringFeaturesJson',
+    lastFeaturesGeneratedAt: 'lastFeaturesGeneratedAt',
+    featuresVersion: 'featuresVersion',
+    featuresQualityScore: 'featuresQualityScore',
     lineageJson: 'lineageJson',
     createdById: 'createdById',
     createdAt: 'createdAt',
@@ -27844,6 +28010,10 @@ export namespace Prisma {
     decisionMatrixJson: 'decisionMatrixJson',
     crossFunctionalImpactJson: 'crossFunctionalImpactJson',
     lastAnalysisAt: 'lastAnalysisAt',
+    clusteringResults: 'clusteringResults',
+    lastClusteredAt: 'lastClusteredAt',
+    clusteringVersion: 'clusteringVersion',
+    clusteringQualityScore: 'clusteringQualityScore',
     createdAt: 'createdAt',
     updatedAt: 'updatedAt'
   };
@@ -29085,6 +29255,15 @@ export namespace Prisma {
     embedding?: BytesNullableFilter<"Signal"> | Uint8Array | null
     aiProcessed?: BoolFilter<"Signal"> | boolean
     aiTagsJson?: JsonNullableFilter<"Signal">
+    enhancedTagsJson?: JsonNullableFilter<"Signal">
+    tagGenerationMeta?: JsonNullableFilter<"Signal">
+    domainClassification?: JsonNullableFilter<"Signal">
+    lastTaggedAt?: DateTimeNullableFilter<"Signal"> | Date | string | null
+    tagModelVersion?: StringNullableFilter<"Signal"> | string | null
+    clusteringFeaturesJson?: JsonNullableFilter<"Signal">
+    lastFeaturesGeneratedAt?: DateTimeNullableFilter<"Signal"> | Date | string | null
+    featuresVersion?: StringNullableFilter<"Signal"> | string | null
+    featuresQualityScore?: FloatNullableFilter<"Signal"> | number | null
     lineageJson?: JsonNullableFilter<"Signal">
     createdById?: StringNullableFilter<"Signal"> | string | null
     createdAt?: DateTimeFilter<"Signal"> | Date | string
@@ -29125,6 +29304,15 @@ export namespace Prisma {
     embedding?: SortOrderInput | SortOrder
     aiProcessed?: SortOrder
     aiTagsJson?: SortOrderInput | SortOrder
+    enhancedTagsJson?: SortOrderInput | SortOrder
+    tagGenerationMeta?: SortOrderInput | SortOrder
+    domainClassification?: SortOrderInput | SortOrder
+    lastTaggedAt?: SortOrderInput | SortOrder
+    tagModelVersion?: SortOrderInput | SortOrder
+    clusteringFeaturesJson?: SortOrderInput | SortOrder
+    lastFeaturesGeneratedAt?: SortOrderInput | SortOrder
+    featuresVersion?: SortOrderInput | SortOrder
+    featuresQualityScore?: SortOrderInput | SortOrder
     lineageJson?: SortOrderInput | SortOrder
     createdById?: SortOrderInput | SortOrder
     createdAt?: SortOrder
@@ -29168,6 +29356,15 @@ export namespace Prisma {
     embedding?: BytesNullableFilter<"Signal"> | Uint8Array | null
     aiProcessed?: BoolFilter<"Signal"> | boolean
     aiTagsJson?: JsonNullableFilter<"Signal">
+    enhancedTagsJson?: JsonNullableFilter<"Signal">
+    tagGenerationMeta?: JsonNullableFilter<"Signal">
+    domainClassification?: JsonNullableFilter<"Signal">
+    lastTaggedAt?: DateTimeNullableFilter<"Signal"> | Date | string | null
+    tagModelVersion?: StringNullableFilter<"Signal"> | string | null
+    clusteringFeaturesJson?: JsonNullableFilter<"Signal">
+    lastFeaturesGeneratedAt?: DateTimeNullableFilter<"Signal"> | Date | string | null
+    featuresVersion?: StringNullableFilter<"Signal"> | string | null
+    featuresQualityScore?: FloatNullableFilter<"Signal"> | number | null
     lineageJson?: JsonNullableFilter<"Signal">
     createdById?: StringNullableFilter<"Signal"> | string | null
     createdAt?: DateTimeFilter<"Signal"> | Date | string
@@ -29208,6 +29405,15 @@ export namespace Prisma {
     embedding?: SortOrderInput | SortOrder
     aiProcessed?: SortOrder
     aiTagsJson?: SortOrderInput | SortOrder
+    enhancedTagsJson?: SortOrderInput | SortOrder
+    tagGenerationMeta?: SortOrderInput | SortOrder
+    domainClassification?: SortOrderInput | SortOrder
+    lastTaggedAt?: SortOrderInput | SortOrder
+    tagModelVersion?: SortOrderInput | SortOrder
+    clusteringFeaturesJson?: SortOrderInput | SortOrder
+    lastFeaturesGeneratedAt?: SortOrderInput | SortOrder
+    featuresVersion?: SortOrderInput | SortOrder
+    featuresQualityScore?: SortOrderInput | SortOrder
     lineageJson?: SortOrderInput | SortOrder
     createdById?: SortOrderInput | SortOrder
     createdAt?: SortOrder
@@ -29251,6 +29457,15 @@ export namespace Prisma {
     embedding?: BytesNullableWithAggregatesFilter<"Signal"> | Uint8Array | null
     aiProcessed?: BoolWithAggregatesFilter<"Signal"> | boolean
     aiTagsJson?: JsonNullableWithAggregatesFilter<"Signal">
+    enhancedTagsJson?: JsonNullableWithAggregatesFilter<"Signal">
+    tagGenerationMeta?: JsonNullableWithAggregatesFilter<"Signal">
+    domainClassification?: JsonNullableWithAggregatesFilter<"Signal">
+    lastTaggedAt?: DateTimeNullableWithAggregatesFilter<"Signal"> | Date | string | null
+    tagModelVersion?: StringNullableWithAggregatesFilter<"Signal"> | string | null
+    clusteringFeaturesJson?: JsonNullableWithAggregatesFilter<"Signal">
+    lastFeaturesGeneratedAt?: DateTimeNullableWithAggregatesFilter<"Signal"> | Date | string | null
+    featuresVersion?: StringNullableWithAggregatesFilter<"Signal"> | string | null
+    featuresQualityScore?: FloatNullableWithAggregatesFilter<"Signal"> | number | null
     lineageJson?: JsonNullableWithAggregatesFilter<"Signal">
     createdById?: StringNullableWithAggregatesFilter<"Signal"> | string | null
     createdAt?: DateTimeWithAggregatesFilter<"Signal"> | Date | string
@@ -29276,6 +29491,10 @@ export namespace Prisma {
     decisionMatrixJson?: JsonNullableFilter<"Hotspot">
     crossFunctionalImpactJson?: JsonNullableFilter<"Hotspot">
     lastAnalysisAt?: DateTimeNullableFilter<"Hotspot"> | Date | string | null
+    clusteringResults?: JsonNullableFilter<"Hotspot">
+    lastClusteredAt?: DateTimeNullableFilter<"Hotspot"> | Date | string | null
+    clusteringVersion?: StringNullableFilter<"Hotspot"> | string | null
+    clusteringQualityScore?: FloatNullableFilter<"Hotspot"> | number | null
     createdAt?: DateTimeFilter<"Hotspot"> | Date | string
     updatedAt?: DateTimeFilter<"Hotspot"> | Date | string
     signals?: HotspotSignalListRelationFilter
@@ -29299,6 +29518,10 @@ export namespace Prisma {
     decisionMatrixJson?: SortOrderInput | SortOrder
     crossFunctionalImpactJson?: SortOrderInput | SortOrder
     lastAnalysisAt?: SortOrderInput | SortOrder
+    clusteringResults?: SortOrderInput | SortOrder
+    lastClusteredAt?: SortOrderInput | SortOrder
+    clusteringVersion?: SortOrderInput | SortOrder
+    clusteringQualityScore?: SortOrderInput | SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
     signals?: HotspotSignalOrderByRelationAggregateInput
@@ -29325,6 +29548,10 @@ export namespace Prisma {
     decisionMatrixJson?: JsonNullableFilter<"Hotspot">
     crossFunctionalImpactJson?: JsonNullableFilter<"Hotspot">
     lastAnalysisAt?: DateTimeNullableFilter<"Hotspot"> | Date | string | null
+    clusteringResults?: JsonNullableFilter<"Hotspot">
+    lastClusteredAt?: DateTimeNullableFilter<"Hotspot"> | Date | string | null
+    clusteringVersion?: StringNullableFilter<"Hotspot"> | string | null
+    clusteringQualityScore?: FloatNullableFilter<"Hotspot"> | number | null
     createdAt?: DateTimeFilter<"Hotspot"> | Date | string
     updatedAt?: DateTimeFilter<"Hotspot"> | Date | string
     signals?: HotspotSignalListRelationFilter
@@ -29348,6 +29575,10 @@ export namespace Prisma {
     decisionMatrixJson?: SortOrderInput | SortOrder
     crossFunctionalImpactJson?: SortOrderInput | SortOrder
     lastAnalysisAt?: SortOrderInput | SortOrder
+    clusteringResults?: SortOrderInput | SortOrder
+    lastClusteredAt?: SortOrderInput | SortOrder
+    clusteringVersion?: SortOrderInput | SortOrder
+    clusteringQualityScore?: SortOrderInput | SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
     _count?: HotspotCountOrderByAggregateInput
@@ -29376,6 +29607,10 @@ export namespace Prisma {
     decisionMatrixJson?: JsonNullableWithAggregatesFilter<"Hotspot">
     crossFunctionalImpactJson?: JsonNullableWithAggregatesFilter<"Hotspot">
     lastAnalysisAt?: DateTimeNullableWithAggregatesFilter<"Hotspot"> | Date | string | null
+    clusteringResults?: JsonNullableWithAggregatesFilter<"Hotspot">
+    lastClusteredAt?: DateTimeNullableWithAggregatesFilter<"Hotspot"> | Date | string | null
+    clusteringVersion?: StringNullableWithAggregatesFilter<"Hotspot"> | string | null
+    clusteringQualityScore?: FloatNullableWithAggregatesFilter<"Hotspot"> | number | null
     createdAt?: DateTimeWithAggregatesFilter<"Hotspot"> | Date | string
     updatedAt?: DateTimeWithAggregatesFilter<"Hotspot"> | Date | string
   }
@@ -31346,6 +31581,15 @@ export namespace Prisma {
     embedding?: Uint8Array | null
     aiProcessed?: boolean
     aiTagsJson?: NullableJsonNullValueInput | InputJsonValue
+    enhancedTagsJson?: NullableJsonNullValueInput | InputJsonValue
+    tagGenerationMeta?: NullableJsonNullValueInput | InputJsonValue
+    domainClassification?: NullableJsonNullValueInput | InputJsonValue
+    lastTaggedAt?: Date | string | null
+    tagModelVersion?: string | null
+    clusteringFeaturesJson?: NullableJsonNullValueInput | InputJsonValue
+    lastFeaturesGeneratedAt?: Date | string | null
+    featuresVersion?: string | null
+    featuresQualityScore?: number | null
     lineageJson?: NullableJsonNullValueInput | InputJsonValue
     createdAt?: Date | string
     updatedAt?: Date | string
@@ -31385,6 +31629,15 @@ export namespace Prisma {
     embedding?: Uint8Array | null
     aiProcessed?: boolean
     aiTagsJson?: NullableJsonNullValueInput | InputJsonValue
+    enhancedTagsJson?: NullableJsonNullValueInput | InputJsonValue
+    tagGenerationMeta?: NullableJsonNullValueInput | InputJsonValue
+    domainClassification?: NullableJsonNullValueInput | InputJsonValue
+    lastTaggedAt?: Date | string | null
+    tagModelVersion?: string | null
+    clusteringFeaturesJson?: NullableJsonNullValueInput | InputJsonValue
+    lastFeaturesGeneratedAt?: Date | string | null
+    featuresVersion?: string | null
+    featuresQualityScore?: number | null
     lineageJson?: NullableJsonNullValueInput | InputJsonValue
     createdById?: string | null
     createdAt?: Date | string
@@ -31418,6 +31671,15 @@ export namespace Prisma {
     embedding?: NullableBytesFieldUpdateOperationsInput | Uint8Array | null
     aiProcessed?: BoolFieldUpdateOperationsInput | boolean
     aiTagsJson?: NullableJsonNullValueInput | InputJsonValue
+    enhancedTagsJson?: NullableJsonNullValueInput | InputJsonValue
+    tagGenerationMeta?: NullableJsonNullValueInput | InputJsonValue
+    domainClassification?: NullableJsonNullValueInput | InputJsonValue
+    lastTaggedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    tagModelVersion?: NullableStringFieldUpdateOperationsInput | string | null
+    clusteringFeaturesJson?: NullableJsonNullValueInput | InputJsonValue
+    lastFeaturesGeneratedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    featuresVersion?: NullableStringFieldUpdateOperationsInput | string | null
+    featuresQualityScore?: NullableFloatFieldUpdateOperationsInput | number | null
     lineageJson?: NullableJsonNullValueInput | InputJsonValue
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -31457,6 +31719,15 @@ export namespace Prisma {
     embedding?: NullableBytesFieldUpdateOperationsInput | Uint8Array | null
     aiProcessed?: BoolFieldUpdateOperationsInput | boolean
     aiTagsJson?: NullableJsonNullValueInput | InputJsonValue
+    enhancedTagsJson?: NullableJsonNullValueInput | InputJsonValue
+    tagGenerationMeta?: NullableJsonNullValueInput | InputJsonValue
+    domainClassification?: NullableJsonNullValueInput | InputJsonValue
+    lastTaggedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    tagModelVersion?: NullableStringFieldUpdateOperationsInput | string | null
+    clusteringFeaturesJson?: NullableJsonNullValueInput | InputJsonValue
+    lastFeaturesGeneratedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    featuresVersion?: NullableStringFieldUpdateOperationsInput | string | null
+    featuresQualityScore?: NullableFloatFieldUpdateOperationsInput | number | null
     lineageJson?: NullableJsonNullValueInput | InputJsonValue
     createdById?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -31493,6 +31764,15 @@ export namespace Prisma {
     embedding?: Uint8Array | null
     aiProcessed?: boolean
     aiTagsJson?: NullableJsonNullValueInput | InputJsonValue
+    enhancedTagsJson?: NullableJsonNullValueInput | InputJsonValue
+    tagGenerationMeta?: NullableJsonNullValueInput | InputJsonValue
+    domainClassification?: NullableJsonNullValueInput | InputJsonValue
+    lastTaggedAt?: Date | string | null
+    tagModelVersion?: string | null
+    clusteringFeaturesJson?: NullableJsonNullValueInput | InputJsonValue
+    lastFeaturesGeneratedAt?: Date | string | null
+    featuresVersion?: string | null
+    featuresQualityScore?: number | null
     lineageJson?: NullableJsonNullValueInput | InputJsonValue
     createdById?: string | null
     createdAt?: Date | string
@@ -31525,6 +31805,15 @@ export namespace Prisma {
     embedding?: NullableBytesFieldUpdateOperationsInput | Uint8Array | null
     aiProcessed?: BoolFieldUpdateOperationsInput | boolean
     aiTagsJson?: NullableJsonNullValueInput | InputJsonValue
+    enhancedTagsJson?: NullableJsonNullValueInput | InputJsonValue
+    tagGenerationMeta?: NullableJsonNullValueInput | InputJsonValue
+    domainClassification?: NullableJsonNullValueInput | InputJsonValue
+    lastTaggedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    tagModelVersion?: NullableStringFieldUpdateOperationsInput | string | null
+    clusteringFeaturesJson?: NullableJsonNullValueInput | InputJsonValue
+    lastFeaturesGeneratedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    featuresVersion?: NullableStringFieldUpdateOperationsInput | string | null
+    featuresQualityScore?: NullableFloatFieldUpdateOperationsInput | number | null
     lineageJson?: NullableJsonNullValueInput | InputJsonValue
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -31559,6 +31848,15 @@ export namespace Prisma {
     embedding?: NullableBytesFieldUpdateOperationsInput | Uint8Array | null
     aiProcessed?: BoolFieldUpdateOperationsInput | boolean
     aiTagsJson?: NullableJsonNullValueInput | InputJsonValue
+    enhancedTagsJson?: NullableJsonNullValueInput | InputJsonValue
+    tagGenerationMeta?: NullableJsonNullValueInput | InputJsonValue
+    domainClassification?: NullableJsonNullValueInput | InputJsonValue
+    lastTaggedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    tagModelVersion?: NullableStringFieldUpdateOperationsInput | string | null
+    clusteringFeaturesJson?: NullableJsonNullValueInput | InputJsonValue
+    lastFeaturesGeneratedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    featuresVersion?: NullableStringFieldUpdateOperationsInput | string | null
+    featuresQualityScore?: NullableFloatFieldUpdateOperationsInput | number | null
     lineageJson?: NullableJsonNullValueInput | InputJsonValue
     createdById?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -31581,6 +31879,10 @@ export namespace Prisma {
     decisionMatrixJson?: NullableJsonNullValueInput | InputJsonValue
     crossFunctionalImpactJson?: NullableJsonNullValueInput | InputJsonValue
     lastAnalysisAt?: Date | string | null
+    clusteringResults?: NullableJsonNullValueInput | InputJsonValue
+    lastClusteredAt?: Date | string | null
+    clusteringVersion?: string | null
+    clusteringQualityScore?: number | null
     createdAt?: Date | string
     updatedAt?: Date | string
     signals?: HotspotSignalCreateNestedManyWithoutHotspotInput
@@ -31604,6 +31906,10 @@ export namespace Prisma {
     decisionMatrixJson?: NullableJsonNullValueInput | InputJsonValue
     crossFunctionalImpactJson?: NullableJsonNullValueInput | InputJsonValue
     lastAnalysisAt?: Date | string | null
+    clusteringResults?: NullableJsonNullValueInput | InputJsonValue
+    lastClusteredAt?: Date | string | null
+    clusteringVersion?: string | null
+    clusteringQualityScore?: number | null
     createdAt?: Date | string
     updatedAt?: Date | string
     signals?: HotspotSignalUncheckedCreateNestedManyWithoutHotspotInput
@@ -31627,6 +31933,10 @@ export namespace Prisma {
     decisionMatrixJson?: NullableJsonNullValueInput | InputJsonValue
     crossFunctionalImpactJson?: NullableJsonNullValueInput | InputJsonValue
     lastAnalysisAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    clusteringResults?: NullableJsonNullValueInput | InputJsonValue
+    lastClusteredAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    clusteringVersion?: NullableStringFieldUpdateOperationsInput | string | null
+    clusteringQualityScore?: NullableFloatFieldUpdateOperationsInput | number | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     signals?: HotspotSignalUpdateManyWithoutHotspotNestedInput
@@ -31650,6 +31960,10 @@ export namespace Prisma {
     decisionMatrixJson?: NullableJsonNullValueInput | InputJsonValue
     crossFunctionalImpactJson?: NullableJsonNullValueInput | InputJsonValue
     lastAnalysisAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    clusteringResults?: NullableJsonNullValueInput | InputJsonValue
+    lastClusteredAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    clusteringVersion?: NullableStringFieldUpdateOperationsInput | string | null
+    clusteringQualityScore?: NullableFloatFieldUpdateOperationsInput | number | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     signals?: HotspotSignalUncheckedUpdateManyWithoutHotspotNestedInput
@@ -31673,6 +31987,10 @@ export namespace Prisma {
     decisionMatrixJson?: NullableJsonNullValueInput | InputJsonValue
     crossFunctionalImpactJson?: NullableJsonNullValueInput | InputJsonValue
     lastAnalysisAt?: Date | string | null
+    clusteringResults?: NullableJsonNullValueInput | InputJsonValue
+    lastClusteredAt?: Date | string | null
+    clusteringVersion?: string | null
+    clusteringQualityScore?: number | null
     createdAt?: Date | string
     updatedAt?: Date | string
   }
@@ -31693,6 +32011,10 @@ export namespace Prisma {
     decisionMatrixJson?: NullableJsonNullValueInput | InputJsonValue
     crossFunctionalImpactJson?: NullableJsonNullValueInput | InputJsonValue
     lastAnalysisAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    clusteringResults?: NullableJsonNullValueInput | InputJsonValue
+    lastClusteredAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    clusteringVersion?: NullableStringFieldUpdateOperationsInput | string | null
+    clusteringQualityScore?: NullableFloatFieldUpdateOperationsInput | number | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
@@ -31713,6 +32035,10 @@ export namespace Prisma {
     decisionMatrixJson?: NullableJsonNullValueInput | InputJsonValue
     crossFunctionalImpactJson?: NullableJsonNullValueInput | InputJsonValue
     lastAnalysisAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    clusteringResults?: NullableJsonNullValueInput | InputJsonValue
+    lastClusteredAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    clusteringVersion?: NullableStringFieldUpdateOperationsInput | string | null
+    clusteringQualityScore?: NullableFloatFieldUpdateOperationsInput | number | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
@@ -33975,6 +34301,15 @@ export namespace Prisma {
     embedding?: SortOrder
     aiProcessed?: SortOrder
     aiTagsJson?: SortOrder
+    enhancedTagsJson?: SortOrder
+    tagGenerationMeta?: SortOrder
+    domainClassification?: SortOrder
+    lastTaggedAt?: SortOrder
+    tagModelVersion?: SortOrder
+    clusteringFeaturesJson?: SortOrder
+    lastFeaturesGeneratedAt?: SortOrder
+    featuresVersion?: SortOrder
+    featuresQualityScore?: SortOrder
     lineageJson?: SortOrder
     createdById?: SortOrder
     createdAt?: SortOrder
@@ -33984,6 +34319,7 @@ export namespace Prisma {
   export type SignalAvgOrderByAggregateInput = {
     confidence?: SortOrder
     severityScore?: SortOrder
+    featuresQualityScore?: SortOrder
   }
 
   export type SignalMaxOrderByAggregateInput = {
@@ -34007,6 +34343,11 @@ export namespace Prisma {
     dedupeKey?: SortOrder
     embedding?: SortOrder
     aiProcessed?: SortOrder
+    lastTaggedAt?: SortOrder
+    tagModelVersion?: SortOrder
+    lastFeaturesGeneratedAt?: SortOrder
+    featuresVersion?: SortOrder
+    featuresQualityScore?: SortOrder
     createdById?: SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
@@ -34033,6 +34374,11 @@ export namespace Prisma {
     dedupeKey?: SortOrder
     embedding?: SortOrder
     aiProcessed?: SortOrder
+    lastTaggedAt?: SortOrder
+    tagModelVersion?: SortOrder
+    lastFeaturesGeneratedAt?: SortOrder
+    featuresVersion?: SortOrder
+    featuresQualityScore?: SortOrder
     createdById?: SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
@@ -34041,6 +34387,7 @@ export namespace Prisma {
   export type SignalSumOrderByAggregateInput = {
     confidence?: SortOrder
     severityScore?: SortOrder
+    featuresQualityScore?: SortOrder
   }
 
   export type EnumSeverityWithAggregatesFilter<$PrismaModel = never> = {
@@ -34086,6 +34433,10 @@ export namespace Prisma {
     decisionMatrixJson?: SortOrder
     crossFunctionalImpactJson?: SortOrder
     lastAnalysisAt?: SortOrder
+    clusteringResults?: SortOrder
+    lastClusteredAt?: SortOrder
+    clusteringVersion?: SortOrder
+    clusteringQualityScore?: SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
   }
@@ -34094,6 +34445,7 @@ export namespace Prisma {
     rankScore?: SortOrder
     confidence?: SortOrder
     similarityThreshold?: SortOrder
+    clusteringQualityScore?: SortOrder
   }
 
   export type HotspotMaxOrderByAggregateInput = {
@@ -34107,6 +34459,9 @@ export namespace Prisma {
     clusteringMethod?: SortOrder
     similarityThreshold?: SortOrder
     lastAnalysisAt?: SortOrder
+    lastClusteredAt?: SortOrder
+    clusteringVersion?: SortOrder
+    clusteringQualityScore?: SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
   }
@@ -34122,6 +34477,9 @@ export namespace Prisma {
     clusteringMethod?: SortOrder
     similarityThreshold?: SortOrder
     lastAnalysisAt?: SortOrder
+    lastClusteredAt?: SortOrder
+    clusteringVersion?: SortOrder
+    clusteringQualityScore?: SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
   }
@@ -34130,6 +34488,7 @@ export namespace Prisma {
     rankScore?: SortOrder
     confidence?: SortOrder
     similarityThreshold?: SortOrder
+    clusteringQualityScore?: SortOrder
   }
 
   export type EnumHotspotStatusWithAggregatesFilter<$PrismaModel = never> = {
@@ -37946,6 +38305,15 @@ export namespace Prisma {
     embedding?: Uint8Array | null
     aiProcessed?: boolean
     aiTagsJson?: NullableJsonNullValueInput | InputJsonValue
+    enhancedTagsJson?: NullableJsonNullValueInput | InputJsonValue
+    tagGenerationMeta?: NullableJsonNullValueInput | InputJsonValue
+    domainClassification?: NullableJsonNullValueInput | InputJsonValue
+    lastTaggedAt?: Date | string | null
+    tagModelVersion?: string | null
+    clusteringFeaturesJson?: NullableJsonNullValueInput | InputJsonValue
+    lastFeaturesGeneratedAt?: Date | string | null
+    featuresVersion?: string | null
+    featuresQualityScore?: number | null
     lineageJson?: NullableJsonNullValueInput | InputJsonValue
     createdAt?: Date | string
     updatedAt?: Date | string
@@ -37984,6 +38352,15 @@ export namespace Prisma {
     embedding?: Uint8Array | null
     aiProcessed?: boolean
     aiTagsJson?: NullableJsonNullValueInput | InputJsonValue
+    enhancedTagsJson?: NullableJsonNullValueInput | InputJsonValue
+    tagGenerationMeta?: NullableJsonNullValueInput | InputJsonValue
+    domainClassification?: NullableJsonNullValueInput | InputJsonValue
+    lastTaggedAt?: Date | string | null
+    tagModelVersion?: string | null
+    clusteringFeaturesJson?: NullableJsonNullValueInput | InputJsonValue
+    lastFeaturesGeneratedAt?: Date | string | null
+    featuresVersion?: string | null
+    featuresQualityScore?: number | null
     lineageJson?: NullableJsonNullValueInput | InputJsonValue
     createdAt?: Date | string
     updatedAt?: Date | string
@@ -38878,6 +39255,15 @@ export namespace Prisma {
     embedding?: BytesNullableFilter<"Signal"> | Uint8Array | null
     aiProcessed?: BoolFilter<"Signal"> | boolean
     aiTagsJson?: JsonNullableFilter<"Signal">
+    enhancedTagsJson?: JsonNullableFilter<"Signal">
+    tagGenerationMeta?: JsonNullableFilter<"Signal">
+    domainClassification?: JsonNullableFilter<"Signal">
+    lastTaggedAt?: DateTimeNullableFilter<"Signal"> | Date | string | null
+    tagModelVersion?: StringNullableFilter<"Signal"> | string | null
+    clusteringFeaturesJson?: JsonNullableFilter<"Signal">
+    lastFeaturesGeneratedAt?: DateTimeNullableFilter<"Signal"> | Date | string | null
+    featuresVersion?: StringNullableFilter<"Signal"> | string | null
+    featuresQualityScore?: FloatNullableFilter<"Signal"> | number | null
     lineageJson?: JsonNullableFilter<"Signal">
     createdById?: StringNullableFilter<"Signal"> | string | null
     createdAt?: DateTimeFilter<"Signal"> | Date | string
@@ -39550,6 +39936,15 @@ export namespace Prisma {
     embedding?: Uint8Array | null
     aiProcessed?: boolean
     aiTagsJson?: NullableJsonNullValueInput | InputJsonValue
+    enhancedTagsJson?: NullableJsonNullValueInput | InputJsonValue
+    tagGenerationMeta?: NullableJsonNullValueInput | InputJsonValue
+    domainClassification?: NullableJsonNullValueInput | InputJsonValue
+    lastTaggedAt?: Date | string | null
+    tagModelVersion?: string | null
+    clusteringFeaturesJson?: NullableJsonNullValueInput | InputJsonValue
+    lastFeaturesGeneratedAt?: Date | string | null
+    featuresVersion?: string | null
+    featuresQualityScore?: number | null
     lineageJson?: NullableJsonNullValueInput | InputJsonValue
     createdAt?: Date | string
     updatedAt?: Date | string
@@ -39587,6 +39982,15 @@ export namespace Prisma {
     embedding?: Uint8Array | null
     aiProcessed?: boolean
     aiTagsJson?: NullableJsonNullValueInput | InputJsonValue
+    enhancedTagsJson?: NullableJsonNullValueInput | InputJsonValue
+    tagGenerationMeta?: NullableJsonNullValueInput | InputJsonValue
+    domainClassification?: NullableJsonNullValueInput | InputJsonValue
+    lastTaggedAt?: Date | string | null
+    tagModelVersion?: string | null
+    clusteringFeaturesJson?: NullableJsonNullValueInput | InputJsonValue
+    lastFeaturesGeneratedAt?: Date | string | null
+    featuresVersion?: string | null
+    featuresQualityScore?: number | null
     lineageJson?: NullableJsonNullValueInput | InputJsonValue
     createdById?: string | null
     createdAt?: Date | string
@@ -39979,6 +40383,15 @@ export namespace Prisma {
     embedding?: Uint8Array | null
     aiProcessed?: boolean
     aiTagsJson?: NullableJsonNullValueInput | InputJsonValue
+    enhancedTagsJson?: NullableJsonNullValueInput | InputJsonValue
+    tagGenerationMeta?: NullableJsonNullValueInput | InputJsonValue
+    domainClassification?: NullableJsonNullValueInput | InputJsonValue
+    lastTaggedAt?: Date | string | null
+    tagModelVersion?: string | null
+    clusteringFeaturesJson?: NullableJsonNullValueInput | InputJsonValue
+    lastFeaturesGeneratedAt?: Date | string | null
+    featuresVersion?: string | null
+    featuresQualityScore?: number | null
     lineageJson?: NullableJsonNullValueInput | InputJsonValue
     createdAt?: Date | string
     updatedAt?: Date | string
@@ -40016,6 +40429,15 @@ export namespace Prisma {
     embedding?: Uint8Array | null
     aiProcessed?: boolean
     aiTagsJson?: NullableJsonNullValueInput | InputJsonValue
+    enhancedTagsJson?: NullableJsonNullValueInput | InputJsonValue
+    tagGenerationMeta?: NullableJsonNullValueInput | InputJsonValue
+    domainClassification?: NullableJsonNullValueInput | InputJsonValue
+    lastTaggedAt?: Date | string | null
+    tagModelVersion?: string | null
+    clusteringFeaturesJson?: NullableJsonNullValueInput | InputJsonValue
+    lastFeaturesGeneratedAt?: Date | string | null
+    featuresVersion?: string | null
+    featuresQualityScore?: number | null
     lineageJson?: NullableJsonNullValueInput | InputJsonValue
     createdById?: string | null
     createdAt?: Date | string
@@ -40695,6 +41117,15 @@ export namespace Prisma {
     embedding?: Uint8Array | null
     aiProcessed?: boolean
     aiTagsJson?: NullableJsonNullValueInput | InputJsonValue
+    enhancedTagsJson?: NullableJsonNullValueInput | InputJsonValue
+    tagGenerationMeta?: NullableJsonNullValueInput | InputJsonValue
+    domainClassification?: NullableJsonNullValueInput | InputJsonValue
+    lastTaggedAt?: Date | string | null
+    tagModelVersion?: string | null
+    clusteringFeaturesJson?: NullableJsonNullValueInput | InputJsonValue
+    lastFeaturesGeneratedAt?: Date | string | null
+    featuresVersion?: string | null
+    featuresQualityScore?: number | null
     lineageJson?: NullableJsonNullValueInput | InputJsonValue
     createdAt?: Date | string
     updatedAt?: Date | string
@@ -40732,6 +41163,15 @@ export namespace Prisma {
     embedding?: Uint8Array | null
     aiProcessed?: boolean
     aiTagsJson?: NullableJsonNullValueInput | InputJsonValue
+    enhancedTagsJson?: NullableJsonNullValueInput | InputJsonValue
+    tagGenerationMeta?: NullableJsonNullValueInput | InputJsonValue
+    domainClassification?: NullableJsonNullValueInput | InputJsonValue
+    lastTaggedAt?: Date | string | null
+    tagModelVersion?: string | null
+    clusteringFeaturesJson?: NullableJsonNullValueInput | InputJsonValue
+    lastFeaturesGeneratedAt?: Date | string | null
+    featuresVersion?: string | null
+    featuresQualityScore?: number | null
     lineageJson?: NullableJsonNullValueInput | InputJsonValue
     createdById?: string | null
     createdAt?: Date | string
@@ -41511,6 +41951,10 @@ export namespace Prisma {
     decisionMatrixJson?: NullableJsonNullValueInput | InputJsonValue
     crossFunctionalImpactJson?: NullableJsonNullValueInput | InputJsonValue
     lastAnalysisAt?: Date | string | null
+    clusteringResults?: NullableJsonNullValueInput | InputJsonValue
+    lastClusteredAt?: Date | string | null
+    clusteringVersion?: string | null
+    clusteringQualityScore?: number | null
     createdAt?: Date | string
     updatedAt?: Date | string
     ideas?: IdeaCreateNestedManyWithoutHotspotInput
@@ -41533,6 +41977,10 @@ export namespace Prisma {
     decisionMatrixJson?: NullableJsonNullValueInput | InputJsonValue
     crossFunctionalImpactJson?: NullableJsonNullValueInput | InputJsonValue
     lastAnalysisAt?: Date | string | null
+    clusteringResults?: NullableJsonNullValueInput | InputJsonValue
+    lastClusteredAt?: Date | string | null
+    clusteringVersion?: string | null
+    clusteringQualityScore?: number | null
     createdAt?: Date | string
     updatedAt?: Date | string
     ideas?: IdeaUncheckedCreateNestedManyWithoutHotspotInput
@@ -41570,6 +42018,15 @@ export namespace Prisma {
     embedding?: Uint8Array | null
     aiProcessed?: boolean
     aiTagsJson?: NullableJsonNullValueInput | InputJsonValue
+    enhancedTagsJson?: NullableJsonNullValueInput | InputJsonValue
+    tagGenerationMeta?: NullableJsonNullValueInput | InputJsonValue
+    domainClassification?: NullableJsonNullValueInput | InputJsonValue
+    lastTaggedAt?: Date | string | null
+    tagModelVersion?: string | null
+    clusteringFeaturesJson?: NullableJsonNullValueInput | InputJsonValue
+    lastFeaturesGeneratedAt?: Date | string | null
+    featuresVersion?: string | null
+    featuresQualityScore?: number | null
     lineageJson?: NullableJsonNullValueInput | InputJsonValue
     createdAt?: Date | string
     updatedAt?: Date | string
@@ -41608,6 +42065,15 @@ export namespace Prisma {
     embedding?: Uint8Array | null
     aiProcessed?: boolean
     aiTagsJson?: NullableJsonNullValueInput | InputJsonValue
+    enhancedTagsJson?: NullableJsonNullValueInput | InputJsonValue
+    tagGenerationMeta?: NullableJsonNullValueInput | InputJsonValue
+    domainClassification?: NullableJsonNullValueInput | InputJsonValue
+    lastTaggedAt?: Date | string | null
+    tagModelVersion?: string | null
+    clusteringFeaturesJson?: NullableJsonNullValueInput | InputJsonValue
+    lastFeaturesGeneratedAt?: Date | string | null
+    featuresVersion?: string | null
+    featuresQualityScore?: number | null
     lineageJson?: NullableJsonNullValueInput | InputJsonValue
     createdById?: string | null
     createdAt?: Date | string
@@ -41646,6 +42112,10 @@ export namespace Prisma {
     decisionMatrixJson?: NullableJsonNullValueInput | InputJsonValue
     crossFunctionalImpactJson?: NullableJsonNullValueInput | InputJsonValue
     lastAnalysisAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    clusteringResults?: NullableJsonNullValueInput | InputJsonValue
+    lastClusteredAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    clusteringVersion?: NullableStringFieldUpdateOperationsInput | string | null
+    clusteringQualityScore?: NullableFloatFieldUpdateOperationsInput | number | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     ideas?: IdeaUpdateManyWithoutHotspotNestedInput
@@ -41668,6 +42138,10 @@ export namespace Prisma {
     decisionMatrixJson?: NullableJsonNullValueInput | InputJsonValue
     crossFunctionalImpactJson?: NullableJsonNullValueInput | InputJsonValue
     lastAnalysisAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    clusteringResults?: NullableJsonNullValueInput | InputJsonValue
+    lastClusteredAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    clusteringVersion?: NullableStringFieldUpdateOperationsInput | string | null
+    clusteringQualityScore?: NullableFloatFieldUpdateOperationsInput | number | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     ideas?: IdeaUncheckedUpdateManyWithoutHotspotNestedInput
@@ -41711,6 +42185,15 @@ export namespace Prisma {
     embedding?: NullableBytesFieldUpdateOperationsInput | Uint8Array | null
     aiProcessed?: BoolFieldUpdateOperationsInput | boolean
     aiTagsJson?: NullableJsonNullValueInput | InputJsonValue
+    enhancedTagsJson?: NullableJsonNullValueInput | InputJsonValue
+    tagGenerationMeta?: NullableJsonNullValueInput | InputJsonValue
+    domainClassification?: NullableJsonNullValueInput | InputJsonValue
+    lastTaggedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    tagModelVersion?: NullableStringFieldUpdateOperationsInput | string | null
+    clusteringFeaturesJson?: NullableJsonNullValueInput | InputJsonValue
+    lastFeaturesGeneratedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    featuresVersion?: NullableStringFieldUpdateOperationsInput | string | null
+    featuresQualityScore?: NullableFloatFieldUpdateOperationsInput | number | null
     lineageJson?: NullableJsonNullValueInput | InputJsonValue
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -41749,6 +42232,15 @@ export namespace Prisma {
     embedding?: NullableBytesFieldUpdateOperationsInput | Uint8Array | null
     aiProcessed?: BoolFieldUpdateOperationsInput | boolean
     aiTagsJson?: NullableJsonNullValueInput | InputJsonValue
+    enhancedTagsJson?: NullableJsonNullValueInput | InputJsonValue
+    tagGenerationMeta?: NullableJsonNullValueInput | InputJsonValue
+    domainClassification?: NullableJsonNullValueInput | InputJsonValue
+    lastTaggedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    tagModelVersion?: NullableStringFieldUpdateOperationsInput | string | null
+    clusteringFeaturesJson?: NullableJsonNullValueInput | InputJsonValue
+    lastFeaturesGeneratedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    featuresVersion?: NullableStringFieldUpdateOperationsInput | string | null
+    featuresQualityScore?: NullableFloatFieldUpdateOperationsInput | number | null
     lineageJson?: NullableJsonNullValueInput | InputJsonValue
     createdById?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -41854,6 +42346,10 @@ export namespace Prisma {
     decisionMatrixJson?: NullableJsonNullValueInput | InputJsonValue
     crossFunctionalImpactJson?: NullableJsonNullValueInput | InputJsonValue
     lastAnalysisAt?: Date | string | null
+    clusteringResults?: NullableJsonNullValueInput | InputJsonValue
+    lastClusteredAt?: Date | string | null
+    clusteringVersion?: string | null
+    clusteringQualityScore?: number | null
     createdAt?: Date | string
     updatedAt?: Date | string
     signals?: HotspotSignalCreateNestedManyWithoutHotspotInput
@@ -41876,6 +42372,10 @@ export namespace Prisma {
     decisionMatrixJson?: NullableJsonNullValueInput | InputJsonValue
     crossFunctionalImpactJson?: NullableJsonNullValueInput | InputJsonValue
     lastAnalysisAt?: Date | string | null
+    clusteringResults?: NullableJsonNullValueInput | InputJsonValue
+    lastClusteredAt?: Date | string | null
+    clusteringVersion?: string | null
+    clusteringQualityScore?: number | null
     createdAt?: Date | string
     updatedAt?: Date | string
     signals?: HotspotSignalUncheckedCreateNestedManyWithoutHotspotInput
@@ -42107,6 +42607,10 @@ export namespace Prisma {
     decisionMatrixJson?: NullableJsonNullValueInput | InputJsonValue
     crossFunctionalImpactJson?: NullableJsonNullValueInput | InputJsonValue
     lastAnalysisAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    clusteringResults?: NullableJsonNullValueInput | InputJsonValue
+    lastClusteredAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    clusteringVersion?: NullableStringFieldUpdateOperationsInput | string | null
+    clusteringQualityScore?: NullableFloatFieldUpdateOperationsInput | number | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     signals?: HotspotSignalUpdateManyWithoutHotspotNestedInput
@@ -42129,6 +42633,10 @@ export namespace Prisma {
     decisionMatrixJson?: NullableJsonNullValueInput | InputJsonValue
     crossFunctionalImpactJson?: NullableJsonNullValueInput | InputJsonValue
     lastAnalysisAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    clusteringResults?: NullableJsonNullValueInput | InputJsonValue
+    lastClusteredAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    clusteringVersion?: NullableStringFieldUpdateOperationsInput | string | null
+    clusteringQualityScore?: NullableFloatFieldUpdateOperationsInput | number | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     signals?: HotspotSignalUncheckedUpdateManyWithoutHotspotNestedInput
@@ -42566,6 +43074,10 @@ export namespace Prisma {
     decisionMatrixJson?: NullableJsonNullValueInput | InputJsonValue
     crossFunctionalImpactJson?: NullableJsonNullValueInput | InputJsonValue
     lastAnalysisAt?: Date | string | null
+    clusteringResults?: NullableJsonNullValueInput | InputJsonValue
+    lastClusteredAt?: Date | string | null
+    clusteringVersion?: string | null
+    clusteringQualityScore?: number | null
     createdAt?: Date | string
     updatedAt?: Date | string
     signals?: HotspotSignalCreateNestedManyWithoutHotspotInput
@@ -42588,6 +43100,10 @@ export namespace Prisma {
     decisionMatrixJson?: NullableJsonNullValueInput | InputJsonValue
     crossFunctionalImpactJson?: NullableJsonNullValueInput | InputJsonValue
     lastAnalysisAt?: Date | string | null
+    clusteringResults?: NullableJsonNullValueInput | InputJsonValue
+    lastClusteredAt?: Date | string | null
+    clusteringVersion?: string | null
+    clusteringQualityScore?: number | null
     createdAt?: Date | string
     updatedAt?: Date | string
     signals?: HotspotSignalUncheckedCreateNestedManyWithoutHotspotInput
@@ -42944,6 +43460,10 @@ export namespace Prisma {
     decisionMatrixJson?: NullableJsonNullValueInput | InputJsonValue
     crossFunctionalImpactJson?: NullableJsonNullValueInput | InputJsonValue
     lastAnalysisAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    clusteringResults?: NullableJsonNullValueInput | InputJsonValue
+    lastClusteredAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    clusteringVersion?: NullableStringFieldUpdateOperationsInput | string | null
+    clusteringQualityScore?: NullableFloatFieldUpdateOperationsInput | number | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     signals?: HotspotSignalUpdateManyWithoutHotspotNestedInput
@@ -42966,6 +43486,10 @@ export namespace Prisma {
     decisionMatrixJson?: NullableJsonNullValueInput | InputJsonValue
     crossFunctionalImpactJson?: NullableJsonNullValueInput | InputJsonValue
     lastAnalysisAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    clusteringResults?: NullableJsonNullValueInput | InputJsonValue
+    lastClusteredAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    clusteringVersion?: NullableStringFieldUpdateOperationsInput | string | null
+    clusteringQualityScore?: NullableFloatFieldUpdateOperationsInput | number | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     signals?: HotspotSignalUncheckedUpdateManyWithoutHotspotNestedInput
@@ -45097,6 +45621,15 @@ export namespace Prisma {
     embedding?: Uint8Array | null
     aiProcessed?: boolean
     aiTagsJson?: NullableJsonNullValueInput | InputJsonValue
+    enhancedTagsJson?: NullableJsonNullValueInput | InputJsonValue
+    tagGenerationMeta?: NullableJsonNullValueInput | InputJsonValue
+    domainClassification?: NullableJsonNullValueInput | InputJsonValue
+    lastTaggedAt?: Date | string | null
+    tagModelVersion?: string | null
+    clusteringFeaturesJson?: NullableJsonNullValueInput | InputJsonValue
+    lastFeaturesGeneratedAt?: Date | string | null
+    featuresVersion?: string | null
+    featuresQualityScore?: number | null
     lineageJson?: NullableJsonNullValueInput | InputJsonValue
     createdAt?: Date | string
     updatedAt?: Date | string
@@ -45496,6 +46029,15 @@ export namespace Prisma {
     embedding?: NullableBytesFieldUpdateOperationsInput | Uint8Array | null
     aiProcessed?: BoolFieldUpdateOperationsInput | boolean
     aiTagsJson?: NullableJsonNullValueInput | InputJsonValue
+    enhancedTagsJson?: NullableJsonNullValueInput | InputJsonValue
+    tagGenerationMeta?: NullableJsonNullValueInput | InputJsonValue
+    domainClassification?: NullableJsonNullValueInput | InputJsonValue
+    lastTaggedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    tagModelVersion?: NullableStringFieldUpdateOperationsInput | string | null
+    clusteringFeaturesJson?: NullableJsonNullValueInput | InputJsonValue
+    lastFeaturesGeneratedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    featuresVersion?: NullableStringFieldUpdateOperationsInput | string | null
+    featuresQualityScore?: NullableFloatFieldUpdateOperationsInput | number | null
     lineageJson?: NullableJsonNullValueInput | InputJsonValue
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -45534,6 +46076,15 @@ export namespace Prisma {
     embedding?: NullableBytesFieldUpdateOperationsInput | Uint8Array | null
     aiProcessed?: BoolFieldUpdateOperationsInput | boolean
     aiTagsJson?: NullableJsonNullValueInput | InputJsonValue
+    enhancedTagsJson?: NullableJsonNullValueInput | InputJsonValue
+    tagGenerationMeta?: NullableJsonNullValueInput | InputJsonValue
+    domainClassification?: NullableJsonNullValueInput | InputJsonValue
+    lastTaggedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    tagModelVersion?: NullableStringFieldUpdateOperationsInput | string | null
+    clusteringFeaturesJson?: NullableJsonNullValueInput | InputJsonValue
+    lastFeaturesGeneratedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    featuresVersion?: NullableStringFieldUpdateOperationsInput | string | null
+    featuresQualityScore?: NullableFloatFieldUpdateOperationsInput | number | null
     lineageJson?: NullableJsonNullValueInput | InputJsonValue
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -45569,6 +46120,15 @@ export namespace Prisma {
     embedding?: NullableBytesFieldUpdateOperationsInput | Uint8Array | null
     aiProcessed?: BoolFieldUpdateOperationsInput | boolean
     aiTagsJson?: NullableJsonNullValueInput | InputJsonValue
+    enhancedTagsJson?: NullableJsonNullValueInput | InputJsonValue
+    tagGenerationMeta?: NullableJsonNullValueInput | InputJsonValue
+    domainClassification?: NullableJsonNullValueInput | InputJsonValue
+    lastTaggedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    tagModelVersion?: NullableStringFieldUpdateOperationsInput | string | null
+    clusteringFeaturesJson?: NullableJsonNullValueInput | InputJsonValue
+    lastFeaturesGeneratedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    featuresVersion?: NullableStringFieldUpdateOperationsInput | string | null
+    featuresQualityScore?: NullableFloatFieldUpdateOperationsInput | number | null
     lineageJson?: NullableJsonNullValueInput | InputJsonValue
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -46334,6 +46894,15 @@ export namespace Prisma {
     embedding?: Uint8Array | null
     aiProcessed?: boolean
     aiTagsJson?: NullableJsonNullValueInput | InputJsonValue
+    enhancedTagsJson?: NullableJsonNullValueInput | InputJsonValue
+    tagGenerationMeta?: NullableJsonNullValueInput | InputJsonValue
+    domainClassification?: NullableJsonNullValueInput | InputJsonValue
+    lastTaggedAt?: Date | string | null
+    tagModelVersion?: string | null
+    clusteringFeaturesJson?: NullableJsonNullValueInput | InputJsonValue
+    lastFeaturesGeneratedAt?: Date | string | null
+    featuresVersion?: string | null
+    featuresQualityScore?: number | null
     lineageJson?: NullableJsonNullValueInput | InputJsonValue
     createdById?: string | null
     createdAt?: Date | string
@@ -46440,6 +47009,15 @@ export namespace Prisma {
     embedding?: NullableBytesFieldUpdateOperationsInput | Uint8Array | null
     aiProcessed?: BoolFieldUpdateOperationsInput | boolean
     aiTagsJson?: NullableJsonNullValueInput | InputJsonValue
+    enhancedTagsJson?: NullableJsonNullValueInput | InputJsonValue
+    tagGenerationMeta?: NullableJsonNullValueInput | InputJsonValue
+    domainClassification?: NullableJsonNullValueInput | InputJsonValue
+    lastTaggedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    tagModelVersion?: NullableStringFieldUpdateOperationsInput | string | null
+    clusteringFeaturesJson?: NullableJsonNullValueInput | InputJsonValue
+    lastFeaturesGeneratedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    featuresVersion?: NullableStringFieldUpdateOperationsInput | string | null
+    featuresQualityScore?: NullableFloatFieldUpdateOperationsInput | number | null
     lineageJson?: NullableJsonNullValueInput | InputJsonValue
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -46477,6 +47055,15 @@ export namespace Prisma {
     embedding?: NullableBytesFieldUpdateOperationsInput | Uint8Array | null
     aiProcessed?: BoolFieldUpdateOperationsInput | boolean
     aiTagsJson?: NullableJsonNullValueInput | InputJsonValue
+    enhancedTagsJson?: NullableJsonNullValueInput | InputJsonValue
+    tagGenerationMeta?: NullableJsonNullValueInput | InputJsonValue
+    domainClassification?: NullableJsonNullValueInput | InputJsonValue
+    lastTaggedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    tagModelVersion?: NullableStringFieldUpdateOperationsInput | string | null
+    clusteringFeaturesJson?: NullableJsonNullValueInput | InputJsonValue
+    lastFeaturesGeneratedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    featuresVersion?: NullableStringFieldUpdateOperationsInput | string | null
+    featuresQualityScore?: NullableFloatFieldUpdateOperationsInput | number | null
     lineageJson?: NullableJsonNullValueInput | InputJsonValue
     createdById?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -46512,6 +47099,15 @@ export namespace Prisma {
     embedding?: NullableBytesFieldUpdateOperationsInput | Uint8Array | null
     aiProcessed?: BoolFieldUpdateOperationsInput | boolean
     aiTagsJson?: NullableJsonNullValueInput | InputJsonValue
+    enhancedTagsJson?: NullableJsonNullValueInput | InputJsonValue
+    tagGenerationMeta?: NullableJsonNullValueInput | InputJsonValue
+    domainClassification?: NullableJsonNullValueInput | InputJsonValue
+    lastTaggedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    tagModelVersion?: NullableStringFieldUpdateOperationsInput | string | null
+    clusteringFeaturesJson?: NullableJsonNullValueInput | InputJsonValue
+    lastFeaturesGeneratedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    featuresVersion?: NullableStringFieldUpdateOperationsInput | string | null
+    featuresQualityScore?: NullableFloatFieldUpdateOperationsInput | number | null
     lineageJson?: NullableJsonNullValueInput | InputJsonValue
     createdById?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -46646,6 +47242,15 @@ export namespace Prisma {
     embedding?: Uint8Array | null
     aiProcessed?: boolean
     aiTagsJson?: NullableJsonNullValueInput | InputJsonValue
+    enhancedTagsJson?: NullableJsonNullValueInput | InputJsonValue
+    tagGenerationMeta?: NullableJsonNullValueInput | InputJsonValue
+    domainClassification?: NullableJsonNullValueInput | InputJsonValue
+    lastTaggedAt?: Date | string | null
+    tagModelVersion?: string | null
+    clusteringFeaturesJson?: NullableJsonNullValueInput | InputJsonValue
+    lastFeaturesGeneratedAt?: Date | string | null
+    featuresVersion?: string | null
+    featuresQualityScore?: number | null
     lineageJson?: NullableJsonNullValueInput | InputJsonValue
     createdById?: string | null
     createdAt?: Date | string
@@ -46678,6 +47283,15 @@ export namespace Prisma {
     embedding?: NullableBytesFieldUpdateOperationsInput | Uint8Array | null
     aiProcessed?: BoolFieldUpdateOperationsInput | boolean
     aiTagsJson?: NullableJsonNullValueInput | InputJsonValue
+    enhancedTagsJson?: NullableJsonNullValueInput | InputJsonValue
+    tagGenerationMeta?: NullableJsonNullValueInput | InputJsonValue
+    domainClassification?: NullableJsonNullValueInput | InputJsonValue
+    lastTaggedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    tagModelVersion?: NullableStringFieldUpdateOperationsInput | string | null
+    clusteringFeaturesJson?: NullableJsonNullValueInput | InputJsonValue
+    lastFeaturesGeneratedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    featuresVersion?: NullableStringFieldUpdateOperationsInput | string | null
+    featuresQualityScore?: NullableFloatFieldUpdateOperationsInput | number | null
     lineageJson?: NullableJsonNullValueInput | InputJsonValue
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -46715,6 +47329,15 @@ export namespace Prisma {
     embedding?: NullableBytesFieldUpdateOperationsInput | Uint8Array | null
     aiProcessed?: BoolFieldUpdateOperationsInput | boolean
     aiTagsJson?: NullableJsonNullValueInput | InputJsonValue
+    enhancedTagsJson?: NullableJsonNullValueInput | InputJsonValue
+    tagGenerationMeta?: NullableJsonNullValueInput | InputJsonValue
+    domainClassification?: NullableJsonNullValueInput | InputJsonValue
+    lastTaggedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    tagModelVersion?: NullableStringFieldUpdateOperationsInput | string | null
+    clusteringFeaturesJson?: NullableJsonNullValueInput | InputJsonValue
+    lastFeaturesGeneratedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    featuresVersion?: NullableStringFieldUpdateOperationsInput | string | null
+    featuresQualityScore?: NullableFloatFieldUpdateOperationsInput | number | null
     lineageJson?: NullableJsonNullValueInput | InputJsonValue
     createdById?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -46750,6 +47373,15 @@ export namespace Prisma {
     embedding?: NullableBytesFieldUpdateOperationsInput | Uint8Array | null
     aiProcessed?: BoolFieldUpdateOperationsInput | boolean
     aiTagsJson?: NullableJsonNullValueInput | InputJsonValue
+    enhancedTagsJson?: NullableJsonNullValueInput | InputJsonValue
+    tagGenerationMeta?: NullableJsonNullValueInput | InputJsonValue
+    domainClassification?: NullableJsonNullValueInput | InputJsonValue
+    lastTaggedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    tagModelVersion?: NullableStringFieldUpdateOperationsInput | string | null
+    clusteringFeaturesJson?: NullableJsonNullValueInput | InputJsonValue
+    lastFeaturesGeneratedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    featuresVersion?: NullableStringFieldUpdateOperationsInput | string | null
+    featuresQualityScore?: NullableFloatFieldUpdateOperationsInput | number | null
     lineageJson?: NullableJsonNullValueInput | InputJsonValue
     createdById?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -47057,6 +47689,15 @@ export namespace Prisma {
     embedding?: Uint8Array | null
     aiProcessed?: boolean
     aiTagsJson?: NullableJsonNullValueInput | InputJsonValue
+    enhancedTagsJson?: NullableJsonNullValueInput | InputJsonValue
+    tagGenerationMeta?: NullableJsonNullValueInput | InputJsonValue
+    domainClassification?: NullableJsonNullValueInput | InputJsonValue
+    lastTaggedAt?: Date | string | null
+    tagModelVersion?: string | null
+    clusteringFeaturesJson?: NullableJsonNullValueInput | InputJsonValue
+    lastFeaturesGeneratedAt?: Date | string | null
+    featuresVersion?: string | null
+    featuresQualityScore?: number | null
     lineageJson?: NullableJsonNullValueInput | InputJsonValue
     createdById?: string | null
     createdAt?: Date | string
@@ -47135,6 +47776,15 @@ export namespace Prisma {
     embedding?: NullableBytesFieldUpdateOperationsInput | Uint8Array | null
     aiProcessed?: BoolFieldUpdateOperationsInput | boolean
     aiTagsJson?: NullableJsonNullValueInput | InputJsonValue
+    enhancedTagsJson?: NullableJsonNullValueInput | InputJsonValue
+    tagGenerationMeta?: NullableJsonNullValueInput | InputJsonValue
+    domainClassification?: NullableJsonNullValueInput | InputJsonValue
+    lastTaggedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    tagModelVersion?: NullableStringFieldUpdateOperationsInput | string | null
+    clusteringFeaturesJson?: NullableJsonNullValueInput | InputJsonValue
+    lastFeaturesGeneratedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    featuresVersion?: NullableStringFieldUpdateOperationsInput | string | null
+    featuresQualityScore?: NullableFloatFieldUpdateOperationsInput | number | null
     lineageJson?: NullableJsonNullValueInput | InputJsonValue
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -47172,6 +47822,15 @@ export namespace Prisma {
     embedding?: NullableBytesFieldUpdateOperationsInput | Uint8Array | null
     aiProcessed?: BoolFieldUpdateOperationsInput | boolean
     aiTagsJson?: NullableJsonNullValueInput | InputJsonValue
+    enhancedTagsJson?: NullableJsonNullValueInput | InputJsonValue
+    tagGenerationMeta?: NullableJsonNullValueInput | InputJsonValue
+    domainClassification?: NullableJsonNullValueInput | InputJsonValue
+    lastTaggedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    tagModelVersion?: NullableStringFieldUpdateOperationsInput | string | null
+    clusteringFeaturesJson?: NullableJsonNullValueInput | InputJsonValue
+    lastFeaturesGeneratedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    featuresVersion?: NullableStringFieldUpdateOperationsInput | string | null
+    featuresQualityScore?: NullableFloatFieldUpdateOperationsInput | number | null
     lineageJson?: NullableJsonNullValueInput | InputJsonValue
     createdById?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -47207,6 +47866,15 @@ export namespace Prisma {
     embedding?: NullableBytesFieldUpdateOperationsInput | Uint8Array | null
     aiProcessed?: BoolFieldUpdateOperationsInput | boolean
     aiTagsJson?: NullableJsonNullValueInput | InputJsonValue
+    enhancedTagsJson?: NullableJsonNullValueInput | InputJsonValue
+    tagGenerationMeta?: NullableJsonNullValueInput | InputJsonValue
+    domainClassification?: NullableJsonNullValueInput | InputJsonValue
+    lastTaggedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    tagModelVersion?: NullableStringFieldUpdateOperationsInput | string | null
+    clusteringFeaturesJson?: NullableJsonNullValueInput | InputJsonValue
+    lastFeaturesGeneratedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    featuresVersion?: NullableStringFieldUpdateOperationsInput | string | null
+    featuresQualityScore?: NullableFloatFieldUpdateOperationsInput | number | null
     lineageJson?: NullableJsonNullValueInput | InputJsonValue
     createdById?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
