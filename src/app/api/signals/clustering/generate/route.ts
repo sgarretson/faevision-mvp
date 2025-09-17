@@ -422,19 +422,39 @@ export async function GET(request: NextRequest) {
         orderBy: { lastClusteredAt: 'desc' },
       });
     } catch (error: any) {
-      // If clustering columns don't exist, return appropriate message
+      // If clustering columns don't exist, check in-memory cache
       if (
         error.code === 'P2022' &&
         error.message.includes('clusteringResults')
       ) {
         console.log(
-          '⚠️  Hotspot clustering columns missing, no results available'
+          '⚠️  Hotspot clustering columns missing, checking in-memory cache...'
         );
+
+        // Check temporary in-memory cache
+        const tempCache = (global as any).tempClusteringCache;
+        if (tempCache && tempCache['main_hotspot_v2']) {
+          const cachedResult = tempCache['main_hotspot_v2'];
+          console.log('✅ Found cached clustering results in memory');
+
+          return NextResponse.json({
+            success: true,
+            cached: true,
+            fromMemoryCache: true,
+            result: cachedResult.results,
+            cachedAt: cachedResult.timestamp,
+            signalIds: cachedResult.signalIds,
+            message:
+              'Results from memory cache - database schema pending migration',
+          });
+        }
+
         return NextResponse.json({
           success: false,
-          message: 'No clustering results found - schema not ready',
+          message:
+            'No clustering results found - schema not ready and no cached results',
           suggestion:
-            'Run the emergency schema fix API first: POST /api/admin/apply-schema-fix',
+            'Run clustering analysis first: POST /api/signals/clustering/generate',
         });
       } else {
         throw error; // Re-throw if it's a different error
@@ -511,30 +531,71 @@ async function saveClusteringResults(
       console.log('✅ Clustering results saved to database');
     } catch (dbError: any) {
       // If clustering columns don't exist, save basic hotspot without clustering fields
-      if (dbError.code === 'P2022' && dbError.message.includes('clustering')) {
+      if (
+        (dbError.code === 'P2022' && dbError.message.includes('clustering')) ||
+        dbError.message.includes('clusteringResults') ||
+        dbError.message.includes('lastClusteredAt') ||
+        dbError.message.includes('clusteringVersion') ||
+        dbError.message.includes('clusteringQualityScore') ||
+        dbError.message.includes('Invalid `prisma.hotspot.upsert()` invocation')
+      ) {
         console.log(
           '⚠️  Hotspot clustering columns missing, saving basic hotspot...'
         );
-        await (prisma as any).hotspot.upsert({
-          where: {
-            id: 'main_hotspot_v2',
-          },
-          create: {
-            id: 'main_hotspot_v2',
-            title: 'Executive Intelligence Clusters',
-            description: `${result.outputClusterCount} actionable business intelligence clusters`,
-            signalIds: signalIds,
-            createdAt: new Date(),
-          },
-          update: {
-            signalIds: signalIds,
-            description: `${result.outputClusterCount} actionable business intelligence clusters`,
-            updatedAt: new Date(),
-          },
-        });
         console.log(
-          '✅ Basic hotspot saved (clustering fields will be added after schema migration)'
+          '💡 Clustering results will be temporarily stored in memory for API responses'
         );
+
+        try {
+          await (prisma as any).hotspot.upsert({
+            where: {
+              id: 'main_hotspot_v2',
+            },
+            create: {
+              id: 'main_hotspot_v2',
+              title: 'Executive Intelligence Clusters',
+              description: `${result.outputClusterCount} actionable business intelligence clusters`,
+              signalIds: signalIds,
+              createdAt: new Date(),
+            },
+            update: {
+              signalIds: signalIds,
+              description: `${result.outputClusterCount} actionable business intelligence clusters`,
+              updatedAt: new Date(),
+            },
+          });
+          console.log(
+            '✅ Basic hotspot saved (clustering fields will be added after schema migration)'
+          );
+
+          // Store clustering results in a temporary in-memory cache for this session
+          // This allows the API to return results even without schema columns
+          if (!(global as any).tempClusteringCache) {
+            (global as any).tempClusteringCache = {};
+          }
+          (global as any).tempClusteringCache['main_hotspot_v2'] = {
+            results: result,
+            timestamp: new Date(),
+            signalIds: signalIds,
+          };
+          console.log(
+            '💾 Clustering results cached in memory for API responses'
+          );
+        } catch (basicError: any) {
+          console.error('❌ Failed to save even basic hotspot:', basicError);
+          // If we can't save anything to the database, still store in memory
+          if (!(global as any).tempClusteringCache) {
+            (global as any).tempClusteringCache = {};
+          }
+          (global as any).tempClusteringCache['main_hotspot_v2'] = {
+            results: result,
+            timestamp: new Date(),
+            signalIds: signalIds,
+          };
+          console.log(
+            '💾 Clustering results cached in memory only (database unavailable)'
+          );
+        }
       } else {
         throw dbError; // Re-throw if it's a different error
       }
