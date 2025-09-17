@@ -8,7 +8,7 @@
 import { PrismaClient } from '../src/generated/prisma';
 import * as fs from 'fs';
 import * as path from 'path';
-import * as csv from 'csv-parser';
+import csv from 'csv-parser';
 
 // Load environment variables from .env.preview
 function loadPreviewEnv() {
@@ -292,9 +292,15 @@ async function importCsvFile(filePath: string) {
                 CRITICAL: 4,
               };
 
+              // Generate unique inputId
+              const inputId = `CSV-${Date.now()}-${Math.random().toString(36).substr(2, 9)}`;
+
               // Create signal
               const signal = await (prisma as any).signal.create({
                 data: {
+                  // Required field
+                  inputId: inputId,
+
                   // Core content
                   title: row.title,
                   description: row.description,
