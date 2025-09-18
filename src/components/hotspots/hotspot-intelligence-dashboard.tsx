@@ -158,21 +158,69 @@ export function HotspotIntelligenceDashboard() {
               const rootCauseBreakdown =
                 c.rootCauseBreakdown || c.rootCauses || [];
 
-              const recommendedActions: string[] =
-                c.recommendedActions || c.recommendations || [];
+              // Normalize or synthesize recommended actions
+              let recommendedActions: string[] = [];
+              const rawRecs =
+                c.recommendedActions ||
+                c.recommendations ||
+                c.actionRecommendations ||
+                [];
+              if (Array.isArray(rawRecs)) {
+                recommendedActions = rawRecs.filter(
+                  (r: any) => typeof r === 'string' && r.trim().length > 0
+                );
+              } else if (
+                typeof rawRecs === 'string' &&
+                rawRecs.trim().length > 0
+              ) {
+                recommendedActions = [rawRecs];
+              }
+              if (recommendedActions.length === 0) {
+                const deptList: string[] = (c.affectedDepartments ||
+                  c.departmentsInvolved ||
+                  []) as string[];
+                const mainDept = deptList[0] || 'Executive';
+                const typeHint =
+                  `${name} ${c.businessProblemType || ''}`.toLowerCase();
+                const isTech = /tech|software|cad|bim|system|it/.test(typeHint);
+                const isProcess = /process|workflow|procedure/.test(typeHint);
+                const defaults: string[] = [];
+                if (isTech) {
+                  defaults.push('Open a technology remediation task with IT');
+                  defaults.push('Review system configuration and access');
+                }
+                if (isProcess) {
+                  defaults.push('Map current workflow and remove bottlenecks');
+                  defaults.push(`Assign ${mainDept} owner for process fix`);
+                }
+                if (defaults.length === 0) {
+                  defaults.push('Review affected processes');
+                  defaults.push('Assign responsible team');
+                }
+                recommendedActions = defaults;
+              }
 
               // Associated signals if provided by backend
               const signals: { id: string; title?: string }[] = Array.isArray(
                 c.signals
               )
                 ? c.signals
-                    .map((s: any) => ({
-                      id: s.id || s.signalId || s.signal?.id,
-                      title: s.title || s.signal?.title,
-                    }))
+                    .map((s: any) => {
+                      if (typeof s === 'string') return { id: s };
+                      return {
+                        id: s?.id || s?.signalId || s?.signal?.id,
+                        title: s?.title || s?.signal?.title,
+                      };
+                    })
                     .filter((s: any) => !!s.id)
                 : Array.isArray(c.signalIds)
-                  ? c.signalIds.map((sid: string) => ({ id: sid }))
+                  ? c.signalIds
+                      .map((sid: any) =>
+                        typeof sid === 'string'
+                          ? { id: sid }
+                          : { id: sid?.id || '' }
+                      )
+                      .filter((s: any) => !!s.id)
                   : [];
 
               const businessImpact = {
@@ -852,11 +900,14 @@ function ClusterIntelligenceCard({
                 Associated Signals
               </div>
               <ul className="list-disc space-y-1 pl-5 text-sm text-gray-600">
-                {cluster.signals.slice(0, 5).map(sig => (
-                  <li key={`${cluster.id}-sig-${sig.id}`}>
-                    {sig.title || sig.id}
-                  </li>
-                ))}
+                {cluster.signals.slice(0, 5).map(sig => {
+                  const label = sig.title || sig.id;
+                  return (
+                    <li key={`${cluster.id}-sig-${sig.id}`} title={label}>
+                      {label}
+                    </li>
+                  );
+                })}
                 {cluster.signals.length > 5 && (
                   <li className="text-gray-500">
                     +{cluster.signals.length - 5} more
