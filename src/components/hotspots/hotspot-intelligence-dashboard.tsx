@@ -162,11 +162,18 @@ export function HotspotIntelligenceDashboard() {
                 c.recommendedActions || c.recommendations || [];
 
               // Associated signals if provided by backend
-              const signals: { id: string; title?: string }[] =
-                c.signals ||
-                (Array.isArray(c.signalIds)
+              const signals: { id: string; title?: string }[] = Array.isArray(
+                c.signals
+              )
+                ? c.signals
+                    .map((s: any) => ({
+                      id: s.id || s.signalId || s.signal?.id,
+                      title: s.title || s.signal?.title,
+                    }))
+                    .filter((s: any) => !!s.id)
+                : Array.isArray(c.signalIds)
                   ? c.signalIds.map((sid: string) => ({ id: sid }))
-                  : []);
+                  : [];
 
               const businessImpact = {
                 costImpact:
