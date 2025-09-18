@@ -137,6 +137,9 @@ export function AIInsightsPanel({
 
   useEffect(() => {
     loadInsights();
+    const handler = () => loadInsights();
+    window.addEventListener('fae:refresh-insights', handler);
+    return () => window.removeEventListener('fae:refresh-insights', handler);
   }, [loadInsights]);
 
   const handleInsightOverride = async (insightId: string, reason: string) => {

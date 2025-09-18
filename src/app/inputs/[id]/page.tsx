@@ -356,6 +356,35 @@ export default function InputDetailPage() {
         </Card>
 
         {/* AI Insights Panel */}
+        <div className="mb-4 flex justify-end">
+          <Button
+            onClick={async () => {
+              try {
+                await fetch(`/api/signals/${input.id}/generate-tags`, {
+                  method: 'POST',
+                  headers: { 'Content-Type': 'application/json' },
+                  body: JSON.stringify({ forceRegenerate: true }),
+                });
+                await fetch(`/api/signals/${input.id}/generate-features`, {
+                  method: 'POST',
+                  headers: { 'Content-Type': 'application/json' },
+                  body: JSON.stringify({ forceRegenerate: true }),
+                });
+                // Soft reload of insights by dispatching a custom event the panel listens to
+                window.dispatchEvent(new CustomEvent('fae:refresh-insights'));
+              } catch (e) {
+                console.error(
+                  'Failed to run AI analysis for signal',
+                  input.id,
+                  e
+                );
+              }
+            }}
+            variant="default"
+          >
+            Run AI Analysis
+          </Button>
+        </div>
         <AIInsightsPanel
           entityType="signal"
           entityId={input.id}
