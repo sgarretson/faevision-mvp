@@ -307,10 +307,18 @@ export function IdeasDashboard() {
               </select>
             </div>
 
-            <Button className="w-full lg:w-auto">
-              <Plus className="mr-2 h-4 w-4" />
-              Generate AI Ideas
-            </Button>
+            <div className="flex gap-2">
+              <Link href="/ideas/create">
+                <Button variant="outline" className="w-full lg:w-auto">
+                  <Lightbulb className="mr-2 h-4 w-4" />
+                  Create Manual Idea
+                </Button>
+              </Link>
+              <Button className="w-full lg:w-auto">
+                <Plus className="mr-2 h-4 w-4" />
+                Generate AI Ideas
+              </Button>
+            </div>
           </div>
         </CardContent>
       </Card>
@@ -338,10 +346,16 @@ export function IdeasDashboard() {
                     Ideas will appear here as they're generated from hotspots or
                     created by your team.
                   </p>
-                  <div className="mt-6">
-                    <Button>
+                  <div className="mt-6 flex flex-col gap-2 sm:flex-row">
+                    <Link href="/ideas/create">
+                      <Button variant="outline" className="w-full sm:w-auto">
+                        <Lightbulb className="mr-2 h-4 w-4" />
+                        Create Manual Idea
+                      </Button>
+                    </Link>
+                    <Button className="w-full sm:w-auto">
                       <Plus className="mr-2 h-4 w-4" />
-                      Create First Idea
+                      Generate AI Ideas
                     </Button>
                   </div>
                 </div>

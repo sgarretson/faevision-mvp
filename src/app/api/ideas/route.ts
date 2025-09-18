@@ -160,33 +160,77 @@ export async function POST(request: NextRequest) {
     }
 
     const body = await request.json();
-    const { hotspotId, title, description, origin = 'human' } = body;
+    const {
+      hotspotId,
+      title,
+      description,
+      origin = 'human',
+      evidenceJson,
+      tagsJson,
+      createdBy,
+    } = body;
 
     // Validate required fields
-    if (!hotspotId || !description) {
+    if (!title || !description) {
       return NextResponse.json(
-        { error: 'Hotspot ID and description are required' },
+        { error: 'Title and description are required' },
         { status: 400 }
       );
     }
 
-    // Verify hotspot exists
-    const hotspot = await (prisma as any).hotspot?.findUnique({
-      where: { id: hotspotId },
-    });
+    // For manual ideas, hotspotId is optional
+    // For bulk creation from inputs, hotspotId is required
+    let hotspot = null;
+    let finalHotspotId = hotspotId;
 
-    if (!hotspot) {
-      return NextResponse.json({ error: 'Hotspot not found' }, { status: 404 });
+    if (hotspotId) {
+      // Verify hotspot exists
+      hotspot = await (prisma as any).hotspot?.findUnique({
+        where: { id: hotspotId },
+      });
+
+      if (!hotspot) {
+        return NextResponse.json(
+          { error: 'Hotspot not found' },
+          { status: 404 }
+        );
+      }
+    } else if (origin === 'human') {
+      // For manual ideas, create or find a general hotspot
+      const generalHotspot = await (prisma as any).hotspot?.findFirst({
+        where: { id: 'manual_ideas_hotspot' },
+      });
+
+      if (generalHotspot) {
+        finalHotspotId = generalHotspot.id;
+      } else {
+        // Create a general hotspot for manual ideas
+        hotspot = await (prisma as any).hotspot?.create({
+          data: {
+            id: 'manual_ideas_hotspot',
+            title: 'Manual Strategic Ideas',
+            summary:
+              'Collection of manually created strategic ideas from executives',
+            status: 'OPEN',
+            confidence: 1.0,
+            rankScore: 0.5,
+          },
+        });
+        finalHotspotId = hotspot.id;
+      }
     }
 
     // Create the idea
     const idea = await (prisma as any).idea.create({
       data: {
-        hotspotId,
-        title: title || `Idea for: ${hotspot.title}`,
+        hotspotId: finalHotspotId,
+        title,
         description,
         origin,
-        createdById: session.user.id,
+        evidenceJson,
+        tagsJson,
+        confidence: origin === 'human' ? 1.0 : undefined,
+        createdById: createdBy || session.user.id,
         status: 'draft',
         votes: 0,
       },
