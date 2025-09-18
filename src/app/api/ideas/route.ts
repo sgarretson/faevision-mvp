@@ -35,7 +35,7 @@ export async function GET(request: NextRequest) {
 
     // Fetch ideas with hotspot and creator info
     const [ideas, totalCount] = await Promise.all([
-      (prisma as any).idea?.findMany({
+      (prisma as any).ideas?.findMany({
         where,
         include: {
           hotspot: {
@@ -68,7 +68,7 @@ export async function GET(request: NextRequest) {
         take: limit,
         skip: offset,
       }) || [],
-      (prisma as any).idea?.count({ where }) || 0,
+      (prisma as any).ideas?.count({ where }) || 0,
     ]);
 
     console.log('🔍 Ideas API - Query results:', {

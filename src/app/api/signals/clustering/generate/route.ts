@@ -66,7 +66,7 @@ export async function POST(request: NextRequest) {
     // Try to query with clustering features first, fallback to all signals if column doesn't exist
     let signals: any[] = [];
     try {
-      signals = await (prisma as any).signal.findMany({
+      signals = await (prisma as any).signals.findMany({
         where: {
           ...whereClause,
           clusteringFeaturesJson: { not: null }, // Only signals with features
@@ -87,7 +87,7 @@ export async function POST(request: NextRequest) {
         console.log(
           '⚠️  Clustering features column missing, using basic signal data...'
         );
-        signals = await (prisma as any).signal.findMany({
+        signals = await (prisma as any).signals.findMany({
           where: whereClause,
           select: {
             id: true,
@@ -137,7 +137,7 @@ export async function POST(request: NextRequest) {
       console.log(
         '⚠️  No signals with pre-generated clustering features, loading all signals for on-the-fly processing...'
       );
-      signals = await (prisma as any).signal.findMany({
+      signals = await (prisma as any).signals.findMany({
         where: whereClause,
         include: {
           department: true,
@@ -219,7 +219,7 @@ export async function POST(request: NextRequest) {
     if (!validatedRequest.forceRegenerate) {
       let existingClustering: any = null;
       try {
-        existingClustering = await (prisma as any).hotspot.findFirst({
+        existingClustering = await (prisma as any).hotspots.findFirst({
           where: {
             clusteringResults: { not: null },
             // Add timestamp check here for recent clustering
@@ -410,7 +410,7 @@ export async function GET(request: NextRequest) {
     // Get latest clustering results with schema resilience
     let latestClustering: any = null;
     try {
-      latestClustering = await (prisma as any).hotspot.findFirst({
+      latestClustering = await (prisma as any).hotspots.findFirst({
         where: {
           clusteringResults: { not: null },
         },
@@ -470,7 +470,7 @@ export async function GET(request: NextRequest) {
       );
 
       try {
-        const hotspotsWithSignals = await (prisma as any).hotspot.findMany({
+        const hotspotsWithSignals = await (prisma as any).hotspots.findMany({
           include: {
             signals: {
               include: {
