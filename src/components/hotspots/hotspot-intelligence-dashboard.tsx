@@ -877,8 +877,14 @@ function ClusterIntelligenceCard({
                 const isTemp =
                   typeof cluster.id === 'string' &&
                   cluster.id.startsWith('temp-');
-                if (cluster.id && !isTemp && typeof window !== 'undefined') {
-                  window.location.href = `/hotspots/${cluster.id}`;
+                const globalHotspotId =
+                  typeof window !== 'undefined'
+                    ? (window as any).__currentHotspotId
+                    : undefined;
+                const targetId =
+                  !isTemp && cluster.id ? cluster.id : globalHotspotId;
+                if (targetId && typeof window !== 'undefined') {
+                  window.location.href = `/hotspots/${targetId}`;
                 } else {
                   // Fallback: expand the card if no routable id
                   onSelect();
