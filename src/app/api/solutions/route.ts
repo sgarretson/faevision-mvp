@@ -143,6 +143,7 @@ export async function POST(request: NextRequest) {
       description,
       hotspotId,
       inputId,
+      inputIds, // Support both inputId and inputIds from different forms
       initiativeId,
       estimatedEffort,
       businessValue,
@@ -150,8 +151,21 @@ export async function POST(request: NextRequest) {
       successMetrics,
       expectedImpactJson,
       priority = 'MEDIUM',
+      impact, // From form
+      estimatedHours, // From form
       createdBy,
     } = body;
+
+    // Handle both single inputId and multiple inputIds from form
+    const primaryInputId =
+      inputId || (inputIds && inputIds.length > 0 ? inputIds[0] : null);
+
+    // Map form fields to API fields
+    const mappedEstimatedEffort =
+      estimatedEffort ||
+      (estimatedHours ? `${estimatedHours} hours` : priority);
+    const mappedBusinessValue =
+      businessValue || (impact ? `${impact} impact expected` : 'TBD');
 
     // Validation
     if (!title || !description) {
@@ -197,10 +211,10 @@ export async function POST(request: NextRequest) {
         status: 'DRAFT',
         progress: 0.0,
         hotspotId,
-        inputId,
+        inputId: primaryInputId,
         initiativeId,
-        estimatedEffort,
-        businessValue,
+        estimatedEffort: mappedEstimatedEffort,
+        businessValue: mappedBusinessValue,
         successMetrics,
         expectedImpactJson,
         targetDate: targetDate ? new Date(targetDate) : null,
@@ -241,7 +255,7 @@ export async function POST(request: NextRequest) {
           },
         });
 
-        if (hotspot && hotspot.signals) {
+        if (hotspot?.signals) {
           aiSuggestions = await generateSolutionSuggestions(
             hotspot.summary,
             hotspot.signals.map((hs: any) => hs.signal)

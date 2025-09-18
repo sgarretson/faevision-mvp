@@ -5,6 +5,7 @@ import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { z } from 'zod';
 import { useRouter, useSearchParams } from 'next/navigation';
+import { useSession } from 'next-auth/react';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Textarea } from '@/components/ui/textarea';
@@ -38,7 +39,7 @@ const solutionSchema = z.object({
 type SolutionFormData = z.infer<typeof solutionSchema>;
 
 interface SolutionFormProps {
-  onSuccess?: () => void;
+  readonly onSuccess?: () => void;
 }
 
 interface InputOption {
@@ -50,6 +51,7 @@ interface InputOption {
 }
 
 export function SolutionForm({ onSuccess }: SolutionFormProps) {
+  const { data: session, status } = useSession();
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
   const [success, setSuccess] = useState(false);
@@ -140,6 +142,12 @@ export function SolutionForm({ onSuccess }: SolutionFormProps) {
       setIsLoading(true);
       setError(null);
 
+      // Check if user is authenticated
+      if (!session?.user?.id) {
+        setError('You must be logged in to create a solution');
+        return;
+      }
+
       const response = await fetch('/api/solutions', {
         method: 'POST',
         headers: {
@@ -148,6 +156,7 @@ export function SolutionForm({ onSuccess }: SolutionFormProps) {
         body: JSON.stringify({
           ...data,
           inputIds: selectedInputs.map(i => i.id),
+          createdBy: session.user.id,
         }),
       });
 
@@ -172,6 +181,36 @@ export function SolutionForm({ onSuccess }: SolutionFormProps) {
       setIsLoading(false);
     }
   };
+
+  // Handle authentication states
+  if (status === 'loading') {
+    return (
+      <Card className="mx-auto w-full max-w-2xl">
+        <CardContent className="pt-6">
+          <div className="py-12 text-center">
+            <Loader2 className="mx-auto h-8 w-8 animate-spin text-blue-600" />
+            <p className="mt-4 text-gray-600">Loading...</p>
+          </div>
+        </CardContent>
+      </Card>
+    );
+  }
+
+  if (status === 'unauthenticated') {
+    return (
+      <Card className="mx-auto w-full max-w-2xl">
+        <CardContent className="pt-6">
+          <Alert variant="destructive">
+            <AlertCircle className="h-4 w-4" />
+            <AlertDescription>
+              You must be logged in to create solutions. Please sign in to
+              continue.
+            </AlertDescription>
+          </Alert>
+        </CardContent>
+      </Card>
+    );
+  }
 
   if (success) {
     return (
@@ -345,10 +384,14 @@ export function SolutionForm({ onSuccess }: SolutionFormProps) {
             <div className="grid grid-cols-1 gap-4 md:grid-cols-2">
               {/* Priority */}
               <div className="space-y-2">
-                <label className="text-sm font-medium text-gray-700">
+                <label
+                  htmlFor="priority"
+                  className="text-sm font-medium text-gray-700"
+                >
                   Priority Level
                 </label>
                 <select
+                  id="priority"
                   value={watchedPriority}
                   onChange={e =>
                     setValue(
@@ -370,10 +413,14 @@ export function SolutionForm({ onSuccess }: SolutionFormProps) {
 
               {/* Impact */}
               <div className="space-y-2">
-                <label className="text-sm font-medium text-gray-700">
+                <label
+                  htmlFor="impact"
+                  className="text-sm font-medium text-gray-700"
+                >
                   Expected Impact
                 </label>
                 <select
+                  id="impact"
                   value={watchedImpact}
                   onChange={e =>
                     setValue(
