@@ -240,7 +240,10 @@ export function IdeasDashboard() {
               <TrendingUp className="h-8 w-8 text-green-600" />
               <div className="ml-4">
                 <p className="text-2xl font-bold">
-                  {ideas.filter(i => i.status === 'approved').length}
+                  {
+                    ideas.filter((i: any) => i && i.status === 'approved')
+                      .length
+                  }
                 </p>
                 <p className="text-sm text-gray-600">Approved</p>
               </div>
@@ -254,7 +257,7 @@ export function IdeasDashboard() {
               <Clock className="h-8 w-8 text-yellow-600" />
               <div className="ml-4">
                 <p className="text-2xl font-bold">
-                  {ideas.filter(i => i.status === 'review').length}
+                  {ideas.filter((i: any) => i && i.status === 'review').length}
                 </p>
                 <p className="text-sm text-gray-600">In Review</p>
               </div>
@@ -268,7 +271,7 @@ export function IdeasDashboard() {
               <Lightbulb className="h-8 w-8 text-blue-600" />
               <div className="ml-4">
                 <p className="text-2xl font-bold">
-                  {ideas.filter(i => i.origin === 'ai').length}
+                  {ideas.filter((i: any) => i && i.origin === 'ai').length}
                 </p>
                 <p className="text-sm text-gray-600">AI Generated</p>
               </div>
@@ -362,91 +365,113 @@ export function IdeasDashboard() {
               </CardContent>
             </Card>
           ) : (
-            ideas.map(idea => (
-              <Card key={idea.id} className="transition-shadow hover:shadow-md">
-                <CardContent className="pt-6">
-                  <div className="flex flex-col lg:flex-row lg:items-start lg:justify-between">
-                    <div className="flex-1">
-                      {/* Header */}
-                      <div className="flex items-start justify-between">
-                        <div className="flex-1">
-                          <h3 className="text-lg font-semibold text-gray-900">
-                            {idea.title || 'Untitled Idea'}
-                          </h3>
-                          <p className="mt-1 line-clamp-2 text-sm text-gray-600">
-                            {idea.description}
-                          </p>
+            ideas
+              .filter(
+                (idea: any) => idea && typeof idea === 'object' && idea.id
+              )
+              .map((idea: any) => (
+                <Card
+                  key={idea.id}
+                  className="transition-shadow hover:shadow-md"
+                >
+                  <CardContent className="pt-6">
+                    <div className="flex flex-col lg:flex-row lg:items-start lg:justify-between">
+                      <div className="flex-1">
+                        {/* Header */}
+                        <div className="flex items-start justify-between">
+                          <div className="flex-1">
+                            <h3 className="text-lg font-semibold text-gray-900">
+                              {idea.title || 'Untitled Idea'}
+                            </h3>
+                            <p className="mt-1 line-clamp-2 text-sm text-gray-600">
+                              {idea.description || 'No description provided'}
+                            </p>
+                          </div>
                         </div>
-                      </div>
 
-                      {/* Origin Hotspot */}
-                      <div className="mt-4 flex items-center space-x-2 text-sm">
-                        <Zap className="h-4 w-4 text-purple-600" />
-                        <span className="text-gray-600">From hotspot:</span>
-                        <Badge variant="outline" className="font-medium">
-                          {idea.hotspot.title}
-                        </Badge>
-                        <span className="text-gray-400">
-                          ({idea.hotspot._count.signals} signals)
-                        </span>
-                      </div>
+                        {/* Origin Hotspot */}
+                        {idea.hotspot && (
+                          <div className="mt-4 flex items-center space-x-2 text-sm">
+                            <Zap className="h-4 w-4 text-purple-600" />
+                            <span className="text-gray-600">From hotspot:</span>
+                            <Badge variant="outline" className="font-medium">
+                              {idea.hotspot.title || 'Unknown Hotspot'}
+                            </Badge>
+                            <span className="text-gray-400">
+                              ({idea.hotspot._count?.signals || 0} signals)
+                            </span>
+                          </div>
+                        )}
 
-                      {/* Badges */}
-                      <div className="mt-4 flex flex-wrap gap-2">
-                        <Badge
-                          className={
-                            STATUS_COLORS[
-                              idea.status as keyof typeof STATUS_COLORS
-                            ]
-                          }
-                        >
-                          {idea.status}
-                        </Badge>
-                        <Badge className={ORIGIN_COLORS[idea.origin]}>
-                          {ORIGIN_ICONS[idea.origin]} {idea.origin}
-                        </Badge>
-                        {idea.confidence && (
-                          <Badge variant="outline">
-                            {Math.round(idea.confidence * 100)}% confidence
+                        {/* Badges */}
+                        <div className="mt-4 flex flex-wrap gap-2">
+                          <Badge
+                            className={
+                              STATUS_COLORS[
+                                (idea.status as keyof typeof STATUS_COLORS) ||
+                                  'draft'
+                              ] || 'bg-gray-100 text-gray-800'
+                            }
+                          >
+                            {idea.status || 'draft'}
                           </Badge>
-                        )}
+                          <Badge
+                            className={
+                              ORIGIN_COLORS[
+                                idea.origin as keyof typeof ORIGIN_COLORS
+                              ] || 'bg-gray-100 text-gray-800'
+                            }
+                          >
+                            {ORIGIN_ICONS[
+                              idea.origin as keyof typeof ORIGIN_ICONS
+                            ] || '🔹'}{' '}
+                            {idea.origin || 'unknown'}
+                          </Badge>
+                          {idea.confidence &&
+                            typeof idea.confidence === 'number' && (
+                              <Badge variant="outline">
+                                {Math.round(idea.confidence * 100)}% confidence
+                              </Badge>
+                            )}
+                        </div>
+
+                        {/* Meta Info */}
+                        <div className="mt-4 flex items-center space-x-4 text-sm text-gray-500">
+                          {idea.createdBy?.name && (
+                            <span>By {idea.createdBy.name}</span>
+                          )}
+                          {idea.createdAt && (
+                            <span>{formatDate(idea.createdAt)}</span>
+                          )}
+                        </div>
                       </div>
 
-                      {/* Meta Info */}
-                      <div className="mt-4 flex items-center space-x-4 text-sm text-gray-500">
-                        {idea.createdBy && (
-                          <span>By {idea.createdBy.name}</span>
-                        )}
-                        <span>{formatDate(idea.createdAt)}</span>
+                      {/* Actions & Stats */}
+                      <div className="mt-4 flex items-center space-x-4 lg:ml-6 lg:mt-0">
+                        {/* Vote Stats */}
+                        <div className="flex items-center space-x-2 text-sm">
+                          <div className="flex items-center space-x-1">
+                            <TrendingUp className="h-4 w-4 text-green-600" />
+                            <span>{idea._count?.upVotes || 0}</span>
+                          </div>
+                          <div className="flex items-center space-x-1">
+                            <Users className="h-4 w-4 text-gray-400" />
+                            <span>{idea._count?.comments || 0}</span>
+                          </div>
+                        </div>
+
+                        {/* Action Button */}
+                        <Link href={`/ideas/${idea.id}`}>
+                          <Button variant="outline" size="sm">
+                            View Details
+                            <ArrowRight className="ml-2 h-4 w-4" />
+                          </Button>
+                        </Link>
                       </div>
                     </div>
-
-                    {/* Actions & Stats */}
-                    <div className="mt-4 flex items-center space-x-4 lg:ml-6 lg:mt-0">
-                      {/* Vote Stats */}
-                      <div className="flex items-center space-x-2 text-sm">
-                        <div className="flex items-center space-x-1">
-                          <TrendingUp className="h-4 w-4 text-green-600" />
-                          <span>{idea._count.upVotes}</span>
-                        </div>
-                        <div className="flex items-center space-x-1">
-                          <Users className="h-4 w-4 text-gray-400" />
-                          <span>{idea._count.comments}</span>
-                        </div>
-                      </div>
-
-                      {/* Action Button */}
-                      <Link href={`/ideas/${idea.id}`}>
-                        <Button variant="outline" size="sm">
-                          View Details
-                          <ArrowRight className="ml-2 h-4 w-4" />
-                        </Button>
-                      </Link>
-                    </div>
-                  </div>
-                </CardContent>
-              </Card>
-            ))
+                  </CardContent>
+                </Card>
+              ))
           )}
         </div>
       )}
