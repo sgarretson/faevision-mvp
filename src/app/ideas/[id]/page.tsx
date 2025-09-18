@@ -8,6 +8,7 @@ import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
 import { Textarea } from '@/components/ui/textarea';
+import { ErrorBoundary } from '@/components/ui/error-boundary';
 import {
   ArrowLeft,
   MessageSquare,
@@ -94,7 +95,7 @@ const ORIGIN_ICONS = {
   hybrid: '🧠',
 };
 
-export default function IdeaDetailPage() {
+function IdeaDetailPageComponent() {
   const { status } = useSession();
   const params = useParams();
   const ideaId = params.id as string;
@@ -546,5 +547,32 @@ export default function IdeaDetailPage() {
         </Card>
       </div>
     </div>
+  );
+}
+
+/**
+ * Error-Boundary Wrapped Ideas Detail Page
+ * **ALEX THOMPSON + MAYA RODRIGUEZ**: Executive-grade error handling
+ */
+export default function IdeaDetailPage() {
+  return (
+    <ErrorBoundary
+      onError={(error, errorInfo) => {
+        // Log to monitoring service
+        console.error('Ideas Detail Page Error:', error, errorInfo);
+
+        // Could send to Sentry or similar service
+        if (process.env.NODE_ENV === 'production') {
+          // Analytics tracking for production errors
+          console.error('Production Ideas error:', {
+            page: 'idea-detail',
+            error: error.message,
+            stack: error.stack,
+          });
+        }
+      }}
+    >
+      <IdeaDetailPageComponent />
+    </ErrorBoundary>
   );
 }

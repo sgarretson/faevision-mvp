@@ -17,6 +17,7 @@ import Link from 'next/link';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
+import { ErrorBoundary } from '@/components/ui/error-boundary';
 import { Textarea } from '@/components/ui/textarea';
 import { Alert, AlertDescription } from '@/components/ui/alert';
 import {
@@ -137,7 +138,7 @@ const RISK_COLORS = {
   CRITICAL: 'bg-red-100 text-red-800',
 };
 
-export default function SolutionDetailPage() {
+function SolutionDetailPageComponent() {
   const { data: session, status } = useSession();
   const params = useParams();
   const router = useRouter();
@@ -511,10 +512,13 @@ export default function SolutionDetailPage() {
                         <div className="flex items-start justify-between">
                           <div className="flex-1">
                             <h4 className="font-semibold text-gray-900">
-                              Initiative: {solution.initiative.name}
+                              Initiative:{' '}
+                              {solution.initiative?.name ||
+                                'No Initiative Assigned'}
                             </h4>
                             <p className="mt-1 text-sm text-gray-600">
-                              {solution.initiative.description}
+                              {solution.initiative?.description ||
+                                'No description available'}
                             </p>
                           </div>
                           <Button variant="outline" size="sm">
@@ -861,10 +865,12 @@ export default function SolutionDetailPage() {
                             <div className="flex-1">
                               <div className="flex items-center space-x-2 text-sm">
                                 <span className="font-medium text-gray-900">
-                                  {comment.creator.name}
+                                  {comment.creator?.name ||
+                                    comment.creator?.email ||
+                                    'Unknown User'}
                                 </span>
                                 <Badge variant="outline" className="text-xs">
-                                  {comment.creator.role}
+                                  {comment.creator?.role || 'User'}
                                 </Badge>
                                 <span className="text-gray-500">•</span>
                                 <span className="text-gray-600">
@@ -921,11 +927,13 @@ export default function SolutionDetailPage() {
                     </h4>
                     <div className="mt-1">
                       <p className="text-sm text-gray-900">
-                        {solution.creator.name}
+                        {solution.creator?.name ||
+                          solution.creator?.email ||
+                          'Unknown Creator'}
                       </p>
                       <p className="text-xs text-gray-600">
-                        {solution.creator.role}
-                        {solution.creator.department &&
+                        {solution.creator?.role || 'User'}
+                        {solution.creator?.department &&
                           ` • ${solution.creator.department}`}
                       </p>
                     </div>
@@ -974,5 +982,32 @@ export default function SolutionDetailPage() {
         </div>
       </div>
     </div>
+  );
+}
+
+/**
+ * Error-Boundary Wrapped Solution Detail Page
+ * **ALEX THOMPSON + MAYA RODRIGUEZ**: Executive-grade error handling
+ */
+export default function SolutionDetailPage() {
+  return (
+    <ErrorBoundary
+      onError={(error, errorInfo) => {
+        // Log to monitoring service
+        console.error('Solutions Detail Page Error:', error, errorInfo);
+
+        // Could send to Sentry or similar service
+        if (process.env.NODE_ENV === 'production') {
+          // Analytics tracking for production errors
+          console.error('Production Solutions error:', {
+            page: 'solution-detail',
+            error: error.message,
+            stack: error.stack,
+          });
+        }
+      }}
+    >
+      <SolutionDetailPageComponent />
+    </ErrorBoundary>
   );
 }
