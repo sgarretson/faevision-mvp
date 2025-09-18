@@ -68,8 +68,34 @@ export function AIInsightsPanel({
 }: AIInsightsPanelProps) {
   const [insights, setInsights] = useState<AIInsight[]>(initialInsights || []);
   const [loading, setLoading] = useState(false);
+  const [processing, setProcessing] = useState(false);
   const [expanded, setExpanded] = useState(false);
   const [overrideMode, setOverrideMode] = useState<string | null>(null);
+
+  // Sequentially process tagging and feature generation for signals
+  const processSignalForAI = useCallback(async () => {
+    if (entityType !== 'signal') return;
+    try {
+      setProcessing(true);
+      // 1) Enhanced tagging
+      await fetch(`/api/signals/${entityId}/generate-tags`, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ forceRegenerate: false }),
+      });
+
+      // 2) Feature generation for clustering
+      await fetch(`/api/signals/${entityId}/generate-features`, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ forceRegenerate: false }),
+      });
+    } catch (err) {
+      console.error('AI processing pipeline failed:', err);
+    } finally {
+      setProcessing(false);
+    }
+  }, [entityType, entityId]);
 
   const loadInsights = useCallback(async () => {
     if (initialInsights && initialInsights.length > 0) return;
@@ -83,13 +109,31 @@ export function AIInsightsPanel({
       if (response.ok) {
         const data = await response.json();
         setInsights(data.insights || []);
+
+        // If the signal hasn't been processed yet, trigger processing automatically
+        if (
+          entityType === 'signal' &&
+          data?.metadata &&
+          (data.metadata.aiProcessed === false ||
+            (data.insights || []).length === 0)
+        ) {
+          await processSignalForAI();
+          // Re-fetch insights after processing
+          const refetch = await fetch(
+            `/api/${entityType}s/${entityId}/ai-insights`
+          );
+          if (refetch.ok) {
+            const refreshed = await refetch.json();
+            setInsights(refreshed.insights || []);
+          }
+        }
       }
     } catch (error) {
       console.error('Failed to load AI insights:', error);
     } finally {
       setLoading(false);
     }
-  }, [entityType, entityId, initialInsights]);
+  }, [entityType, entityId, initialInsights, processSignalForAI]);
 
   useEffect(() => {
     loadInsights();
@@ -221,7 +265,20 @@ export function AIInsightsPanel({
       {loading && insights.length === 0 ? (
         <AIInsightsSkeleton />
       ) : insights.length === 0 ? (
-        <EmptyInsights entityType={entityType} />
+        <div>
+          <EmptyInsights entityType={entityType} />
+          {entityType === 'signal' && (
+            <div className="mt-3">
+              <button
+                onClick={processSignalForAI}
+                disabled={processing}
+                className="rounded-md bg-blue-600 px-3 py-2 text-sm font-medium text-white hover:bg-blue-700 disabled:opacity-50"
+              >
+                {processing ? 'Running AI Analysis…' : 'Run AI Analysis'}
+              </button>
+            </div>
+          )}
+        </div>
       ) : (
         <div className="space-y-4">
           {/* Critical/High Priority Insights */}
