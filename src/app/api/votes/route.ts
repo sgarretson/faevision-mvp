@@ -51,7 +51,7 @@ export async function POST(request: NextRequest) {
     }
 
     // Check if user already voted on this entity
-    const existingVote = await (prisma as any).vote.findFirst({
+    const existingVote = await (prisma as any).votes.findFirst({
       where: {
         entityType,
         entityId,
@@ -67,14 +67,14 @@ export async function POST(request: NextRequest) {
     if (existingVote) {
       if (existingVote.value === newValue) {
         // Remove vote if clicking same type
-        await (prisma as any).vote.delete({
+        await (prisma as any).votes.delete({
           where: { id: existingVote.id },
         });
         action = 'removed';
         vote = null;
       } else {
         // Update vote type if clicking different type
-        vote = await (prisma as any).vote.update({
+        vote = await (prisma as any).votes.update({
           where: { id: existingVote.id },
           data: { value: newValue },
         });
@@ -82,7 +82,7 @@ export async function POST(request: NextRequest) {
       }
     } else {
       // Create new vote
-      vote = await (prisma as any).vote.create({
+      vote = await (prisma as any).votes.create({
         data: {
           value: newValue,
           entityType,
@@ -94,7 +94,7 @@ export async function POST(request: NextRequest) {
     }
 
     // Get updated vote counts
-    const votes = await (prisma as any).vote.findMany({
+    const votes = await (prisma as any).votes.findMany({
       where: {
         entityType,
         entityId,
@@ -179,7 +179,7 @@ export async function GET(request: NextRequest) {
     }
 
     // Get vote counts for the input
-    const votes = await (prisma as any).vote.findMany({
+    const votes = await (prisma as any).votes.findMany({
       where: {
         entityType: 'SIGNAL',
         entityId: inputId,
@@ -231,7 +231,7 @@ export async function DELETE(request: NextRequest) {
     }
 
     // Find and delete user's vote
-    const existingVote = await (prisma as any).vote.findFirst({
+    const existingVote = await (prisma as any).votes.findFirst({
       where: {
         entityType,
         entityId,
@@ -240,13 +240,13 @@ export async function DELETE(request: NextRequest) {
     });
 
     if (existingVote) {
-      await (prisma as any).vote.delete({
+      await (prisma as any).votes.delete({
         where: { id: existingVote.id },
       });
     }
 
     // Get updated vote counts
-    const votes = await (prisma as any).vote.findMany({
+    const votes = await (prisma as any).votes.findMany({
       where: {
         entityType,
         entityId,

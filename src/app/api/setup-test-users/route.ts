@@ -45,7 +45,7 @@ export async function POST() {
 
     for (const userData of testUsers) {
       // Check if user already exists
-      const existingUser = await (prisma as any).user.findUnique({
+      const existingUser = await (prisma as any).users.findUnique({
         where: { email: userData.email },
       });
 
@@ -53,7 +53,7 @@ export async function POST() {
         // Update existing user with password hash if missing
         if (!existingUser.passwordHash) {
           const passwordHash = await hash(userData.password, 12);
-          const updatedUser = await (prisma as any).user.update({
+          const updatedUser = await (prisma as any).users.update({
             where: { email: userData.email },
             data: { passwordHash },
           });
@@ -74,7 +74,7 @@ export async function POST() {
       } else {
         // Create new user
         const passwordHash = await hash(userData.password, 12);
-        const newUser = await (prisma as any).user.create({
+        const newUser = await (prisma as any).users.create({
           data: {
             email: userData.email,
             name: userData.name,

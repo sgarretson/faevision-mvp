@@ -41,7 +41,7 @@ export async function POST(
     }
 
     // Verify executive privileges
-    const user = await (prisma as any).user.findUnique({
+    const user = await (prisma as any).users.findUnique({
       where: { id: session.user.id },
       select: { role: true, name: true, email: true },
     });

@@ -4,7 +4,7 @@ import { prisma } from '@/lib/prisma';
 export async function GET() {
   try {
     // Check what users exist and their authentication setup
-    const users = await (prisma as any).user.findMany({
+    const users = await (prisma as any).users.findMany({
       select: {
         id: true,
         email: true,

@@ -210,7 +210,7 @@ async function getDatabaseMetrics() {
     await Promise.all([
       (prisma as any).signals.count(),
       (prisma as any).hotspots.count(),
-      (prisma as any).user.count(),
+      (prisma as any).users.count(),
     ]);
 
     const queryTime = (Date.now() - queryStartTime) / 1000 / 3; // Average across queries

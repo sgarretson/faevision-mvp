@@ -118,7 +118,7 @@ export async function POST(
     }
 
     // Create the comment
-    const comment = await (prisma as any).comment.create({
+    const comment = await (prisma as any).comments.create({
       data: {
         content: validatedData.content,
         entityType: 'SIGNAL',

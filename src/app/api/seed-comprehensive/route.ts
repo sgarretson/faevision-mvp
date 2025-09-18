@@ -69,8 +69,8 @@ export async function POST(request: NextRequest) {
 
 async function cleanDatabase() {
   // Clean in dependency order to avoid foreign key conflicts
-  await (prisma as any).comment.deleteMany();
-  await (prisma as any).vote.deleteMany();
+  await (prisma as any).comments.deleteMany();
+  await (prisma as any).votes.deleteMany();
   await (prisma as any).solutions.deleteMany();
   await (prisma as any).ideas.deleteMany();
   await (prisma as any).hotspotSignal.deleteMany();
@@ -78,10 +78,10 @@ async function cleanDatabase() {
   await (prisma as any).signals.deleteMany();
   await (prisma as any).inputs.deleteMany();
   await (prisma as any).input_groups.deleteMany();
-  await (prisma as any).team.deleteMany();
-  await (prisma as any).department.deleteMany();
+  await (prisma as any).teams.deleteMany();
+  await (prisma as any).departments.deleteMany();
   await (prisma as any).initiative.deleteMany();
-  await (prisma as any).category.deleteMany();
+  await (prisma as any).categories.deleteMany();
 
   console.log('  - Cleaned all data, preserved users for authentication');
 }
@@ -112,62 +112,62 @@ async function createOrganizationalFoundation() {
 
   // Create Categories
   const categories = await Promise.all([
-    (prisma as any).category.create({ data: { name: 'Quality Control' } }),
-    (prisma as any).category.create({ data: { name: 'Process Improvement' } }),
-    (prisma as any).category.create({ data: { name: 'Technology' } }),
-    (prisma as any).category.create({ data: { name: 'Communication' } }),
-    (prisma as any).category.create({ data: { name: 'Resource Management' } }),
-    (prisma as any).category.create({ data: { name: 'Client Relations' } }),
-    (prisma as any).category.create({
+    (prisma as any).categories.create({ data: { name: 'Quality Control' } }),
+    (prisma as any).categories.create({ data: { name: 'Process Improvement' } }),
+    (prisma as any).categories.create({ data: { name: 'Technology' } }),
+    (prisma as any).categories.create({ data: { name: 'Communication' } }),
+    (prisma as any).categories.create({ data: { name: 'Resource Management' } }),
+    (prisma as any).categories.create({ data: { name: 'Client Relations' } }),
+    (prisma as any).categories.create({
       data: { name: 'Training & Development' },
     }),
   ]);
 
   // Create Departments
   const departments = await Promise.all([
-    (prisma as any).department.create({
+    (prisma as any).departments.create({
       data: {
         name: 'Architecture',
         description: 'Building design and planning',
         managerId: 'sarah.executive@faevision.com',
       },
     }),
-    (prisma as any).department.create({
+    (prisma as any).departments.create({
       data: {
         name: 'Structural Engineering',
         description: 'Structural design and analysis',
         managerId: 'sarah.executive@faevision.com',
       },
     }),
-    (prisma as any).department.create({
+    (prisma as any).departments.create({
       data: {
         name: 'MEP Engineering',
         description: 'Mechanical, Electrical, Plumbing systems',
         managerId: 'sarah.executive@faevision.com',
       },
     }),
-    (prisma as any).department.create({
+    (prisma as any).departments.create({
       data: {
         name: 'Project Management',
         description: 'Project coordination and delivery',
         managerId: 'sarah.executive@faevision.com',
       },
     }),
-    (prisma as any).department.create({
+    (prisma as any).departments.create({
       data: {
         name: 'Quality Control',
         description: 'QC and quality assurance',
         managerId: 'sarah.executive@faevision.com',
       },
     }),
-    (prisma as any).department.create({
+    (prisma as any).departments.create({
       data: {
         name: 'Business Development',
         description: 'Client relations and sales',
         managerId: 'sarah.executive@faevision.com',
       },
     }),
-    (prisma as any).department.create({
+    (prisma as any).departments.create({
       data: {
         name: 'Field Services',
         description: 'Construction support and oversight',
@@ -178,7 +178,7 @@ async function createOrganizationalFoundation() {
 
   // Create Teams
   const teams = await Promise.all([
-    (prisma as any).team.create({
+    (prisma as any).teams.create({
       data: {
         name: 'Residential Design Team',
         description: 'Residential project design and coordination',
@@ -186,7 +186,7 @@ async function createOrganizationalFoundation() {
         leadId: 'sarah.executive@faevision.com',
       },
     }),
-    (prisma as any).team.create({
+    (prisma as any).teams.create({
       data: {
         name: 'Commercial Projects',
         description: 'Commercial building design team',
@@ -194,7 +194,7 @@ async function createOrganizationalFoundation() {
         leadId: 'sarah.executive@faevision.com',
       },
     }),
-    (prisma as any).team.create({
+    (prisma as any).teams.create({
       data: {
         name: 'Structural Analysis',
         description: 'Structural engineering and analysis',
@@ -202,7 +202,7 @@ async function createOrganizationalFoundation() {
         leadId: 'sarah.executive@faevision.com',
       },
     }),
-    (prisma as any).team.create({
+    (prisma as any).teams.create({
       data: {
         name: 'MEP Systems',
         description: 'MEP design and coordination',
@@ -210,7 +210,7 @@ async function createOrganizationalFoundation() {
         leadId: 'sarah.executive@faevision.com',
       },
     }),
-    (prisma as any).team.create({
+    (prisma as any).teams.create({
       data: {
         name: 'Project Delivery',
         description: 'Project management and delivery',
@@ -218,7 +218,7 @@ async function createOrganizationalFoundation() {
         leadId: 'sarah.executive@faevision.com',
       },
     }),
-    (prisma as any).team.create({
+    (prisma as any).teams.create({
       data: {
         name: 'Field Support',
         description: 'Field services and construction support',

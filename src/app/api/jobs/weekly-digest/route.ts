@@ -244,7 +244,7 @@ async function gatherDepartmentBreakdown(weekAgo: Date) {
       _count: { id: true },
     });
 
-    const departments = await (prisma as any).department.findMany({
+    const departments = await (prisma as any).departments.findMany({
       select: { id: true, name: true },
     });
 

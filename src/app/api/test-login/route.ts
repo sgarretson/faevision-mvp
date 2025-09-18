@@ -20,7 +20,7 @@ export async function POST(request: NextRequest) {
     }
 
     // Test database connection and user lookup
-    const user = await (prisma as any).user.findUnique({
+    const user = await (prisma as any).users.findUnique({
       where: { email: String(email).toLowerCase() },
       select: {
         id: true,
