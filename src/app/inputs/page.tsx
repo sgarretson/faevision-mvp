@@ -11,7 +11,12 @@ import { Card, CardContent } from '@/components/ui/card';
 // import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select'
 import { Input } from '@/components/ui/input';
 import { Plus, Filter, Search, AlertCircle } from 'lucide-react';
-import { InputsBulkSelection } from '@/components/inputs/inputs-bulk-selection';
+import { InputsGrid } from '@/components/inputs/inputs-grid';
+import {
+  BulkActionBar,
+  SelectionStatusIndicator,
+} from '@/components/inputs/bulk-action-bar';
+import { SelectionModeToggle } from '@/components/inputs/input-selection-checkbox';
 import { Alert, AlertDescription } from '@/components/ui/alert';
 
 interface InputItem {
@@ -128,14 +133,6 @@ export default function InputsPage() {
         .includes(searchQuery.toLowerCase())
   );
 
-  const formatDate = (dateString: string) => {
-    return new Date(dateString).toLocaleDateString('en-US', {
-      year: 'numeric',
-      month: 'short',
-      day: 'numeric',
-    });
-  };
-
   // Handle loading authentication
   if (status === 'loading') {
     return (
@@ -184,15 +181,20 @@ export default function InputsPage() {
       <div className="mx-auto max-w-7xl px-4 py-8 sm:px-6 lg:px-8">
         {/* Header */}
         <div className="mb-8 flex flex-col sm:flex-row sm:items-center sm:justify-between">
-          <div>
-            <h1 className="text-3xl font-bold text-gray-900">
-              Strategic Inputs
-            </h1>
-            <p className="mt-2 text-lg text-gray-600">
-              View and collaborate on strategic inputs across the organization.
-            </p>
+          <div className="flex items-center space-x-4">
+            <div>
+              <h1 className="text-3xl font-bold text-gray-900">
+                Strategic Inputs
+              </h1>
+              <p className="mt-2 text-lg text-gray-600">
+                View and collaborate on strategic inputs across the
+                organization.
+              </p>
+            </div>
+            <SelectionStatusIndicator />
           </div>
-          <div className="mt-4 sm:mt-0">
+          <div className="mt-4 flex items-center space-x-3 sm:mt-0">
+            <SelectionModeToggle />
             <Link href="/inputs/create">
               <Button className="w-full sm:w-auto">
                 <Plus className="mr-2 h-4 w-4" />
@@ -275,8 +277,11 @@ export default function InputsPage() {
           </div>
         )}
 
-        {/* Inputs List with Bulk Selection */}
-        {!isLoading && <InputsBulkSelection inputs={filteredInputs} />}
+        {/* Inputs Grid with Selection */}
+        {!isLoading && <InputsGrid inputs={filteredInputs} />}
+
+        {/* Bulk Action Bar */}
+        <BulkActionBar />
 
         {/* Fallback for Empty State */}
         {!isLoading && filteredInputs.length === 0 && (
