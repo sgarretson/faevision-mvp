@@ -44,13 +44,13 @@ interface WorkflowStep {
 
 /**
  * FAE-131: End-to-End Workflow Validation Page
- * 
+ *
  * Comprehensive validation of complete F1-F6 workflow with:
  * - Real-time step-by-step execution tracking
  * - Executive confidence guidance at each transition
  * - Performance monitoring and metrics
  * - Error handling and recovery testing
- * 
+ *
  * Expert Lead: Product Manager (Sarah Chen)
  * Support: Strategic Consultant (Marcus Rodriguez), Lead Developer (Alex Thompson)
  */
@@ -60,31 +60,36 @@ export default function WorkflowValidationPage() {
     {
       id: 'f1-input-creation',
       name: 'F1: Strategic Input Creation',
-      description: 'Create strategic input with AI-enhanced tagging and duplicate detection',
+      description:
+        'Create strategic input with AI-enhanced tagging and duplicate detection',
       status: 'pending',
     },
     {
       id: 'f1-signal-generation',
       name: 'F1: Signal Generation & Tagging',
-      description: 'Transform input to signal with enhanced AI tagging and feature engineering',
+      description:
+        'Transform input to signal with enhanced AI tagging and feature engineering',
       status: 'pending',
     },
     {
       id: 'f2-collaboration',
       name: 'F2: Collaboration Features',
-      description: 'Add votes, comments, and @mentions to demonstrate collaboration',
+      description:
+        'Add votes, comments, and @mentions to demonstrate collaboration',
       status: 'pending',
     },
     {
       id: 'f3-clustering',
       name: 'F3: AI Clustering Analysis',
-      description: 'Generate hotspots using HDBSCAN clustering and similarity analysis',
+      description:
+        'Generate hotspots using HDBSCAN clustering and similarity analysis',
       status: 'pending',
     },
     {
       id: 'f4-idea-creation',
       name: 'F4: Idea Generation',
-      description: 'Create strategic ideas from hotspots (bulk and individual selection)',
+      description:
+        'Create strategic ideas from hotspots (bulk and individual selection)',
       status: 'pending',
     },
     {
@@ -102,7 +107,8 @@ export default function WorkflowValidationPage() {
     {
       id: 'f6-frd-generation',
       name: 'F6: FRD Document Generation',
-      description: 'Generate Functional Requirements Document for external handoff',
+      description:
+        'Generate Functional Requirements Document for external handoff',
       status: 'pending',
     },
   ]);
@@ -112,7 +118,9 @@ export default function WorkflowValidationPage() {
   const [validationResults, setValidationResults] = useState<any[]>([]);
 
   // Calculate overall progress
-  const completedSteps = workflowSteps.filter(step => step.status === 'completed').length;
+  const completedSteps = workflowSteps.filter(
+    step => step.status === 'completed'
+  ).length;
   const progress = (completedSteps / workflowSteps.length) * 100;
 
   // Mock workflow execution for demonstration
@@ -123,11 +131,13 @@ export default function WorkflowValidationPage() {
 
     for (let i = 0; i < workflowSteps.length; i++) {
       setCurrentStep(i);
-      
+
       // Update step to running
-      setWorkflowSteps(prev => prev.map((step, index) => 
-        index === i ? { ...step, status: 'running' } : step
-      ));
+      setWorkflowSteps(prev =>
+        prev.map((step, index) =>
+          index === i ? { ...step, status: 'running' } : step
+        )
+      );
 
       // Simulate processing time
       await new Promise(resolve => setTimeout(resolve, 2000));
@@ -136,57 +146,74 @@ export default function WorkflowValidationPage() {
       const mockConfidence = {
         aiConfidence: Math.random() * 0.4 + 0.6, // 0.6-1.0
         qualityScore: Math.random() * 0.3 + 0.7, // 0.7-1.0
-        origin: Math.random() > 0.3 ? CreationOrigin.AI : 
-                Math.random() > 0.5 ? CreationOrigin.HYBRID : CreationOrigin.HUMAN,
+        origin:
+          Math.random() > 0.3
+            ? CreationOrigin.AI
+            : Math.random() > 0.5
+              ? CreationOrigin.HYBRID
+              : CreationOrigin.HUMAN,
       };
 
-      setWorkflowSteps(prev => prev.map((step, index) => 
-        index === i ? { 
-          ...step, 
-          status: 'completed',
-          confidence: mockConfidence,
-          metrics: {
-            duration: Math.floor(Math.random() * 3000) + 500,
-            success: true,
-          }
-        } : step
-      ));
+      setWorkflowSteps(prev =>
+        prev.map((step, index) =>
+          index === i
+            ? {
+                ...step,
+                status: 'completed',
+                confidence: mockConfidence,
+                metrics: {
+                  duration: Math.floor(Math.random() * 3000) + 500,
+                  success: true,
+                },
+              }
+            : step
+        )
+      );
 
       // Add to results
-      setValidationResults(prev => [...prev, {
-        step: workflowSteps[i],
-        confidence: mockConfidence,
-        timestamp: new Date(),
-      }]);
+      setValidationResults(prev => [
+        ...prev,
+        {
+          step: workflowSteps[i],
+          confidence: mockConfidence,
+          timestamp: new Date(),
+        },
+      ]);
     }
 
     setIsRunning(false);
   };
 
   const resetWorkflow = () => {
-    setWorkflowSteps(prev => prev.map(step => ({ 
-      ...step, 
-      status: 'pending',
-      confidence: undefined,
-      metrics: undefined,
-    })));
+    setWorkflowSteps(prev =>
+      prev.map(step => ({
+        ...step,
+        status: 'pending',
+        confidence: undefined,
+        metrics: undefined,
+      }))
+    );
     setCurrentStep(0);
     setValidationResults([]);
   };
 
   return (
     <div className="min-h-screen bg-gray-50">
-      <div className="container mx-auto px-4 py-8 space-y-8">
+      <div className="container mx-auto space-y-8 px-4 py-8">
         {/* Header */}
-        <div className="text-center space-y-2">
+        <div className="space-y-2 text-center">
           <h1 className="text-3xl font-bold text-gray-900">
             FAEVision Workflow Validation
           </h1>
-          <p className="text-gray-600 max-w-3xl mx-auto">
-            Comprehensive end-to-end validation of the complete F1-F6 workflow with 
-            real-time confidence tracking, executive decision guidance, and performance monitoring.
+          <p className="mx-auto max-w-3xl text-gray-600">
+            Comprehensive end-to-end validation of the complete F1-F6 workflow
+            with real-time confidence tracking, executive decision guidance, and
+            performance monitoring.
           </p>
-          <Badge variant="outline" className="bg-green-50 text-green-700 border-green-200">
+          <Badge
+            variant="outline"
+            className="border-green-200 bg-green-50 text-green-700"
+          >
             FAE-131: End-to-End Workflow Validation
           </Badge>
         </div>
@@ -208,16 +235,20 @@ export default function WorkflowValidationPage() {
                 </p>
               </div>
               <div className="flex gap-2">
-                <Button 
-                  onClick={runWorkflowValidation} 
+                <Button
+                  onClick={runWorkflowValidation}
                   disabled={isRunning}
                   className="flex items-center gap-2"
                 >
-                  {isRunning ? <Clock className="h-4 w-4 animate-spin" /> : <Play className="h-4 w-4" />}
+                  {isRunning ? (
+                    <Clock className="h-4 w-4 animate-spin" />
+                  ) : (
+                    <Play className="h-4 w-4" />
+                  )}
                   {isRunning ? 'Running...' : 'Start Validation'}
                 </Button>
-                <Button 
-                  variant="outline" 
+                <Button
+                  variant="outline"
                   onClick={resetWorkflow}
                   disabled={isRunning}
                   className="flex items-center gap-2"
@@ -227,22 +258,22 @@ export default function WorkflowValidationPage() {
                 </Button>
               </div>
             </div>
-            
+
             <Progress value={progress} className="w-full" />
           </CardContent>
         </Card>
 
         {/* Workflow Steps */}
-        <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
+        <div className="grid grid-cols-1 gap-6 lg:grid-cols-2">
           <Card>
             <CardHeader>
               <CardTitle>Workflow Steps</CardTitle>
             </CardHeader>
             <CardContent className="space-y-4">
               {workflowSteps.map((step, index) => (
-                <WorkflowStepCard 
-                  key={step.id} 
-                  step={step} 
+                <WorkflowStepCard
+                  key={step.id}
+                  step={step}
                   isActive={currentStep === index && isRunning}
                   stepNumber={index + 1}
                 />
@@ -260,14 +291,14 @@ export default function WorkflowValidationPage() {
             </CardHeader>
             <CardContent className="space-y-4">
               <div className="grid grid-cols-2 gap-4">
-                <div className="bg-green-50 p-3 rounded-lg border border-green-200">
+                <div className="rounded-lg border border-green-200 bg-green-50 p-3">
                   <div className="text-2xl font-bold text-green-700">
                     {workflowSteps.filter(s => s.status === 'completed').length}
                   </div>
                   <div className="text-sm text-green-600">Steps Completed</div>
                 </div>
-                
-                <div className="bg-blue-50 p-3 rounded-lg border border-blue-200">
+
+                <div className="rounded-lg border border-blue-200 bg-blue-50 p-3">
                   <div className="text-2xl font-bold text-blue-700">
                     {Math.round(progress)}%
                   </div>
@@ -279,9 +310,11 @@ export default function WorkflowValidationPage() {
                 <div className="space-y-3">
                   <h4 className="font-medium">Latest Results</h4>
                   {validationResults.slice(-3).map((result, index) => (
-                    <div key={index} className="bg-gray-50 p-3 rounded-lg">
-                      <div className="flex items-center justify-between mb-2">
-                        <span className="font-medium text-sm">{result.step.name}</span>
+                    <div key={index} className="rounded-lg bg-gray-50 p-3">
+                      <div className="mb-2 flex items-center justify-between">
+                        <span className="text-sm font-medium">
+                          {result.step.name}
+                        </span>
                         <CheckCircle className="h-4 w-4 text-green-500" />
                       </div>
                       <ConfidenceIndicator
@@ -309,7 +342,7 @@ export default function WorkflowValidationPage() {
               </p>
             </CardHeader>
             <CardContent>
-              <ExecutiveConfidenceDashboard 
+              <ExecutiveConfidenceDashboard
                 items={validationResults.map(result => ({
                   id: result.step.id,
                   title: result.step.name,
@@ -331,9 +364,11 @@ export default function WorkflowValidationPage() {
             <CardTitle>Validation Features</CardTitle>
           </CardHeader>
           <CardContent>
-            <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+            <div className="grid grid-cols-1 gap-6 md:grid-cols-3">
               <div>
-                <h3 className="font-semibold text-gray-900 mb-3">F1-F3 Testing</h3>
+                <h3 className="mb-3 font-semibold text-gray-900">
+                  F1-F3 Testing
+                </h3>
                 <ul className="space-y-2 text-sm text-gray-600">
                   <li className="flex items-center gap-2">
                     <CheckCircle className="h-4 w-4 text-green-500" />
@@ -353,9 +388,11 @@ export default function WorkflowValidationPage() {
                   </li>
                 </ul>
               </div>
-              
+
               <div>
-                <h3 className="font-semibold text-gray-900 mb-3">F4-F5 Testing</h3>
+                <h3 className="mb-3 font-semibold text-gray-900">
+                  F4-F5 Testing
+                </h3>
                 <ul className="space-y-2 text-sm text-gray-600">
                   <li className="flex items-center gap-2">
                     <CheckCircle className="h-4 w-4 text-green-500" />
@@ -375,9 +412,11 @@ export default function WorkflowValidationPage() {
                   </li>
                 </ul>
               </div>
-              
+
               <div>
-                <h3 className="font-semibold text-gray-900 mb-3">F6 & Analytics</h3>
+                <h3 className="mb-3 font-semibold text-gray-900">
+                  F6 & Analytics
+                </h3>
                 <ul className="space-y-2 text-sm text-gray-600">
                   <li className="flex items-center gap-2">
                     <CheckCircle className="h-4 w-4 text-green-500" />
@@ -408,13 +447,13 @@ export default function WorkflowValidationPage() {
 /**
  * Individual Workflow Step Card Component
  */
-function WorkflowStepCard({ 
-  step, 
-  isActive, 
-  stepNumber 
-}: { 
-  step: WorkflowStep; 
-  isActive: boolean; 
+function WorkflowStepCard({
+  step,
+  isActive,
+  stepNumber,
+}: {
+  step: WorkflowStep;
+  isActive: boolean;
   stepNumber: number;
 }) {
   const getStatusIcon = () => {
@@ -422,11 +461,13 @@ function WorkflowStepCard({
       case 'completed':
         return <CheckCircle className="h-5 w-5 text-green-500" />;
       case 'running':
-        return <Clock className="h-5 w-5 text-blue-500 animate-spin" />;
+        return <Clock className="h-5 w-5 animate-spin text-blue-500" />;
       case 'error':
         return <AlertTriangle className="h-5 w-5 text-red-500" />;
       default:
-        return <div className="h-5 w-5 rounded-full border-2 border-gray-300" />;
+        return (
+          <div className="h-5 w-5 rounded-full border-2 border-gray-300" />
+        );
     }
   };
 
@@ -444,19 +485,21 @@ function WorkflowStepCard({
   };
 
   return (
-    <div className={`p-4 rounded-lg border transition-all ${getStatusColor()} ${isActive ? 'ring-2 ring-blue-300' : ''}`}>
+    <div
+      className={`rounded-lg border p-4 transition-all ${getStatusColor()} ${isActive ? 'ring-2 ring-blue-300' : ''}`}
+    >
       <div className="flex items-start gap-3">
-        <div className="flex-shrink-0 flex items-center gap-2">
-          <span className="w-6 h-6 rounded-full bg-gray-600 text-white text-xs flex items-center justify-center font-medium">
+        <div className="flex flex-shrink-0 items-center gap-2">
+          <span className="flex h-6 w-6 items-center justify-center rounded-full bg-gray-600 text-xs font-medium text-white">
             {stepNumber}
           </span>
           {getStatusIcon()}
         </div>
-        
-        <div className="flex-1 min-w-0">
+
+        <div className="min-w-0 flex-1">
           <h4 className="font-medium text-gray-900">{step.name}</h4>
-          <p className="text-sm text-gray-600 mt-1">{step.description}</p>
-          
+          <p className="mt-1 text-sm text-gray-600">{step.description}</p>
+
           {step.confidence && (
             <div className="mt-2">
               <ConfidenceIndicator
@@ -468,7 +511,7 @@ function WorkflowStepCard({
               />
             </div>
           )}
-          
+
           {step.metrics && (
             <div className="mt-2 text-xs text-gray-500">
               Duration: {step.metrics.duration}ms

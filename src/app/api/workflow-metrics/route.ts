@@ -1,20 +1,23 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { auth } from '@/lib/auth';
 import { prisma } from '@/lib/prisma';
-import { calculateBusinessConfidence, CreationOrigin } from '@/types/origin-confidence';
+import {
+  calculateBusinessConfidence,
+  CreationOrigin,
+} from '@/types/origin-confidence';
 
 // Force dynamic rendering
 export const dynamic = 'force-dynamic';
 
 /**
  * Executive Workflow Metrics API
- * 
+ *
  * Provides comprehensive metrics for F1-F6 workflow validation:
  * - End-to-end completion rates
  * - Confidence scoring analysis
  * - Performance benchmarks
  * - Executive decision support data
- * 
+ *
  * Expert: Strategic Consultant (Marcus Rodriguez)
  * Support: Product Manager (Sarah Chen)
  */
@@ -53,12 +56,12 @@ export async function GET(request: NextRequest) {
     // Fetch F1-F6 workflow data
     const [
       inputs,
-      signals, 
+      signals,
       hotspots,
       ideas,
       solutions,
       requirements,
-      frdDocuments
+      frdDocuments,
     ] = await Promise.all([
       // F1: Strategic Inputs
       (prisma as any).inputs.findMany({
@@ -72,7 +75,7 @@ export async function GET(request: NextRequest) {
           signal: true,
         },
       }),
-      
+
       // F1: Enhanced Signals
       (prisma as any).signals.findMany({
         where: {
@@ -82,7 +85,7 @@ export async function GET(request: NextRequest) {
           },
         },
       }),
-      
+
       // F3: Hotspots
       (prisma as any).hotspots.findMany({
         where: {
@@ -92,7 +95,7 @@ export async function GET(request: NextRequest) {
           },
         },
       }),
-      
+
       // F4: Ideas
       (prisma as any).ideas.findMany({
         where: {
@@ -102,7 +105,7 @@ export async function GET(request: NextRequest) {
           },
         },
       }),
-      
+
       // F5: Solutions
       (prisma as any).solutions.findMany({
         where: {
@@ -112,7 +115,7 @@ export async function GET(request: NextRequest) {
           },
         },
       }),
-      
+
       // F5: Requirements
       (prisma as any).requirements.findMany({
         where: {
@@ -122,7 +125,7 @@ export async function GET(request: NextRequest) {
           },
         },
       }),
-      
+
       // F6: FRD Documents
       (prisma as any).frd_documents.findMany({
         where: {
@@ -150,8 +153,8 @@ export async function GET(request: NextRequest) {
       },
       f3_clustering: {
         total: hotspots.length,
-        avgSignalsPerHotspot: hotspots.length > 0 ? 
-          signals.length / hotspots.length : 0,
+        avgSignalsPerHotspot:
+          hotspots.length > 0 ? signals.length / hotspots.length : 0,
         avgConfidence: calculateAverageConfidence(hotspots),
       },
       f4_ideas: {
@@ -174,16 +177,30 @@ export async function GET(request: NextRequest) {
 
     // Calculate end-to-end completion rates
     const completionRates = {
-      inputToSignal: workflowMetrics.f1_inputs.total > 0 ? 
-        (workflowMetrics.f1_inputs.withSignals / workflowMetrics.f1_inputs.total) * 100 : 0,
-      signalToHotspot: signals.length > 0 ? 
-        (workflowMetrics.f3_clustering.avgSignalsPerHotspot / signals.length) * 100 : 0,
-      hotspotToIdea: hotspots.length > 0 ? 
-        (workflowMetrics.f4_ideas.fromHotspots / hotspots.length) * 100 : 0,
-      ideaToSolution: ideas.length > 0 ? 
-        (workflowMetrics.f5_solutions.fromIdeas / ideas.length) * 100 : 0,
-      solutionToFRD: solutions.length > 0 ? 
-        (workflowMetrics.f6_handoff.fromSolutions / solutions.length) * 100 : 0,
+      inputToSignal:
+        workflowMetrics.f1_inputs.total > 0
+          ? (workflowMetrics.f1_inputs.withSignals /
+              workflowMetrics.f1_inputs.total) *
+            100
+          : 0,
+      signalToHotspot:
+        signals.length > 0
+          ? (workflowMetrics.f3_clustering.avgSignalsPerHotspot /
+              signals.length) *
+            100
+          : 0,
+      hotspotToIdea:
+        hotspots.length > 0
+          ? (workflowMetrics.f4_ideas.fromHotspots / hotspots.length) * 100
+          : 0,
+      ideaToSolution:
+        ideas.length > 0
+          ? (workflowMetrics.f5_solutions.fromIdeas / ideas.length) * 100
+          : 0,
+      solutionToFRD:
+        solutions.length > 0
+          ? (workflowMetrics.f6_handoff.fromSolutions / solutions.length) * 100
+          : 0,
     };
 
     // Calculate confidence distribution
@@ -195,19 +212,22 @@ export async function GET(request: NextRequest) {
       ...frdDocuments.map((f: any) => ({ ...f, type: 'frd' })),
     ];
 
-    const confidenceDistribution = allItems.reduce((acc: any, item: any) => {
-      const confidence = calculateBusinessConfidence(
-        item.aiConfidence,
-        item.qualityScore,
-        item.origin as CreationOrigin
-      );
-      
-      acc[confidence.trafficLight.toLowerCase()]++;
-      if (confidence.actionRequired) acc.actionRequired++;
-      if (confidence.humanValidated) acc.humanValidated++;
-      
-      return acc;
-    }, { green: 0, yellow: 0, red: 0, actionRequired: 0, humanValidated: 0 });
+    const confidenceDistribution = allItems.reduce(
+      (acc: any, item: any) => {
+        const confidence = calculateBusinessConfidence(
+          item.aiConfidence,
+          item.qualityScore,
+          item.origin as CreationOrigin
+        );
+
+        acc[confidence.trafficLight.toLowerCase()]++;
+        if (confidence.actionRequired) acc.actionRequired++;
+        if (confidence.humanValidated) acc.humanValidated++;
+
+        return acc;
+      },
+      { green: 0, yellow: 0, red: 0, actionRequired: 0, humanValidated: 0 }
+    );
 
     // Executive summary
     const executiveSummary = {
@@ -218,8 +238,10 @@ export async function GET(request: NextRequest) {
       actionRequiredItems: confidenceDistribution.actionRequired,
       humanValidatedItems: confidenceDistribution.humanValidated,
       endToEndCompletionRate: Math.round(
-        Object.values(completionRates).reduce((sum: number, rate: number) => sum + rate, 0) / 
-        Object.values(completionRates).length
+        Object.values(completionRates).reduce(
+          (sum: number, rate: number) => sum + rate,
+          0
+        ) / Object.values(completionRates).length
       ),
     };
 
@@ -244,10 +266,9 @@ export async function GET(request: NextRequest) {
     };
 
     return NextResponse.json(response);
-
   } catch (error) {
     console.error('Error fetching workflow metrics:', error);
-    
+
     return NextResponse.json(
       {
         error: 'Failed to fetch workflow metrics',
@@ -261,13 +282,13 @@ export async function GET(request: NextRequest) {
 // Helper functions
 function calculateAverageConfidence(items: any[]): number {
   if (items.length === 0) return 0;
-  
+
   const confidences = items
     .map(item => Math.max(item.aiConfidence || 0, item.qualityScore || 0))
     .filter(conf => conf > 0);
-  
-  return confidences.length > 0 
-    ? confidences.reduce((sum, conf) => sum + conf, 0) / confidences.length 
+
+  return confidences.length > 0
+    ? confidences.reduce((sum, conf) => sum + conf, 0) / confidences.length
     : 0;
 }
 
@@ -296,7 +317,7 @@ function calculateConfidenceBreakdown(items: any[]) {
       item.qualityScore,
       item.origin as CreationOrigin
     );
-    
+
     const level = confidence.level.toLowerCase();
     acc[level] = (acc[level] || 0) + 1;
     return acc;
