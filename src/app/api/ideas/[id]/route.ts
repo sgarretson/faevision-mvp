@@ -34,7 +34,7 @@ export async function GET(
     }
 
     // Get idea with hotspot and creator information
-    const idea = await (prisma as any).idea?.findUnique({
+    const idea = await (prisma as any).ideas?.findUnique({
       where: { id },
       include: {
         hotspots: {
@@ -44,7 +44,7 @@ export async function GET(
             status: true,
           },
         },
-        createdBy: {
+        users: {
           select: {
             id: true,
             name: true,
@@ -61,21 +61,21 @@ export async function GET(
 
     // Get vote and comment counts
     const [upVotes, downVotes, commentsCount] = await Promise.all([
-      (prisma as any).vote?.count({
+      (prisma as any).votes?.count({
         where: {
           entityType: 'IDEA',
           entityId: idea.id,
           value: 'UP',
         },
       }) || 0,
-      (prisma as any).vote?.count({
+      (prisma as any).votes?.count({
         where: {
           entityType: 'IDEA',
           entityId: idea.id,
           value: 'DOWN',
         },
       }) || 0,
-      (prisma as any).comment?.count({
+      (prisma as any).comments?.count({
         where: {
           entityType: 'IDEA',
           entityId: idea.id,
@@ -96,7 +96,7 @@ export async function GET(
       tagsJson: idea.tagsJson,
       createdAt: idea.createdAt.toISOString(),
       hotspot: idea.hotspot,
-      creator: idea.createdBy,
+      creator: idea.users,
       _count: {
         upVotes,
         downVotes,

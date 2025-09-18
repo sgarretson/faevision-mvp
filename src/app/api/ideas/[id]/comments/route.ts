@@ -38,7 +38,7 @@ export async function GET(
     }
 
     // Verify the idea exists
-    const idea = await (prisma as any).idea?.findUnique({
+    const idea = await (prisma as any).ideas?.findUnique({
       where: { id },
       select: { id: true },
     });
@@ -48,7 +48,7 @@ export async function GET(
     }
 
     // Get comments for this idea
-    const comments = await (prisma as any).comment
+    const comments = await (prisma as any).comments
       ?.findMany({
         where: {
           entityType: 'IDEA',
@@ -113,7 +113,7 @@ export async function POST(
     const validatedData = createCommentSchema.parse(body);
 
     // Verify the idea exists
-    const idea = await (prisma as any).idea?.findUnique({
+    const idea = await (prisma as any).ideas?.findUnique({
       where: { id },
       select: { id: true },
     });
@@ -131,7 +131,7 @@ export async function POST(
         createdBy: session.user.id,
       },
       include: {
-        creator: {
+        users: {
           select: {
             id: true,
             name: true,
@@ -143,7 +143,7 @@ export async function POST(
     });
 
     // Log the comment creation for audit
-    await (prisma as any).auditLog?.create({
+    await (prisma as any).audit_logs?.create({
       data: {
         userId: session.user.id,
         action: 'CREATE_COMMENT',
