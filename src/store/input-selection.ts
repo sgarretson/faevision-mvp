@@ -170,9 +170,8 @@ export const useInputSelection = create<InputSelectionState>()(
           // Clear selection after successful creation
           get().clearSelection();
 
-          // Navigate to the new idea (will be implemented when we add routing)
+          // Navigate to the new idea detail page
           if (result.idea?.id) {
-            // Navigate to the new idea
             window.location.href = `/ideas/${result.idea.id}`;
           }
         } catch (error) {

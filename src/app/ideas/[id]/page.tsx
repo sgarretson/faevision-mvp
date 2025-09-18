@@ -21,6 +21,7 @@ import {
 } from 'lucide-react';
 import { IdeaVoting } from '@/components/ideas/idea-voting';
 import { IdeaApproval } from '@/components/ideas/idea-approval';
+import { SupportingEvidenceDisplay } from '@/components/ideas/supporting-evidence-display';
 import { Alert, AlertDescription } from '@/components/ui/alert';
 
 interface IdeaDetail {
@@ -463,46 +464,35 @@ export default function IdeaDetailPage() {
                 </div>
               </div>
 
-              {/* Evidence & Tags */}
-              {(idea.evidenceJson || idea.tagsJson) && (
+              {/* Supporting Evidence */}
+              {idea.evidenceJson && (
                 <>
                   <hr className="border-gray-200" />
-                  <div className="space-y-4">
-                    {idea.evidenceJson && (
-                      <div>
-                        <h3 className="text-lg font-semibold text-gray-900">
-                          Supporting Evidence
-                        </h3>
-                        <div className="mt-2 rounded-lg bg-gray-50 p-4">
-                          <pre className="whitespace-pre-wrap text-sm text-gray-700">
-                            {typeof idea.evidenceJson === 'string'
-                              ? idea.evidenceJson
-                              : JSON.stringify(idea.evidenceJson, null, 2)}
-                          </pre>
-                        </div>
-                      </div>
-                    )}
-                    {idea.tagsJson && (
-                      <div>
-                        <h3 className="text-lg font-semibold text-gray-900">
-                          Tags
-                        </h3>
-                        <div className="mt-2 flex flex-wrap gap-2">
-                          {Array.isArray(idea.tagsJson) &&
-                          idea.tagsJson.length > 0
-                            ? idea.tagsJson.map((tag: string) => (
-                                <Badge key={`tag-${tag}`} variant="outline">
-                                  {tag}
-                                </Badge>
-                              ))
-                            : idea.tagsJson && (
-                                <Badge variant="outline">
-                                  {String(idea.tagsJson)}
-                                </Badge>
-                              )}
-                        </div>
-                      </div>
-                    )}
+                  <SupportingEvidenceDisplay evidenceJson={idea.evidenceJson} />
+                </>
+              )}
+
+              {/* Tags */}
+              {idea.tagsJson && (
+                <>
+                  <hr className="border-gray-200" />
+                  <div>
+                    <h3 className="text-lg font-semibold text-gray-900">
+                      Tags
+                    </h3>
+                    <div className="mt-2 flex flex-wrap gap-2">
+                      {Array.isArray(idea.tagsJson) && idea.tagsJson.length > 0
+                        ? idea.tagsJson.map((tag: string) => (
+                            <Badge key={`tag-${tag}`} variant="outline">
+                              {tag}
+                            </Badge>
+                          ))
+                        : idea.tagsJson && (
+                            <Badge variant="outline">
+                              {String(idea.tagsJson)}
+                            </Badge>
+                          )}
+                    </div>
                   </div>
                 </>
               )}
