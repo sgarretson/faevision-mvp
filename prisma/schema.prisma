@@ -143,15 +143,17 @@ model departments {
 }
 
 model frd_documents {
-  id                                    String    @id
+  id                                    String         @id
   title                                 String
   content                               Json
-  aiGenerated                           Boolean   @default(false)
+  origin                                CreationOrigin @default(HUMAN)
   aiConfidence                          Float?
+  aiMetadata                            Json?
+  qualityScore                          Float?
   aiPromptUsed                          String?
-  version                               String    @default("1.0")
-  status                                FRDStatus @default(DRAFT)
-  executiveApproved                     Boolean   @default(false)
+  version                               String         @default("1.0")
+  status                                FRDStatus      @default(DRAFT)
+  executiveApproved                     Boolean        @default(false)
   exportFormats                         Json?
   templateUsed                          String?
   generationTime                        Float?
@@ -160,16 +162,18 @@ model frd_documents {
   solutionId                            String
   createdBy                             String
   approvedBy                            String?
-  createdAt                             DateTime  @default(now())
+  createdAt                             DateTime       @default(now())
   updatedAt                             DateTime
   users_frd_documents_approvedByTousers users?    @relation("frd_documents_approvedByTousers", fields: [approvedBy], references: [id])
   users_frd_documents_createdByTousers  users     @relation("frd_documents_createdByTousers", fields: [createdBy], references: [id])
   solutions                             solutions @relation(fields: [solutionId], references: [id])
 
-  @@index([aiGenerated])
+  @@index([origin])
   @@index([createdBy])
   @@index([solutionId])
   @@index([status])
+  @@index([aiConfidence])
+  @@index([qualityScore])
 }
 
 model hotspot_signals {
@@ -218,19 +222,21 @@ model hotspots {
 }
 
 model ideas {
-  id           String       @id
+  id           String         @id
   hotspotId    String
   title        String?
   description  String
-  origin       String
-  votes        Int          @default(0)
-  status       String       @default("draft")
+  origin       CreationOrigin @default(HUMAN)
+  votes        Int            @default(0)
+  status       String         @default("draft")
   evidenceJson Json?
   tagsJson     Json?
-  confidence   Float?
+  aiConfidence Float?
+  aiMetadata   Json?
+  qualityScore Float?
   createdById  String?
   initiativeId String?
-  createdAt    DateTime     @default(now())
+  createdAt    DateTime       @default(now())
   updatedAt    DateTime
   users        users?       @relation(fields: [createdById], references: [id])
   hotspots     hotspots     @relation(fields: [hotspotId], references: [id])
@@ -241,6 +247,8 @@ model ideas {
   @@index([hotspotId])
   @@index([origin])
   @@index([status])
+  @@index([aiConfidence])
+  @@index([qualityScore])
 }
 
 model initiatives {
@@ -341,6 +349,10 @@ model requirements {
   description        String
   acceptanceCriteria Json
   status             RequirementStatus @default(DRAFT)
+  origin             CreationOrigin    @default(HUMAN)
+  aiConfidence       Float?
+  aiMetadata         Json?
+  qualityScore       Float?
   estimatedEffort    String?
   dependencies       Json?
   businessValue      String?
@@ -361,6 +373,9 @@ model requirements {
   @@index([priority])
   @@index([solutionId])
   @@index([status])
+  @@index([origin])
+  @@index([aiConfidence])
+  @@index([qualityScore])
 }
 
 model signals {
@@ -427,6 +442,10 @@ model solutions {
   title                String
   description          String
   status               SolutionStatus  @default(DRAFT)
+  origin               CreationOrigin  @default(HUMAN)
+  aiConfidence         Float?
+  aiMetadata           Json?
+  qualityScore         Float?
   createdAt            DateTime        @default(now())
   updatedAt            DateTime
   estimatedEffort      String?
@@ -455,6 +474,9 @@ model solutions {
   @@index([inputId])
   @@index([status])
   @@index([targetDate])
+  @@index([origin])
+  @@index([aiConfidence])
+  @@index([qualityScore])
 }
 
 model teams {
@@ -609,6 +631,12 @@ enum SolutionStatus {
   IMPLEMENTED
   CANCELLED
   ON_HOLD
+}
+
+enum CreationOrigin {
+  AI
+  HUMAN
+  HYBRID
 }
 
 enum UserRole {

@@ -171,6 +171,7 @@ export async function POST(request: NextRequest) {
     ]);
 
     // Generate AI-powered solution plan
+    const startTime = Date.now();
     const result = await generateObject({
       model: openai('gpt-4o-2024-08-06'),
       temperature: 0.3,
@@ -250,11 +251,20 @@ Provide confidence score (0.0-1.0) based on available information quality.
     const solutionPlan = result.object;
 
     // Create the solution with AI-generated planning
-    const solution = await (prisma as any).solution.create({
+    const solution = await (prisma as any).solutions.create({
       data: {
         title: solutionPlan.solution.title,
         description: solutionPlan.solution.description,
         status: 'DRAFT',
+        origin: 'AI', // AI-generated solution
+        aiConfidence: 0.85,
+        aiMetadata: {
+          model: 'gpt-4',
+          prompt: 'AI-powered solution planning from idea',
+          processingTime: Date.now() - startTime,
+          ideaOrigin: idea.origin
+        },
+        qualityScore: 0.8,
         progress: 0.0,
         hotspotId: idea.hotspotId,
         ideaId: idea.id,

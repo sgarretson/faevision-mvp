@@ -226,6 +226,15 @@ export const SolutionStatus: {
 export type SolutionStatus = (typeof SolutionStatus)[keyof typeof SolutionStatus]
 
 
+export const CreationOrigin: {
+  AI: 'AI',
+  HUMAN: 'HUMAN',
+  HYBRID: 'HYBRID'
+};
+
+export type CreationOrigin = (typeof CreationOrigin)[keyof typeof CreationOrigin]
+
+
 export const UserRole: {
   ADMIN: 'ADMIN',
   EXECUTIVE: 'EXECUTIVE',
@@ -311,6 +320,10 @@ export const Severity: typeof $Enums.Severity
 export type SolutionStatus = $Enums.SolutionStatus
 
 export const SolutionStatus: typeof $Enums.SolutionStatus
+
+export type CreationOrigin = $Enums.CreationOrigin
+
+export const CreationOrigin: typeof $Enums.CreationOrigin
 
 export type UserRole = $Enums.UserRole
 
@@ -11730,12 +11743,14 @@ export namespace Prisma {
 
   export type Frd_documentsAvgAggregateOutputType = {
     aiConfidence: number | null
+    qualityScore: number | null
     generationTime: number | null
     wordCount: number | null
   }
 
   export type Frd_documentsSumAggregateOutputType = {
     aiConfidence: number | null
+    qualityScore: number | null
     generationTime: number | null
     wordCount: number | null
   }
@@ -11743,8 +11758,9 @@ export namespace Prisma {
   export type Frd_documentsMinAggregateOutputType = {
     id: string | null
     title: string | null
-    aiGenerated: boolean | null
+    origin: $Enums.CreationOrigin | null
     aiConfidence: number | null
+    qualityScore: number | null
     aiPromptUsed: string | null
     version: string | null
     status: $Enums.FRDStatus | null
@@ -11763,8 +11779,9 @@ export namespace Prisma {
   export type Frd_documentsMaxAggregateOutputType = {
     id: string | null
     title: string | null
-    aiGenerated: boolean | null
+    origin: $Enums.CreationOrigin | null
     aiConfidence: number | null
+    qualityScore: number | null
     aiPromptUsed: string | null
     version: string | null
     status: $Enums.FRDStatus | null
@@ -11784,8 +11801,10 @@ export namespace Prisma {
     id: number
     title: number
     content: number
-    aiGenerated: number
+    origin: number
     aiConfidence: number
+    aiMetadata: number
+    qualityScore: number
     aiPromptUsed: number
     version: number
     status: number
@@ -11806,12 +11825,14 @@ export namespace Prisma {
 
   export type Frd_documentsAvgAggregateInputType = {
     aiConfidence?: true
+    qualityScore?: true
     generationTime?: true
     wordCount?: true
   }
 
   export type Frd_documentsSumAggregateInputType = {
     aiConfidence?: true
+    qualityScore?: true
     generationTime?: true
     wordCount?: true
   }
@@ -11819,8 +11840,9 @@ export namespace Prisma {
   export type Frd_documentsMinAggregateInputType = {
     id?: true
     title?: true
-    aiGenerated?: true
+    origin?: true
     aiConfidence?: true
+    qualityScore?: true
     aiPromptUsed?: true
     version?: true
     status?: true
@@ -11839,8 +11861,9 @@ export namespace Prisma {
   export type Frd_documentsMaxAggregateInputType = {
     id?: true
     title?: true
-    aiGenerated?: true
+    origin?: true
     aiConfidence?: true
+    qualityScore?: true
     aiPromptUsed?: true
     version?: true
     status?: true
@@ -11860,8 +11883,10 @@ export namespace Prisma {
     id?: true
     title?: true
     content?: true
-    aiGenerated?: true
+    origin?: true
     aiConfidence?: true
+    aiMetadata?: true
+    qualityScore?: true
     aiPromptUsed?: true
     version?: true
     status?: true
@@ -11969,8 +11994,10 @@ export namespace Prisma {
     id: string
     title: string
     content: JsonValue
-    aiGenerated: boolean
+    origin: $Enums.CreationOrigin
     aiConfidence: number | null
+    aiMetadata: JsonValue | null
+    qualityScore: number | null
     aiPromptUsed: string | null
     version: string
     status: $Enums.FRDStatus
@@ -12010,8 +12037,10 @@ export namespace Prisma {
     id?: boolean
     title?: boolean
     content?: boolean
-    aiGenerated?: boolean
+    origin?: boolean
     aiConfidence?: boolean
+    aiMetadata?: boolean
+    qualityScore?: boolean
     aiPromptUsed?: boolean
     version?: boolean
     status?: boolean
@@ -12035,8 +12064,10 @@ export namespace Prisma {
     id?: boolean
     title?: boolean
     content?: boolean
-    aiGenerated?: boolean
+    origin?: boolean
     aiConfidence?: boolean
+    aiMetadata?: boolean
+    qualityScore?: boolean
     aiPromptUsed?: boolean
     version?: boolean
     status?: boolean
@@ -12060,8 +12091,10 @@ export namespace Prisma {
     id?: boolean
     title?: boolean
     content?: boolean
-    aiGenerated?: boolean
+    origin?: boolean
     aiConfidence?: boolean
+    aiMetadata?: boolean
+    qualityScore?: boolean
     aiPromptUsed?: boolean
     version?: boolean
     status?: boolean
@@ -12085,8 +12118,10 @@ export namespace Prisma {
     id?: boolean
     title?: boolean
     content?: boolean
-    aiGenerated?: boolean
+    origin?: boolean
     aiConfidence?: boolean
+    aiMetadata?: boolean
+    qualityScore?: boolean
     aiPromptUsed?: boolean
     version?: boolean
     status?: boolean
@@ -12103,7 +12138,7 @@ export namespace Prisma {
     updatedAt?: boolean
   }
 
-  export type frd_documentsOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "title" | "content" | "aiGenerated" | "aiConfidence" | "aiPromptUsed" | "version" | "status" | "executiveApproved" | "exportFormats" | "templateUsed" | "generationTime" | "wordCount" | "lastExportedAt" | "solutionId" | "createdBy" | "approvedBy" | "createdAt" | "updatedAt", ExtArgs["result"]["frd_documents"]>
+  export type frd_documentsOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "title" | "content" | "origin" | "aiConfidence" | "aiMetadata" | "qualityScore" | "aiPromptUsed" | "version" | "status" | "executiveApproved" | "exportFormats" | "templateUsed" | "generationTime" | "wordCount" | "lastExportedAt" | "solutionId" | "createdBy" | "approvedBy" | "createdAt" | "updatedAt", ExtArgs["result"]["frd_documents"]>
   export type frd_documentsInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     users_frd_documents_approvedByTousers?: boolean | frd_documents$users_frd_documents_approvedByTousersArgs<ExtArgs>
     users_frd_documents_createdByTousers?: boolean | usersDefaultArgs<ExtArgs>
@@ -12131,8 +12166,10 @@ export namespace Prisma {
       id: string
       title: string
       content: Prisma.JsonValue
-      aiGenerated: boolean
+      origin: $Enums.CreationOrigin
       aiConfidence: number | null
+      aiMetadata: Prisma.JsonValue | null
+      qualityScore: number | null
       aiPromptUsed: string | null
       version: string
       status: $Enums.FRDStatus
@@ -12576,8 +12613,10 @@ export namespace Prisma {
     readonly id: FieldRef<"frd_documents", 'String'>
     readonly title: FieldRef<"frd_documents", 'String'>
     readonly content: FieldRef<"frd_documents", 'Json'>
-    readonly aiGenerated: FieldRef<"frd_documents", 'Boolean'>
+    readonly origin: FieldRef<"frd_documents", 'CreationOrigin'>
     readonly aiConfidence: FieldRef<"frd_documents", 'Float'>
+    readonly aiMetadata: FieldRef<"frd_documents", 'Json'>
+    readonly qualityScore: FieldRef<"frd_documents", 'Float'>
     readonly aiPromptUsed: FieldRef<"frd_documents", 'String'>
     readonly version: FieldRef<"frd_documents", 'String'>
     readonly status: FieldRef<"frd_documents", 'FRDStatus'>
@@ -15495,12 +15534,14 @@ export namespace Prisma {
 
   export type IdeasAvgAggregateOutputType = {
     votes: number | null
-    confidence: number | null
+    aiConfidence: number | null
+    qualityScore: number | null
   }
 
   export type IdeasSumAggregateOutputType = {
     votes: number | null
-    confidence: number | null
+    aiConfidence: number | null
+    qualityScore: number | null
   }
 
   export type IdeasMinAggregateOutputType = {
@@ -15508,10 +15549,11 @@ export namespace Prisma {
     hotspotId: string | null
     title: string | null
     description: string | null
-    origin: string | null
+    origin: $Enums.CreationOrigin | null
     votes: number | null
     status: string | null
-    confidence: number | null
+    aiConfidence: number | null
+    qualityScore: number | null
     createdById: string | null
     initiativeId: string | null
     createdAt: Date | null
@@ -15523,10 +15565,11 @@ export namespace Prisma {
     hotspotId: string | null
     title: string | null
     description: string | null
-    origin: string | null
+    origin: $Enums.CreationOrigin | null
     votes: number | null
     status: string | null
-    confidence: number | null
+    aiConfidence: number | null
+    qualityScore: number | null
     createdById: string | null
     initiativeId: string | null
     createdAt: Date | null
@@ -15543,7 +15586,9 @@ export namespace Prisma {
     status: number
     evidenceJson: number
     tagsJson: number
-    confidence: number
+    aiConfidence: number
+    aiMetadata: number
+    qualityScore: number
     createdById: number
     initiativeId: number
     createdAt: number
@@ -15554,12 +15599,14 @@ export namespace Prisma {
 
   export type IdeasAvgAggregateInputType = {
     votes?: true
-    confidence?: true
+    aiConfidence?: true
+    qualityScore?: true
   }
 
   export type IdeasSumAggregateInputType = {
     votes?: true
-    confidence?: true
+    aiConfidence?: true
+    qualityScore?: true
   }
 
   export type IdeasMinAggregateInputType = {
@@ -15570,7 +15617,8 @@ export namespace Prisma {
     origin?: true
     votes?: true
     status?: true
-    confidence?: true
+    aiConfidence?: true
+    qualityScore?: true
     createdById?: true
     initiativeId?: true
     createdAt?: true
@@ -15585,7 +15633,8 @@ export namespace Prisma {
     origin?: true
     votes?: true
     status?: true
-    confidence?: true
+    aiConfidence?: true
+    qualityScore?: true
     createdById?: true
     initiativeId?: true
     createdAt?: true
@@ -15602,7 +15651,9 @@ export namespace Prisma {
     status?: true
     evidenceJson?: true
     tagsJson?: true
-    confidence?: true
+    aiConfidence?: true
+    aiMetadata?: true
+    qualityScore?: true
     createdById?: true
     initiativeId?: true
     createdAt?: true
@@ -15701,12 +15752,14 @@ export namespace Prisma {
     hotspotId: string
     title: string | null
     description: string
-    origin: string
+    origin: $Enums.CreationOrigin
     votes: number
     status: string
     evidenceJson: JsonValue | null
     tagsJson: JsonValue | null
-    confidence: number | null
+    aiConfidence: number | null
+    aiMetadata: JsonValue | null
+    qualityScore: number | null
     createdById: string | null
     initiativeId: string | null
     createdAt: Date
@@ -15742,7 +15795,9 @@ export namespace Prisma {
     status?: boolean
     evidenceJson?: boolean
     tagsJson?: boolean
-    confidence?: boolean
+    aiConfidence?: boolean
+    aiMetadata?: boolean
+    qualityScore?: boolean
     createdById?: boolean
     initiativeId?: boolean
     createdAt?: boolean
@@ -15763,7 +15818,9 @@ export namespace Prisma {
     status?: boolean
     evidenceJson?: boolean
     tagsJson?: boolean
-    confidence?: boolean
+    aiConfidence?: boolean
+    aiMetadata?: boolean
+    qualityScore?: boolean
     createdById?: boolean
     initiativeId?: boolean
     createdAt?: boolean
@@ -15783,7 +15840,9 @@ export namespace Prisma {
     status?: boolean
     evidenceJson?: boolean
     tagsJson?: boolean
-    confidence?: boolean
+    aiConfidence?: boolean
+    aiMetadata?: boolean
+    qualityScore?: boolean
     createdById?: boolean
     initiativeId?: boolean
     createdAt?: boolean
@@ -15803,14 +15862,16 @@ export namespace Prisma {
     status?: boolean
     evidenceJson?: boolean
     tagsJson?: boolean
-    confidence?: boolean
+    aiConfidence?: boolean
+    aiMetadata?: boolean
+    qualityScore?: boolean
     createdById?: boolean
     initiativeId?: boolean
     createdAt?: boolean
     updatedAt?: boolean
   }
 
-  export type ideasOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "hotspotId" | "title" | "description" | "origin" | "votes" | "status" | "evidenceJson" | "tagsJson" | "confidence" | "createdById" | "initiativeId" | "createdAt" | "updatedAt", ExtArgs["result"]["ideas"]>
+  export type ideasOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "hotspotId" | "title" | "description" | "origin" | "votes" | "status" | "evidenceJson" | "tagsJson" | "aiConfidence" | "aiMetadata" | "qualityScore" | "createdById" | "initiativeId" | "createdAt" | "updatedAt", ExtArgs["result"]["ideas"]>
   export type ideasInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     users?: boolean | ideas$usersArgs<ExtArgs>
     hotspots?: boolean | hotspotsDefaultArgs<ExtArgs>
@@ -15841,12 +15902,14 @@ export namespace Prisma {
       hotspotId: string
       title: string | null
       description: string
-      origin: string
+      origin: $Enums.CreationOrigin
       votes: number
       status: string
       evidenceJson: Prisma.JsonValue | null
       tagsJson: Prisma.JsonValue | null
-      confidence: number | null
+      aiConfidence: number | null
+      aiMetadata: Prisma.JsonValue | null
+      qualityScore: number | null
       createdById: string | null
       initiativeId: string | null
       createdAt: Date
@@ -16282,12 +16345,14 @@ export namespace Prisma {
     readonly hotspotId: FieldRef<"ideas", 'String'>
     readonly title: FieldRef<"ideas", 'String'>
     readonly description: FieldRef<"ideas", 'String'>
-    readonly origin: FieldRef<"ideas", 'String'>
+    readonly origin: FieldRef<"ideas", 'CreationOrigin'>
     readonly votes: FieldRef<"ideas", 'Int'>
     readonly status: FieldRef<"ideas", 'String'>
     readonly evidenceJson: FieldRef<"ideas", 'Json'>
     readonly tagsJson: FieldRef<"ideas", 'Json'>
-    readonly confidence: FieldRef<"ideas", 'Float'>
+    readonly aiConfidence: FieldRef<"ideas", 'Float'>
+    readonly aiMetadata: FieldRef<"ideas", 'Json'>
+    readonly qualityScore: FieldRef<"ideas", 'Float'>
     readonly createdById: FieldRef<"ideas", 'String'>
     readonly initiativeId: FieldRef<"ideas", 'String'>
     readonly createdAt: FieldRef<"ideas", 'DateTime'>
@@ -21699,8 +21764,20 @@ export namespace Prisma {
 
   export type AggregateRequirements = {
     _count: RequirementsCountAggregateOutputType | null
+    _avg: RequirementsAvgAggregateOutputType | null
+    _sum: RequirementsSumAggregateOutputType | null
     _min: RequirementsMinAggregateOutputType | null
     _max: RequirementsMaxAggregateOutputType | null
+  }
+
+  export type RequirementsAvgAggregateOutputType = {
+    aiConfidence: number | null
+    qualityScore: number | null
+  }
+
+  export type RequirementsSumAggregateOutputType = {
+    aiConfidence: number | null
+    qualityScore: number | null
   }
 
   export type RequirementsMinAggregateOutputType = {
@@ -21708,6 +21785,9 @@ export namespace Prisma {
     title: string | null
     description: string | null
     status: $Enums.RequirementStatus | null
+    origin: $Enums.CreationOrigin | null
+    aiConfidence: number | null
+    qualityScore: number | null
     estimatedEffort: string | null
     businessValue: string | null
     riskAssessment: string | null
@@ -21726,6 +21806,9 @@ export namespace Prisma {
     title: string | null
     description: string | null
     status: $Enums.RequirementStatus | null
+    origin: $Enums.CreationOrigin | null
+    aiConfidence: number | null
+    qualityScore: number | null
     estimatedEffort: string | null
     businessValue: string | null
     riskAssessment: string | null
@@ -21745,6 +21828,10 @@ export namespace Prisma {
     description: number
     acceptanceCriteria: number
     status: number
+    origin: number
+    aiConfidence: number
+    aiMetadata: number
+    qualityScore: number
     estimatedEffort: number
     dependencies: number
     businessValue: number
@@ -21762,11 +21849,24 @@ export namespace Prisma {
   }
 
 
+  export type RequirementsAvgAggregateInputType = {
+    aiConfidence?: true
+    qualityScore?: true
+  }
+
+  export type RequirementsSumAggregateInputType = {
+    aiConfidence?: true
+    qualityScore?: true
+  }
+
   export type RequirementsMinAggregateInputType = {
     id?: true
     title?: true
     description?: true
     status?: true
+    origin?: true
+    aiConfidence?: true
+    qualityScore?: true
     estimatedEffort?: true
     businessValue?: true
     riskAssessment?: true
@@ -21785,6 +21885,9 @@ export namespace Prisma {
     title?: true
     description?: true
     status?: true
+    origin?: true
+    aiConfidence?: true
+    qualityScore?: true
     estimatedEffort?: true
     businessValue?: true
     riskAssessment?: true
@@ -21804,6 +21907,10 @@ export namespace Prisma {
     description?: true
     acceptanceCriteria?: true
     status?: true
+    origin?: true
+    aiConfidence?: true
+    aiMetadata?: true
+    qualityScore?: true
     estimatedEffort?: true
     dependencies?: true
     businessValue?: true
@@ -21858,6 +21965,18 @@ export namespace Prisma {
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
      * 
+     * Select which fields to average
+    **/
+    _avg?: RequirementsAvgAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to sum
+    **/
+    _sum?: RequirementsSumAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
      * Select which fields to find the minimum value
     **/
     _min?: RequirementsMinAggregateInputType
@@ -21888,6 +22007,8 @@ export namespace Prisma {
     take?: number
     skip?: number
     _count?: RequirementsCountAggregateInputType | true
+    _avg?: RequirementsAvgAggregateInputType
+    _sum?: RequirementsSumAggregateInputType
     _min?: RequirementsMinAggregateInputType
     _max?: RequirementsMaxAggregateInputType
   }
@@ -21898,6 +22019,10 @@ export namespace Prisma {
     description: string
     acceptanceCriteria: JsonValue
     status: $Enums.RequirementStatus
+    origin: $Enums.CreationOrigin
+    aiConfidence: number | null
+    aiMetadata: JsonValue | null
+    qualityScore: number | null
     estimatedEffort: string | null
     dependencies: JsonValue | null
     businessValue: string | null
@@ -21912,6 +22037,8 @@ export namespace Prisma {
     updatedAt: Date
     priority: $Enums.priority
     _count: RequirementsCountAggregateOutputType | null
+    _avg: RequirementsAvgAggregateOutputType | null
+    _sum: RequirementsSumAggregateOutputType | null
     _min: RequirementsMinAggregateOutputType | null
     _max: RequirementsMaxAggregateOutputType | null
   }
@@ -21936,6 +22063,10 @@ export namespace Prisma {
     description?: boolean
     acceptanceCriteria?: boolean
     status?: boolean
+    origin?: boolean
+    aiConfidence?: boolean
+    aiMetadata?: boolean
+    qualityScore?: boolean
     estimatedEffort?: boolean
     dependencies?: boolean
     businessValue?: boolean
@@ -21959,6 +22090,10 @@ export namespace Prisma {
     description?: boolean
     acceptanceCriteria?: boolean
     status?: boolean
+    origin?: boolean
+    aiConfidence?: boolean
+    aiMetadata?: boolean
+    qualityScore?: boolean
     estimatedEffort?: boolean
     dependencies?: boolean
     businessValue?: boolean
@@ -21982,6 +22117,10 @@ export namespace Prisma {
     description?: boolean
     acceptanceCriteria?: boolean
     status?: boolean
+    origin?: boolean
+    aiConfidence?: boolean
+    aiMetadata?: boolean
+    qualityScore?: boolean
     estimatedEffort?: boolean
     dependencies?: boolean
     businessValue?: boolean
@@ -22005,6 +22144,10 @@ export namespace Prisma {
     description?: boolean
     acceptanceCriteria?: boolean
     status?: boolean
+    origin?: boolean
+    aiConfidence?: boolean
+    aiMetadata?: boolean
+    qualityScore?: boolean
     estimatedEffort?: boolean
     dependencies?: boolean
     businessValue?: boolean
@@ -22020,7 +22163,7 @@ export namespace Prisma {
     priority?: boolean
   }
 
-  export type requirementsOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "title" | "description" | "acceptanceCriteria" | "status" | "estimatedEffort" | "dependencies" | "businessValue" | "riskAssessment" | "stakeholders" | "approvedBy" | "approvedAt" | "rejectionReason" | "solutionId" | "createdBy" | "createdAt" | "updatedAt" | "priority", ExtArgs["result"]["requirements"]>
+  export type requirementsOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "title" | "description" | "acceptanceCriteria" | "status" | "origin" | "aiConfidence" | "aiMetadata" | "qualityScore" | "estimatedEffort" | "dependencies" | "businessValue" | "riskAssessment" | "stakeholders" | "approvedBy" | "approvedAt" | "rejectionReason" | "solutionId" | "createdBy" | "createdAt" | "updatedAt" | "priority", ExtArgs["result"]["requirements"]>
   export type requirementsInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     users?: boolean | usersDefaultArgs<ExtArgs>
     solutions?: boolean | solutionsDefaultArgs<ExtArgs>
@@ -22046,6 +22189,10 @@ export namespace Prisma {
       description: string
       acceptanceCriteria: Prisma.JsonValue
       status: $Enums.RequirementStatus
+      origin: $Enums.CreationOrigin
+      aiConfidence: number | null
+      aiMetadata: Prisma.JsonValue | null
+      qualityScore: number | null
       estimatedEffort: string | null
       dependencies: Prisma.JsonValue | null
       businessValue: string | null
@@ -22489,6 +22636,10 @@ export namespace Prisma {
     readonly description: FieldRef<"requirements", 'String'>
     readonly acceptanceCriteria: FieldRef<"requirements", 'Json'>
     readonly status: FieldRef<"requirements", 'RequirementStatus'>
+    readonly origin: FieldRef<"requirements", 'CreationOrigin'>
+    readonly aiConfidence: FieldRef<"requirements", 'Float'>
+    readonly aiMetadata: FieldRef<"requirements", 'Json'>
+    readonly qualityScore: FieldRef<"requirements", 'Float'>
     readonly estimatedEffort: FieldRef<"requirements", 'String'>
     readonly dependencies: FieldRef<"requirements", 'Json'>
     readonly businessValue: FieldRef<"requirements", 'String'>
@@ -24603,10 +24754,14 @@ export namespace Prisma {
   }
 
   export type SolutionsAvgAggregateOutputType = {
+    aiConfidence: number | null
+    qualityScore: number | null
     progress: number | null
   }
 
   export type SolutionsSumAggregateOutputType = {
+    aiConfidence: number | null
+    qualityScore: number | null
     progress: number | null
   }
 
@@ -24615,6 +24770,9 @@ export namespace Prisma {
     title: string | null
     description: string | null
     status: $Enums.SolutionStatus | null
+    origin: $Enums.CreationOrigin | null
+    aiConfidence: number | null
+    qualityScore: number | null
     createdAt: Date | null
     updatedAt: Date | null
     estimatedEffort: string | null
@@ -24634,6 +24792,9 @@ export namespace Prisma {
     title: string | null
     description: string | null
     status: $Enums.SolutionStatus | null
+    origin: $Enums.CreationOrigin | null
+    aiConfidence: number | null
+    qualityScore: number | null
     createdAt: Date | null
     updatedAt: Date | null
     estimatedEffort: string | null
@@ -24653,6 +24814,10 @@ export namespace Prisma {
     title: number
     description: number
     status: number
+    origin: number
+    aiConfidence: number
+    aiMetadata: number
+    qualityScore: number
     createdAt: number
     updatedAt: number
     estimatedEffort: number
@@ -24674,10 +24839,14 @@ export namespace Prisma {
 
 
   export type SolutionsAvgAggregateInputType = {
+    aiConfidence?: true
+    qualityScore?: true
     progress?: true
   }
 
   export type SolutionsSumAggregateInputType = {
+    aiConfidence?: true
+    qualityScore?: true
     progress?: true
   }
 
@@ -24686,6 +24855,9 @@ export namespace Prisma {
     title?: true
     description?: true
     status?: true
+    origin?: true
+    aiConfidence?: true
+    qualityScore?: true
     createdAt?: true
     updatedAt?: true
     estimatedEffort?: true
@@ -24705,6 +24877,9 @@ export namespace Prisma {
     title?: true
     description?: true
     status?: true
+    origin?: true
+    aiConfidence?: true
+    qualityScore?: true
     createdAt?: true
     updatedAt?: true
     estimatedEffort?: true
@@ -24724,6 +24899,10 @@ export namespace Prisma {
     title?: true
     description?: true
     status?: true
+    origin?: true
+    aiConfidence?: true
+    aiMetadata?: true
+    qualityScore?: true
     createdAt?: true
     updatedAt?: true
     estimatedEffort?: true
@@ -24834,6 +25013,10 @@ export namespace Prisma {
     title: string
     description: string
     status: $Enums.SolutionStatus
+    origin: $Enums.CreationOrigin
+    aiConfidence: number | null
+    aiMetadata: JsonValue | null
+    qualityScore: number | null
     createdAt: Date
     updatedAt: Date
     estimatedEffort: string | null
@@ -24876,6 +25059,10 @@ export namespace Prisma {
     title?: boolean
     description?: boolean
     status?: boolean
+    origin?: boolean
+    aiConfidence?: boolean
+    aiMetadata?: boolean
+    qualityScore?: boolean
     createdAt?: boolean
     updatedAt?: boolean
     estimatedEffort?: boolean
@@ -24907,6 +25094,10 @@ export namespace Prisma {
     title?: boolean
     description?: boolean
     status?: boolean
+    origin?: boolean
+    aiConfidence?: boolean
+    aiMetadata?: boolean
+    qualityScore?: boolean
     createdAt?: boolean
     updatedAt?: boolean
     estimatedEffort?: boolean
@@ -24935,6 +25126,10 @@ export namespace Prisma {
     title?: boolean
     description?: boolean
     status?: boolean
+    origin?: boolean
+    aiConfidence?: boolean
+    aiMetadata?: boolean
+    qualityScore?: boolean
     createdAt?: boolean
     updatedAt?: boolean
     estimatedEffort?: boolean
@@ -24963,6 +25158,10 @@ export namespace Prisma {
     title?: boolean
     description?: boolean
     status?: boolean
+    origin?: boolean
+    aiConfidence?: boolean
+    aiMetadata?: boolean
+    qualityScore?: boolean
     createdAt?: boolean
     updatedAt?: boolean
     estimatedEffort?: boolean
@@ -24981,7 +25180,7 @@ export namespace Prisma {
     tasks?: boolean
   }
 
-  export type solutionsOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "title" | "description" | "status" | "createdAt" | "updatedAt" | "estimatedEffort" | "actualCompletionDate" | "actualImpactJson" | "businessValue" | "createdBy" | "expectedImpactJson" | "hotspotId" | "ideaId" | "initiativeId" | "inputId" | "progress" | "successMetrics" | "targetDate" | "tasks", ExtArgs["result"]["solutions"]>
+  export type solutionsOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "title" | "description" | "status" | "origin" | "aiConfidence" | "aiMetadata" | "qualityScore" | "createdAt" | "updatedAt" | "estimatedEffort" | "actualCompletionDate" | "actualImpactJson" | "businessValue" | "createdBy" | "expectedImpactJson" | "hotspotId" | "ideaId" | "initiativeId" | "inputId" | "progress" | "successMetrics" | "targetDate" | "tasks", ExtArgs["result"]["solutions"]>
   export type solutionsInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     frd_documents?: boolean | solutions$frd_documentsArgs<ExtArgs>
     requirements?: boolean | solutions$requirementsArgs<ExtArgs>
@@ -25023,6 +25222,10 @@ export namespace Prisma {
       title: string
       description: string
       status: $Enums.SolutionStatus
+      origin: $Enums.CreationOrigin
+      aiConfidence: number | null
+      aiMetadata: Prisma.JsonValue | null
+      qualityScore: number | null
       createdAt: Date
       updatedAt: Date
       estimatedEffort: string | null
@@ -25473,6 +25676,10 @@ export namespace Prisma {
     readonly title: FieldRef<"solutions", 'String'>
     readonly description: FieldRef<"solutions", 'String'>
     readonly status: FieldRef<"solutions", 'SolutionStatus'>
+    readonly origin: FieldRef<"solutions", 'CreationOrigin'>
+    readonly aiConfidence: FieldRef<"solutions", 'Float'>
+    readonly aiMetadata: FieldRef<"solutions", 'Json'>
+    readonly qualityScore: FieldRef<"solutions", 'Float'>
     readonly createdAt: FieldRef<"solutions", 'DateTime'>
     readonly updatedAt: FieldRef<"solutions", 'DateTime'>
     readonly estimatedEffort: FieldRef<"solutions", 'String'>
@@ -30402,8 +30609,10 @@ export namespace Prisma {
     id: 'id',
     title: 'title',
     content: 'content',
-    aiGenerated: 'aiGenerated',
+    origin: 'origin',
     aiConfidence: 'aiConfidence',
+    aiMetadata: 'aiMetadata',
+    qualityScore: 'qualityScore',
     aiPromptUsed: 'aiPromptUsed',
     version: 'version',
     status: 'status',
@@ -30471,7 +30680,9 @@ export namespace Prisma {
     status: 'status',
     evidenceJson: 'evidenceJson',
     tagsJson: 'tagsJson',
-    confidence: 'confidence',
+    aiConfidence: 'aiConfidence',
+    aiMetadata: 'aiMetadata',
+    qualityScore: 'qualityScore',
     createdById: 'createdById',
     initiativeId: 'initiativeId',
     createdAt: 'createdAt',
@@ -30569,6 +30780,10 @@ export namespace Prisma {
     description: 'description',
     acceptanceCriteria: 'acceptanceCriteria',
     status: 'status',
+    origin: 'origin',
+    aiConfidence: 'aiConfidence',
+    aiMetadata: 'aiMetadata',
+    qualityScore: 'qualityScore',
     estimatedEffort: 'estimatedEffort',
     dependencies: 'dependencies',
     businessValue: 'businessValue',
@@ -30639,6 +30854,10 @@ export namespace Prisma {
     title: 'title',
     description: 'description',
     status: 'status',
+    origin: 'origin',
+    aiConfidence: 'aiConfidence',
+    aiMetadata: 'aiMetadata',
+    qualityScore: 'qualityScore',
     createdAt: 'createdAt',
     updatedAt: 'updatedAt',
     estimatedEffort: 'estimatedEffort',
@@ -30859,6 +31078,20 @@ export namespace Prisma {
    * Reference to a field of type 'EntityType[]'
    */
   export type ListEnumEntityTypeFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'EntityType[]'>
+    
+
+
+  /**
+   * Reference to a field of type 'CreationOrigin'
+   */
+  export type EnumCreationOriginFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'CreationOrigin'>
+    
+
+
+  /**
+   * Reference to a field of type 'CreationOrigin[]'
+   */
+  export type ListEnumCreationOriginFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'CreationOrigin[]'>
     
 
 
@@ -31672,8 +31905,10 @@ export namespace Prisma {
     id?: StringFilter<"frd_documents"> | string
     title?: StringFilter<"frd_documents"> | string
     content?: JsonFilter<"frd_documents">
-    aiGenerated?: BoolFilter<"frd_documents"> | boolean
+    origin?: EnumCreationOriginFilter<"frd_documents"> | $Enums.CreationOrigin
     aiConfidence?: FloatNullableFilter<"frd_documents"> | number | null
+    aiMetadata?: JsonNullableFilter<"frd_documents">
+    qualityScore?: FloatNullableFilter<"frd_documents"> | number | null
     aiPromptUsed?: StringNullableFilter<"frd_documents"> | string | null
     version?: StringFilter<"frd_documents"> | string
     status?: EnumFRDStatusFilter<"frd_documents"> | $Enums.FRDStatus
@@ -31697,8 +31932,10 @@ export namespace Prisma {
     id?: SortOrder
     title?: SortOrder
     content?: SortOrder
-    aiGenerated?: SortOrder
+    origin?: SortOrder
     aiConfidence?: SortOrderInput | SortOrder
+    aiMetadata?: SortOrderInput | SortOrder
+    qualityScore?: SortOrderInput | SortOrder
     aiPromptUsed?: SortOrderInput | SortOrder
     version?: SortOrder
     status?: SortOrder
@@ -31725,8 +31962,10 @@ export namespace Prisma {
     NOT?: frd_documentsWhereInput | frd_documentsWhereInput[]
     title?: StringFilter<"frd_documents"> | string
     content?: JsonFilter<"frd_documents">
-    aiGenerated?: BoolFilter<"frd_documents"> | boolean
+    origin?: EnumCreationOriginFilter<"frd_documents"> | $Enums.CreationOrigin
     aiConfidence?: FloatNullableFilter<"frd_documents"> | number | null
+    aiMetadata?: JsonNullableFilter<"frd_documents">
+    qualityScore?: FloatNullableFilter<"frd_documents"> | number | null
     aiPromptUsed?: StringNullableFilter<"frd_documents"> | string | null
     version?: StringFilter<"frd_documents"> | string
     status?: EnumFRDStatusFilter<"frd_documents"> | $Enums.FRDStatus
@@ -31750,8 +31989,10 @@ export namespace Prisma {
     id?: SortOrder
     title?: SortOrder
     content?: SortOrder
-    aiGenerated?: SortOrder
+    origin?: SortOrder
     aiConfidence?: SortOrderInput | SortOrder
+    aiMetadata?: SortOrderInput | SortOrder
+    qualityScore?: SortOrderInput | SortOrder
     aiPromptUsed?: SortOrderInput | SortOrder
     version?: SortOrder
     status?: SortOrder
@@ -31780,8 +32021,10 @@ export namespace Prisma {
     id?: StringWithAggregatesFilter<"frd_documents"> | string
     title?: StringWithAggregatesFilter<"frd_documents"> | string
     content?: JsonWithAggregatesFilter<"frd_documents">
-    aiGenerated?: BoolWithAggregatesFilter<"frd_documents"> | boolean
+    origin?: EnumCreationOriginWithAggregatesFilter<"frd_documents"> | $Enums.CreationOrigin
     aiConfidence?: FloatNullableWithAggregatesFilter<"frd_documents"> | number | null
+    aiMetadata?: JsonNullableWithAggregatesFilter<"frd_documents">
+    qualityScore?: FloatNullableWithAggregatesFilter<"frd_documents"> | number | null
     aiPromptUsed?: StringNullableWithAggregatesFilter<"frd_documents"> | string | null
     version?: StringWithAggregatesFilter<"frd_documents"> | string
     status?: EnumFRDStatusWithAggregatesFilter<"frd_documents"> | $Enums.FRDStatus
@@ -32010,12 +32253,14 @@ export namespace Prisma {
     hotspotId?: StringFilter<"ideas"> | string
     title?: StringNullableFilter<"ideas"> | string | null
     description?: StringFilter<"ideas"> | string
-    origin?: StringFilter<"ideas"> | string
+    origin?: EnumCreationOriginFilter<"ideas"> | $Enums.CreationOrigin
     votes?: IntFilter<"ideas"> | number
     status?: StringFilter<"ideas"> | string
     evidenceJson?: JsonNullableFilter<"ideas">
     tagsJson?: JsonNullableFilter<"ideas">
-    confidence?: FloatNullableFilter<"ideas"> | number | null
+    aiConfidence?: FloatNullableFilter<"ideas"> | number | null
+    aiMetadata?: JsonNullableFilter<"ideas">
+    qualityScore?: FloatNullableFilter<"ideas"> | number | null
     createdById?: StringNullableFilter<"ideas"> | string | null
     initiativeId?: StringNullableFilter<"ideas"> | string | null
     createdAt?: DateTimeFilter<"ideas"> | Date | string
@@ -32036,7 +32281,9 @@ export namespace Prisma {
     status?: SortOrder
     evidenceJson?: SortOrderInput | SortOrder
     tagsJson?: SortOrderInput | SortOrder
-    confidence?: SortOrderInput | SortOrder
+    aiConfidence?: SortOrderInput | SortOrder
+    aiMetadata?: SortOrderInput | SortOrder
+    qualityScore?: SortOrderInput | SortOrder
     createdById?: SortOrderInput | SortOrder
     initiativeId?: SortOrderInput | SortOrder
     createdAt?: SortOrder
@@ -32055,12 +32302,14 @@ export namespace Prisma {
     hotspotId?: StringFilter<"ideas"> | string
     title?: StringNullableFilter<"ideas"> | string | null
     description?: StringFilter<"ideas"> | string
-    origin?: StringFilter<"ideas"> | string
+    origin?: EnumCreationOriginFilter<"ideas"> | $Enums.CreationOrigin
     votes?: IntFilter<"ideas"> | number
     status?: StringFilter<"ideas"> | string
     evidenceJson?: JsonNullableFilter<"ideas">
     tagsJson?: JsonNullableFilter<"ideas">
-    confidence?: FloatNullableFilter<"ideas"> | number | null
+    aiConfidence?: FloatNullableFilter<"ideas"> | number | null
+    aiMetadata?: JsonNullableFilter<"ideas">
+    qualityScore?: FloatNullableFilter<"ideas"> | number | null
     createdById?: StringNullableFilter<"ideas"> | string | null
     initiativeId?: StringNullableFilter<"ideas"> | string | null
     createdAt?: DateTimeFilter<"ideas"> | Date | string
@@ -32081,7 +32330,9 @@ export namespace Prisma {
     status?: SortOrder
     evidenceJson?: SortOrderInput | SortOrder
     tagsJson?: SortOrderInput | SortOrder
-    confidence?: SortOrderInput | SortOrder
+    aiConfidence?: SortOrderInput | SortOrder
+    aiMetadata?: SortOrderInput | SortOrder
+    qualityScore?: SortOrderInput | SortOrder
     createdById?: SortOrderInput | SortOrder
     initiativeId?: SortOrderInput | SortOrder
     createdAt?: SortOrder
@@ -32101,12 +32352,14 @@ export namespace Prisma {
     hotspotId?: StringWithAggregatesFilter<"ideas"> | string
     title?: StringNullableWithAggregatesFilter<"ideas"> | string | null
     description?: StringWithAggregatesFilter<"ideas"> | string
-    origin?: StringWithAggregatesFilter<"ideas"> | string
+    origin?: EnumCreationOriginWithAggregatesFilter<"ideas"> | $Enums.CreationOrigin
     votes?: IntWithAggregatesFilter<"ideas"> | number
     status?: StringWithAggregatesFilter<"ideas"> | string
     evidenceJson?: JsonNullableWithAggregatesFilter<"ideas">
     tagsJson?: JsonNullableWithAggregatesFilter<"ideas">
-    confidence?: FloatNullableWithAggregatesFilter<"ideas"> | number | null
+    aiConfidence?: FloatNullableWithAggregatesFilter<"ideas"> | number | null
+    aiMetadata?: JsonNullableWithAggregatesFilter<"ideas">
+    qualityScore?: FloatNullableWithAggregatesFilter<"ideas"> | number | null
     createdById?: StringNullableWithAggregatesFilter<"ideas"> | string | null
     initiativeId?: StringNullableWithAggregatesFilter<"ideas"> | string | null
     createdAt?: DateTimeWithAggregatesFilter<"ideas"> | Date | string
@@ -32550,6 +32803,10 @@ export namespace Prisma {
     description?: StringFilter<"requirements"> | string
     acceptanceCriteria?: JsonFilter<"requirements">
     status?: EnumRequirementStatusFilter<"requirements"> | $Enums.RequirementStatus
+    origin?: EnumCreationOriginFilter<"requirements"> | $Enums.CreationOrigin
+    aiConfidence?: FloatNullableFilter<"requirements"> | number | null
+    aiMetadata?: JsonNullableFilter<"requirements">
+    qualityScore?: FloatNullableFilter<"requirements"> | number | null
     estimatedEffort?: StringNullableFilter<"requirements"> | string | null
     dependencies?: JsonNullableFilter<"requirements">
     businessValue?: StringNullableFilter<"requirements"> | string | null
@@ -32573,6 +32830,10 @@ export namespace Prisma {
     description?: SortOrder
     acceptanceCriteria?: SortOrder
     status?: SortOrder
+    origin?: SortOrder
+    aiConfidence?: SortOrderInput | SortOrder
+    aiMetadata?: SortOrderInput | SortOrder
+    qualityScore?: SortOrderInput | SortOrder
     estimatedEffort?: SortOrderInput | SortOrder
     dependencies?: SortOrderInput | SortOrder
     businessValue?: SortOrderInput | SortOrder
@@ -32599,6 +32860,10 @@ export namespace Prisma {
     description?: StringFilter<"requirements"> | string
     acceptanceCriteria?: JsonFilter<"requirements">
     status?: EnumRequirementStatusFilter<"requirements"> | $Enums.RequirementStatus
+    origin?: EnumCreationOriginFilter<"requirements"> | $Enums.CreationOrigin
+    aiConfidence?: FloatNullableFilter<"requirements"> | number | null
+    aiMetadata?: JsonNullableFilter<"requirements">
+    qualityScore?: FloatNullableFilter<"requirements"> | number | null
     estimatedEffort?: StringNullableFilter<"requirements"> | string | null
     dependencies?: JsonNullableFilter<"requirements">
     businessValue?: StringNullableFilter<"requirements"> | string | null
@@ -32622,6 +32887,10 @@ export namespace Prisma {
     description?: SortOrder
     acceptanceCriteria?: SortOrder
     status?: SortOrder
+    origin?: SortOrder
+    aiConfidence?: SortOrderInput | SortOrder
+    aiMetadata?: SortOrderInput | SortOrder
+    qualityScore?: SortOrderInput | SortOrder
     estimatedEffort?: SortOrderInput | SortOrder
     dependencies?: SortOrderInput | SortOrder
     businessValue?: SortOrderInput | SortOrder
@@ -32636,8 +32905,10 @@ export namespace Prisma {
     updatedAt?: SortOrder
     priority?: SortOrder
     _count?: requirementsCountOrderByAggregateInput
+    _avg?: requirementsAvgOrderByAggregateInput
     _max?: requirementsMaxOrderByAggregateInput
     _min?: requirementsMinOrderByAggregateInput
+    _sum?: requirementsSumOrderByAggregateInput
   }
 
   export type requirementsScalarWhereWithAggregatesInput = {
@@ -32649,6 +32920,10 @@ export namespace Prisma {
     description?: StringWithAggregatesFilter<"requirements"> | string
     acceptanceCriteria?: JsonWithAggregatesFilter<"requirements">
     status?: EnumRequirementStatusWithAggregatesFilter<"requirements"> | $Enums.RequirementStatus
+    origin?: EnumCreationOriginWithAggregatesFilter<"requirements"> | $Enums.CreationOrigin
+    aiConfidence?: FloatNullableWithAggregatesFilter<"requirements"> | number | null
+    aiMetadata?: JsonNullableWithAggregatesFilter<"requirements">
+    qualityScore?: FloatNullableWithAggregatesFilter<"requirements"> | number | null
     estimatedEffort?: StringNullableWithAggregatesFilter<"requirements"> | string | null
     dependencies?: JsonNullableWithAggregatesFilter<"requirements">
     businessValue?: StringNullableWithAggregatesFilter<"requirements"> | string | null
@@ -32924,6 +33199,10 @@ export namespace Prisma {
     title?: StringFilter<"solutions"> | string
     description?: StringFilter<"solutions"> | string
     status?: EnumSolutionStatusFilter<"solutions"> | $Enums.SolutionStatus
+    origin?: EnumCreationOriginFilter<"solutions"> | $Enums.CreationOrigin
+    aiConfidence?: FloatNullableFilter<"solutions"> | number | null
+    aiMetadata?: JsonNullableFilter<"solutions">
+    qualityScore?: FloatNullableFilter<"solutions"> | number | null
     createdAt?: DateTimeFilter<"solutions"> | Date | string
     updatedAt?: DateTimeFilter<"solutions"> | Date | string
     estimatedEffort?: StringNullableFilter<"solutions"> | string | null
@@ -32954,6 +33233,10 @@ export namespace Prisma {
     title?: SortOrder
     description?: SortOrder
     status?: SortOrder
+    origin?: SortOrder
+    aiConfidence?: SortOrderInput | SortOrder
+    aiMetadata?: SortOrderInput | SortOrder
+    qualityScore?: SortOrderInput | SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
     estimatedEffort?: SortOrderInput | SortOrder
@@ -32988,6 +33271,10 @@ export namespace Prisma {
     title?: StringFilter<"solutions"> | string
     description?: StringFilter<"solutions"> | string
     status?: EnumSolutionStatusFilter<"solutions"> | $Enums.SolutionStatus
+    origin?: EnumCreationOriginFilter<"solutions"> | $Enums.CreationOrigin
+    aiConfidence?: FloatNullableFilter<"solutions"> | number | null
+    aiMetadata?: JsonNullableFilter<"solutions">
+    qualityScore?: FloatNullableFilter<"solutions"> | number | null
     createdAt?: DateTimeFilter<"solutions"> | Date | string
     updatedAt?: DateTimeFilter<"solutions"> | Date | string
     estimatedEffort?: StringNullableFilter<"solutions"> | string | null
@@ -33017,6 +33304,10 @@ export namespace Prisma {
     title?: SortOrder
     description?: SortOrder
     status?: SortOrder
+    origin?: SortOrder
+    aiConfidence?: SortOrderInput | SortOrder
+    aiMetadata?: SortOrderInput | SortOrder
+    qualityScore?: SortOrderInput | SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
     estimatedEffort?: SortOrderInput | SortOrder
@@ -33048,6 +33339,10 @@ export namespace Prisma {
     title?: StringWithAggregatesFilter<"solutions"> | string
     description?: StringWithAggregatesFilter<"solutions"> | string
     status?: EnumSolutionStatusWithAggregatesFilter<"solutions"> | $Enums.SolutionStatus
+    origin?: EnumCreationOriginWithAggregatesFilter<"solutions"> | $Enums.CreationOrigin
+    aiConfidence?: FloatNullableWithAggregatesFilter<"solutions"> | number | null
+    aiMetadata?: JsonNullableWithAggregatesFilter<"solutions">
+    qualityScore?: FloatNullableWithAggregatesFilter<"solutions"> | number | null
     createdAt?: DateTimeWithAggregatesFilter<"solutions"> | Date | string
     updatedAt?: DateTimeWithAggregatesFilter<"solutions"> | Date | string
     estimatedEffort?: StringNullableWithAggregatesFilter<"solutions"> | string | null
@@ -34097,8 +34392,10 @@ export namespace Prisma {
     id: string
     title: string
     content: JsonNullValueInput | InputJsonValue
-    aiGenerated?: boolean
+    origin?: $Enums.CreationOrigin
     aiConfidence?: number | null
+    aiMetadata?: NullableJsonNullValueInput | InputJsonValue
+    qualityScore?: number | null
     aiPromptUsed?: string | null
     version?: string
     status?: $Enums.FRDStatus
@@ -34119,8 +34416,10 @@ export namespace Prisma {
     id: string
     title: string
     content: JsonNullValueInput | InputJsonValue
-    aiGenerated?: boolean
+    origin?: $Enums.CreationOrigin
     aiConfidence?: number | null
+    aiMetadata?: NullableJsonNullValueInput | InputJsonValue
+    qualityScore?: number | null
     aiPromptUsed?: string | null
     version?: string
     status?: $Enums.FRDStatus
@@ -34141,8 +34440,10 @@ export namespace Prisma {
     id?: StringFieldUpdateOperationsInput | string
     title?: StringFieldUpdateOperationsInput | string
     content?: JsonNullValueInput | InputJsonValue
-    aiGenerated?: BoolFieldUpdateOperationsInput | boolean
+    origin?: EnumCreationOriginFieldUpdateOperationsInput | $Enums.CreationOrigin
     aiConfidence?: NullableFloatFieldUpdateOperationsInput | number | null
+    aiMetadata?: NullableJsonNullValueInput | InputJsonValue
+    qualityScore?: NullableFloatFieldUpdateOperationsInput | number | null
     aiPromptUsed?: NullableStringFieldUpdateOperationsInput | string | null
     version?: StringFieldUpdateOperationsInput | string
     status?: EnumFRDStatusFieldUpdateOperationsInput | $Enums.FRDStatus
@@ -34163,8 +34464,10 @@ export namespace Prisma {
     id?: StringFieldUpdateOperationsInput | string
     title?: StringFieldUpdateOperationsInput | string
     content?: JsonNullValueInput | InputJsonValue
-    aiGenerated?: BoolFieldUpdateOperationsInput | boolean
+    origin?: EnumCreationOriginFieldUpdateOperationsInput | $Enums.CreationOrigin
     aiConfidence?: NullableFloatFieldUpdateOperationsInput | number | null
+    aiMetadata?: NullableJsonNullValueInput | InputJsonValue
+    qualityScore?: NullableFloatFieldUpdateOperationsInput | number | null
     aiPromptUsed?: NullableStringFieldUpdateOperationsInput | string | null
     version?: StringFieldUpdateOperationsInput | string
     status?: EnumFRDStatusFieldUpdateOperationsInput | $Enums.FRDStatus
@@ -34185,8 +34488,10 @@ export namespace Prisma {
     id: string
     title: string
     content: JsonNullValueInput | InputJsonValue
-    aiGenerated?: boolean
+    origin?: $Enums.CreationOrigin
     aiConfidence?: number | null
+    aiMetadata?: NullableJsonNullValueInput | InputJsonValue
+    qualityScore?: number | null
     aiPromptUsed?: string | null
     version?: string
     status?: $Enums.FRDStatus
@@ -34207,8 +34512,10 @@ export namespace Prisma {
     id?: StringFieldUpdateOperationsInput | string
     title?: StringFieldUpdateOperationsInput | string
     content?: JsonNullValueInput | InputJsonValue
-    aiGenerated?: BoolFieldUpdateOperationsInput | boolean
+    origin?: EnumCreationOriginFieldUpdateOperationsInput | $Enums.CreationOrigin
     aiConfidence?: NullableFloatFieldUpdateOperationsInput | number | null
+    aiMetadata?: NullableJsonNullValueInput | InputJsonValue
+    qualityScore?: NullableFloatFieldUpdateOperationsInput | number | null
     aiPromptUsed?: NullableStringFieldUpdateOperationsInput | string | null
     version?: StringFieldUpdateOperationsInput | string
     status?: EnumFRDStatusFieldUpdateOperationsInput | $Enums.FRDStatus
@@ -34226,8 +34533,10 @@ export namespace Prisma {
     id?: StringFieldUpdateOperationsInput | string
     title?: StringFieldUpdateOperationsInput | string
     content?: JsonNullValueInput | InputJsonValue
-    aiGenerated?: BoolFieldUpdateOperationsInput | boolean
+    origin?: EnumCreationOriginFieldUpdateOperationsInput | $Enums.CreationOrigin
     aiConfidence?: NullableFloatFieldUpdateOperationsInput | number | null
+    aiMetadata?: NullableJsonNullValueInput | InputJsonValue
+    qualityScore?: NullableFloatFieldUpdateOperationsInput | number | null
     aiPromptUsed?: NullableStringFieldUpdateOperationsInput | string | null
     version?: StringFieldUpdateOperationsInput | string
     status?: EnumFRDStatusFieldUpdateOperationsInput | $Enums.FRDStatus
@@ -34482,12 +34791,14 @@ export namespace Prisma {
     id: string
     title?: string | null
     description: string
-    origin: string
+    origin?: $Enums.CreationOrigin
     votes?: number
     status?: string
     evidenceJson?: NullableJsonNullValueInput | InputJsonValue
     tagsJson?: NullableJsonNullValueInput | InputJsonValue
-    confidence?: number | null
+    aiConfidence?: number | null
+    aiMetadata?: NullableJsonNullValueInput | InputJsonValue
+    qualityScore?: number | null
     createdAt?: Date | string
     updatedAt: Date | string
     users?: usersCreateNestedOneWithoutIdeasInput
@@ -34501,12 +34812,14 @@ export namespace Prisma {
     hotspotId: string
     title?: string | null
     description: string
-    origin: string
+    origin?: $Enums.CreationOrigin
     votes?: number
     status?: string
     evidenceJson?: NullableJsonNullValueInput | InputJsonValue
     tagsJson?: NullableJsonNullValueInput | InputJsonValue
-    confidence?: number | null
+    aiConfidence?: number | null
+    aiMetadata?: NullableJsonNullValueInput | InputJsonValue
+    qualityScore?: number | null
     createdById?: string | null
     initiativeId?: string | null
     createdAt?: Date | string
@@ -34518,12 +34831,14 @@ export namespace Prisma {
     id?: StringFieldUpdateOperationsInput | string
     title?: NullableStringFieldUpdateOperationsInput | string | null
     description?: StringFieldUpdateOperationsInput | string
-    origin?: StringFieldUpdateOperationsInput | string
+    origin?: EnumCreationOriginFieldUpdateOperationsInput | $Enums.CreationOrigin
     votes?: IntFieldUpdateOperationsInput | number
     status?: StringFieldUpdateOperationsInput | string
     evidenceJson?: NullableJsonNullValueInput | InputJsonValue
     tagsJson?: NullableJsonNullValueInput | InputJsonValue
-    confidence?: NullableFloatFieldUpdateOperationsInput | number | null
+    aiConfidence?: NullableFloatFieldUpdateOperationsInput | number | null
+    aiMetadata?: NullableJsonNullValueInput | InputJsonValue
+    qualityScore?: NullableFloatFieldUpdateOperationsInput | number | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     users?: usersUpdateOneWithoutIdeasNestedInput
@@ -34537,12 +34852,14 @@ export namespace Prisma {
     hotspotId?: StringFieldUpdateOperationsInput | string
     title?: NullableStringFieldUpdateOperationsInput | string | null
     description?: StringFieldUpdateOperationsInput | string
-    origin?: StringFieldUpdateOperationsInput | string
+    origin?: EnumCreationOriginFieldUpdateOperationsInput | $Enums.CreationOrigin
     votes?: IntFieldUpdateOperationsInput | number
     status?: StringFieldUpdateOperationsInput | string
     evidenceJson?: NullableJsonNullValueInput | InputJsonValue
     tagsJson?: NullableJsonNullValueInput | InputJsonValue
-    confidence?: NullableFloatFieldUpdateOperationsInput | number | null
+    aiConfidence?: NullableFloatFieldUpdateOperationsInput | number | null
+    aiMetadata?: NullableJsonNullValueInput | InputJsonValue
+    qualityScore?: NullableFloatFieldUpdateOperationsInput | number | null
     createdById?: NullableStringFieldUpdateOperationsInput | string | null
     initiativeId?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -34555,12 +34872,14 @@ export namespace Prisma {
     hotspotId: string
     title?: string | null
     description: string
-    origin: string
+    origin?: $Enums.CreationOrigin
     votes?: number
     status?: string
     evidenceJson?: NullableJsonNullValueInput | InputJsonValue
     tagsJson?: NullableJsonNullValueInput | InputJsonValue
-    confidence?: number | null
+    aiConfidence?: number | null
+    aiMetadata?: NullableJsonNullValueInput | InputJsonValue
+    qualityScore?: number | null
     createdById?: string | null
     initiativeId?: string | null
     createdAt?: Date | string
@@ -34571,12 +34890,14 @@ export namespace Prisma {
     id?: StringFieldUpdateOperationsInput | string
     title?: NullableStringFieldUpdateOperationsInput | string | null
     description?: StringFieldUpdateOperationsInput | string
-    origin?: StringFieldUpdateOperationsInput | string
+    origin?: EnumCreationOriginFieldUpdateOperationsInput | $Enums.CreationOrigin
     votes?: IntFieldUpdateOperationsInput | number
     status?: StringFieldUpdateOperationsInput | string
     evidenceJson?: NullableJsonNullValueInput | InputJsonValue
     tagsJson?: NullableJsonNullValueInput | InputJsonValue
-    confidence?: NullableFloatFieldUpdateOperationsInput | number | null
+    aiConfidence?: NullableFloatFieldUpdateOperationsInput | number | null
+    aiMetadata?: NullableJsonNullValueInput | InputJsonValue
+    qualityScore?: NullableFloatFieldUpdateOperationsInput | number | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
@@ -34586,12 +34907,14 @@ export namespace Prisma {
     hotspotId?: StringFieldUpdateOperationsInput | string
     title?: NullableStringFieldUpdateOperationsInput | string | null
     description?: StringFieldUpdateOperationsInput | string
-    origin?: StringFieldUpdateOperationsInput | string
+    origin?: EnumCreationOriginFieldUpdateOperationsInput | $Enums.CreationOrigin
     votes?: IntFieldUpdateOperationsInput | number
     status?: StringFieldUpdateOperationsInput | string
     evidenceJson?: NullableJsonNullValueInput | InputJsonValue
     tagsJson?: NullableJsonNullValueInput | InputJsonValue
-    confidence?: NullableFloatFieldUpdateOperationsInput | number | null
+    aiConfidence?: NullableFloatFieldUpdateOperationsInput | number | null
+    aiMetadata?: NullableJsonNullValueInput | InputJsonValue
+    qualityScore?: NullableFloatFieldUpdateOperationsInput | number | null
     createdById?: NullableStringFieldUpdateOperationsInput | string | null
     initiativeId?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -35111,6 +35434,10 @@ export namespace Prisma {
     description: string
     acceptanceCriteria: JsonNullValueInput | InputJsonValue
     status?: $Enums.RequirementStatus
+    origin?: $Enums.CreationOrigin
+    aiConfidence?: number | null
+    aiMetadata?: NullableJsonNullValueInput | InputJsonValue
+    qualityScore?: number | null
     estimatedEffort?: string | null
     dependencies?: NullableJsonNullValueInput | InputJsonValue
     businessValue?: string | null
@@ -35132,6 +35459,10 @@ export namespace Prisma {
     description: string
     acceptanceCriteria: JsonNullValueInput | InputJsonValue
     status?: $Enums.RequirementStatus
+    origin?: $Enums.CreationOrigin
+    aiConfidence?: number | null
+    aiMetadata?: NullableJsonNullValueInput | InputJsonValue
+    qualityScore?: number | null
     estimatedEffort?: string | null
     dependencies?: NullableJsonNullValueInput | InputJsonValue
     businessValue?: string | null
@@ -35153,6 +35484,10 @@ export namespace Prisma {
     description?: StringFieldUpdateOperationsInput | string
     acceptanceCriteria?: JsonNullValueInput | InputJsonValue
     status?: EnumRequirementStatusFieldUpdateOperationsInput | $Enums.RequirementStatus
+    origin?: EnumCreationOriginFieldUpdateOperationsInput | $Enums.CreationOrigin
+    aiConfidence?: NullableFloatFieldUpdateOperationsInput | number | null
+    aiMetadata?: NullableJsonNullValueInput | InputJsonValue
+    qualityScore?: NullableFloatFieldUpdateOperationsInput | number | null
     estimatedEffort?: NullableStringFieldUpdateOperationsInput | string | null
     dependencies?: NullableJsonNullValueInput | InputJsonValue
     businessValue?: NullableStringFieldUpdateOperationsInput | string | null
@@ -35174,6 +35509,10 @@ export namespace Prisma {
     description?: StringFieldUpdateOperationsInput | string
     acceptanceCriteria?: JsonNullValueInput | InputJsonValue
     status?: EnumRequirementStatusFieldUpdateOperationsInput | $Enums.RequirementStatus
+    origin?: EnumCreationOriginFieldUpdateOperationsInput | $Enums.CreationOrigin
+    aiConfidence?: NullableFloatFieldUpdateOperationsInput | number | null
+    aiMetadata?: NullableJsonNullValueInput | InputJsonValue
+    qualityScore?: NullableFloatFieldUpdateOperationsInput | number | null
     estimatedEffort?: NullableStringFieldUpdateOperationsInput | string | null
     dependencies?: NullableJsonNullValueInput | InputJsonValue
     businessValue?: NullableStringFieldUpdateOperationsInput | string | null
@@ -35195,6 +35534,10 @@ export namespace Prisma {
     description: string
     acceptanceCriteria: JsonNullValueInput | InputJsonValue
     status?: $Enums.RequirementStatus
+    origin?: $Enums.CreationOrigin
+    aiConfidence?: number | null
+    aiMetadata?: NullableJsonNullValueInput | InputJsonValue
+    qualityScore?: number | null
     estimatedEffort?: string | null
     dependencies?: NullableJsonNullValueInput | InputJsonValue
     businessValue?: string | null
@@ -35216,6 +35559,10 @@ export namespace Prisma {
     description?: StringFieldUpdateOperationsInput | string
     acceptanceCriteria?: JsonNullValueInput | InputJsonValue
     status?: EnumRequirementStatusFieldUpdateOperationsInput | $Enums.RequirementStatus
+    origin?: EnumCreationOriginFieldUpdateOperationsInput | $Enums.CreationOrigin
+    aiConfidence?: NullableFloatFieldUpdateOperationsInput | number | null
+    aiMetadata?: NullableJsonNullValueInput | InputJsonValue
+    qualityScore?: NullableFloatFieldUpdateOperationsInput | number | null
     estimatedEffort?: NullableStringFieldUpdateOperationsInput | string | null
     dependencies?: NullableJsonNullValueInput | InputJsonValue
     businessValue?: NullableStringFieldUpdateOperationsInput | string | null
@@ -35235,6 +35582,10 @@ export namespace Prisma {
     description?: StringFieldUpdateOperationsInput | string
     acceptanceCriteria?: JsonNullValueInput | InputJsonValue
     status?: EnumRequirementStatusFieldUpdateOperationsInput | $Enums.RequirementStatus
+    origin?: EnumCreationOriginFieldUpdateOperationsInput | $Enums.CreationOrigin
+    aiConfidence?: NullableFloatFieldUpdateOperationsInput | number | null
+    aiMetadata?: NullableJsonNullValueInput | InputJsonValue
+    qualityScore?: NullableFloatFieldUpdateOperationsInput | number | null
     estimatedEffort?: NullableStringFieldUpdateOperationsInput | string | null
     dependencies?: NullableJsonNullValueInput | InputJsonValue
     businessValue?: NullableStringFieldUpdateOperationsInput | string | null
@@ -35567,6 +35918,10 @@ export namespace Prisma {
     title: string
     description: string
     status?: $Enums.SolutionStatus
+    origin?: $Enums.CreationOrigin
+    aiConfidence?: number | null
+    aiMetadata?: NullableJsonNullValueInput | InputJsonValue
+    qualityScore?: number | null
     createdAt?: Date | string
     updatedAt: Date | string
     estimatedEffort?: string | null
@@ -35592,6 +35947,10 @@ export namespace Prisma {
     title: string
     description: string
     status?: $Enums.SolutionStatus
+    origin?: $Enums.CreationOrigin
+    aiConfidence?: number | null
+    aiMetadata?: NullableJsonNullValueInput | InputJsonValue
+    qualityScore?: number | null
     createdAt?: Date | string
     updatedAt: Date | string
     estimatedEffort?: string | null
@@ -35617,6 +35976,10 @@ export namespace Prisma {
     title?: StringFieldUpdateOperationsInput | string
     description?: StringFieldUpdateOperationsInput | string
     status?: EnumSolutionStatusFieldUpdateOperationsInput | $Enums.SolutionStatus
+    origin?: EnumCreationOriginFieldUpdateOperationsInput | $Enums.CreationOrigin
+    aiConfidence?: NullableFloatFieldUpdateOperationsInput | number | null
+    aiMetadata?: NullableJsonNullValueInput | InputJsonValue
+    qualityScore?: NullableFloatFieldUpdateOperationsInput | number | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     estimatedEffort?: NullableStringFieldUpdateOperationsInput | string | null
@@ -35642,6 +36005,10 @@ export namespace Prisma {
     title?: StringFieldUpdateOperationsInput | string
     description?: StringFieldUpdateOperationsInput | string
     status?: EnumSolutionStatusFieldUpdateOperationsInput | $Enums.SolutionStatus
+    origin?: EnumCreationOriginFieldUpdateOperationsInput | $Enums.CreationOrigin
+    aiConfidence?: NullableFloatFieldUpdateOperationsInput | number | null
+    aiMetadata?: NullableJsonNullValueInput | InputJsonValue
+    qualityScore?: NullableFloatFieldUpdateOperationsInput | number | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     estimatedEffort?: NullableStringFieldUpdateOperationsInput | string | null
@@ -35667,6 +36034,10 @@ export namespace Prisma {
     title: string
     description: string
     status?: $Enums.SolutionStatus
+    origin?: $Enums.CreationOrigin
+    aiConfidence?: number | null
+    aiMetadata?: NullableJsonNullValueInput | InputJsonValue
+    qualityScore?: number | null
     createdAt?: Date | string
     updatedAt: Date | string
     estimatedEffort?: string | null
@@ -35690,6 +36061,10 @@ export namespace Prisma {
     title?: StringFieldUpdateOperationsInput | string
     description?: StringFieldUpdateOperationsInput | string
     status?: EnumSolutionStatusFieldUpdateOperationsInput | $Enums.SolutionStatus
+    origin?: EnumCreationOriginFieldUpdateOperationsInput | $Enums.CreationOrigin
+    aiConfidence?: NullableFloatFieldUpdateOperationsInput | number | null
+    aiMetadata?: NullableJsonNullValueInput | InputJsonValue
+    qualityScore?: NullableFloatFieldUpdateOperationsInput | number | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     estimatedEffort?: NullableStringFieldUpdateOperationsInput | string | null
@@ -35708,6 +36083,10 @@ export namespace Prisma {
     title?: StringFieldUpdateOperationsInput | string
     description?: StringFieldUpdateOperationsInput | string
     status?: EnumSolutionStatusFieldUpdateOperationsInput | $Enums.SolutionStatus
+    origin?: EnumCreationOriginFieldUpdateOperationsInput | $Enums.CreationOrigin
+    aiConfidence?: NullableFloatFieldUpdateOperationsInput | number | null
+    aiMetadata?: NullableJsonNullValueInput | InputJsonValue
+    qualityScore?: NullableFloatFieldUpdateOperationsInput | number | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     estimatedEffort?: NullableStringFieldUpdateOperationsInput | string | null
@@ -36866,6 +37245,13 @@ export namespace Prisma {
     not?: InputJsonValue | JsonFieldRefInput<$PrismaModel> | JsonNullValueFilter
   }
 
+  export type EnumCreationOriginFilter<$PrismaModel = never> = {
+    equals?: $Enums.CreationOrigin | EnumCreationOriginFieldRefInput<$PrismaModel>
+    in?: $Enums.CreationOrigin[] | ListEnumCreationOriginFieldRefInput<$PrismaModel>
+    notIn?: $Enums.CreationOrigin[] | ListEnumCreationOriginFieldRefInput<$PrismaModel>
+    not?: NestedEnumCreationOriginFilter<$PrismaModel> | $Enums.CreationOrigin
+  }
+
   export type EnumFRDStatusFilter<$PrismaModel = never> = {
     equals?: $Enums.FRDStatus | EnumFRDStatusFieldRefInput<$PrismaModel>
     in?: $Enums.FRDStatus[] | ListEnumFRDStatusFieldRefInput<$PrismaModel>
@@ -36882,8 +37268,10 @@ export namespace Prisma {
     id?: SortOrder
     title?: SortOrder
     content?: SortOrder
-    aiGenerated?: SortOrder
+    origin?: SortOrder
     aiConfidence?: SortOrder
+    aiMetadata?: SortOrder
+    qualityScore?: SortOrder
     aiPromptUsed?: SortOrder
     version?: SortOrder
     status?: SortOrder
@@ -36902,6 +37290,7 @@ export namespace Prisma {
 
   export type frd_documentsAvgOrderByAggregateInput = {
     aiConfidence?: SortOrder
+    qualityScore?: SortOrder
     generationTime?: SortOrder
     wordCount?: SortOrder
   }
@@ -36909,8 +37298,9 @@ export namespace Prisma {
   export type frd_documentsMaxOrderByAggregateInput = {
     id?: SortOrder
     title?: SortOrder
-    aiGenerated?: SortOrder
+    origin?: SortOrder
     aiConfidence?: SortOrder
+    qualityScore?: SortOrder
     aiPromptUsed?: SortOrder
     version?: SortOrder
     status?: SortOrder
@@ -36929,8 +37319,9 @@ export namespace Prisma {
   export type frd_documentsMinOrderByAggregateInput = {
     id?: SortOrder
     title?: SortOrder
-    aiGenerated?: SortOrder
+    origin?: SortOrder
     aiConfidence?: SortOrder
+    qualityScore?: SortOrder
     aiPromptUsed?: SortOrder
     version?: SortOrder
     status?: SortOrder
@@ -36948,6 +37339,7 @@ export namespace Prisma {
 
   export type frd_documentsSumOrderByAggregateInput = {
     aiConfidence?: SortOrder
+    qualityScore?: SortOrder
     generationTime?: SortOrder
     wordCount?: SortOrder
   }
@@ -36976,6 +37368,16 @@ export namespace Prisma {
     _count?: NestedIntFilter<$PrismaModel>
     _min?: NestedJsonFilter<$PrismaModel>
     _max?: NestedJsonFilter<$PrismaModel>
+  }
+
+  export type EnumCreationOriginWithAggregatesFilter<$PrismaModel = never> = {
+    equals?: $Enums.CreationOrigin | EnumCreationOriginFieldRefInput<$PrismaModel>
+    in?: $Enums.CreationOrigin[] | ListEnumCreationOriginFieldRefInput<$PrismaModel>
+    notIn?: $Enums.CreationOrigin[] | ListEnumCreationOriginFieldRefInput<$PrismaModel>
+    not?: NestedEnumCreationOriginWithAggregatesFilter<$PrismaModel> | $Enums.CreationOrigin
+    _count?: NestedIntFilter<$PrismaModel>
+    _min?: NestedEnumCreationOriginFilter<$PrismaModel>
+    _max?: NestedEnumCreationOriginFilter<$PrismaModel>
   }
 
   export type EnumFRDStatusWithAggregatesFilter<$PrismaModel = never> = {
@@ -37171,7 +37573,9 @@ export namespace Prisma {
     status?: SortOrder
     evidenceJson?: SortOrder
     tagsJson?: SortOrder
-    confidence?: SortOrder
+    aiConfidence?: SortOrder
+    aiMetadata?: SortOrder
+    qualityScore?: SortOrder
     createdById?: SortOrder
     initiativeId?: SortOrder
     createdAt?: SortOrder
@@ -37180,7 +37584,8 @@ export namespace Prisma {
 
   export type ideasAvgOrderByAggregateInput = {
     votes?: SortOrder
-    confidence?: SortOrder
+    aiConfidence?: SortOrder
+    qualityScore?: SortOrder
   }
 
   export type ideasMaxOrderByAggregateInput = {
@@ -37191,7 +37596,8 @@ export namespace Prisma {
     origin?: SortOrder
     votes?: SortOrder
     status?: SortOrder
-    confidence?: SortOrder
+    aiConfidence?: SortOrder
+    qualityScore?: SortOrder
     createdById?: SortOrder
     initiativeId?: SortOrder
     createdAt?: SortOrder
@@ -37206,7 +37612,8 @@ export namespace Prisma {
     origin?: SortOrder
     votes?: SortOrder
     status?: SortOrder
-    confidence?: SortOrder
+    aiConfidence?: SortOrder
+    qualityScore?: SortOrder
     createdById?: SortOrder
     initiativeId?: SortOrder
     createdAt?: SortOrder
@@ -37215,7 +37622,8 @@ export namespace Prisma {
 
   export type ideasSumOrderByAggregateInput = {
     votes?: SortOrder
-    confidence?: SortOrder
+    aiConfidence?: SortOrder
+    qualityScore?: SortOrder
   }
 
   export type Enuminitiative_statusFilter<$PrismaModel = never> = {
@@ -37594,6 +38002,10 @@ export namespace Prisma {
     description?: SortOrder
     acceptanceCriteria?: SortOrder
     status?: SortOrder
+    origin?: SortOrder
+    aiConfidence?: SortOrder
+    aiMetadata?: SortOrder
+    qualityScore?: SortOrder
     estimatedEffort?: SortOrder
     dependencies?: SortOrder
     businessValue?: SortOrder
@@ -37609,11 +38021,19 @@ export namespace Prisma {
     priority?: SortOrder
   }
 
+  export type requirementsAvgOrderByAggregateInput = {
+    aiConfidence?: SortOrder
+    qualityScore?: SortOrder
+  }
+
   export type requirementsMaxOrderByAggregateInput = {
     id?: SortOrder
     title?: SortOrder
     description?: SortOrder
     status?: SortOrder
+    origin?: SortOrder
+    aiConfidence?: SortOrder
+    qualityScore?: SortOrder
     estimatedEffort?: SortOrder
     businessValue?: SortOrder
     riskAssessment?: SortOrder
@@ -37632,6 +38052,9 @@ export namespace Prisma {
     title?: SortOrder
     description?: SortOrder
     status?: SortOrder
+    origin?: SortOrder
+    aiConfidence?: SortOrder
+    qualityScore?: SortOrder
     estimatedEffort?: SortOrder
     businessValue?: SortOrder
     riskAssessment?: SortOrder
@@ -37643,6 +38066,11 @@ export namespace Prisma {
     createdAt?: SortOrder
     updatedAt?: SortOrder
     priority?: SortOrder
+  }
+
+  export type requirementsSumOrderByAggregateInput = {
+    aiConfidence?: SortOrder
+    qualityScore?: SortOrder
   }
 
   export type EnumRequirementStatusWithAggregatesFilter<$PrismaModel = never> = {
@@ -37874,6 +38302,10 @@ export namespace Prisma {
     title?: SortOrder
     description?: SortOrder
     status?: SortOrder
+    origin?: SortOrder
+    aiConfidence?: SortOrder
+    aiMetadata?: SortOrder
+    qualityScore?: SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
     estimatedEffort?: SortOrder
@@ -37893,6 +38325,8 @@ export namespace Prisma {
   }
 
   export type solutionsAvgOrderByAggregateInput = {
+    aiConfidence?: SortOrder
+    qualityScore?: SortOrder
     progress?: SortOrder
   }
 
@@ -37901,6 +38335,9 @@ export namespace Prisma {
     title?: SortOrder
     description?: SortOrder
     status?: SortOrder
+    origin?: SortOrder
+    aiConfidence?: SortOrder
+    qualityScore?: SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
     estimatedEffort?: SortOrder
@@ -37920,6 +38357,9 @@ export namespace Prisma {
     title?: SortOrder
     description?: SortOrder
     status?: SortOrder
+    origin?: SortOrder
+    aiConfidence?: SortOrder
+    qualityScore?: SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
     estimatedEffort?: SortOrder
@@ -37935,6 +38375,8 @@ export namespace Prisma {
   }
 
   export type solutionsSumOrderByAggregateInput = {
+    aiConfidence?: SortOrder
+    qualityScore?: SortOrder
     progress?: SortOrder
   }
 
@@ -38701,6 +39143,10 @@ export namespace Prisma {
     create?: XOR<solutionsCreateWithoutFrd_documentsInput, solutionsUncheckedCreateWithoutFrd_documentsInput>
     connectOrCreate?: solutionsCreateOrConnectWithoutFrd_documentsInput
     connect?: solutionsWhereUniqueInput
+  }
+
+  export type EnumCreationOriginFieldUpdateOperationsInput = {
+    set?: $Enums.CreationOrigin
   }
 
   export type EnumFRDStatusFieldUpdateOperationsInput = {
@@ -40796,6 +41242,13 @@ export namespace Prisma {
     _max?: NestedFloatFilter<$PrismaModel>
   }
 
+  export type NestedEnumCreationOriginFilter<$PrismaModel = never> = {
+    equals?: $Enums.CreationOrigin | EnumCreationOriginFieldRefInput<$PrismaModel>
+    in?: $Enums.CreationOrigin[] | ListEnumCreationOriginFieldRefInput<$PrismaModel>
+    notIn?: $Enums.CreationOrigin[] | ListEnumCreationOriginFieldRefInput<$PrismaModel>
+    not?: NestedEnumCreationOriginFilter<$PrismaModel> | $Enums.CreationOrigin
+  }
+
   export type NestedEnumFRDStatusFilter<$PrismaModel = never> = {
     equals?: $Enums.FRDStatus | EnumFRDStatusFieldRefInput<$PrismaModel>
     in?: $Enums.FRDStatus[] | ListEnumFRDStatusFieldRefInput<$PrismaModel>
@@ -40824,6 +41277,16 @@ export namespace Prisma {
     gt?: InputJsonValue | JsonFieldRefInput<$PrismaModel>
     gte?: InputJsonValue | JsonFieldRefInput<$PrismaModel>
     not?: InputJsonValue | JsonFieldRefInput<$PrismaModel> | JsonNullValueFilter
+  }
+
+  export type NestedEnumCreationOriginWithAggregatesFilter<$PrismaModel = never> = {
+    equals?: $Enums.CreationOrigin | EnumCreationOriginFieldRefInput<$PrismaModel>
+    in?: $Enums.CreationOrigin[] | ListEnumCreationOriginFieldRefInput<$PrismaModel>
+    notIn?: $Enums.CreationOrigin[] | ListEnumCreationOriginFieldRefInput<$PrismaModel>
+    not?: NestedEnumCreationOriginWithAggregatesFilter<$PrismaModel> | $Enums.CreationOrigin
+    _count?: NestedIntFilter<$PrismaModel>
+    _min?: NestedEnumCreationOriginFilter<$PrismaModel>
+    _max?: NestedEnumCreationOriginFilter<$PrismaModel>
   }
 
   export type NestedEnumFRDStatusWithAggregatesFilter<$PrismaModel = never> = {
@@ -43289,6 +43752,10 @@ export namespace Prisma {
     title: string
     description: string
     status?: $Enums.SolutionStatus
+    origin?: $Enums.CreationOrigin
+    aiConfidence?: number | null
+    aiMetadata?: NullableJsonNullValueInput | InputJsonValue
+    qualityScore?: number | null
     createdAt?: Date | string
     updatedAt: Date | string
     estimatedEffort?: string | null
@@ -43313,6 +43780,10 @@ export namespace Prisma {
     title: string
     description: string
     status?: $Enums.SolutionStatus
+    origin?: $Enums.CreationOrigin
+    aiConfidence?: number | null
+    aiMetadata?: NullableJsonNullValueInput | InputJsonValue
+    qualityScore?: number | null
     createdAt?: Date | string
     updatedAt: Date | string
     estimatedEffort?: string | null
@@ -43535,6 +44006,10 @@ export namespace Prisma {
     title?: StringFieldUpdateOperationsInput | string
     description?: StringFieldUpdateOperationsInput | string
     status?: EnumSolutionStatusFieldUpdateOperationsInput | $Enums.SolutionStatus
+    origin?: EnumCreationOriginFieldUpdateOperationsInput | $Enums.CreationOrigin
+    aiConfidence?: NullableFloatFieldUpdateOperationsInput | number | null
+    aiMetadata?: NullableJsonNullValueInput | InputJsonValue
+    qualityScore?: NullableFloatFieldUpdateOperationsInput | number | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     estimatedEffort?: NullableStringFieldUpdateOperationsInput | string | null
@@ -43559,6 +44034,10 @@ export namespace Prisma {
     title?: StringFieldUpdateOperationsInput | string
     description?: StringFieldUpdateOperationsInput | string
     status?: EnumSolutionStatusFieldUpdateOperationsInput | $Enums.SolutionStatus
+    origin?: EnumCreationOriginFieldUpdateOperationsInput | $Enums.CreationOrigin
+    aiConfidence?: NullableFloatFieldUpdateOperationsInput | number | null
+    aiMetadata?: NullableJsonNullValueInput | InputJsonValue
+    qualityScore?: NullableFloatFieldUpdateOperationsInput | number | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     estimatedEffort?: NullableStringFieldUpdateOperationsInput | string | null
@@ -43922,12 +44401,14 @@ export namespace Prisma {
     id: string
     title?: string | null
     description: string
-    origin: string
+    origin?: $Enums.CreationOrigin
     votes?: number
     status?: string
     evidenceJson?: NullableJsonNullValueInput | InputJsonValue
     tagsJson?: NullableJsonNullValueInput | InputJsonValue
-    confidence?: number | null
+    aiConfidence?: number | null
+    aiMetadata?: NullableJsonNullValueInput | InputJsonValue
+    qualityScore?: number | null
     createdAt?: Date | string
     updatedAt: Date | string
     users?: usersCreateNestedOneWithoutIdeasInput
@@ -43939,12 +44420,14 @@ export namespace Prisma {
     id: string
     title?: string | null
     description: string
-    origin: string
+    origin?: $Enums.CreationOrigin
     votes?: number
     status?: string
     evidenceJson?: NullableJsonNullValueInput | InputJsonValue
     tagsJson?: NullableJsonNullValueInput | InputJsonValue
-    confidence?: number | null
+    aiConfidence?: number | null
+    aiMetadata?: NullableJsonNullValueInput | InputJsonValue
+    qualityScore?: number | null
     createdById?: string | null
     initiativeId?: string | null
     createdAt?: Date | string
@@ -43967,6 +44450,10 @@ export namespace Prisma {
     title: string
     description: string
     status?: $Enums.SolutionStatus
+    origin?: $Enums.CreationOrigin
+    aiConfidence?: number | null
+    aiMetadata?: NullableJsonNullValueInput | InputJsonValue
+    qualityScore?: number | null
     createdAt?: Date | string
     updatedAt: Date | string
     estimatedEffort?: string | null
@@ -43991,6 +44478,10 @@ export namespace Prisma {
     title: string
     description: string
     status?: $Enums.SolutionStatus
+    origin?: $Enums.CreationOrigin
+    aiConfidence?: number | null
+    aiMetadata?: NullableJsonNullValueInput | InputJsonValue
+    qualityScore?: number | null
     createdAt?: Date | string
     updatedAt: Date | string
     estimatedEffort?: string | null
@@ -44071,12 +44562,14 @@ export namespace Prisma {
     hotspotId?: StringFilter<"ideas"> | string
     title?: StringNullableFilter<"ideas"> | string | null
     description?: StringFilter<"ideas"> | string
-    origin?: StringFilter<"ideas"> | string
+    origin?: EnumCreationOriginFilter<"ideas"> | $Enums.CreationOrigin
     votes?: IntFilter<"ideas"> | number
     status?: StringFilter<"ideas"> | string
     evidenceJson?: JsonNullableFilter<"ideas">
     tagsJson?: JsonNullableFilter<"ideas">
-    confidence?: FloatNullableFilter<"ideas"> | number | null
+    aiConfidence?: FloatNullableFilter<"ideas"> | number | null
+    aiMetadata?: JsonNullableFilter<"ideas">
+    qualityScore?: FloatNullableFilter<"ideas"> | number | null
     createdById?: StringNullableFilter<"ideas"> | string | null
     initiativeId?: StringNullableFilter<"ideas"> | string | null
     createdAt?: DateTimeFilter<"ideas"> | Date | string
@@ -44107,6 +44600,10 @@ export namespace Prisma {
     title?: StringFilter<"solutions"> | string
     description?: StringFilter<"solutions"> | string
     status?: EnumSolutionStatusFilter<"solutions"> | $Enums.SolutionStatus
+    origin?: EnumCreationOriginFilter<"solutions"> | $Enums.CreationOrigin
+    aiConfidence?: FloatNullableFilter<"solutions"> | number | null
+    aiMetadata?: JsonNullableFilter<"solutions">
+    qualityScore?: FloatNullableFilter<"solutions"> | number | null
     createdAt?: DateTimeFilter<"solutions"> | Date | string
     updatedAt?: DateTimeFilter<"solutions"> | Date | string
     estimatedEffort?: StringNullableFilter<"solutions"> | string | null
@@ -44323,6 +44820,10 @@ export namespace Prisma {
     title: string
     description: string
     status?: $Enums.SolutionStatus
+    origin?: $Enums.CreationOrigin
+    aiConfidence?: number | null
+    aiMetadata?: NullableJsonNullValueInput | InputJsonValue
+    qualityScore?: number | null
     createdAt?: Date | string
     updatedAt: Date | string
     estimatedEffort?: string | null
@@ -44347,6 +44848,10 @@ export namespace Prisma {
     title: string
     description: string
     status?: $Enums.SolutionStatus
+    origin?: $Enums.CreationOrigin
+    aiConfidence?: number | null
+    aiMetadata?: NullableJsonNullValueInput | InputJsonValue
+    qualityScore?: number | null
     createdAt?: Date | string
     updatedAt: Date | string
     estimatedEffort?: string | null
@@ -44598,6 +45103,10 @@ export namespace Prisma {
     title?: StringFieldUpdateOperationsInput | string
     description?: StringFieldUpdateOperationsInput | string
     status?: EnumSolutionStatusFieldUpdateOperationsInput | $Enums.SolutionStatus
+    origin?: EnumCreationOriginFieldUpdateOperationsInput | $Enums.CreationOrigin
+    aiConfidence?: NullableFloatFieldUpdateOperationsInput | number | null
+    aiMetadata?: NullableJsonNullValueInput | InputJsonValue
+    qualityScore?: NullableFloatFieldUpdateOperationsInput | number | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     estimatedEffort?: NullableStringFieldUpdateOperationsInput | string | null
@@ -44622,6 +45131,10 @@ export namespace Prisma {
     title?: StringFieldUpdateOperationsInput | string
     description?: StringFieldUpdateOperationsInput | string
     status?: EnumSolutionStatusFieldUpdateOperationsInput | $Enums.SolutionStatus
+    origin?: EnumCreationOriginFieldUpdateOperationsInput | $Enums.CreationOrigin
+    aiConfidence?: NullableFloatFieldUpdateOperationsInput | number | null
+    aiMetadata?: NullableJsonNullValueInput | InputJsonValue
+    qualityScore?: NullableFloatFieldUpdateOperationsInput | number | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     estimatedEffort?: NullableStringFieldUpdateOperationsInput | string | null
@@ -44645,12 +45158,14 @@ export namespace Prisma {
     id: string
     title?: string | null
     description: string
-    origin: string
+    origin?: $Enums.CreationOrigin
     votes?: number
     status?: string
     evidenceJson?: NullableJsonNullValueInput | InputJsonValue
     tagsJson?: NullableJsonNullValueInput | InputJsonValue
-    confidence?: number | null
+    aiConfidence?: number | null
+    aiMetadata?: NullableJsonNullValueInput | InputJsonValue
+    qualityScore?: number | null
     createdAt?: Date | string
     updatedAt: Date | string
     users?: usersCreateNestedOneWithoutIdeasInput
@@ -44663,12 +45178,14 @@ export namespace Prisma {
     hotspotId: string
     title?: string | null
     description: string
-    origin: string
+    origin?: $Enums.CreationOrigin
     votes?: number
     status?: string
     evidenceJson?: NullableJsonNullValueInput | InputJsonValue
     tagsJson?: NullableJsonNullValueInput | InputJsonValue
-    confidence?: number | null
+    aiConfidence?: number | null
+    aiMetadata?: NullableJsonNullValueInput | InputJsonValue
+    qualityScore?: number | null
     createdById?: string | null
     createdAt?: Date | string
     updatedAt: Date | string
@@ -44775,6 +45292,10 @@ export namespace Prisma {
     title: string
     description: string
     status?: $Enums.SolutionStatus
+    origin?: $Enums.CreationOrigin
+    aiConfidence?: number | null
+    aiMetadata?: NullableJsonNullValueInput | InputJsonValue
+    qualityScore?: number | null
     createdAt?: Date | string
     updatedAt: Date | string
     estimatedEffort?: string | null
@@ -44799,6 +45320,10 @@ export namespace Prisma {
     title: string
     description: string
     status?: $Enums.SolutionStatus
+    origin?: $Enums.CreationOrigin
+    aiConfidence?: number | null
+    aiMetadata?: NullableJsonNullValueInput | InputJsonValue
+    qualityScore?: number | null
     createdAt?: Date | string
     updatedAt: Date | string
     estimatedEffort?: string | null
@@ -45277,6 +45802,10 @@ export namespace Prisma {
     title: string
     description: string
     status?: $Enums.SolutionStatus
+    origin?: $Enums.CreationOrigin
+    aiConfidence?: number | null
+    aiMetadata?: NullableJsonNullValueInput | InputJsonValue
+    qualityScore?: number | null
     createdAt?: Date | string
     updatedAt: Date | string
     estimatedEffort?: string | null
@@ -45301,6 +45830,10 @@ export namespace Prisma {
     title: string
     description: string
     status?: $Enums.SolutionStatus
+    origin?: $Enums.CreationOrigin
+    aiConfidence?: number | null
+    aiMetadata?: NullableJsonNullValueInput | InputJsonValue
+    qualityScore?: number | null
     createdAt?: Date | string
     updatedAt: Date | string
     estimatedEffort?: string | null
@@ -45543,6 +46076,10 @@ export namespace Prisma {
     title: string
     description: string
     status?: $Enums.SolutionStatus
+    origin?: $Enums.CreationOrigin
+    aiConfidence?: number | null
+    aiMetadata?: NullableJsonNullValueInput | InputJsonValue
+    qualityScore?: number | null
     createdAt?: Date | string
     updatedAt: Date | string
     estimatedEffort?: string | null
@@ -45567,6 +46104,10 @@ export namespace Prisma {
     title: string
     description: string
     status?: $Enums.SolutionStatus
+    origin?: $Enums.CreationOrigin
+    aiConfidence?: number | null
+    aiMetadata?: NullableJsonNullValueInput | InputJsonValue
+    qualityScore?: number | null
     createdAt?: Date | string
     updatedAt: Date | string
     estimatedEffort?: string | null
@@ -45698,6 +46239,10 @@ export namespace Prisma {
     title?: StringFieldUpdateOperationsInput | string
     description?: StringFieldUpdateOperationsInput | string
     status?: EnumSolutionStatusFieldUpdateOperationsInput | $Enums.SolutionStatus
+    origin?: EnumCreationOriginFieldUpdateOperationsInput | $Enums.CreationOrigin
+    aiConfidence?: NullableFloatFieldUpdateOperationsInput | number | null
+    aiMetadata?: NullableJsonNullValueInput | InputJsonValue
+    qualityScore?: NullableFloatFieldUpdateOperationsInput | number | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     estimatedEffort?: NullableStringFieldUpdateOperationsInput | string | null
@@ -45722,6 +46267,10 @@ export namespace Prisma {
     title?: StringFieldUpdateOperationsInput | string
     description?: StringFieldUpdateOperationsInput | string
     status?: EnumSolutionStatusFieldUpdateOperationsInput | $Enums.SolutionStatus
+    origin?: EnumCreationOriginFieldUpdateOperationsInput | $Enums.CreationOrigin
+    aiConfidence?: NullableFloatFieldUpdateOperationsInput | number | null
+    aiMetadata?: NullableJsonNullValueInput | InputJsonValue
+    qualityScore?: NullableFloatFieldUpdateOperationsInput | number | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     estimatedEffort?: NullableStringFieldUpdateOperationsInput | string | null
@@ -46292,8 +46841,10 @@ export namespace Prisma {
     id: string
     title: string
     content: JsonNullValueInput | InputJsonValue
-    aiGenerated?: boolean
+    origin?: $Enums.CreationOrigin
     aiConfidence?: number | null
+    aiMetadata?: NullableJsonNullValueInput | InputJsonValue
+    qualityScore?: number | null
     aiPromptUsed?: string | null
     version?: string
     status?: $Enums.FRDStatus
@@ -46313,8 +46864,10 @@ export namespace Prisma {
     id: string
     title: string
     content: JsonNullValueInput | InputJsonValue
-    aiGenerated?: boolean
+    origin?: $Enums.CreationOrigin
     aiConfidence?: number | null
+    aiMetadata?: NullableJsonNullValueInput | InputJsonValue
+    qualityScore?: number | null
     aiPromptUsed?: string | null
     version?: string
     status?: $Enums.FRDStatus
@@ -46346,6 +46899,10 @@ export namespace Prisma {
     description: string
     acceptanceCriteria: JsonNullValueInput | InputJsonValue
     status?: $Enums.RequirementStatus
+    origin?: $Enums.CreationOrigin
+    aiConfidence?: number | null
+    aiMetadata?: NullableJsonNullValueInput | InputJsonValue
+    qualityScore?: number | null
     estimatedEffort?: string | null
     dependencies?: NullableJsonNullValueInput | InputJsonValue
     businessValue?: string | null
@@ -46366,6 +46923,10 @@ export namespace Prisma {
     description: string
     acceptanceCriteria: JsonNullValueInput | InputJsonValue
     status?: $Enums.RequirementStatus
+    origin?: $Enums.CreationOrigin
+    aiConfidence?: number | null
+    aiMetadata?: NullableJsonNullValueInput | InputJsonValue
+    qualityScore?: number | null
     estimatedEffort?: string | null
     dependencies?: NullableJsonNullValueInput | InputJsonValue
     businessValue?: string | null
@@ -46536,12 +47097,14 @@ export namespace Prisma {
     id: string
     title?: string | null
     description: string
-    origin: string
+    origin?: $Enums.CreationOrigin
     votes?: number
     status?: string
     evidenceJson?: NullableJsonNullValueInput | InputJsonValue
     tagsJson?: NullableJsonNullValueInput | InputJsonValue
-    confidence?: number | null
+    aiConfidence?: number | null
+    aiMetadata?: NullableJsonNullValueInput | InputJsonValue
+    qualityScore?: number | null
     createdAt?: Date | string
     updatedAt: Date | string
     users?: usersCreateNestedOneWithoutIdeasInput
@@ -46554,12 +47117,14 @@ export namespace Prisma {
     hotspotId: string
     title?: string | null
     description: string
-    origin: string
+    origin?: $Enums.CreationOrigin
     votes?: number
     status?: string
     evidenceJson?: NullableJsonNullValueInput | InputJsonValue
     tagsJson?: NullableJsonNullValueInput | InputJsonValue
-    confidence?: number | null
+    aiConfidence?: number | null
+    aiMetadata?: NullableJsonNullValueInput | InputJsonValue
+    qualityScore?: number | null
     createdById?: string | null
     initiativeId?: string | null
     createdAt?: Date | string
@@ -46688,8 +47253,10 @@ export namespace Prisma {
     id?: StringFilter<"frd_documents"> | string
     title?: StringFilter<"frd_documents"> | string
     content?: JsonFilter<"frd_documents">
-    aiGenerated?: BoolFilter<"frd_documents"> | boolean
+    origin?: EnumCreationOriginFilter<"frd_documents"> | $Enums.CreationOrigin
     aiConfidence?: FloatNullableFilter<"frd_documents"> | number | null
+    aiMetadata?: JsonNullableFilter<"frd_documents">
+    qualityScore?: FloatNullableFilter<"frd_documents"> | number | null
     aiPromptUsed?: StringNullableFilter<"frd_documents"> | string | null
     version?: StringFilter<"frd_documents"> | string
     status?: EnumFRDStatusFilter<"frd_documents"> | $Enums.FRDStatus
@@ -46731,6 +47298,10 @@ export namespace Prisma {
     description?: StringFilter<"requirements"> | string
     acceptanceCriteria?: JsonFilter<"requirements">
     status?: EnumRequirementStatusFilter<"requirements"> | $Enums.RequirementStatus
+    origin?: EnumCreationOriginFilter<"requirements"> | $Enums.CreationOrigin
+    aiConfidence?: FloatNullableFilter<"requirements"> | number | null
+    aiMetadata?: JsonNullableFilter<"requirements">
+    qualityScore?: FloatNullableFilter<"requirements"> | number | null
     estimatedEffort?: StringNullableFilter<"requirements"> | string | null
     dependencies?: JsonNullableFilter<"requirements">
     businessValue?: StringNullableFilter<"requirements"> | string | null
@@ -46915,12 +47486,14 @@ export namespace Prisma {
     id?: StringFieldUpdateOperationsInput | string
     title?: NullableStringFieldUpdateOperationsInput | string | null
     description?: StringFieldUpdateOperationsInput | string
-    origin?: StringFieldUpdateOperationsInput | string
+    origin?: EnumCreationOriginFieldUpdateOperationsInput | $Enums.CreationOrigin
     votes?: IntFieldUpdateOperationsInput | number
     status?: StringFieldUpdateOperationsInput | string
     evidenceJson?: NullableJsonNullValueInput | InputJsonValue
     tagsJson?: NullableJsonNullValueInput | InputJsonValue
-    confidence?: NullableFloatFieldUpdateOperationsInput | number | null
+    aiConfidence?: NullableFloatFieldUpdateOperationsInput | number | null
+    aiMetadata?: NullableJsonNullValueInput | InputJsonValue
+    qualityScore?: NullableFloatFieldUpdateOperationsInput | number | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     users?: usersUpdateOneWithoutIdeasNestedInput
@@ -46933,12 +47506,14 @@ export namespace Prisma {
     hotspotId?: StringFieldUpdateOperationsInput | string
     title?: NullableStringFieldUpdateOperationsInput | string | null
     description?: StringFieldUpdateOperationsInput | string
-    origin?: StringFieldUpdateOperationsInput | string
+    origin?: EnumCreationOriginFieldUpdateOperationsInput | $Enums.CreationOrigin
     votes?: IntFieldUpdateOperationsInput | number
     status?: StringFieldUpdateOperationsInput | string
     evidenceJson?: NullableJsonNullValueInput | InputJsonValue
     tagsJson?: NullableJsonNullValueInput | InputJsonValue
-    confidence?: NullableFloatFieldUpdateOperationsInput | number | null
+    aiConfidence?: NullableFloatFieldUpdateOperationsInput | number | null
+    aiMetadata?: NullableJsonNullValueInput | InputJsonValue
+    qualityScore?: NullableFloatFieldUpdateOperationsInput | number | null
     createdById?: NullableStringFieldUpdateOperationsInput | string | null
     initiativeId?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -47730,8 +48305,10 @@ export namespace Prisma {
     id: string
     title: string
     content: JsonNullValueInput | InputJsonValue
-    aiGenerated?: boolean
+    origin?: $Enums.CreationOrigin
     aiConfidence?: number | null
+    aiMetadata?: NullableJsonNullValueInput | InputJsonValue
+    qualityScore?: number | null
     aiPromptUsed?: string | null
     version?: string
     status?: $Enums.FRDStatus
@@ -47751,8 +48328,10 @@ export namespace Prisma {
     id: string
     title: string
     content: JsonNullValueInput | InputJsonValue
-    aiGenerated?: boolean
+    origin?: $Enums.CreationOrigin
     aiConfidence?: number | null
+    aiMetadata?: NullableJsonNullValueInput | InputJsonValue
+    qualityScore?: number | null
     aiPromptUsed?: string | null
     version?: string
     status?: $Enums.FRDStatus
@@ -47782,8 +48361,10 @@ export namespace Prisma {
     id: string
     title: string
     content: JsonNullValueInput | InputJsonValue
-    aiGenerated?: boolean
+    origin?: $Enums.CreationOrigin
     aiConfidence?: number | null
+    aiMetadata?: NullableJsonNullValueInput | InputJsonValue
+    qualityScore?: number | null
     aiPromptUsed?: string | null
     version?: string
     status?: $Enums.FRDStatus
@@ -47803,8 +48384,10 @@ export namespace Prisma {
     id: string
     title: string
     content: JsonNullValueInput | InputJsonValue
-    aiGenerated?: boolean
+    origin?: $Enums.CreationOrigin
     aiConfidence?: number | null
+    aiMetadata?: NullableJsonNullValueInput | InputJsonValue
+    qualityScore?: number | null
     aiPromptUsed?: string | null
     version?: string
     status?: $Enums.FRDStatus
@@ -47834,12 +48417,14 @@ export namespace Prisma {
     id: string
     title?: string | null
     description: string
-    origin: string
+    origin?: $Enums.CreationOrigin
     votes?: number
     status?: string
     evidenceJson?: NullableJsonNullValueInput | InputJsonValue
     tagsJson?: NullableJsonNullValueInput | InputJsonValue
-    confidence?: number | null
+    aiConfidence?: number | null
+    aiMetadata?: NullableJsonNullValueInput | InputJsonValue
+    qualityScore?: number | null
     createdAt?: Date | string
     updatedAt: Date | string
     hotspots: hotspotsCreateNestedOneWithoutIdeasInput
@@ -47852,12 +48437,14 @@ export namespace Prisma {
     hotspotId: string
     title?: string | null
     description: string
-    origin: string
+    origin?: $Enums.CreationOrigin
     votes?: number
     status?: string
     evidenceJson?: NullableJsonNullValueInput | InputJsonValue
     tagsJson?: NullableJsonNullValueInput | InputJsonValue
-    confidence?: number | null
+    aiConfidence?: number | null
+    aiMetadata?: NullableJsonNullValueInput | InputJsonValue
+    qualityScore?: number | null
     initiativeId?: string | null
     createdAt?: Date | string
     updatedAt: Date | string
@@ -48026,6 +48613,10 @@ export namespace Prisma {
     description: string
     acceptanceCriteria: JsonNullValueInput | InputJsonValue
     status?: $Enums.RequirementStatus
+    origin?: $Enums.CreationOrigin
+    aiConfidence?: number | null
+    aiMetadata?: NullableJsonNullValueInput | InputJsonValue
+    qualityScore?: number | null
     estimatedEffort?: string | null
     dependencies?: NullableJsonNullValueInput | InputJsonValue
     businessValue?: string | null
@@ -48046,6 +48637,10 @@ export namespace Prisma {
     description: string
     acceptanceCriteria: JsonNullValueInput | InputJsonValue
     status?: $Enums.RequirementStatus
+    origin?: $Enums.CreationOrigin
+    aiConfidence?: number | null
+    aiMetadata?: NullableJsonNullValueInput | InputJsonValue
+    qualityScore?: number | null
     estimatedEffort?: string | null
     dependencies?: NullableJsonNullValueInput | InputJsonValue
     businessValue?: string | null
@@ -48175,6 +48770,10 @@ export namespace Prisma {
     title: string
     description: string
     status?: $Enums.SolutionStatus
+    origin?: $Enums.CreationOrigin
+    aiConfidence?: number | null
+    aiMetadata?: NullableJsonNullValueInput | InputJsonValue
+    qualityScore?: number | null
     createdAt?: Date | string
     updatedAt: Date | string
     estimatedEffort?: string | null
@@ -48199,6 +48798,10 @@ export namespace Prisma {
     title: string
     description: string
     status?: $Enums.SolutionStatus
+    origin?: $Enums.CreationOrigin
+    aiConfidence?: number | null
+    aiMetadata?: NullableJsonNullValueInput | InputJsonValue
+    qualityScore?: number | null
     createdAt?: Date | string
     updatedAt: Date | string
     estimatedEffort?: string | null
@@ -49957,12 +50560,14 @@ export namespace Prisma {
     id: string
     title?: string | null
     description: string
-    origin: string
+    origin?: $Enums.CreationOrigin
     votes?: number
     status?: string
     evidenceJson?: NullableJsonNullValueInput | InputJsonValue
     tagsJson?: NullableJsonNullValueInput | InputJsonValue
-    confidence?: number | null
+    aiConfidence?: number | null
+    aiMetadata?: NullableJsonNullValueInput | InputJsonValue
+    qualityScore?: number | null
     createdById?: string | null
     initiativeId?: string | null
     createdAt?: Date | string
@@ -49974,6 +50579,10 @@ export namespace Prisma {
     title: string
     description: string
     status?: $Enums.SolutionStatus
+    origin?: $Enums.CreationOrigin
+    aiConfidence?: number | null
+    aiMetadata?: NullableJsonNullValueInput | InputJsonValue
+    qualityScore?: number | null
     createdAt?: Date | string
     updatedAt: Date | string
     estimatedEffort?: string | null
@@ -50016,12 +50625,14 @@ export namespace Prisma {
     id?: StringFieldUpdateOperationsInput | string
     title?: NullableStringFieldUpdateOperationsInput | string | null
     description?: StringFieldUpdateOperationsInput | string
-    origin?: StringFieldUpdateOperationsInput | string
+    origin?: EnumCreationOriginFieldUpdateOperationsInput | $Enums.CreationOrigin
     votes?: IntFieldUpdateOperationsInput | number
     status?: StringFieldUpdateOperationsInput | string
     evidenceJson?: NullableJsonNullValueInput | InputJsonValue
     tagsJson?: NullableJsonNullValueInput | InputJsonValue
-    confidence?: NullableFloatFieldUpdateOperationsInput | number | null
+    aiConfidence?: NullableFloatFieldUpdateOperationsInput | number | null
+    aiMetadata?: NullableJsonNullValueInput | InputJsonValue
+    qualityScore?: NullableFloatFieldUpdateOperationsInput | number | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     users?: usersUpdateOneWithoutIdeasNestedInput
@@ -50033,12 +50644,14 @@ export namespace Prisma {
     id?: StringFieldUpdateOperationsInput | string
     title?: NullableStringFieldUpdateOperationsInput | string | null
     description?: StringFieldUpdateOperationsInput | string
-    origin?: StringFieldUpdateOperationsInput | string
+    origin?: EnumCreationOriginFieldUpdateOperationsInput | $Enums.CreationOrigin
     votes?: IntFieldUpdateOperationsInput | number
     status?: StringFieldUpdateOperationsInput | string
     evidenceJson?: NullableJsonNullValueInput | InputJsonValue
     tagsJson?: NullableJsonNullValueInput | InputJsonValue
-    confidence?: NullableFloatFieldUpdateOperationsInput | number | null
+    aiConfidence?: NullableFloatFieldUpdateOperationsInput | number | null
+    aiMetadata?: NullableJsonNullValueInput | InputJsonValue
+    qualityScore?: NullableFloatFieldUpdateOperationsInput | number | null
     createdById?: NullableStringFieldUpdateOperationsInput | string | null
     initiativeId?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -50050,12 +50663,14 @@ export namespace Prisma {
     id?: StringFieldUpdateOperationsInput | string
     title?: NullableStringFieldUpdateOperationsInput | string | null
     description?: StringFieldUpdateOperationsInput | string
-    origin?: StringFieldUpdateOperationsInput | string
+    origin?: EnumCreationOriginFieldUpdateOperationsInput | $Enums.CreationOrigin
     votes?: IntFieldUpdateOperationsInput | number
     status?: StringFieldUpdateOperationsInput | string
     evidenceJson?: NullableJsonNullValueInput | InputJsonValue
     tagsJson?: NullableJsonNullValueInput | InputJsonValue
-    confidence?: NullableFloatFieldUpdateOperationsInput | number | null
+    aiConfidence?: NullableFloatFieldUpdateOperationsInput | number | null
+    aiMetadata?: NullableJsonNullValueInput | InputJsonValue
+    qualityScore?: NullableFloatFieldUpdateOperationsInput | number | null
     createdById?: NullableStringFieldUpdateOperationsInput | string | null
     initiativeId?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -50067,6 +50682,10 @@ export namespace Prisma {
     title?: StringFieldUpdateOperationsInput | string
     description?: StringFieldUpdateOperationsInput | string
     status?: EnumSolutionStatusFieldUpdateOperationsInput | $Enums.SolutionStatus
+    origin?: EnumCreationOriginFieldUpdateOperationsInput | $Enums.CreationOrigin
+    aiConfidence?: NullableFloatFieldUpdateOperationsInput | number | null
+    aiMetadata?: NullableJsonNullValueInput | InputJsonValue
+    qualityScore?: NullableFloatFieldUpdateOperationsInput | number | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     estimatedEffort?: NullableStringFieldUpdateOperationsInput | string | null
@@ -50091,6 +50710,10 @@ export namespace Prisma {
     title?: StringFieldUpdateOperationsInput | string
     description?: StringFieldUpdateOperationsInput | string
     status?: EnumSolutionStatusFieldUpdateOperationsInput | $Enums.SolutionStatus
+    origin?: EnumCreationOriginFieldUpdateOperationsInput | $Enums.CreationOrigin
+    aiConfidence?: NullableFloatFieldUpdateOperationsInput | number | null
+    aiMetadata?: NullableJsonNullValueInput | InputJsonValue
+    qualityScore?: NullableFloatFieldUpdateOperationsInput | number | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     estimatedEffort?: NullableStringFieldUpdateOperationsInput | string | null
@@ -50115,6 +50738,10 @@ export namespace Prisma {
     title?: StringFieldUpdateOperationsInput | string
     description?: StringFieldUpdateOperationsInput | string
     status?: EnumSolutionStatusFieldUpdateOperationsInput | $Enums.SolutionStatus
+    origin?: EnumCreationOriginFieldUpdateOperationsInput | $Enums.CreationOrigin
+    aiConfidence?: NullableFloatFieldUpdateOperationsInput | number | null
+    aiMetadata?: NullableJsonNullValueInput | InputJsonValue
+    qualityScore?: NullableFloatFieldUpdateOperationsInput | number | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     estimatedEffort?: NullableStringFieldUpdateOperationsInput | string | null
@@ -50137,12 +50764,14 @@ export namespace Prisma {
     hotspotId: string
     title?: string | null
     description: string
-    origin: string
+    origin?: $Enums.CreationOrigin
     votes?: number
     status?: string
     evidenceJson?: NullableJsonNullValueInput | InputJsonValue
     tagsJson?: NullableJsonNullValueInput | InputJsonValue
-    confidence?: number | null
+    aiConfidence?: number | null
+    aiMetadata?: NullableJsonNullValueInput | InputJsonValue
+    qualityScore?: number | null
     createdById?: string | null
     createdAt?: Date | string
     updatedAt: Date | string
@@ -50153,6 +50782,10 @@ export namespace Prisma {
     title: string
     description: string
     status?: $Enums.SolutionStatus
+    origin?: $Enums.CreationOrigin
+    aiConfidence?: number | null
+    aiMetadata?: NullableJsonNullValueInput | InputJsonValue
+    qualityScore?: number | null
     createdAt?: Date | string
     updatedAt: Date | string
     estimatedEffort?: string | null
@@ -50174,12 +50807,14 @@ export namespace Prisma {
     id?: StringFieldUpdateOperationsInput | string
     title?: NullableStringFieldUpdateOperationsInput | string | null
     description?: StringFieldUpdateOperationsInput | string
-    origin?: StringFieldUpdateOperationsInput | string
+    origin?: EnumCreationOriginFieldUpdateOperationsInput | $Enums.CreationOrigin
     votes?: IntFieldUpdateOperationsInput | number
     status?: StringFieldUpdateOperationsInput | string
     evidenceJson?: NullableJsonNullValueInput | InputJsonValue
     tagsJson?: NullableJsonNullValueInput | InputJsonValue
-    confidence?: NullableFloatFieldUpdateOperationsInput | number | null
+    aiConfidence?: NullableFloatFieldUpdateOperationsInput | number | null
+    aiMetadata?: NullableJsonNullValueInput | InputJsonValue
+    qualityScore?: NullableFloatFieldUpdateOperationsInput | number | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     users?: usersUpdateOneWithoutIdeasNestedInput
@@ -50192,12 +50827,14 @@ export namespace Prisma {
     hotspotId?: StringFieldUpdateOperationsInput | string
     title?: NullableStringFieldUpdateOperationsInput | string | null
     description?: StringFieldUpdateOperationsInput | string
-    origin?: StringFieldUpdateOperationsInput | string
+    origin?: EnumCreationOriginFieldUpdateOperationsInput | $Enums.CreationOrigin
     votes?: IntFieldUpdateOperationsInput | number
     status?: StringFieldUpdateOperationsInput | string
     evidenceJson?: NullableJsonNullValueInput | InputJsonValue
     tagsJson?: NullableJsonNullValueInput | InputJsonValue
-    confidence?: NullableFloatFieldUpdateOperationsInput | number | null
+    aiConfidence?: NullableFloatFieldUpdateOperationsInput | number | null
+    aiMetadata?: NullableJsonNullValueInput | InputJsonValue
+    qualityScore?: NullableFloatFieldUpdateOperationsInput | number | null
     createdById?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -50209,12 +50846,14 @@ export namespace Prisma {
     hotspotId?: StringFieldUpdateOperationsInput | string
     title?: NullableStringFieldUpdateOperationsInput | string | null
     description?: StringFieldUpdateOperationsInput | string
-    origin?: StringFieldUpdateOperationsInput | string
+    origin?: EnumCreationOriginFieldUpdateOperationsInput | $Enums.CreationOrigin
     votes?: IntFieldUpdateOperationsInput | number
     status?: StringFieldUpdateOperationsInput | string
     evidenceJson?: NullableJsonNullValueInput | InputJsonValue
     tagsJson?: NullableJsonNullValueInput | InputJsonValue
-    confidence?: NullableFloatFieldUpdateOperationsInput | number | null
+    aiConfidence?: NullableFloatFieldUpdateOperationsInput | number | null
+    aiMetadata?: NullableJsonNullValueInput | InputJsonValue
+    qualityScore?: NullableFloatFieldUpdateOperationsInput | number | null
     createdById?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -50225,6 +50864,10 @@ export namespace Prisma {
     title?: StringFieldUpdateOperationsInput | string
     description?: StringFieldUpdateOperationsInput | string
     status?: EnumSolutionStatusFieldUpdateOperationsInput | $Enums.SolutionStatus
+    origin?: EnumCreationOriginFieldUpdateOperationsInput | $Enums.CreationOrigin
+    aiConfidence?: NullableFloatFieldUpdateOperationsInput | number | null
+    aiMetadata?: NullableJsonNullValueInput | InputJsonValue
+    qualityScore?: NullableFloatFieldUpdateOperationsInput | number | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     estimatedEffort?: NullableStringFieldUpdateOperationsInput | string | null
@@ -50249,6 +50892,10 @@ export namespace Prisma {
     title?: StringFieldUpdateOperationsInput | string
     description?: StringFieldUpdateOperationsInput | string
     status?: EnumSolutionStatusFieldUpdateOperationsInput | $Enums.SolutionStatus
+    origin?: EnumCreationOriginFieldUpdateOperationsInput | $Enums.CreationOrigin
+    aiConfidence?: NullableFloatFieldUpdateOperationsInput | number | null
+    aiMetadata?: NullableJsonNullValueInput | InputJsonValue
+    qualityScore?: NullableFloatFieldUpdateOperationsInput | number | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     estimatedEffort?: NullableStringFieldUpdateOperationsInput | string | null
@@ -50273,6 +50920,10 @@ export namespace Prisma {
     title?: StringFieldUpdateOperationsInput | string
     description?: StringFieldUpdateOperationsInput | string
     status?: EnumSolutionStatusFieldUpdateOperationsInput | $Enums.SolutionStatus
+    origin?: EnumCreationOriginFieldUpdateOperationsInput | $Enums.CreationOrigin
+    aiConfidence?: NullableFloatFieldUpdateOperationsInput | number | null
+    aiMetadata?: NullableJsonNullValueInput | InputJsonValue
+    qualityScore?: NullableFloatFieldUpdateOperationsInput | number | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     estimatedEffort?: NullableStringFieldUpdateOperationsInput | string | null
@@ -50315,6 +50966,10 @@ export namespace Prisma {
     title: string
     description: string
     status?: $Enums.SolutionStatus
+    origin?: $Enums.CreationOrigin
+    aiConfidence?: number | null
+    aiMetadata?: NullableJsonNullValueInput | InputJsonValue
+    qualityScore?: number | null
     createdAt?: Date | string
     updatedAt: Date | string
     estimatedEffort?: string | null
@@ -50349,6 +51004,10 @@ export namespace Prisma {
     title?: StringFieldUpdateOperationsInput | string
     description?: StringFieldUpdateOperationsInput | string
     status?: EnumSolutionStatusFieldUpdateOperationsInput | $Enums.SolutionStatus
+    origin?: EnumCreationOriginFieldUpdateOperationsInput | $Enums.CreationOrigin
+    aiConfidence?: NullableFloatFieldUpdateOperationsInput | number | null
+    aiMetadata?: NullableJsonNullValueInput | InputJsonValue
+    qualityScore?: NullableFloatFieldUpdateOperationsInput | number | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     estimatedEffort?: NullableStringFieldUpdateOperationsInput | string | null
@@ -50373,6 +51032,10 @@ export namespace Prisma {
     title?: StringFieldUpdateOperationsInput | string
     description?: StringFieldUpdateOperationsInput | string
     status?: EnumSolutionStatusFieldUpdateOperationsInput | $Enums.SolutionStatus
+    origin?: EnumCreationOriginFieldUpdateOperationsInput | $Enums.CreationOrigin
+    aiConfidence?: NullableFloatFieldUpdateOperationsInput | number | null
+    aiMetadata?: NullableJsonNullValueInput | InputJsonValue
+    qualityScore?: NullableFloatFieldUpdateOperationsInput | number | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     estimatedEffort?: NullableStringFieldUpdateOperationsInput | string | null
@@ -50397,6 +51060,10 @@ export namespace Prisma {
     title?: StringFieldUpdateOperationsInput | string
     description?: StringFieldUpdateOperationsInput | string
     status?: EnumSolutionStatusFieldUpdateOperationsInput | $Enums.SolutionStatus
+    origin?: EnumCreationOriginFieldUpdateOperationsInput | $Enums.CreationOrigin
+    aiConfidence?: NullableFloatFieldUpdateOperationsInput | number | null
+    aiMetadata?: NullableJsonNullValueInput | InputJsonValue
+    qualityScore?: NullableFloatFieldUpdateOperationsInput | number | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     estimatedEffort?: NullableStringFieldUpdateOperationsInput | string | null
@@ -50506,8 +51173,10 @@ export namespace Prisma {
     id: string
     title: string
     content: JsonNullValueInput | InputJsonValue
-    aiGenerated?: boolean
+    origin?: $Enums.CreationOrigin
     aiConfidence?: number | null
+    aiMetadata?: NullableJsonNullValueInput | InputJsonValue
+    qualityScore?: number | null
     aiPromptUsed?: string | null
     version?: string
     status?: $Enums.FRDStatus
@@ -50529,6 +51198,10 @@ export namespace Prisma {
     description: string
     acceptanceCriteria: JsonNullValueInput | InputJsonValue
     status?: $Enums.RequirementStatus
+    origin?: $Enums.CreationOrigin
+    aiConfidence?: number | null
+    aiMetadata?: NullableJsonNullValueInput | InputJsonValue
+    qualityScore?: number | null
     estimatedEffort?: string | null
     dependencies?: NullableJsonNullValueInput | InputJsonValue
     businessValue?: string | null
@@ -50547,8 +51220,10 @@ export namespace Prisma {
     id?: StringFieldUpdateOperationsInput | string
     title?: StringFieldUpdateOperationsInput | string
     content?: JsonNullValueInput | InputJsonValue
-    aiGenerated?: BoolFieldUpdateOperationsInput | boolean
+    origin?: EnumCreationOriginFieldUpdateOperationsInput | $Enums.CreationOrigin
     aiConfidence?: NullableFloatFieldUpdateOperationsInput | number | null
+    aiMetadata?: NullableJsonNullValueInput | InputJsonValue
+    qualityScore?: NullableFloatFieldUpdateOperationsInput | number | null
     aiPromptUsed?: NullableStringFieldUpdateOperationsInput | string | null
     version?: StringFieldUpdateOperationsInput | string
     status?: EnumFRDStatusFieldUpdateOperationsInput | $Enums.FRDStatus
@@ -50568,8 +51243,10 @@ export namespace Prisma {
     id?: StringFieldUpdateOperationsInput | string
     title?: StringFieldUpdateOperationsInput | string
     content?: JsonNullValueInput | InputJsonValue
-    aiGenerated?: BoolFieldUpdateOperationsInput | boolean
+    origin?: EnumCreationOriginFieldUpdateOperationsInput | $Enums.CreationOrigin
     aiConfidence?: NullableFloatFieldUpdateOperationsInput | number | null
+    aiMetadata?: NullableJsonNullValueInput | InputJsonValue
+    qualityScore?: NullableFloatFieldUpdateOperationsInput | number | null
     aiPromptUsed?: NullableStringFieldUpdateOperationsInput | string | null
     version?: StringFieldUpdateOperationsInput | string
     status?: EnumFRDStatusFieldUpdateOperationsInput | $Enums.FRDStatus
@@ -50589,8 +51266,10 @@ export namespace Prisma {
     id?: StringFieldUpdateOperationsInput | string
     title?: StringFieldUpdateOperationsInput | string
     content?: JsonNullValueInput | InputJsonValue
-    aiGenerated?: BoolFieldUpdateOperationsInput | boolean
+    origin?: EnumCreationOriginFieldUpdateOperationsInput | $Enums.CreationOrigin
     aiConfidence?: NullableFloatFieldUpdateOperationsInput | number | null
+    aiMetadata?: NullableJsonNullValueInput | InputJsonValue
+    qualityScore?: NullableFloatFieldUpdateOperationsInput | number | null
     aiPromptUsed?: NullableStringFieldUpdateOperationsInput | string | null
     version?: StringFieldUpdateOperationsInput | string
     status?: EnumFRDStatusFieldUpdateOperationsInput | $Enums.FRDStatus
@@ -50612,6 +51291,10 @@ export namespace Prisma {
     description?: StringFieldUpdateOperationsInput | string
     acceptanceCriteria?: JsonNullValueInput | InputJsonValue
     status?: EnumRequirementStatusFieldUpdateOperationsInput | $Enums.RequirementStatus
+    origin?: EnumCreationOriginFieldUpdateOperationsInput | $Enums.CreationOrigin
+    aiConfidence?: NullableFloatFieldUpdateOperationsInput | number | null
+    aiMetadata?: NullableJsonNullValueInput | InputJsonValue
+    qualityScore?: NullableFloatFieldUpdateOperationsInput | number | null
     estimatedEffort?: NullableStringFieldUpdateOperationsInput | string | null
     dependencies?: NullableJsonNullValueInput | InputJsonValue
     businessValue?: NullableStringFieldUpdateOperationsInput | string | null
@@ -50632,6 +51315,10 @@ export namespace Prisma {
     description?: StringFieldUpdateOperationsInput | string
     acceptanceCriteria?: JsonNullValueInput | InputJsonValue
     status?: EnumRequirementStatusFieldUpdateOperationsInput | $Enums.RequirementStatus
+    origin?: EnumCreationOriginFieldUpdateOperationsInput | $Enums.CreationOrigin
+    aiConfidence?: NullableFloatFieldUpdateOperationsInput | number | null
+    aiMetadata?: NullableJsonNullValueInput | InputJsonValue
+    qualityScore?: NullableFloatFieldUpdateOperationsInput | number | null
     estimatedEffort?: NullableStringFieldUpdateOperationsInput | string | null
     dependencies?: NullableJsonNullValueInput | InputJsonValue
     businessValue?: NullableStringFieldUpdateOperationsInput | string | null
@@ -50652,6 +51339,10 @@ export namespace Prisma {
     description?: StringFieldUpdateOperationsInput | string
     acceptanceCriteria?: JsonNullValueInput | InputJsonValue
     status?: EnumRequirementStatusFieldUpdateOperationsInput | $Enums.RequirementStatus
+    origin?: EnumCreationOriginFieldUpdateOperationsInput | $Enums.CreationOrigin
+    aiConfidence?: NullableFloatFieldUpdateOperationsInput | number | null
+    aiMetadata?: NullableJsonNullValueInput | InputJsonValue
+    qualityScore?: NullableFloatFieldUpdateOperationsInput | number | null
     estimatedEffort?: NullableStringFieldUpdateOperationsInput | string | null
     dependencies?: NullableJsonNullValueInput | InputJsonValue
     businessValue?: NullableStringFieldUpdateOperationsInput | string | null
@@ -51017,8 +51708,10 @@ export namespace Prisma {
     id: string
     title: string
     content: JsonNullValueInput | InputJsonValue
-    aiGenerated?: boolean
+    origin?: $Enums.CreationOrigin
     aiConfidence?: number | null
+    aiMetadata?: NullableJsonNullValueInput | InputJsonValue
+    qualityScore?: number | null
     aiPromptUsed?: string | null
     version?: string
     status?: $Enums.FRDStatus
@@ -51038,8 +51731,10 @@ export namespace Prisma {
     id: string
     title: string
     content: JsonNullValueInput | InputJsonValue
-    aiGenerated?: boolean
+    origin?: $Enums.CreationOrigin
     aiConfidence?: number | null
+    aiMetadata?: NullableJsonNullValueInput | InputJsonValue
+    qualityScore?: number | null
     aiPromptUsed?: string | null
     version?: string
     status?: $Enums.FRDStatus
@@ -51060,12 +51755,14 @@ export namespace Prisma {
     hotspotId: string
     title?: string | null
     description: string
-    origin: string
+    origin?: $Enums.CreationOrigin
     votes?: number
     status?: string
     evidenceJson?: NullableJsonNullValueInput | InputJsonValue
     tagsJson?: NullableJsonNullValueInput | InputJsonValue
-    confidence?: number | null
+    aiConfidence?: number | null
+    aiMetadata?: NullableJsonNullValueInput | InputJsonValue
+    qualityScore?: number | null
     initiativeId?: string | null
     createdAt?: Date | string
     updatedAt: Date | string
@@ -51130,6 +51827,10 @@ export namespace Prisma {
     description: string
     acceptanceCriteria: JsonNullValueInput | InputJsonValue
     status?: $Enums.RequirementStatus
+    origin?: $Enums.CreationOrigin
+    aiConfidence?: number | null
+    aiMetadata?: NullableJsonNullValueInput | InputJsonValue
+    qualityScore?: number | null
     estimatedEffort?: string | null
     dependencies?: NullableJsonNullValueInput | InputJsonValue
     businessValue?: string | null
@@ -51192,6 +51893,10 @@ export namespace Prisma {
     title: string
     description: string
     status?: $Enums.SolutionStatus
+    origin?: $Enums.CreationOrigin
+    aiConfidence?: number | null
+    aiMetadata?: NullableJsonNullValueInput | InputJsonValue
+    qualityScore?: number | null
     createdAt?: Date | string
     updatedAt: Date | string
     estimatedEffort?: string | null
@@ -51471,8 +52176,10 @@ export namespace Prisma {
     id?: StringFieldUpdateOperationsInput | string
     title?: StringFieldUpdateOperationsInput | string
     content?: JsonNullValueInput | InputJsonValue
-    aiGenerated?: BoolFieldUpdateOperationsInput | boolean
+    origin?: EnumCreationOriginFieldUpdateOperationsInput | $Enums.CreationOrigin
     aiConfidence?: NullableFloatFieldUpdateOperationsInput | number | null
+    aiMetadata?: NullableJsonNullValueInput | InputJsonValue
+    qualityScore?: NullableFloatFieldUpdateOperationsInput | number | null
     aiPromptUsed?: NullableStringFieldUpdateOperationsInput | string | null
     version?: StringFieldUpdateOperationsInput | string
     status?: EnumFRDStatusFieldUpdateOperationsInput | $Enums.FRDStatus
@@ -51492,8 +52199,10 @@ export namespace Prisma {
     id?: StringFieldUpdateOperationsInput | string
     title?: StringFieldUpdateOperationsInput | string
     content?: JsonNullValueInput | InputJsonValue
-    aiGenerated?: BoolFieldUpdateOperationsInput | boolean
+    origin?: EnumCreationOriginFieldUpdateOperationsInput | $Enums.CreationOrigin
     aiConfidence?: NullableFloatFieldUpdateOperationsInput | number | null
+    aiMetadata?: NullableJsonNullValueInput | InputJsonValue
+    qualityScore?: NullableFloatFieldUpdateOperationsInput | number | null
     aiPromptUsed?: NullableStringFieldUpdateOperationsInput | string | null
     version?: StringFieldUpdateOperationsInput | string
     status?: EnumFRDStatusFieldUpdateOperationsInput | $Enums.FRDStatus
@@ -51513,8 +52222,10 @@ export namespace Prisma {
     id?: StringFieldUpdateOperationsInput | string
     title?: StringFieldUpdateOperationsInput | string
     content?: JsonNullValueInput | InputJsonValue
-    aiGenerated?: BoolFieldUpdateOperationsInput | boolean
+    origin?: EnumCreationOriginFieldUpdateOperationsInput | $Enums.CreationOrigin
     aiConfidence?: NullableFloatFieldUpdateOperationsInput | number | null
+    aiMetadata?: NullableJsonNullValueInput | InputJsonValue
+    qualityScore?: NullableFloatFieldUpdateOperationsInput | number | null
     aiPromptUsed?: NullableStringFieldUpdateOperationsInput | string | null
     version?: StringFieldUpdateOperationsInput | string
     status?: EnumFRDStatusFieldUpdateOperationsInput | $Enums.FRDStatus
@@ -51534,8 +52245,10 @@ export namespace Prisma {
     id?: StringFieldUpdateOperationsInput | string
     title?: StringFieldUpdateOperationsInput | string
     content?: JsonNullValueInput | InputJsonValue
-    aiGenerated?: BoolFieldUpdateOperationsInput | boolean
+    origin?: EnumCreationOriginFieldUpdateOperationsInput | $Enums.CreationOrigin
     aiConfidence?: NullableFloatFieldUpdateOperationsInput | number | null
+    aiMetadata?: NullableJsonNullValueInput | InputJsonValue
+    qualityScore?: NullableFloatFieldUpdateOperationsInput | number | null
     aiPromptUsed?: NullableStringFieldUpdateOperationsInput | string | null
     version?: StringFieldUpdateOperationsInput | string
     status?: EnumFRDStatusFieldUpdateOperationsInput | $Enums.FRDStatus
@@ -51555,8 +52268,10 @@ export namespace Prisma {
     id?: StringFieldUpdateOperationsInput | string
     title?: StringFieldUpdateOperationsInput | string
     content?: JsonNullValueInput | InputJsonValue
-    aiGenerated?: BoolFieldUpdateOperationsInput | boolean
+    origin?: EnumCreationOriginFieldUpdateOperationsInput | $Enums.CreationOrigin
     aiConfidence?: NullableFloatFieldUpdateOperationsInput | number | null
+    aiMetadata?: NullableJsonNullValueInput | InputJsonValue
+    qualityScore?: NullableFloatFieldUpdateOperationsInput | number | null
     aiPromptUsed?: NullableStringFieldUpdateOperationsInput | string | null
     version?: StringFieldUpdateOperationsInput | string
     status?: EnumFRDStatusFieldUpdateOperationsInput | $Enums.FRDStatus
@@ -51576,8 +52291,10 @@ export namespace Prisma {
     id?: StringFieldUpdateOperationsInput | string
     title?: StringFieldUpdateOperationsInput | string
     content?: JsonNullValueInput | InputJsonValue
-    aiGenerated?: BoolFieldUpdateOperationsInput | boolean
+    origin?: EnumCreationOriginFieldUpdateOperationsInput | $Enums.CreationOrigin
     aiConfidence?: NullableFloatFieldUpdateOperationsInput | number | null
+    aiMetadata?: NullableJsonNullValueInput | InputJsonValue
+    qualityScore?: NullableFloatFieldUpdateOperationsInput | number | null
     aiPromptUsed?: NullableStringFieldUpdateOperationsInput | string | null
     version?: StringFieldUpdateOperationsInput | string
     status?: EnumFRDStatusFieldUpdateOperationsInput | $Enums.FRDStatus
@@ -51597,12 +52314,14 @@ export namespace Prisma {
     id?: StringFieldUpdateOperationsInput | string
     title?: NullableStringFieldUpdateOperationsInput | string | null
     description?: StringFieldUpdateOperationsInput | string
-    origin?: StringFieldUpdateOperationsInput | string
+    origin?: EnumCreationOriginFieldUpdateOperationsInput | $Enums.CreationOrigin
     votes?: IntFieldUpdateOperationsInput | number
     status?: StringFieldUpdateOperationsInput | string
     evidenceJson?: NullableJsonNullValueInput | InputJsonValue
     tagsJson?: NullableJsonNullValueInput | InputJsonValue
-    confidence?: NullableFloatFieldUpdateOperationsInput | number | null
+    aiConfidence?: NullableFloatFieldUpdateOperationsInput | number | null
+    aiMetadata?: NullableJsonNullValueInput | InputJsonValue
+    qualityScore?: NullableFloatFieldUpdateOperationsInput | number | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     hotspots?: hotspotsUpdateOneRequiredWithoutIdeasNestedInput
@@ -51615,12 +52334,14 @@ export namespace Prisma {
     hotspotId?: StringFieldUpdateOperationsInput | string
     title?: NullableStringFieldUpdateOperationsInput | string | null
     description?: StringFieldUpdateOperationsInput | string
-    origin?: StringFieldUpdateOperationsInput | string
+    origin?: EnumCreationOriginFieldUpdateOperationsInput | $Enums.CreationOrigin
     votes?: IntFieldUpdateOperationsInput | number
     status?: StringFieldUpdateOperationsInput | string
     evidenceJson?: NullableJsonNullValueInput | InputJsonValue
     tagsJson?: NullableJsonNullValueInput | InputJsonValue
-    confidence?: NullableFloatFieldUpdateOperationsInput | number | null
+    aiConfidence?: NullableFloatFieldUpdateOperationsInput | number | null
+    aiMetadata?: NullableJsonNullValueInput | InputJsonValue
+    qualityScore?: NullableFloatFieldUpdateOperationsInput | number | null
     initiativeId?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -51632,12 +52353,14 @@ export namespace Prisma {
     hotspotId?: StringFieldUpdateOperationsInput | string
     title?: NullableStringFieldUpdateOperationsInput | string | null
     description?: StringFieldUpdateOperationsInput | string
-    origin?: StringFieldUpdateOperationsInput | string
+    origin?: EnumCreationOriginFieldUpdateOperationsInput | $Enums.CreationOrigin
     votes?: IntFieldUpdateOperationsInput | number
     status?: StringFieldUpdateOperationsInput | string
     evidenceJson?: NullableJsonNullValueInput | InputJsonValue
     tagsJson?: NullableJsonNullValueInput | InputJsonValue
-    confidence?: NullableFloatFieldUpdateOperationsInput | number | null
+    aiConfidence?: NullableFloatFieldUpdateOperationsInput | number | null
+    aiMetadata?: NullableJsonNullValueInput | InputJsonValue
+    qualityScore?: NullableFloatFieldUpdateOperationsInput | number | null
     initiativeId?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -51818,6 +52541,10 @@ export namespace Prisma {
     description?: StringFieldUpdateOperationsInput | string
     acceptanceCriteria?: JsonNullValueInput | InputJsonValue
     status?: EnumRequirementStatusFieldUpdateOperationsInput | $Enums.RequirementStatus
+    origin?: EnumCreationOriginFieldUpdateOperationsInput | $Enums.CreationOrigin
+    aiConfidence?: NullableFloatFieldUpdateOperationsInput | number | null
+    aiMetadata?: NullableJsonNullValueInput | InputJsonValue
+    qualityScore?: NullableFloatFieldUpdateOperationsInput | number | null
     estimatedEffort?: NullableStringFieldUpdateOperationsInput | string | null
     dependencies?: NullableJsonNullValueInput | InputJsonValue
     businessValue?: NullableStringFieldUpdateOperationsInput | string | null
@@ -51838,6 +52565,10 @@ export namespace Prisma {
     description?: StringFieldUpdateOperationsInput | string
     acceptanceCriteria?: JsonNullValueInput | InputJsonValue
     status?: EnumRequirementStatusFieldUpdateOperationsInput | $Enums.RequirementStatus
+    origin?: EnumCreationOriginFieldUpdateOperationsInput | $Enums.CreationOrigin
+    aiConfidence?: NullableFloatFieldUpdateOperationsInput | number | null
+    aiMetadata?: NullableJsonNullValueInput | InputJsonValue
+    qualityScore?: NullableFloatFieldUpdateOperationsInput | number | null
     estimatedEffort?: NullableStringFieldUpdateOperationsInput | string | null
     dependencies?: NullableJsonNullValueInput | InputJsonValue
     businessValue?: NullableStringFieldUpdateOperationsInput | string | null
@@ -51858,6 +52589,10 @@ export namespace Prisma {
     description?: StringFieldUpdateOperationsInput | string
     acceptanceCriteria?: JsonNullValueInput | InputJsonValue
     status?: EnumRequirementStatusFieldUpdateOperationsInput | $Enums.RequirementStatus
+    origin?: EnumCreationOriginFieldUpdateOperationsInput | $Enums.CreationOrigin
+    aiConfidence?: NullableFloatFieldUpdateOperationsInput | number | null
+    aiMetadata?: NullableJsonNullValueInput | InputJsonValue
+    qualityScore?: NullableFloatFieldUpdateOperationsInput | number | null
     estimatedEffort?: NullableStringFieldUpdateOperationsInput | string | null
     dependencies?: NullableJsonNullValueInput | InputJsonValue
     businessValue?: NullableStringFieldUpdateOperationsInput | string | null
@@ -52010,6 +52745,10 @@ export namespace Prisma {
     title?: StringFieldUpdateOperationsInput | string
     description?: StringFieldUpdateOperationsInput | string
     status?: EnumSolutionStatusFieldUpdateOperationsInput | $Enums.SolutionStatus
+    origin?: EnumCreationOriginFieldUpdateOperationsInput | $Enums.CreationOrigin
+    aiConfidence?: NullableFloatFieldUpdateOperationsInput | number | null
+    aiMetadata?: NullableJsonNullValueInput | InputJsonValue
+    qualityScore?: NullableFloatFieldUpdateOperationsInput | number | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     estimatedEffort?: NullableStringFieldUpdateOperationsInput | string | null
@@ -52034,6 +52773,10 @@ export namespace Prisma {
     title?: StringFieldUpdateOperationsInput | string
     description?: StringFieldUpdateOperationsInput | string
     status?: EnumSolutionStatusFieldUpdateOperationsInput | $Enums.SolutionStatus
+    origin?: EnumCreationOriginFieldUpdateOperationsInput | $Enums.CreationOrigin
+    aiConfidence?: NullableFloatFieldUpdateOperationsInput | number | null
+    aiMetadata?: NullableJsonNullValueInput | InputJsonValue
+    qualityScore?: NullableFloatFieldUpdateOperationsInput | number | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     estimatedEffort?: NullableStringFieldUpdateOperationsInput | string | null
@@ -52058,6 +52801,10 @@ export namespace Prisma {
     title?: StringFieldUpdateOperationsInput | string
     description?: StringFieldUpdateOperationsInput | string
     status?: EnumSolutionStatusFieldUpdateOperationsInput | $Enums.SolutionStatus
+    origin?: EnumCreationOriginFieldUpdateOperationsInput | $Enums.CreationOrigin
+    aiConfidence?: NullableFloatFieldUpdateOperationsInput | number | null
+    aiMetadata?: NullableJsonNullValueInput | InputJsonValue
+    qualityScore?: NullableFloatFieldUpdateOperationsInput | number | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     estimatedEffort?: NullableStringFieldUpdateOperationsInput | string | null

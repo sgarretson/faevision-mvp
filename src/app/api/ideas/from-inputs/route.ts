@@ -114,6 +114,7 @@ export async function POST(request: NextRequest) {
 
     // Generate AI-powered idea
     console.log('🤖 Generating AI-powered idea suggestion...');
+    const startTime = Date.now();
     const aiIdea = await generateObject({
       model: openai('gpt-4o-2024-08-06'), // Use gpt-4o which supports structured output
       schema: AIIdeaSchema,
@@ -217,15 +218,22 @@ Consider the commonalities, patterns, and root causes across these inputs to cre
       })),
     };
 
-    const createdIdea = await (prisma as any).idea.create({
+    const createdIdea = await (prisma as any).ideas.create({
       data: {
         hotspotId: bulkHotspot.id, // Use existing or newly created hotspot
         title: finalIdea.title,
         description: finalIdea.description,
-        origin: 'ai', // AI-generated from multiple inputs
+        origin: 'AI', // AI-generated from multiple inputs
         status: 'draft',
         evidenceJson: evidenceData,
-        confidence: 0.85, // AI confidence score
+        aiConfidence: 0.85, // AI confidence score
+        aiMetadata: {
+          model: 'gpt-4',
+          processingTime: Date.now() - startTime,
+          sourceInputCount: inputIds.length,
+          prompt: 'Strategic idea generation from bulk input analysis'
+        },
+        qualityScore: 0.8, // Business confidence score
         createdById: session.user.id,
       },
     });

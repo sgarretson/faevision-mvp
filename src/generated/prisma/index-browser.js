@@ -217,8 +217,10 @@ exports.Prisma.Frd_documentsScalarFieldEnum = {
   id: 'id',
   title: 'title',
   content: 'content',
-  aiGenerated: 'aiGenerated',
+  origin: 'origin',
   aiConfidence: 'aiConfidence',
+  aiMetadata: 'aiMetadata',
+  qualityScore: 'qualityScore',
   aiPromptUsed: 'aiPromptUsed',
   version: 'version',
   status: 'status',
@@ -277,7 +279,9 @@ exports.Prisma.IdeasScalarFieldEnum = {
   status: 'status',
   evidenceJson: 'evidenceJson',
   tagsJson: 'tagsJson',
-  confidence: 'confidence',
+  aiConfidence: 'aiConfidence',
+  aiMetadata: 'aiMetadata',
+  qualityScore: 'qualityScore',
   createdById: 'createdById',
   initiativeId: 'initiativeId',
   createdAt: 'createdAt',
@@ -360,6 +364,10 @@ exports.Prisma.RequirementsScalarFieldEnum = {
   description: 'description',
   acceptanceCriteria: 'acceptanceCriteria',
   status: 'status',
+  origin: 'origin',
+  aiConfidence: 'aiConfidence',
+  aiMetadata: 'aiMetadata',
+  qualityScore: 'qualityScore',
   estimatedEffort: 'estimatedEffort',
   dependencies: 'dependencies',
   businessValue: 'businessValue',
@@ -424,6 +432,10 @@ exports.Prisma.SolutionsScalarFieldEnum = {
   title: 'title',
   description: 'description',
   status: 'status',
+  origin: 'origin',
+  aiConfidence: 'aiConfidence',
+  aiMetadata: 'aiMetadata',
+  qualityScore: 'qualityScore',
   createdAt: 'createdAt',
   updatedAt: 'updatedAt',
   estimatedEffort: 'estimatedEffort',
@@ -528,6 +540,12 @@ exports.EntityType = exports.$Enums.EntityType = {
   SOLUTION: 'SOLUTION',
   REQUIREMENT: 'REQUIREMENT',
   FRD_DOCUMENT: 'FRD_DOCUMENT'
+};
+
+exports.CreationOrigin = exports.$Enums.CreationOrigin = {
+  AI: 'AI',
+  HUMAN: 'HUMAN',
+  HYBRID: 'HYBRID'
 };
 
 exports.FRDStatus = exports.$Enums.FRDStatus = {
