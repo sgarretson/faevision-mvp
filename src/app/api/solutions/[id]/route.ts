@@ -78,12 +78,7 @@ export async function GET(
             description: true,
           },
         },
-        _count: {
-          select: {
-            // comments: true, // Will be calculated separately for polymorphic comments
-            // tasks: true, // Uncomment when tasks are implemented
-          },
-        },
+        // Note: _count is handled manually below due to polymorphic relationships
       },
     });
 

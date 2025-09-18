@@ -200,7 +200,7 @@ export async function GET(
         lastAnalysisAt: true,
         confidence: true,
         _count: {
-          select: { signals: true },
+          select: { hotspot_signals: true },
         },
       },
     });
@@ -229,7 +229,7 @@ export async function GET(
       analysis: {
         ...hotspot.rcaBreakdownJson,
         metadata: {
-          signalCount: hotspot._count.signals,
+          signalCount: hotspot._count.hotspot_signals,
           lastAnalyzed: hotspot.lastAnalysisAt,
           cached: true,
         },
