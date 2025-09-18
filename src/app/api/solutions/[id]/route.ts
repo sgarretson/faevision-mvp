@@ -36,7 +36,7 @@ export async function GET(
     }
 
     // Fetch solution with full context
-    const solution = await (prisma as any).solution.findUnique({
+    const solution = await (prisma as any).solutions.findUnique({
       where: { id: solutionId },
       include: {
         creator: {
@@ -161,7 +161,7 @@ export async function PATCH(
     } = body;
 
     // Verify solution exists and user has permission
-    const existingSolution = await (prisma as any).solution.findUnique({
+    const existingSolution = await (prisma as any).solutions.findUnique({
       where: { id: solutionId },
       select: {
         id: true,
@@ -185,7 +185,7 @@ export async function PATCH(
     }
 
     // Update solution
-    const updatedSolution = await (prisma as any).solution.update({
+    const updatedSolution = await (prisma as any).solutions.update({
       where: { id: solutionId },
       data: {
         ...(title && { title }),
@@ -249,7 +249,7 @@ export async function DELETE(
     const solutionId = params.id;
 
     // Verify solution exists and user has permission
-    const existingSolution = await (prisma as any).solution.findUnique({
+    const existingSolution = await (prisma as any).solutions.findUnique({
       where: { id: solutionId },
       select: {
         id: true,
@@ -274,7 +274,7 @@ export async function DELETE(
     }
 
     // Delete solution (this will cascade to comments via database constraints)
-    await (prisma as any).solution.delete({
+    await (prisma as any).solutions.delete({
       where: { id: solutionId },
     });
 

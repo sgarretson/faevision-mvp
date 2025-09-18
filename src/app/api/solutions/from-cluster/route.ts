@@ -50,7 +50,7 @@ export async function POST(request: NextRequest) {
     );
 
     // Get the clustering results to find the specific cluster
-    const hotspotWithClustering = await (prisma as any).hotspot.findFirst({
+    const hotspotWithClustering = await (prisma as any).hotspots.findFirst({
       where: {
         clusteringResults: { not: null },
       },
@@ -91,7 +91,7 @@ export async function POST(request: NextRequest) {
 
     // Get related signals for the cluster
     const clusterSignalIds = targetCluster.signals?.map((s: any) => s.id) || [];
-    const relatedSignals = await (prisma as any).signal.findMany({
+    const relatedSignals = await (prisma as any).signals.findMany({
       where: {
         id: { in: clusterSignalIds },
       },
@@ -110,7 +110,7 @@ export async function POST(request: NextRequest) {
     );
 
     // Create the solution
-    const newSolution = await (prisma as any).solution.create({
+    const newSolution = await (prisma as any).solutions.create({
       data: {
         title: solutionData.title,
         description: solutionData.description,

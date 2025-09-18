@@ -32,7 +32,7 @@ export async function POST(request: NextRequest) {
       where.clusteringFeaturesJson = null;
     }
 
-    const signals = await (prisma as any).signal.findMany({
+    const signals = await (prisma as any).signals.findMany({
       where,
       select: {
         id: true,

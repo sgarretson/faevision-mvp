@@ -39,7 +39,7 @@ export async function POST(
     const startTime = Date.now();
 
     // Fetch hotspot with related signals
-    const hotspot = await (prisma as any).hotspot.findUnique({
+    const hotspot = await (prisma as any).hotspots.findUnique({
       where: { id: hotspotId },
       include: {
         signals: {
@@ -100,7 +100,7 @@ export async function POST(
     console.log(`  ✅ Enhanced RCA complete in ${processingTime}ms`);
 
     // Store analysis results in hotspot
-    await (prisma as any).hotspot.update({
+    await (prisma as any).hotspots.update({
       where: { id: hotspotId },
       data: {
         rcaBreakdownJson: rcaAnalysis,
@@ -191,7 +191,7 @@ export async function GET(
     }
 
     // Fetch hotspot with cached analysis
-    const hotspot = await (prisma as any).hotspot.findUnique({
+    const hotspot = await (prisma as any).hotspots.findUnique({
       where: { id: hotspotId },
       select: {
         id: true,

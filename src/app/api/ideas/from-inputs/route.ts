@@ -89,7 +89,7 @@ export async function POST(request: NextRequest) {
     let fullInputs = inputs || [];
     if (fullInputs.length === 0) {
       console.log('🔍 Fetching input data from database...');
-      const dbInputs = await (prisma as any).signal.findMany({
+      const dbInputs = await (prisma as any).signals.findMany({
         where: {
           id: {
             in: inputIds,
@@ -175,13 +175,13 @@ Consider the commonalities, patterns, and root causes across these inputs to cre
     console.log('🔍 Finding or creating hotspot for bulk ideas...');
     const BULK_HOTSPOT_ID = 'bulk_ideas_hotspot';
 
-    let bulkHotspot = await (prisma as any).hotspot.findFirst({
+    let bulkHotspot = await (prisma as any).hotspots.findFirst({
       where: { id: BULK_HOTSPOT_ID },
     });
 
     if (!bulkHotspot) {
       console.log('🏗️ Creating new hotspot for bulk ideas...');
-      bulkHotspot = await (prisma as any).hotspot.create({
+      bulkHotspot = await (prisma as any).hotspots.create({
         data: {
           id: BULK_HOTSPOT_ID,
           title: 'Bulk Created Ideas',

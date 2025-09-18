@@ -81,7 +81,7 @@ export async function POST(request: NextRequest) {
     }
 
     // Get signals to process
-    const signalsToProcess = await (prisma as any).signal.findMany({
+    const signalsToProcess = await (prisma as any).signals.findMany({
       where: whereClause,
       include: {
         department: true,
@@ -270,7 +270,7 @@ async function processSingleSignal(
     }
 
     // Update signal in database
-    await (prisma as any).signal.update({
+    await (prisma as any).signals.update({
       where: { id: signal.id },
       data: {
         enhancedTagsJson: tags,
@@ -418,8 +418,8 @@ export async function GET(request: NextRequest) {
     });
 
     // Get current tagging statistics
-    const totalSignals = await (prisma as any).signal.count();
-    const taggedSignals = await (prisma as any).signal.count({
+    const totalSignals = await (prisma as any).signals.count();
+    const taggedSignals = await (prisma as any).signals.count({
       where: { enhancedTagsJson: { not: null } },
     });
 

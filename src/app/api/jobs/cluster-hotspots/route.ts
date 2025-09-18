@@ -38,7 +38,7 @@ export async function POST(request: NextRequest) {
     let processedSignals;
     try {
       // Try V2 Signal model
-      processedSignals = await (prisma as any).signal.findMany({
+      processedSignals = await (prisma as any).signals.findMany({
         where: {
           aiProcessed: true,
           embedding: { not: null },
@@ -122,7 +122,7 @@ export async function POST(request: NextRequest) {
       let existingHotspot;
       try {
         const signalIds = clusterSignals.map(s => s.id);
-        existingHotspot = await (prisma as any).hotspot.findFirst({
+        existingHotspot = await (prisma as any).hotspots.findFirst({
           where: {
             signals: {
               some: {
@@ -206,7 +206,7 @@ export async function POST(request: NextRequest) {
 async function createNewHotspot(signals: any[], cluster: any, analysis: any) {
   const rankScore = calculateHotspotRank(signals, analysis);
 
-  const hotspot = await (prisma as any).hotspot.create({
+  const hotspot = await (prisma as any).hotspots.create({
     data: {
       title: analysis.suggested_title || `Hotspot: ${analysis.common_theme}`,
       summary: analysis.reasoning || 'AI-identified pattern in related signals',
@@ -248,7 +248,7 @@ async function updateExistingHotspot(
 ) {
   const rankScore = calculateHotspotRank(signals, analysis);
 
-  await (prisma as any).hotspot.update({
+  await (prisma as any).hotspots.update({
     where: { id: hotspot.id },
     data: {
       confidence: analysis.confidence,

@@ -35,7 +35,7 @@ export async function POST(request: NextRequest) {
     let unprocessedSignals;
     try {
       // Try V2 Signal model
-      unprocessedSignals = await (prisma as any).signal.findMany({
+      unprocessedSignals = await (prisma as any).signals.findMany({
         where: {
           OR: [
             { aiProcessed: false },
@@ -85,7 +85,7 @@ export async function POST(request: NextRequest) {
         // Update signal with AI processing results
         if ('aiProcessed' in signal) {
           // V2 Signal model
-          await (prisma as any).signal.update({
+          await (prisma as any).signals.update({
             where: { id: signal.id },
             data: {
               embedding: Buffer.from(new Float32Array(embedding)),

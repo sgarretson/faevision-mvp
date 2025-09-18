@@ -49,7 +49,7 @@ export async function POST(
     const validatedRequest = GenerateTagsRequestSchema.parse(body);
 
     // Get signal from database
-    const signal = await (prisma as any).signal.findUnique({
+    const signal = await (prisma as any).signals.findUnique({
       where: { id: params.id },
       include: {
         department: true,
@@ -113,7 +113,7 @@ export async function POST(
     metadata.qualityMetrics.consistencyScore = consistencyScore;
 
     // Save enhanced tags to database
-    const updatedSignal = await (prisma as any).signal.update({
+    const updatedSignal = await (prisma as any).signals.update({
       where: { id: params.id },
       data: {
         enhancedTagsJson: tags,
@@ -180,7 +180,7 @@ export async function GET(
     }
 
     // Get signal with enhanced tags
-    const signal = await (prisma as any).signal.findUnique({
+    const signal = await (prisma as any).signals.findUnique({
       where: { id: params.id },
       select: {
         id: true,
@@ -230,7 +230,7 @@ async function calculateConsistencyScore(
 ): Promise<number> {
   try {
     // Find similar signals based on root cause and department
-    const similarSignals = await (prisma as any).signal.findMany({
+    const similarSignals = await (prisma as any).signals.findMany({
       where: {
         id: { not: signal.id },
         departmentId: signal.departmentId,

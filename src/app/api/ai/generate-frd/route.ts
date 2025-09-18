@@ -27,7 +27,7 @@ export async function POST(request: NextRequest) {
     const body = await request.json();
     const { solutionId } = body;
 
-    const solution = await (prisma as any).solution.findUnique({
+    const solution = await (prisma as any).solutions.findUnique({
       where: { id: solutionId },
       include: {
         inputs: true,

@@ -45,7 +45,7 @@ export async function GET(
     }
 
     // Verify solution exists
-    const solution = await (prisma as any).solution.findUnique({
+    const solution = await (prisma as any).solutions.findUnique({
       where: { id: solutionId },
       select: { id: true },
     });
@@ -148,7 +148,7 @@ export async function POST(
     }
 
     // Verify solution exists
-    const solution = await (prisma as any).solution.findUnique({
+    const solution = await (prisma as any).solutions.findUnique({
       where: { id: solutionId },
       select: { id: true, title: true },
     });

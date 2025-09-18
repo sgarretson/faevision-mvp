@@ -71,11 +71,11 @@ async function cleanDatabase() {
   // Clean in dependency order to avoid foreign key conflicts
   await (prisma as any).comment.deleteMany();
   await (prisma as any).vote.deleteMany();
-  await (prisma as any).solution.deleteMany();
-  await (prisma as any).idea.deleteMany();
+  await (prisma as any).solutions.deleteMany();
+  await (prisma as any).ideas.deleteMany();
   await (prisma as any).hotspotSignal.deleteMany();
-  await (prisma as any).hotspot.deleteMany();
-  await (prisma as any).signal.deleteMany();
+  await (prisma as any).hotspots.deleteMany();
+  await (prisma as any).signals.deleteMany();
   await (prisma as any).inputs.deleteMany();
   await (prisma as any).input_groups.deleteMany();
   await (prisma as any).team.deleteMany();
@@ -529,7 +529,7 @@ async function createSignal(data: any) {
   });
 
   // Create the Signal with enhanced metadata
-  const signal = await (prisma as any).signal.create({
+  const signal = await (prisma as any).signals.create({
     data: {
       inputId: input.id,
       timestamp: new Date(),

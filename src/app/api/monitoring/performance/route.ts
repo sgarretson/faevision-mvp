@@ -242,7 +242,7 @@ async function getBusinessMetrics() {
     });
 
     // Solutions created
-    const solutionsCreated = await (prisma as any).solution.count({
+    const solutionsCreated = await (prisma as any).solutions.count({
       where: {
         createdAt: { gte: dayAgo },
       },
@@ -286,7 +286,7 @@ async function getBusinessMetrics() {
  */
 async function calculateEstimatedROI(): Promise<number> {
   try {
-    const solutions = await (prisma as any).solution.findMany({
+    const solutions = await (prisma as any).solutions.findMany({
       where: {
         expectedImpactJson: { not: null },
       },

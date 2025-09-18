@@ -61,7 +61,7 @@ export async function POST(
     const insightId = params.insightId;
 
     // Verify signal exists
-    const signal = await (prisma as any).signal.findUnique({
+    const signal = await (prisma as any).signals.findUnique({
       where: { id: signalId },
       select: { id: true, title: true },
     });
@@ -220,7 +220,7 @@ async function getOriginalRecommendation(
 ): Promise<any> {
   try {
     // Get signal data to reconstruct original recommendation
-    const signal = await (prisma as any).signal.findUnique({
+    const signal = await (prisma as any).signals.findUnique({
       where: { id: signalId },
       select: {
         aiTagsJson: true,

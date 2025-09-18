@@ -58,7 +58,7 @@ export async function POST(request: NextRequest) {
     }
 
     // Get existing ideas for similarity analysis
-    const existingIdeas = await (prisma as any).idea.findMany({
+    const existingIdeas = await (prisma as any).ideas.findMany({
       select: {
         id: true,
         title: true,

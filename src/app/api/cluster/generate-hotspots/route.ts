@@ -41,7 +41,7 @@ export async function POST(request: NextRequest) {
     try {
       // Try V2 Signal model first
       if ('signal' in prisma) {
-        signals = await (prisma as any).signal.findMany({
+        signals = await (prisma as any).signals.findMany({
           where: {
             // For testing: include all signals, not just AI processed
             ...(options.forceReclustering
@@ -222,7 +222,7 @@ async function createHotspotFromCluster(
   try {
     // Try V2 Hotspot model, fallback to legacy response
     if ('hotspot' in prisma) {
-      const hotspot = await (prisma as any).hotspot.create({
+      const hotspot = await (prisma as any).hotspots.create({
         data: {
           title: analysis.suggested_title || `${analysis.common_theme}`,
           summary:
@@ -400,7 +400,7 @@ function extractAdvancedLinkedEntities(signals: any[]): any {
  */
 async function getHotspotsForDashboard() {
   try {
-    const hotspots = await (prisma as any).hotspot.findMany({
+    const hotspots = await (prisma as any).hotspots.findMany({
       where: {
         status: { in: ['OPEN', 'APPROVED'] },
       },

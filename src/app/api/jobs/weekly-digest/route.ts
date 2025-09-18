@@ -118,7 +118,7 @@ async function gatherDigestData(weekAgo: Date) {
   // Get top hotspots by ranking
   let topHotspots = [];
   try {
-    topHotspots = await (prisma as any).hotspot.findMany({
+    topHotspots = await (prisma as any).hotspots.findMany({
       take: 5,
       orderBy: { rankScore: 'desc' },
       where: {
@@ -174,23 +174,23 @@ async function gatherWeeklyMetrics(weekAgo: Date) {
   try {
     // Try V2 Signal model first
     const [newSignals, totalSignals, processedSignals] = await Promise.all([
-      (prisma as any).signal.count({
+      (prisma as any).signals.count({
         where: { receivedAt: { gte: weekAgo } },
       }),
-      (prisma as any).signal.count(),
-      (prisma as any).signal.count({
+      (prisma as any).signals.count(),
+      (prisma as any).signals.count({
         where: { aiProcessed: true },
       }),
     ]);
 
     const [completedSolutions, totalSolutions] = await Promise.all([
-      (prisma as any).solution.count({
+      (prisma as any).solutions.count({
         where: {
           status: 'IMPLEMENTED',
           updatedAt: { gte: weekAgo },
         },
       }),
-      (prisma as any).solution.count(),
+      (prisma as any).solutions.count(),
     ]);
 
     return {
@@ -210,13 +210,13 @@ async function gatherWeeklyMetrics(weekAgo: Date) {
     const [newInputs, totalInputs] = [0, 0];
 
     const [completedSolutions, totalSolutions] = await Promise.all([
-      (prisma as any).solution.count({
+      (prisma as any).solutions.count({
         where: {
           status: 'IMPLEMENTED',
           updatedAt: { gte: weekAgo },
         },
       }),
-      (prisma as any).solution.count(),
+      (prisma as any).solutions.count(),
     ]);
 
     return {
@@ -301,7 +301,7 @@ async function identifyKeyTrends(weekAgo: Date) {
     }
 
     // Check for clustering activity
-    const activeHotspots = await (prisma as any).hotspot.count({
+    const activeHotspots = await (prisma as any).hotspots.count({
       where: {
         status: 'OPEN',
         updatedAt: { gte: weekAgo },

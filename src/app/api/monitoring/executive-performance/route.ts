@@ -126,7 +126,7 @@ async function getAPIResponseMetrics() {
 
   try {
     // Test actual API response time with a simple database query
-    await (prisma as any).signal.count();
+    await (prisma as any).signals.count();
     const actualResponseTime = (Date.now() - startTime) / 1000;
 
     // Use actual response time as baseline
@@ -157,7 +157,7 @@ async function getAPIResponseMetrics() {
 async function getClusteringMetrics() {
   try {
     // Get latest clustering performance from database
-    const latestClustering = await (prisma as any).hotspot.findFirst({
+    const latestClustering = await (prisma as any).hotspots.findFirst({
       where: {
         clusteringResults: { not: null },
       },
@@ -208,8 +208,8 @@ async function getDatabaseMetrics() {
   try {
     // Execute multiple test queries to measure performance
     await Promise.all([
-      (prisma as any).signal.count(),
-      (prisma as any).hotspot.count(),
+      (prisma as any).signals.count(),
+      (prisma as any).hotspots.count(),
       (prisma as any).user.count(),
     ]);
 

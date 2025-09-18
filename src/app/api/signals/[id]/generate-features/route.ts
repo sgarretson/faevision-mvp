@@ -55,7 +55,7 @@ export async function POST(
     const validatedRequest = GenerateFeaturesRequestSchema.parse(body);
 
     // Get signal with enhanced tagging from database
-    const signal = await (prisma as any).signal.findUnique({
+    const signal = await (prisma as any).signals.findUnique({
       where: { id: params.id },
       include: {
         department: true,
@@ -134,7 +134,7 @@ export async function POST(
     const { features, qualityMetrics, warnings } = result;
 
     // Save features to database
-    await (prisma as any).signal.update({
+    await (prisma as any).signals.update({
       where: { id: params.id },
       data: {
         clusteringFeaturesJson: features,
@@ -198,7 +198,7 @@ export async function GET(
     }
 
     // Get signal with clustering features
-    const signal = await (prisma as any).signal.findUnique({
+    const signal = await (prisma as any).signals.findUnique({
       where: { id: params.id },
       select: {
         id: true,

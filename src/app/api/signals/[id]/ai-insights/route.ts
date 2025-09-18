@@ -35,7 +35,7 @@ export async function GET(
     const signalId = params.id;
 
     // Get signal with AI data
-    const signal = await (prisma as any).signal.findUnique({
+    const signal = await (prisma as any).signals.findUnique({
       where: { id: signalId },
       select: {
         id: true,

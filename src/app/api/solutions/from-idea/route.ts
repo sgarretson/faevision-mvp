@@ -102,7 +102,7 @@ export async function POST(request: NextRequest) {
     }
 
     // Fetch the idea with full context
-    const idea = await (prisma as any).idea.findUnique({
+    const idea = await (prisma as any).ideas.findUnique({
       where: { id: ideaId },
       include: {
         hotspot: {
@@ -157,7 +157,7 @@ export async function POST(request: NextRequest) {
       (prisma as any).teams.findMany({
         select: { id: true, name: true, department: true },
       }),
-      (prisma as any).solution.findMany({
+      (prisma as any).solutions.findMany({
         take: 10,
         orderBy: { createdAt: 'desc' },
         select: {
