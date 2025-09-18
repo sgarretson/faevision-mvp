@@ -1,6 +1,6 @@
 /**
  * Standardized Origin & Confidence Tracking Types
- * 
+ *
  * Implements the team consensus on AI/Human/Hybrid creation patterns
  * with business confidence indicators for executive decision-making.
  */
@@ -8,7 +8,7 @@
 export enum CreationOrigin {
   AI = 'AI',
   HUMAN = 'HUMAN',
-  HYBRID = 'HYBRID'
+  HYBRID = 'HYBRID',
 }
 
 export interface OriginConfidenceFields {
@@ -37,6 +37,9 @@ export interface BusinessConfidenceIndicator {
   confidence: number;
   humanValidated: boolean;
   qualityTrend: 'IMPROVING' | 'STABLE' | 'DECLINING';
+  trafficLight: 'GREEN' | 'YELLOW' | 'RED';
+  executiveRecommendation: string;
+  actionRequired: boolean;
 }
 
 export interface CreationAuditTrail {
@@ -74,10 +77,10 @@ export function calculateBusinessConfidence(
   origin?: CreationOrigin
 ): BusinessConfidenceIndicator {
   const confidence = Math.max(aiConfidence || 0, qualityScore || 0);
-  
+
   let level: 'LOW' | 'MEDIUM' | 'HIGH';
   let riskLevel: 'LOW' | 'MEDIUM' | 'HIGH';
-  
+
   if (confidence >= 0.8) {
     level = 'HIGH';
     riskLevel = 'LOW';
@@ -88,20 +91,97 @@ export function calculateBusinessConfidence(
     level = 'LOW';
     riskLevel = 'HIGH';
   }
-  
+
   // Human validation reduces risk
   if (origin && isHumanValidated(origin)) {
     if (riskLevel === 'HIGH') riskLevel = 'MEDIUM';
     else if (riskLevel === 'MEDIUM') riskLevel = 'LOW';
   }
-  
+
+  // Determine traffic light and executive recommendation
+  const trafficLight = getTrafficLightColor(riskLevel, origin);
+  const { recommendation, actionRequired } = getExecutiveRecommendation(
+    level,
+    riskLevel,
+    origin
+  );
+
   return {
     level,
     riskLevel,
     confidence,
     humanValidated: origin ? isHumanValidated(origin) : false,
-    qualityTrend: 'STABLE' // TODO: Implement trend calculation
+    qualityTrend: 'STABLE', // TODO: Implement trend calculation
+    trafficLight,
+    executiveRecommendation: recommendation,
+    actionRequired,
   };
+}
+
+// Traffic light system for immediate visual assessment
+export function getTrafficLightColor(
+  riskLevel: 'LOW' | 'MEDIUM' | 'HIGH',
+  origin?: CreationOrigin
+): 'GREEN' | 'YELLOW' | 'RED' {
+  // Human validation always improves confidence
+  if (origin === CreationOrigin.HUMAN) return 'GREEN';
+  if (origin === CreationOrigin.HYBRID && riskLevel !== 'HIGH') return 'GREEN';
+
+  switch (riskLevel) {
+    case 'LOW':
+      return 'GREEN';
+    case 'MEDIUM':
+      return 'YELLOW';
+    case 'HIGH':
+      return 'RED';
+    default:
+      return 'RED';
+  }
+}
+
+// Executive-friendly recommendations
+export function getExecutiveRecommendation(
+  level: 'LOW' | 'MEDIUM' | 'HIGH',
+  riskLevel: 'LOW' | 'MEDIUM' | 'HIGH',
+  origin?: CreationOrigin
+): { recommendation: string; actionRequired: boolean } {
+  if (origin === CreationOrigin.HUMAN) {
+    return {
+      recommendation: 'Expert-validated content. Ready for implementation.',
+      actionRequired: false,
+    };
+  }
+
+  if (origin === CreationOrigin.HYBRID) {
+    return {
+      recommendation: 'AI-assisted with human validation. High confidence recommendation.',
+      actionRequired: false,
+    };
+  }
+
+  // AI-generated content recommendations
+  switch (riskLevel) {
+    case 'LOW':
+      return {
+        recommendation: 'AI recommendation with high confidence. Consider for approval.',
+        actionRequired: false,
+      };
+    case 'MEDIUM':
+      return {
+        recommendation: 'AI recommendation requires expert review before implementation.',
+        actionRequired: true,
+      };
+    case 'HIGH':
+      return {
+        recommendation: 'AI recommendation needs significant expert validation and refinement.',
+        actionRequired: true,
+      };
+    default:
+      return {
+        recommendation: 'Manual review required before proceeding.',
+        actionRequired: true,
+      };
+  }
 }
 
 // Extended types for each model
@@ -138,7 +218,8 @@ export interface SolutionWithOriginConfidence extends OriginConfidenceFields {
   updatedAt: Date;
 }
 
-export interface RequirementWithOriginConfidence extends OriginConfidenceFields {
+export interface RequirementWithOriginConfidence
+  extends OriginConfidenceFields {
   id: string;
   title: string;
   description: string;
@@ -156,7 +237,8 @@ export interface RequirementWithOriginConfidence extends OriginConfidenceFields 
   updatedAt: Date;
 }
 
-export interface FRDDocumentWithOriginConfidence extends OriginConfidenceFields {
+export interface FRDDocumentWithOriginConfidence
+  extends OriginConfidenceFields {
   id: string;
   title: string;
   content: any;

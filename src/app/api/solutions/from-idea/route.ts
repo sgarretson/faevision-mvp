@@ -262,7 +262,7 @@ Provide confidence score (0.0-1.0) based on available information quality.
           model: 'gpt-4',
           prompt: 'AI-powered solution planning from idea',
           processingTime: Date.now() - startTime,
-          ideaOrigin: idea.origin
+          ideaOrigin: idea.origin,
         },
         qualityScore: 0.8,
         progress: 0.0,

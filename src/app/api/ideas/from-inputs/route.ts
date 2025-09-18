@@ -231,7 +231,7 @@ Consider the commonalities, patterns, and root causes across these inputs to cre
           model: 'gpt-4',
           processingTime: Date.now() - startTime,
           sourceInputCount: inputIds.length,
-          prompt: 'Strategic idea generation from bulk input analysis'
+          prompt: 'Strategic idea generation from bulk input analysis',
         },
         qualityScore: 0.8, // Business confidence score
         createdById: session.user.id,
