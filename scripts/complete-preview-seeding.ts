@@ -93,6 +93,8 @@ async function cleanDatabase() {
   // Clean in dependency order to avoid foreign key conflicts
   await (prisma as any).comments.deleteMany();
   await (prisma as any).votes.deleteMany();
+  await (prisma as any).requirements.deleteMany();
+  await (prisma as any).frd_documents.deleteMany();
   await (prisma as any).solutions.deleteMany();
   await (prisma as any).ideas.deleteMany();
   await (prisma as any).hotspot_signals.deleteMany();
@@ -963,7 +965,7 @@ async function createIdeas(hotspots: any[], initiatives: any[]) {
         'Implement cloud-based system to ensure field teams always have current drawings',
       hotspotId: hotspots[0].id,
       initiativeId: initiatives[1].id, // Digital Transformation
-      origin: 'ai',
+      origin: 'AI',
       status: 'UNDER_REVIEW',
       evidenceJson: {
         supportingSignals: ['signal_001', 'signal_002', 'signal_003'],
@@ -989,7 +991,7 @@ async function createIdeas(hotspots: any[], initiatives: any[]) {
         'Upgrade hardware and optimize software for complex 3D modeling',
       hotspotId: hotspots[1].id,
       initiativeId: initiatives[1].id, // Digital Transformation
-      origin: 'ai',
+      origin: 'AI',
       status: 'APPROVED',
       evidenceJson: {
         supportingSignals: ['signal_006', 'signal_010'],
@@ -1015,7 +1017,7 @@ async function createIdeas(hotspots: any[], initiatives: any[]) {
         'Comprehensive training and mentorship program to better utilize junior staff',
       hotspotId: hotspots[2].id,
       initiativeId: initiatives[0].id, // Operational Excellence
-      origin: 'ai',
+      origin: 'AI',
       status: 'APPROVED',
       evidenceJson: {
         supportingSignals: ['signal_011', 'signal_013'],
@@ -1041,7 +1043,7 @@ async function createIdeas(hotspots: any[], initiatives: any[]) {
         'Standardize client communication processes and preferences management',
       hotspotId: hotspots[3].id,
       initiativeId: initiatives[0].id, // Operational Excellence
-      origin: 'ai',
+      origin: 'AI',
       status: 'UNDER_REVIEW',
       evidenceJson: {
         supportingSignals: ['signal_016', 'signal_018'],
@@ -1066,7 +1068,7 @@ async function createIdeas(hotspots: any[], initiatives: any[]) {
         'Unified dashboard for real-time project status, resource allocation, and client communication',
       hotspotId: hotspots[0].id, // Could be linked to communication hotspot
       initiativeId: initiatives[1].id, // Digital Transformation
-      origin: 'human',
+      origin: 'HUMAN',
       status: 'DRAFT',
       evidenceJson: {
         supportingSignals: ['signal_004', 'signal_014'],
