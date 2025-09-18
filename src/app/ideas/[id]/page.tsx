@@ -2,7 +2,7 @@
 
 import { useState, useEffect, useCallback } from 'react';
 import { useSession } from 'next-auth/react';
-import { useParams, useRouter } from 'next/navigation';
+import { useParams } from 'next/navigation';
 import Link from 'next/link';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
@@ -284,19 +284,35 @@ function IdeaDetailPageComponent() {
           <CardHeader>
             <div className="flex items-start justify-between">
               <div className="flex items-start space-x-3">
-                <span className="text-3xl" aria-label={`${idea.origin} origin`}>
-                  {ORIGIN_ICONS[idea.origin]}
+                <span
+                  className="text-3xl"
+                  aria-label={`${idea.origin || 'unknown'} origin`}
+                >
+                  {ORIGIN_ICONS[idea.origin as keyof typeof ORIGIN_ICONS] ||
+                    '💡'}
                 </span>
                 <div>
                   <CardTitle className="text-2xl">
                     {idea.title || 'Untitled Idea'}
                   </CardTitle>
                   <div className="mt-2 flex flex-wrap gap-2">
-                    <Badge className={STATUS_COLORS[idea.status]}>
-                      {idea.status.replace('_', ' ')}
+                    <Badge
+                      className={
+                        STATUS_COLORS[
+                          idea.status as keyof typeof STATUS_COLORS
+                        ] || 'bg-gray-100 text-gray-800'
+                      }
+                    >
+                      {(idea.status || 'draft').replace('_', ' ')}
                     </Badge>
-                    <Badge className={ORIGIN_COLORS[idea.origin]}>
-                      {idea.origin} generated
+                    <Badge
+                      className={
+                        ORIGIN_COLORS[
+                          idea.origin as keyof typeof ORIGIN_COLORS
+                        ] || 'bg-gray-100 text-gray-800'
+                      }
+                    >
+                      {idea.origin || 'unknown'} generated
                     </Badge>
                     {idea.confidence && (
                       <Badge variant="outline">
@@ -426,7 +442,7 @@ function IdeaDetailPageComponent() {
                 <div className="flex items-center space-x-2">
                   <Lightbulb className="h-4 w-4 text-gray-500" />
                   <span className="text-sm text-gray-600">
-                    {idea.origin} origin
+                    {idea.origin || 'unknown'} origin
                   </span>
                 </div>
                 <div className="flex items-center space-x-2">
