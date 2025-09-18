@@ -172,39 +172,42 @@ Consider the commonalities, patterns, and root causes across these inputs to cre
 
     // Create the idea in database
     console.log('💾 Saving idea to database...');
+
+    // Store all AI-generated data in evidenceJson for now
+    const evidenceData = {
+      estimatedEffort: finalIdea.estimatedEffort,
+      expectedOutcome: finalIdea.expectedOutcome,
+      implementationApproach: finalIdea.implementationApproach,
+      successMetrics: finalIdea.successMetrics,
+      riskConsiderations: finalIdea.riskConsiderations,
+      keyStakeholders: finalIdea.keyStakeholders,
+      affectedDepartments,
+      relatedCategories,
+      sourceInputCount: fullInputs.length,
+      priority: finalIdea.priority,
+      sourceInputIds: inputIds, // Store input relationships
+      sourceInputs: fullInputs.map(input => ({
+        id: input.id,
+        title: input.title,
+        severity: input.severity,
+        departmentName: input.departmentName,
+      })),
+    };
+
     const createdIdea = await (prisma as any).idea.create({
       data: {
+        hotspotId: 'bulk_creation', // Temporary hotspot ID for bulk-created ideas
         title: finalIdea.title,
         description: finalIdea.description,
-        priority: finalIdea.priority,
-        status: 'DRAFT',
-        estimatedEffort: finalIdea.estimatedEffort,
-        expectedOutcome: finalIdea.expectedOutcome,
-        implementationApproach: finalIdea.implementationApproach,
-        successMetrics: JSON.stringify(finalIdea.successMetrics),
-        riskConsiderations: JSON.stringify(finalIdea.riskConsiderations),
-        keyStakeholders: JSON.stringify(finalIdea.keyStakeholders),
-        affectedDepartments: JSON.stringify(affectedDepartments),
-        relatedCategories: JSON.stringify(relatedCategories),
-        sourceInputCount: fullInputs.length,
+        origin: 'ai', // AI-generated from multiple inputs
+        status: 'draft',
+        evidenceJson: evidenceData,
+        confidence: 0.85, // AI confidence score
         createdById: session.user.id,
-        createdAt: new Date(),
-        updatedAt: new Date(),
       },
     });
 
-    // Create relationships to source inputs
-    console.log('🔗 Creating input-idea relationships...');
-    const inputRelationships = inputIds.map(inputId => ({
-      ideaId: createdIdea.id,
-      inputId: inputId,
-      relationshipType: 'SOURCE',
-      createdAt: new Date(),
-    }));
-
-    await (prisma as any).ideaInput.createMany({
-      data: inputRelationships,
-    });
+    // Note: Input relationships are stored in evidenceJson since no direct schema relationship exists
 
     // Log successful creation
     console.log(`🎉 Idea created successfully: ${createdIdea.id}`);
@@ -216,8 +219,10 @@ Consider the commonalities, patterns, and root causes across these inputs to cre
         id: createdIdea.id,
         title: createdIdea.title,
         description: createdIdea.description,
-        priority: createdIdea.priority,
+        origin: createdIdea.origin,
         status: createdIdea.status,
+        confidence: createdIdea.confidence,
+        evidence: evidenceData,
         sourceInputCount: fullInputs.length,
         affectedDepartments,
         relatedCategories,
