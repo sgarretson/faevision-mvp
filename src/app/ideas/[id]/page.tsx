@@ -22,6 +22,7 @@ import {
 import { IdeaVoting } from '@/components/ideas/idea-voting';
 import { IdeaApproval } from '@/components/ideas/idea-approval';
 import { SupportingEvidenceDisplay } from '@/components/ideas/supporting-evidence-display';
+import { EnhancedSolutionDialog } from '@/components/solutions/enhanced-solution-dialog';
 import { Alert, AlertDescription } from '@/components/ui/alert';
 
 interface IdeaDetail {
@@ -44,6 +45,7 @@ interface IdeaDetail {
   hotspot?: {
     id: string;
     title: string;
+    summary?: string;
     status: string;
   } | null;
   creator?: {
@@ -93,9 +95,8 @@ const ORIGIN_ICONS = {
 };
 
 export default function IdeaDetailPage() {
-  const { data: session, status } = useSession();
+  const { status } = useSession();
   const params = useParams();
-  const router = useRouter();
   const ideaId = params.id as string;
 
   const [idea, setIdea] = useState<IdeaDetail | null>(null);
@@ -103,7 +104,6 @@ export default function IdeaDetailPage() {
   const [newComment, setNewComment] = useState('');
   const [isLoading, setIsLoading] = useState(true);
   const [isSubmittingComment, setIsSubmittingComment] = useState(false);
-  const [isCreatingSolution, setIsCreatingSolution] = useState(false);
   const [error, setError] = useState<string | null>(null);
 
   const fetchIdeaDetail = useCallback(async () => {
@@ -180,47 +180,6 @@ export default function IdeaDetailPage() {
       );
     } finally {
       setIsSubmittingComment(false);
-    }
-  };
-
-  const handleCreateSolution = async () => {
-    if (!idea || !session?.user?.id || isCreatingSolution) return;
-
-    try {
-      setIsCreatingSolution(true);
-      setError(null);
-
-      const response = await fetch('/api/solutions', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({
-          title: `Solution: ${idea.title}`,
-          description: `Solution created from idea: ${idea.description}`,
-          hotspotId: idea.hotspot?.id || null,
-          createdBy: session.user.id,
-          priority: 'MEDIUM',
-          businessValue: 'TBD',
-          estimatedEffort: 'TBD',
-        }),
-      });
-
-      const data = await response.json();
-
-      if (!response.ok) {
-        throw new Error(data.error || 'Failed to create solution');
-      }
-
-      // Redirect to solutions page (individual solution pages not yet implemented)
-      router.push('/solutions');
-    } catch (error) {
-      console.error('Create solution error:', error);
-      setError(
-        error instanceof Error ? error.message : 'Failed to create solution'
-      );
-    } finally {
-      setIsCreatingSolution(false);
     }
   };
 
@@ -357,16 +316,29 @@ export default function IdeaDetailPage() {
                   }}
                 />
 
-                {/* Create Solution Button - Only show if approved */}
+                {/* Enhanced Solution Creation - Only show if approved */}
                 {idea.status === 'approved' && (
-                  <Button
-                    onClick={() => handleCreateSolution()}
-                    className="bg-blue-600 hover:bg-blue-700"
-                    disabled={isCreatingSolution}
-                  >
-                    <Target className="mr-2 h-4 w-4" />
-                    {isCreatingSolution ? 'Creating...' : 'Create Solution'}
-                  </Button>
+                  <EnhancedSolutionDialog
+                    idea={{
+                      id: idea.id,
+                      title: idea.title,
+                      description: idea.description,
+                      origin: idea.origin,
+                      status: idea.status,
+                      evidenceJson: idea.evidenceJson,
+                      tagsJson: idea.tagsJson,
+                      hotspot: idea.hotspot
+                        ? {
+                            id: idea.hotspot.id,
+                            title: idea.hotspot.title,
+                            summary: idea.hotspot.summary || '',
+                          }
+                        : undefined,
+                    }}
+                    onSolutionCreated={solutionId => {
+                      console.log(`Solution created: ${solutionId}`);
+                    }}
+                  />
                 )}
               </div>
             </div>
