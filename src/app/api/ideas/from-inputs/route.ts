@@ -115,7 +115,7 @@ export async function POST(request: NextRequest) {
     // Generate AI-powered idea
     console.log('🤖 Generating AI-powered idea suggestion...');
     const aiIdea = await generateObject({
-      model: openai('gpt-4-turbo'),
+      model: openai('gpt-4o-2024-08-06'), // Use gpt-4o which supports structured output
       schema: AIIdeaSchema,
       messages: [
         {
