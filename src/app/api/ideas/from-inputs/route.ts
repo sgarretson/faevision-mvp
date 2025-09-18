@@ -170,6 +170,29 @@ Consider the commonalities, patterns, and root causes across these inputs to cre
       new Set(fullInputs.map(i => i.categoryName).filter(Boolean))
     );
 
+    // Find or create a hotspot for bulk-created ideas
+    console.log('🔍 Finding or creating hotspot for bulk ideas...');
+    const BULK_HOTSPOT_ID = 'bulk_ideas_hotspot';
+
+    let bulkHotspot = await (prisma as any).hotspot.findFirst({
+      where: { id: BULK_HOTSPOT_ID },
+    });
+
+    if (!bulkHotspot) {
+      console.log('🏗️ Creating new hotspot for bulk ideas...');
+      bulkHotspot = await (prisma as any).hotspot.create({
+        data: {
+          id: BULK_HOTSPOT_ID,
+          title: 'Bulk Created Ideas',
+          summary:
+            'Ideas created from multiple strategic inputs through bulk selection workflow',
+          status: 'ACTIVE',
+          confidence: 0.9,
+          clusteringMethod: 'BULK_INPUT_SELECTION',
+        },
+      });
+    }
+
     // Create the idea in database
     console.log('💾 Saving idea to database...');
 
@@ -196,7 +219,7 @@ Consider the commonalities, patterns, and root causes across these inputs to cre
 
     const createdIdea = await (prisma as any).idea.create({
       data: {
-        hotspotId: 'bulk_creation', // Temporary hotspot ID for bulk-created ideas
+        hotspotId: bulkHotspot.id, // Use existing or newly created hotspot
         title: finalIdea.title,
         description: finalIdea.description,
         origin: 'ai', // AI-generated from multiple inputs
