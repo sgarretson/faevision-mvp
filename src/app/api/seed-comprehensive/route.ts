@@ -113,10 +113,14 @@ async function createOrganizationalFoundation() {
   // Create Categories
   const categories = await Promise.all([
     (prisma as any).categories.create({ data: { name: 'Quality Control' } }),
-    (prisma as any).categories.create({ data: { name: 'Process Improvement' } }),
+    (prisma as any).categories.create({
+      data: { name: 'Process Improvement' },
+    }),
     (prisma as any).categories.create({ data: { name: 'Technology' } }),
     (prisma as any).categories.create({ data: { name: 'Communication' } }),
-    (prisma as any).categories.create({ data: { name: 'Resource Management' } }),
+    (prisma as any).categories.create({
+      data: { name: 'Resource Management' },
+    }),
     (prisma as any).categories.create({ data: { name: 'Client Relations' } }),
     (prisma as any).categories.create({
       data: { name: 'Training & Development' },

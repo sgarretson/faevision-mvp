@@ -33,37 +33,28 @@ export async function GET(request: NextRequest) {
 
     console.log('🔍 Ideas API - Starting query...');
 
-    // Fetch ideas with hotspot and creator info
+    // Fetch ideas with basic fields (fix schema alignment)
     const [ideas, totalCount] = await Promise.all([
       (prisma as any).ideas?.findMany({
         where,
-        include: {
-          hotspot: {
-            select: {
-              id: true,
-              title: true,
-              summary: true,
-              status: true,
-              confidence: true,
-              _count: {
-                select: {
-                  signals: true,
-                },
-              },
-            },
-          },
-          createdBy: {
-            select: {
-              id: true,
-              name: true,
-              email: true,
-              role: true,
-            },
-          },
+        select: {
+          id: true,
+          title: true,
+          description: true,
+          status: true,
+          hotspotId: true,
+          origin: true,
+          evidenceJson: true,
+          tagsJson: true,
+          aiConfidence: true,
+          aiMetadata: true,
+          qualityScore: true,
+          createdById: true,
+          createdAt: true,
+          updatedAt: true,
         },
         orderBy: [
-          { votes: 'desc' }, // Popular ideas first
-          { createdAt: 'desc' },
+          { createdAt: 'desc' }, // Most recent first
         ],
         take: limit,
         skip: offset,
@@ -89,20 +80,20 @@ export async function GET(request: NextRequest) {
     const ideasWithCounts = await Promise.all(
       ideas.map(async (idea: any) => {
         const [commentCount, upVotes, downVotes] = await Promise.all([
-          (prisma as any).comment?.count?.({
+          (prisma as any).comments?.count?.({
             where: {
               entityType: 'IDEA',
               entityId: idea.id,
             },
           }) || 0,
-          (prisma as any).vote?.count?.({
+          (prisma as any).votes?.count?.({
             where: {
               entityType: 'IDEA',
               entityId: idea.id,
               value: 'UP',
             },
           }) || 0,
-          (prisma as any).vote?.count?.({
+          (prisma as any).votes?.count?.({
             where: {
               entityType: 'IDEA',
               entityId: idea.id,
