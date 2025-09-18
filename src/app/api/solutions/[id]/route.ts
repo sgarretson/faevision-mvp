@@ -39,7 +39,7 @@ export async function GET(
     const solution = await (prisma as any).solutions.findUnique({
       where: { id: solutionId },
       include: {
-        creator: {
+        users: {
           select: {
             id: true,
             name: true,
@@ -48,7 +48,7 @@ export async function GET(
             department: true,
           },
         },
-        idea: {
+        ideas: {
           select: {
             id: true,
             title: true,
@@ -58,7 +58,7 @@ export async function GET(
             tagsJson: true,
           },
         },
-        hotspot: {
+        hotspots: {
           select: {
             id: true,
             title: true,
@@ -71,7 +71,7 @@ export async function GET(
             },
           },
         },
-        initiative: {
+        initiatives: {
           select: {
             id: true,
             name: true,
@@ -199,7 +199,7 @@ export async function PATCH(
         updatedAt: new Date(),
       },
       include: {
-        creator: {
+        users: {
           select: {
             id: true,
             name: true,

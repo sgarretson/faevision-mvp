@@ -46,10 +46,10 @@ export async function POST(
           include: {
             signal: {
               include: {
-                department: { select: { id: true, name: true } },
-                team: { select: { id: true, name: true } },
-                category: { select: { id: true, name: true } },
-                createdBy: {
+                departments: { select: { id: true, name: true } },
+                teams: { select: { id: true, name: true } },
+                categories: { select: { id: true, name: true } },
+                users: {
                   select: {
                     id: true,
                     name: true,

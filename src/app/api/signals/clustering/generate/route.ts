@@ -72,9 +72,9 @@ export async function POST(request: NextRequest) {
           clusteringFeaturesJson: { not: null }, // Only signals with features
         },
         include: {
-          department: true,
-          team: true,
-          createdBy: true,
+          departments: true,
+          teams: true,
+          users: true,
         },
         orderBy: { createdAt: 'desc' },
       });

@@ -55,9 +55,9 @@ export async function GET(
         featuresQualityScore: true,
         confidence: true,
         createdAt: true,
-        department: { select: { name: true } },
-        team: { select: { name: true } },
-        category: { select: { name: true } },
+        departments: { select: { name: true } },
+        teams: { select: { name: true } },
+        categories: { select: { name: true } },
       },
     });
 

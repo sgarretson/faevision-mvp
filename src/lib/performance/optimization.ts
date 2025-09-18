@@ -235,8 +235,8 @@ export class QueryOptimizer {
               include: {
                 signal: {
                   include: {
-                    department: { select: { name: true } },
-                    team: { select: { name: true } },
+                    departments: { select: { name: true } },
+                    teams: { select: { name: true } },
                   },
                 },
               },
@@ -248,16 +248,16 @@ export class QueryOptimizer {
       case 'solution':
         include = {
           minimal: {
-            creator: { select: { id: true, name: true, role: true } },
+            users: { select: { id: true, name: true, role: true } },
           },
           standard: {
-            creator: {
+            users: {
               select: { id: true, name: true, role: true, email: true },
             },
             hotspot: { select: { id: true, title: true, confidence: true } },
           },
           full: {
-            creator: {
+            users: {
               select: { id: true, name: true, role: true, email: true },
             },
             hotspot: {

@@ -43,7 +43,7 @@ export async function GET(request: NextRequest) {
     const frdDocuments = await (prisma as any).fRDDocument.findMany({
       include: {
         solution: { select: { id: true, title: true, status: true } },
-        creator: { select: { id: true, name: true, email: true } },
+        users: { select: { id: true, name: true, email: true } },
       },
       orderBy: { updatedAt: 'desc' },
       take: limit,
