@@ -35,46 +35,31 @@ export async function GET(request: NextRequest) {
     const [solutions, totalCount] = await Promise.all([
       (prisma as any).solutions.findMany({
         where,
-        include: {
-          creator: {
-            select: {
-              id: true,
-              name: true,
-              email: true,
-              role: true,
-            },
-          },
-          hotspot: {
-            select: {
-              id: true,
-              title: true,
-              summary: true,
-              confidence: true,
-              _count: {
-                select: {
-                  signals: true,
-                },
-              },
-            },
-          },
-          input: {
-            select: {
-              id: true,
-              title: true,
-              description: true,
-            },
-          },
-          initiative: {
-            select: {
-              id: true,
-              name: true,
-              description: true,
-            },
-          },
+        select: {
+          id: true,
+          title: true,
+          description: true,
+          status: true,
+          origin: true,
+          aiConfidence: true,
+          aiMetadata: true,
+          qualityScore: true,
+          updatedAt: true,
+          estimatedEffort: true,
+          actualCompletionDate: true,
+          actualImpactJson: true,
+          businessValue: true,
+          expectedImpactJson: true,
+          ideaId: true,
+          initiativeId: true,
+          inputId: true,
+          progress: true,
+          successMetrics: true,
+          targetDate: true,
+          hotspotId: true,
         },
         orderBy: [
-          { status: 'asc' }, // Draft, In Progress, etc. first
-          { updatedAt: 'desc' },
+          { updatedAt: 'desc' }, // Most recent first
         ],
         take: limit,
         skip: offset,
@@ -98,15 +83,20 @@ export async function GET(request: NextRequest) {
       expectedImpactJson: solution.expectedImpactJson,
       actualImpactJson: solution.actualImpactJson,
 
-      // Relationships
-      creator: solution.creator,
-      hotspot: solution.hotspot,
-      input: solution.input,
-      initiative: solution.initiative,
+      // Origin and AI metadata
+      origin: solution.origin,
+      aiConfidence: solution.aiConfidence,
+      aiMetadata: solution.aiMetadata,
+      qualityScore: solution.qualityScore,
+
+      // Relationship IDs (simplified for now)
+      ideaId: solution.ideaId,
+      initiativeId: solution.initiativeId,
+      inputId: solution.inputId,
+      hotspotId: solution.hotspotId,
 
       // Metadata
-      createdAt: solution.createdAt.toISOString(),
-      updatedAt: solution.updatedAt.toISOString(),
+      updatedAt: solution.updatedAt?.toISOString(),
     }));
 
     return NextResponse.json({
