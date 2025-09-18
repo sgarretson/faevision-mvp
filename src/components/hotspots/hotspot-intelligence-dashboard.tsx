@@ -833,8 +833,17 @@ function ClusterIntelligenceCard({
               <span>Create Solution</span>
             </button>
             <button
-              onClick={e => e.stopPropagation()}
+              onClick={e => {
+                e.stopPropagation();
+                if (cluster.id && typeof window !== 'undefined') {
+                  window.location.href = `/hotspots/${cluster.id}`;
+                } else {
+                  // Fallback: expand the card if no routable id
+                  onSelect();
+                }
+              }}
               className="flex items-center space-x-2 rounded-lg border border-gray-300 px-4 py-2 text-gray-700 hover:bg-gray-50"
+              aria-label={`View details for ${cluster.name}`}
             >
               <FileText className="h-4 w-4" />
               <span>Details</span>
