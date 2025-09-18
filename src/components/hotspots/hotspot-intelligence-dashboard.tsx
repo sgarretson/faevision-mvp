@@ -738,13 +738,19 @@ function ClusterIntelligenceCard({
         <div>
           <div className="text-sm text-gray-500">Business Impact</div>
           <div className="text-lg font-semibold text-gray-900">
-            {Math.round(cluster.businessRelevance * 100)}%
+            {Number.isFinite(cluster.businessRelevance)
+              ? Math.round((cluster.businessRelevance as number) * 100)
+              : 0}
+            %
           </div>
         </div>
         <div>
           <div className="text-sm text-gray-500">Actionability</div>
           <div className="text-lg font-semibold text-gray-900">
-            {Math.round(cluster.actionability * 100)}%
+            {Number.isFinite(cluster.actionability)
+              ? Math.round((cluster.actionability as number) * 100)
+              : 0}
+            %
           </div>
         </div>
       </div>
