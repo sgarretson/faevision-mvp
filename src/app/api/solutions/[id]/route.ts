@@ -95,7 +95,7 @@ export async function GET(
     }
 
     // Get comment count using polymorphic model
-    const commentCount = await prisma.comment.count({
+    const commentCount = await (prisma as any).comments.count({
       where: {
         entityType: 'SOLUTION',
         entityId: solutionId,

@@ -32,7 +32,7 @@ export async function POST(request: NextRequest) {
     const weekAgo = new Date(Date.now() - 7 * 24 * 60 * 60 * 1000);
 
     // Get executive users
-    const executives = await prisma.user.findMany({
+    const executives = await (prisma as any).users.findMany({
       where: { role: 'EXECUTIVE' },
       select: { id: true, email: true, name: true, department: true },
     });

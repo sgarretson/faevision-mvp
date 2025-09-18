@@ -81,8 +81,8 @@ export async function POST() {
 
   try {
     // Check if data already exists
-    const existingIdeas = await prisma.idea.count();
-    const existingHotspots = await prisma.hotspot.count();
+    const existingIdeas = await (prisma as any).ideas.count();
+    const existingHotspots = await (prisma as any).hotspots.count();
 
     if (existingIdeas > 0 || existingHotspots > 0) {
       return NextResponse.json({
@@ -92,7 +92,7 @@ export async function POST() {
     }
 
     // Get existing signals
-    const signals = await prisma.signal.findMany({
+    const signals = await (prisma as any).signals.findMany({
       take: 10,
       select: { id: true },
     });
@@ -111,7 +111,7 @@ export async function POST() {
     for (let i = 0; i < HOTSPOTS_DATA.length; i++) {
       const hotspotData = HOTSPOTS_DATA[i];
 
-      const hotspot = await prisma.hotspot.create({
+      const hotspot = await (prisma as any).hotspots.create({
         data: {
           title: hotspotData.title,
           summary: hotspotData.summary,
@@ -124,7 +124,7 @@ export async function POST() {
       // Link signals to hotspot
       const signalsToLink = signals.slice(i * 2, (i + 1) * 2);
       for (const signal of signalsToLink) {
-        await prisma.hotspotSignal.create({
+        await (prisma as any).hotspot_signals.create({
           data: {
             hotspotId: hotspot.id,
             signalId: signal.id,
@@ -138,7 +138,7 @@ export async function POST() {
     }
 
     // Get a user for createdById
-    const user = await prisma.user.findFirst({
+    const user = await (prisma as any).users.findFirst({
       select: { id: true },
     });
 
@@ -155,7 +155,7 @@ export async function POST() {
       const ideaData = IDEAS_DATA[i];
       const hotspot = createdHotspots[i % createdHotspots.length];
 
-      const idea = await prisma.idea.create({
+      const idea = await (prisma as any).ideas.create({
         data: {
           hotspotId: hotspot.id,
           title: ideaData.title,
@@ -173,9 +173,9 @@ export async function POST() {
 
     // Get final counts
     const [finalHotspots, finalIdeas, finalLinks] = await Promise.all([
-      prisma.hotspot.count(),
-      prisma.idea.count(),
-      prisma.hotspotSignal.count(),
+      (prisma as any).hotspots.count(),
+      (prisma as any).ideas.count(),
+      (prisma as any).hotspot_signals.count(),
     ]);
 
     console.log('🎉 Successfully seeded database!');

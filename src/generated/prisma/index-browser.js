@@ -120,30 +120,84 @@ exports.Prisma.TransactionIsolationLevel = makeStrictEnum({
   Serializable: 'Serializable'
 });
 
-exports.Prisma.UserScalarFieldEnum = {
-  id: 'id',
-  email: 'email',
-  name: 'name',
-  role: 'role',
-  department: 'department',
-  title: 'title',
-  managerId: 'managerId',
-  utilizationRate: 'utilizationRate',
-  targetUtilization: 'targetUtilization',
-  billableRate: 'billableRate',
-  costCenter: 'costCenter',
-  location: 'location',
-  isActive: 'isActive',
-  lastLoginAt: 'lastLoginAt',
-  avatar: 'avatar',
-  passwordHash: 'passwordHash',
-  profileJson: 'profileJson',
-  createdAt: 'createdAt',
-  updatedAt: 'updatedAt',
-  departmentObjId: 'departmentObjId'
+exports.Prisma.InputToInputGroupScalarFieldEnum = {
+  A: 'A',
+  B: 'B'
 };
 
-exports.Prisma.DepartmentScalarFieldEnum = {
+exports.Prisma.Ai_analysis_auditScalarFieldEnum = {
+  id: 'id',
+  hotspotId: 'hotspotId',
+  analysisType: 'analysisType',
+  userId: 'userId',
+  requestData: 'requestData',
+  responseData: 'responseData',
+  processingTime: 'processingTime',
+  confidence: 'confidence',
+  status: 'status',
+  errorMessage: 'errorMessage',
+  createdAt: 'createdAt'
+};
+
+exports.Prisma.Ai_insight_overridesScalarFieldEnum = {
+  id: 'id',
+  signalId: 'signalId',
+  insightId: 'insightId',
+  insightType: 'insightType',
+  originalRecommendation: 'originalRecommendation',
+  overrideReason: 'overrideReason',
+  executiveJustification: 'executiveJustification',
+  newValue: 'newValue',
+  executiveId: 'executiveId',
+  executiveName: 'executiveName',
+  executiveEmail: 'executiveEmail',
+  overriddenAt: 'overriddenAt',
+  createdAt: 'createdAt'
+};
+
+exports.Prisma.Audit_logsScalarFieldEnum = {
+  id: 'id',
+  userId: 'userId',
+  action: 'action',
+  entityType: 'entityType',
+  entityId: 'entityId',
+  changes: 'changes',
+  ipAddress: 'ipAddress',
+  userAgent: 'userAgent',
+  createdAt: 'createdAt',
+  sessionId: 'sessionId'
+};
+
+exports.Prisma.CategoriesScalarFieldEnum = {
+  id: 'id',
+  name: 'name',
+  description: 'description',
+  color: 'color',
+  icon: 'icon',
+  parentId: 'parentId',
+  isActive: 'isActive',
+  sortOrder: 'sortOrder',
+  usageCount: 'usageCount',
+  isSystem: 'isSystem',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
+};
+
+exports.Prisma.CommentsScalarFieldEnum = {
+  id: 'id',
+  content: 'content',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt',
+  parentId: 'parentId',
+  createdBy: 'createdBy',
+  edited: 'edited',
+  editedAt: 'editedAt',
+  entityId: 'entityId',
+  entityType: 'entityType',
+  mentions: 'mentions'
+};
+
+exports.Prisma.DepartmentsScalarFieldEnum = {
   id: 'id',
   name: 'name',
   description: 'description',
@@ -159,24 +213,78 @@ exports.Prisma.DepartmentScalarFieldEnum = {
   updatedAt: 'updatedAt'
 };
 
-exports.Prisma.TeamScalarFieldEnum = {
+exports.Prisma.Frd_documentsScalarFieldEnum = {
   id: 'id',
-  name: 'name',
-  description: 'description',
-  departmentId: 'departmentId',
-  leaderId: 'leaderId',
-  memberCount: 'memberCount',
-  maxCapacity: 'maxCapacity',
-  isActive: 'isActive',
-  teamType: 'teamType',
-  currentProjects: 'currentProjects',
-  budgetAllocation: 'budgetAllocation',
-  utilizationRate: 'utilizationRate',
+  title: 'title',
+  content: 'content',
+  aiGenerated: 'aiGenerated',
+  aiConfidence: 'aiConfidence',
+  aiPromptUsed: 'aiPromptUsed',
+  version: 'version',
+  status: 'status',
+  executiveApproved: 'executiveApproved',
+  exportFormats: 'exportFormats',
+  templateUsed: 'templateUsed',
+  generationTime: 'generationTime',
+  wordCount: 'wordCount',
+  lastExportedAt: 'lastExportedAt',
+  solutionId: 'solutionId',
+  createdBy: 'createdBy',
+  approvedBy: 'approvedBy',
   createdAt: 'createdAt',
   updatedAt: 'updatedAt'
 };
 
-exports.Prisma.InitiativeScalarFieldEnum = {
+exports.Prisma.Hotspot_signalsScalarFieldEnum = {
+  hotspotId: 'hotspotId',
+  signalId: 'signalId',
+  membershipStrength: 'membershipStrength',
+  isOutlier: 'isOutlier',
+  addedAt: 'addedAt'
+};
+
+exports.Prisma.HotspotsScalarFieldEnum = {
+  id: 'id',
+  title: 'title',
+  summary: 'summary',
+  status: 'status',
+  rankScore: 'rankScore',
+  confidence: 'confidence',
+  primaryCategoryId: 'primaryCategoryId',
+  linkedEntitiesJson: 'linkedEntitiesJson',
+  clusteringMethod: 'clusteringMethod',
+  similarityThreshold: 'similarityThreshold',
+  rcaBreakdownJson: 'rcaBreakdownJson',
+  solutionSuggestionsJson: 'solutionSuggestionsJson',
+  decisionMatrixJson: 'decisionMatrixJson',
+  crossFunctionalImpactJson: 'crossFunctionalImpactJson',
+  lastAnalysisAt: 'lastAnalysisAt',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt',
+  clusteringQualityScore: 'clusteringQualityScore',
+  clusteringResults: 'clusteringResults',
+  clusteringVersion: 'clusteringVersion',
+  lastClusteredAt: 'lastClusteredAt'
+};
+
+exports.Prisma.IdeasScalarFieldEnum = {
+  id: 'id',
+  hotspotId: 'hotspotId',
+  title: 'title',
+  description: 'description',
+  origin: 'origin',
+  votes: 'votes',
+  status: 'status',
+  evidenceJson: 'evidenceJson',
+  tagsJson: 'tagsJson',
+  confidence: 'confidence',
+  createdById: 'createdById',
+  initiativeId: 'initiativeId',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
+};
+
+exports.Prisma.InitiativesScalarFieldEnum = {
   id: 'id',
   name: 'name',
   description: 'description',
@@ -198,22 +306,76 @@ exports.Prisma.InitiativeScalarFieldEnum = {
   updatedAt: 'updatedAt'
 };
 
-exports.Prisma.CategoryScalarFieldEnum = {
+exports.Prisma.Input_groupsScalarFieldEnum = {
   id: 'id',
   name: 'name',
   description: 'description',
-  color: 'color',
-  icon: 'icon',
-  parentId: 'parentId',
-  isActive: 'isActive',
-  sortOrder: 'sortOrder',
-  usageCount: 'usageCount',
-  isSystem: 'isSystem',
   createdAt: 'createdAt',
-  updatedAt: 'updatedAt'
+  updatedAt: 'updatedAt',
+  aiSuggested: 'aiSuggested',
+  aiConfidence: 'aiConfidence',
+  aiReasoning: 'aiReasoning',
+  avgPriority: 'avgPriority',
+  color: 'color',
+  createdBy: 'createdBy',
+  inputCount: 'inputCount',
+  lastActivity: 'lastActivity'
 };
 
-exports.Prisma.SignalScalarFieldEnum = {
+exports.Prisma.InputsScalarFieldEnum = {
+  id: 'id',
+  title: 'title',
+  description: 'description',
+  type: 'type',
+  status: 'status',
+  createdBy: 'createdBy',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt',
+  department: 'department',
+  rootCause: 'rootCause',
+  aiTags: 'aiTags',
+  aiSuggestions: 'aiSuggestions',
+  aiConfidence: 'aiConfidence',
+  issueType: 'issueType',
+  priority: 'priority'
+};
+
+exports.Prisma.NotificationsScalarFieldEnum = {
+  id: 'id',
+  userId: 'userId',
+  type: 'type',
+  title: 'title',
+  message: 'message',
+  readAt: 'readAt',
+  createdAt: 'createdAt',
+  delivered: 'delivered',
+  entityId: 'entityId',
+  entityType: 'entityType',
+  read: 'read'
+};
+
+exports.Prisma.RequirementsScalarFieldEnum = {
+  id: 'id',
+  title: 'title',
+  description: 'description',
+  acceptanceCriteria: 'acceptanceCriteria',
+  status: 'status',
+  estimatedEffort: 'estimatedEffort',
+  dependencies: 'dependencies',
+  businessValue: 'businessValue',
+  riskAssessment: 'riskAssessment',
+  stakeholders: 'stakeholders',
+  approvedBy: 'approvedBy',
+  approvedAt: 'approvedAt',
+  rejectionReason: 'rejectionReason',
+  solutionId: 'solutionId',
+  createdBy: 'createdBy',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt',
+  priority: 'priority'
+};
+
+exports.Prisma.SignalsScalarFieldEnum = {
   id: 'id',
   inputId: 'inputId',
   timestamp: 'timestamp',
@@ -242,248 +404,91 @@ exports.Prisma.SignalScalarFieldEnum = {
   embedding: 'embedding',
   aiProcessed: 'aiProcessed',
   aiTagsJson: 'aiTagsJson',
-  enhancedTagsJson: 'enhancedTagsJson',
-  tagGenerationMeta: 'tagGenerationMeta',
-  domainClassification: 'domainClassification',
-  lastTaggedAt: 'lastTaggedAt',
-  tagModelVersion: 'tagModelVersion',
-  clusteringFeaturesJson: 'clusteringFeaturesJson',
-  lastFeaturesGeneratedAt: 'lastFeaturesGeneratedAt',
-  featuresVersion: 'featuresVersion',
-  featuresQualityScore: 'featuresQualityScore',
   lineageJson: 'lineageJson',
   createdById: 'createdById',
   createdAt: 'createdAt',
-  updatedAt: 'updatedAt'
+  updatedAt: 'updatedAt',
+  domainClassification: 'domainClassification',
+  enhancedTagsJson: 'enhancedTagsJson',
+  lastTaggedAt: 'lastTaggedAt',
+  tagGenerationMeta: 'tagGenerationMeta',
+  tagModelVersion: 'tagModelVersion',
+  clusteringFeaturesJson: 'clusteringFeaturesJson',
+  featuresQualityScore: 'featuresQualityScore',
+  featuresVersion: 'featuresVersion',
+  lastFeaturesGeneratedAt: 'lastFeaturesGeneratedAt'
 };
 
-exports.Prisma.HotspotScalarFieldEnum = {
-  id: 'id',
-  title: 'title',
-  summary: 'summary',
-  status: 'status',
-  rankScore: 'rankScore',
-  confidence: 'confidence',
-  primaryCategoryId: 'primaryCategoryId',
-  linkedEntitiesJson: 'linkedEntitiesJson',
-  clusteringMethod: 'clusteringMethod',
-  similarityThreshold: 'similarityThreshold',
-  rcaBreakdownJson: 'rcaBreakdownJson',
-  solutionSuggestionsJson: 'solutionSuggestionsJson',
-  decisionMatrixJson: 'decisionMatrixJson',
-  crossFunctionalImpactJson: 'crossFunctionalImpactJson',
-  lastAnalysisAt: 'lastAnalysisAt',
-  clusteringResults: 'clusteringResults',
-  lastClusteredAt: 'lastClusteredAt',
-  clusteringVersion: 'clusteringVersion',
-  clusteringQualityScore: 'clusteringQualityScore',
-  createdAt: 'createdAt',
-  updatedAt: 'updatedAt'
-};
-
-exports.Prisma.HotspotSignalScalarFieldEnum = {
-  hotspotId: 'hotspotId',
-  signalId: 'signalId',
-  membershipStrength: 'membershipStrength',
-  isOutlier: 'isOutlier',
-  addedAt: 'addedAt'
-};
-
-exports.Prisma.IdeaScalarFieldEnum = {
-  id: 'id',
-  hotspotId: 'hotspotId',
-  title: 'title',
-  description: 'description',
-  origin: 'origin',
-  votes: 'votes',
-  status: 'status',
-  evidenceJson: 'evidenceJson',
-  tagsJson: 'tagsJson',
-  confidence: 'confidence',
-  createdById: 'createdById',
-  initiativeId: 'initiativeId',
-  createdAt: 'createdAt',
-  updatedAt: 'updatedAt'
-};
-
-exports.Prisma.InputScalarFieldEnum = {
-  id: 'id',
-  title: 'title',
-  description: 'description',
-  type: 'type',
-  department: 'department',
-  issueType: 'issueType',
-  rootCause: 'rootCause',
-  priority: 'priority',
-  aiTags: 'aiTags',
-  aiConfidence: 'aiConfidence',
-  aiSuggestions: 'aiSuggestions',
-  status: 'status',
-  createdBy: 'createdBy',
-  createdAt: 'createdAt',
-  updatedAt: 'updatedAt'
-};
-
-exports.Prisma.SolutionScalarFieldEnum = {
+exports.Prisma.SolutionsScalarFieldEnum = {
   id: 'id',
   title: 'title',
   description: 'description',
   status: 'status',
-  hotspotId: 'hotspotId',
-  initiativeId: 'initiativeId',
-  ideaId: 'ideaId',
-  tasks: 'tasks',
-  progress: 'progress',
-  targetDate: 'targetDate',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt',
+  estimatedEffort: 'estimatedEffort',
   actualCompletionDate: 'actualCompletionDate',
-  estimatedEffort: 'estimatedEffort',
-  businessValue: 'businessValue',
-  successMetrics: 'successMetrics',
-  expectedImpactJson: 'expectedImpactJson',
   actualImpactJson: 'actualImpactJson',
-  inputId: 'inputId',
-  createdBy: 'createdBy',
-  createdAt: 'createdAt',
-  updatedAt: 'updatedAt'
-};
-
-exports.Prisma.RequirementScalarFieldEnum = {
-  id: 'id',
-  title: 'title',
-  description: 'description',
-  acceptanceCriteria: 'acceptanceCriteria',
-  priority: 'priority',
-  status: 'status',
-  estimatedEffort: 'estimatedEffort',
-  dependencies: 'dependencies',
   businessValue: 'businessValue',
-  riskAssessment: 'riskAssessment',
-  stakeholders: 'stakeholders',
-  approvedBy: 'approvedBy',
-  approvedAt: 'approvedAt',
-  rejectionReason: 'rejectionReason',
-  solutionId: 'solutionId',
   createdBy: 'createdBy',
-  createdAt: 'createdAt',
-  updatedAt: 'updatedAt'
+  expectedImpactJson: 'expectedImpactJson',
+  hotspotId: 'hotspotId',
+  ideaId: 'ideaId',
+  initiativeId: 'initiativeId',
+  inputId: 'inputId',
+  progress: 'progress',
+  successMetrics: 'successMetrics',
+  targetDate: 'targetDate',
+  tasks: 'tasks'
 };
 
-exports.Prisma.FRDDocumentScalarFieldEnum = {
-  id: 'id',
-  title: 'title',
-  content: 'content',
-  aiGenerated: 'aiGenerated',
-  aiConfidence: 'aiConfidence',
-  aiPromptUsed: 'aiPromptUsed',
-  version: 'version',
-  status: 'status',
-  executiveApproved: 'executiveApproved',
-  exportFormats: 'exportFormats',
-  templateUsed: 'templateUsed',
-  generationTime: 'generationTime',
-  wordCount: 'wordCount',
-  lastExportedAt: 'lastExportedAt',
-  solutionId: 'solutionId',
-  createdBy: 'createdBy',
-  approvedBy: 'approvedBy',
-  createdAt: 'createdAt',
-  updatedAt: 'updatedAt'
-};
-
-exports.Prisma.CommentScalarFieldEnum = {
-  id: 'id',
-  content: 'content',
-  entityType: 'entityType',
-  entityId: 'entityId',
-  parentId: 'parentId',
-  mentions: 'mentions',
-  edited: 'edited',
-  editedAt: 'editedAt',
-  createdBy: 'createdBy',
-  createdAt: 'createdAt',
-  updatedAt: 'updatedAt'
-};
-
-exports.Prisma.VoteScalarFieldEnum = {
-  id: 'id',
-  value: 'value',
-  entityType: 'entityType',
-  entityId: 'entityId',
-  createdBy: 'createdBy',
-  createdAt: 'createdAt'
-};
-
-exports.Prisma.InputGroupScalarFieldEnum = {
+exports.Prisma.TeamsScalarFieldEnum = {
   id: 'id',
   name: 'name',
   description: 'description',
-  color: 'color',
-  aiSuggested: 'aiSuggested',
-  aiConfidence: 'aiConfidence',
-  aiReasoning: 'aiReasoning',
-  inputCount: 'inputCount',
-  avgPriority: 'avgPriority',
-  lastActivity: 'lastActivity',
-  createdBy: 'createdBy',
+  departmentId: 'departmentId',
+  leaderId: 'leaderId',
+  memberCount: 'memberCount',
+  maxCapacity: 'maxCapacity',
+  isActive: 'isActive',
+  teamType: 'teamType',
+  currentProjects: 'currentProjects',
+  budgetAllocation: 'budgetAllocation',
+  utilizationRate: 'utilizationRate',
   createdAt: 'createdAt',
   updatedAt: 'updatedAt'
 };
 
-exports.Prisma.AuditLogScalarFieldEnum = {
+exports.Prisma.UsersScalarFieldEnum = {
   id: 'id',
-  action: 'action',
-  entityType: 'entityType',
-  entityId: 'entityId',
-  changes: 'changes',
-  ipAddress: 'ipAddress',
-  userAgent: 'userAgent',
-  sessionId: 'sessionId',
-  userId: 'userId',
-  createdAt: 'createdAt'
-};
-
-exports.Prisma.AIAnalysisAuditScalarFieldEnum = {
-  id: 'id',
-  hotspotId: 'hotspotId',
-  analysisType: 'analysisType',
-  userId: 'userId',
-  requestData: 'requestData',
-  responseData: 'responseData',
-  processingTime: 'processingTime',
-  confidence: 'confidence',
-  status: 'status',
-  errorMessage: 'errorMessage',
-  createdAt: 'createdAt'
-};
-
-exports.Prisma.AIInsightOverrideScalarFieldEnum = {
-  id: 'id',
-  signalId: 'signalId',
-  insightId: 'insightId',
-  insightType: 'insightType',
-  originalRecommendation: 'originalRecommendation',
-  overrideReason: 'overrideReason',
-  executiveJustification: 'executiveJustification',
-  newValue: 'newValue',
-  executiveId: 'executiveId',
-  executiveName: 'executiveName',
-  executiveEmail: 'executiveEmail',
-  overriddenAt: 'overriddenAt',
-  createdAt: 'createdAt'
-};
-
-exports.Prisma.NotificationScalarFieldEnum = {
-  id: 'id',
-  type: 'type',
+  email: 'email',
+  name: 'name',
+  role: 'role',
+  department: 'department',
+  avatar: 'avatar',
+  passwordHash: 'passwordHash',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt',
   title: 'title',
-  message: 'message',
-  entityType: 'entityType',
+  managerId: 'managerId',
+  billableRate: 'billableRate',
+  costCenter: 'costCenter',
+  location: 'location',
+  isActive: 'isActive',
+  lastLoginAt: 'lastLoginAt',
+  profileJson: 'profileJson',
+  targetUtilization: 'targetUtilization',
+  utilizationRate: 'utilizationRate',
+  departmentObjId: 'departmentObjId'
+};
+
+exports.Prisma.VotesScalarFieldEnum = {
+  id: 'id',
+  createdAt: 'createdAt',
+  createdBy: 'createdBy',
   entityId: 'entityId',
-  read: 'read',
-  readAt: 'readAt',
-  delivered: 'delivered',
-  userId: 'userId',
-  createdAt: 'createdAt'
+  entityType: 'entityType',
+  value: 'value'
 };
 
 exports.Prisma.SortOrder = {
@@ -515,40 +520,22 @@ exports.Prisma.NullsOrder = {
   first: 'first',
   last: 'last'
 };
-exports.UserRole = exports.$Enums.UserRole = {
-  ADMIN: 'ADMIN',
-  EXECUTIVE: 'EXECUTIVE',
-  CONTRIBUTOR: 'CONTRIBUTOR'
+exports.EntityType = exports.$Enums.EntityType = {
+  INPUT: 'INPUT',
+  SIGNAL: 'SIGNAL',
+  HOTSPOT: 'HOTSPOT',
+  IDEA: 'IDEA',
+  SOLUTION: 'SOLUTION',
+  REQUIREMENT: 'REQUIREMENT',
+  FRD_DOCUMENT: 'FRD_DOCUMENT'
 };
 
-exports.InitiativeStatus = exports.$Enums.InitiativeStatus = {
-  PLANNING: 'PLANNING',
-  ACTIVE: 'ACTIVE',
-  ON_HOLD: 'ON_HOLD',
-  COMPLETED: 'COMPLETED',
-  CANCELLED: 'CANCELLED'
-};
-
-exports.Priority = exports.$Enums.Priority = {
-  LOW: 'LOW',
-  MEDIUM: 'MEDIUM',
-  HIGH: 'HIGH',
-  URGENT: 'URGENT',
-  CRITICAL: 'CRITICAL'
-};
-
-exports.RiskLevel = exports.$Enums.RiskLevel = {
-  LOW: 'LOW',
-  MEDIUM: 'MEDIUM',
-  HIGH: 'HIGH',
-  CRITICAL: 'CRITICAL'
-};
-
-exports.Severity = exports.$Enums.Severity = {
-  LOW: 'LOW',
-  MEDIUM: 'MEDIUM',
-  HIGH: 'HIGH',
-  CRITICAL: 'CRITICAL'
+exports.FRDStatus = exports.$Enums.FRDStatus = {
+  DRAFT: 'DRAFT',
+  REVIEW: 'REVIEW',
+  APPROVED: 'APPROVED',
+  DELIVERED: 'DELIVERED',
+  ARCHIVED: 'ARCHIVED'
 };
 
 exports.HotspotStatus = exports.$Enums.HotspotStatus = {
@@ -558,6 +545,29 @@ exports.HotspotStatus = exports.$Enums.HotspotStatus = {
   MONITORING: 'MONITORING',
   RESOLVED: 'RESOLVED',
   CLOSED_NO_ACTION: 'CLOSED_NO_ACTION'
+};
+
+exports.initiative_status = exports.$Enums.initiative_status = {
+  PLANNING: 'PLANNING',
+  ACTIVE: 'ACTIVE',
+  ON_HOLD: 'ON_HOLD',
+  COMPLETED: 'COMPLETED',
+  CANCELLED: 'CANCELLED'
+};
+
+exports.priority = exports.$Enums.priority = {
+  LOW: 'LOW',
+  MEDIUM: 'MEDIUM',
+  HIGH: 'HIGH',
+  URGENT: 'URGENT',
+  CRITICAL: 'CRITICAL'
+};
+
+exports.risk_level = exports.$Enums.risk_level = {
+  LOW: 'LOW',
+  MEDIUM: 'MEDIUM',
+  HIGH: 'HIGH',
+  CRITICAL: 'CRITICAL'
 };
 
 exports.InputType = exports.$Enums.InputType = {
@@ -573,14 +583,14 @@ exports.InputStatus = exports.$Enums.InputStatus = {
   DUPLICATE: 'DUPLICATE'
 };
 
-exports.SolutionStatus = exports.$Enums.SolutionStatus = {
-  DRAFT: 'DRAFT',
-  IN_PROGRESS: 'IN_PROGRESS',
-  REVIEW: 'REVIEW',
-  APPROVED: 'APPROVED',
-  IMPLEMENTED: 'IMPLEMENTED',
-  CANCELLED: 'CANCELLED',
-  ON_HOLD: 'ON_HOLD'
+exports.NotificationType = exports.$Enums.NotificationType = {
+  MENTION: 'MENTION',
+  VOTE: 'VOTE',
+  COMMENT: 'COMMENT',
+  STATUS_CHANGE: 'STATUS_CHANGE',
+  APPROVAL_REQUEST: 'APPROVAL_REQUEST',
+  ASSIGNMENT: 'ASSIGNMENT',
+  DEADLINE_REMINDER: 'DEADLINE_REMINDER'
 };
 
 exports.RequirementStatus = exports.$Enums.RequirementStatus = {
@@ -592,22 +602,27 @@ exports.RequirementStatus = exports.$Enums.RequirementStatus = {
   OBSOLETE: 'OBSOLETE'
 };
 
-exports.FRDStatus = exports.$Enums.FRDStatus = {
-  DRAFT: 'DRAFT',
-  REVIEW: 'REVIEW',
-  APPROVED: 'APPROVED',
-  DELIVERED: 'DELIVERED',
-  ARCHIVED: 'ARCHIVED'
+exports.Severity = exports.$Enums.Severity = {
+  LOW: 'LOW',
+  MEDIUM: 'MEDIUM',
+  HIGH: 'HIGH',
+  CRITICAL: 'CRITICAL'
 };
 
-exports.EntityType = exports.$Enums.EntityType = {
-  INPUT: 'INPUT',
-  SIGNAL: 'SIGNAL',
-  HOTSPOT: 'HOTSPOT',
-  IDEA: 'IDEA',
-  SOLUTION: 'SOLUTION',
-  REQUIREMENT: 'REQUIREMENT',
-  FRD_DOCUMENT: 'FRD_DOCUMENT'
+exports.SolutionStatus = exports.$Enums.SolutionStatus = {
+  DRAFT: 'DRAFT',
+  IN_PROGRESS: 'IN_PROGRESS',
+  REVIEW: 'REVIEW',
+  APPROVED: 'APPROVED',
+  IMPLEMENTED: 'IMPLEMENTED',
+  CANCELLED: 'CANCELLED',
+  ON_HOLD: 'ON_HOLD'
+};
+
+exports.UserRole = exports.$Enums.UserRole = {
+  ADMIN: 'ADMIN',
+  EXECUTIVE: 'EXECUTIVE',
+  CONTRIBUTOR: 'CONTRIBUTOR'
 };
 
 exports.VoteValue = exports.$Enums.VoteValue = {
@@ -615,37 +630,28 @@ exports.VoteValue = exports.$Enums.VoteValue = {
   DOWN: 'DOWN'
 };
 
-exports.NotificationType = exports.$Enums.NotificationType = {
-  MENTION: 'MENTION',
-  VOTE: 'VOTE',
-  COMMENT: 'COMMENT',
-  STATUS_CHANGE: 'STATUS_CHANGE',
-  APPROVAL_REQUEST: 'APPROVAL_REQUEST',
-  ASSIGNMENT: 'ASSIGNMENT',
-  DEADLINE_REMINDER: 'DEADLINE_REMINDER'
-};
-
 exports.Prisma.ModelName = {
-  User: 'User',
-  Department: 'Department',
-  Team: 'Team',
-  Initiative: 'Initiative',
-  Category: 'Category',
-  Signal: 'Signal',
-  Hotspot: 'Hotspot',
-  HotspotSignal: 'HotspotSignal',
-  Idea: 'Idea',
-  Input: 'Input',
-  Solution: 'Solution',
-  Requirement: 'Requirement',
-  FRDDocument: 'FRDDocument',
-  Comment: 'Comment',
-  Vote: 'Vote',
-  InputGroup: 'InputGroup',
-  AuditLog: 'AuditLog',
-  AIAnalysisAudit: 'AIAnalysisAudit',
-  AIInsightOverride: 'AIInsightOverride',
-  Notification: 'Notification'
+  InputToInputGroup: 'InputToInputGroup',
+  ai_analysis_audit: 'ai_analysis_audit',
+  ai_insight_overrides: 'ai_insight_overrides',
+  audit_logs: 'audit_logs',
+  categories: 'categories',
+  comments: 'comments',
+  departments: 'departments',
+  frd_documents: 'frd_documents',
+  hotspot_signals: 'hotspot_signals',
+  hotspots: 'hotspots',
+  ideas: 'ideas',
+  initiatives: 'initiatives',
+  input_groups: 'input_groups',
+  inputs: 'inputs',
+  notifications: 'notifications',
+  requirements: 'requirements',
+  signals: 'signals',
+  solutions: 'solutions',
+  teams: 'teams',
+  users: 'users',
+  votes: 'votes'
 };
 
 /**

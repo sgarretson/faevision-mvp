@@ -234,7 +234,7 @@ async function getBusinessMetrics() {
     const weekAgo = new Date(now.getTime() - 7 * 24 * 60 * 60 * 1000);
 
     // Active executives using the system
-    const activeExecutives = await prisma.user.count({
+    const activeExecutives = await (prisma as any).users.count({
       where: {
         role: 'EXECUTIVE',
         // Could add last login check here

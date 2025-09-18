@@ -58,7 +58,7 @@ export async function GET(
     }
 
     // Fetch comments using polymorphic Comment model
-    const comments = await prisma.comment.findMany({
+    const comments = await (prisma as any).comments.findMany({
       where: {
         entityType: 'SOLUTION',
         entityId: solutionId,
@@ -161,7 +161,7 @@ export async function POST(
     }
 
     // Create comment using polymorphic Comment model
-    const comment = await prisma.comment.create({
+    const comment = await (prisma as any).comments.create({
       data: {
         content,
         entityType: 'SOLUTION',

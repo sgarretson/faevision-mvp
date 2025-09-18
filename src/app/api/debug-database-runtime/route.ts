@@ -19,11 +19,11 @@ export async function GET(request: NextRequest) {
     console.log('📊 Environment:', environment);
 
     // Test database connection
-    const userCount = await prisma.user.count();
+    const userCount = await (prisma as any).users.count();
     console.log(`👥 Total users in runtime: ${userCount}`);
 
     // Check for admin user specifically
-    const adminUser = await prisma.user.findUnique({
+    const adminUser = await (prisma as any).users.findUnique({
       where: { email: 'admin@faevision.com' },
       select: {
         id: true,
@@ -37,7 +37,7 @@ export async function GET(request: NextRequest) {
     console.log('🔍 Admin user lookup result:', adminUser);
 
     // List all users
-    const allUsers = await prisma.user.findMany({
+    const allUsers = await (prisma as any).users.findMany({
       select: {
         email: true,
         name: true,

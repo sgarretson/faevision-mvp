@@ -189,7 +189,7 @@ export async function POST(request: NextRequest) {
     }
 
     // Verify creator exists
-    const creator = await prisma.user.findUnique({
+    const creator = await (prisma as any).users.findUnique({
       where: { id: createdBy },
     });
 

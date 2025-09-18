@@ -70,7 +70,7 @@ export async function POST(request: NextRequest) {
     });
 
     // Get existing strategic inputs for context
-    const existingInputs = await prisma.input.findMany({
+    const existingInputs = await (prisma as any).inputs.findMany({
       select: {
         id: true,
         title: true,

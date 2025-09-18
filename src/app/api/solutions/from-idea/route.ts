@@ -151,10 +151,10 @@ export async function POST(request: NextRequest) {
 
     // Get organizational context for better planning
     const [departments, teams, recentSolutions] = await Promise.all([
-      prisma.department.findMany({
+      (prisma as any).departments.findMany({
         select: { id: true, name: true },
       }),
-      prisma.team.findMany({
+      (prisma as any).teams.findMany({
         select: { id: true, name: true, department: true },
       }),
       (prisma as any).solution.findMany({

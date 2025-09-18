@@ -22,7 +22,7 @@ async function main() {
 
   // Create departments (reusing existing ones or creating new)
   const departments = await Promise.all([
-    prisma.department.upsert({
+    (prisma as any).departments.upsert({
       where: { name: 'Executive Leadership' },
       update: {},
       create: {
@@ -35,7 +35,7 @@ async function main() {
         utilizationTarget: 0.85,
       },
     }),
-    prisma.department.upsert({
+    (prisma as any).departments.upsert({
       where: { name: 'Architecture' },
       update: {},
       create: {
@@ -48,7 +48,7 @@ async function main() {
         utilizationTarget: 0.8,
       },
     }),
-    prisma.department.upsert({
+    (prisma as any).departments.upsert({
       where: { name: 'Field Services' },
       update: {},
       create: {
@@ -61,7 +61,7 @@ async function main() {
         utilizationTarget: 0.9,
       },
     }),
-    prisma.department.upsert({
+    (prisma as any).departments.upsert({
       where: { name: 'Project Management' },
       update: {},
       create: {
@@ -80,7 +80,7 @@ async function main() {
 
   // Create additional users if needed
   const additionalUsers = await Promise.all([
-    prisma.user.upsert({
+    (prisma as any).users.upsert({
       where: { email: 'carlos.martinez@meridianae.com' },
       update: {},
       create: {
@@ -94,7 +94,7 @@ async function main() {
         departmentObjId: departments[2].id,
       },
     }),
-    prisma.user.upsert({
+    (prisma as any).users.upsert({
       where: { email: 'jennifer.davis@meridianae.com' },
       update: {},
       create: {
@@ -108,7 +108,7 @@ async function main() {
         departmentObjId: departments[1].id,
       },
     }),
-    prisma.user.upsert({
+    (prisma as any).users.upsert({
       where: { email: 'andrew.taylor@meridianae.com' },
       update: {},
       create: {
@@ -127,7 +127,7 @@ async function main() {
   console.log('👥 Ensured additional A&E users exist');
 
   // Get existing users including Sarah
-  const existingUsers = await prisma.user.findMany({
+  const existingUsers = await (prisma as any).users.findMany({
     select: { id: true, name: true, department: true },
   });
 
@@ -500,7 +500,7 @@ async function main() {
 
   for (const data of signalData) {
     try {
-      const signal = await prisma.signal.create({
+      const signal = await (prisma as any).signals.create({
         data: {
           inputId: data.inputId,
           title: data.title,
@@ -554,7 +554,7 @@ async function main() {
           try {
             const randomUser =
               existingUsers[Math.floor(Math.random() * existingUsers.length)];
-            await prisma.comment.create({
+            await (prisma as any).comments.create({
               data: {
                 content: comments[Math.floor(Math.random() * comments.length)],
                 entityType: 'SIGNAL',
@@ -593,7 +593,7 @@ async function main() {
 
             const voteValue = Math.random() > 0.7 ? 'DOWN' : 'UP';
 
-            await prisma.vote.create({
+            await (prisma as any).votes.create({
               data: {
                 entityType: 'SIGNAL',
                 entityId: signal.id,
