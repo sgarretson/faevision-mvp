@@ -35,7 +35,7 @@ interface ExecutiveConfidenceDashboardProps {
 
 /**
  * Executive Confidence Dashboard
- * 
+ *
  * Optimized for executive scanning behavior with:
  * - F-pattern layout for quick information consumption
  * - Dashboard-first architecture with drill-down capability
@@ -52,7 +52,7 @@ export function ExecutiveConfidenceDashboard({
   return (
     <div className={cn('space-y-6', className)}>
       {/* Executive Summary - F-Pattern Top Bar */}
-      <div className="grid grid-cols-1 md:grid-cols-4 gap-4">
+      <div className="grid grid-cols-1 gap-4 md:grid-cols-4">
         <MetricCard
           title="High Confidence"
           value={metrics.highConfidence}
@@ -84,7 +84,7 @@ export function ExecutiveConfidenceDashboard({
       </div>
 
       {/* Content Grid - F-Pattern Left Scanning */}
-      <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
+      <div className="grid grid-cols-1 gap-6 lg:grid-cols-2">
         {/* Priority Items - Left Column */}
         <Card>
           <CardHeader>
@@ -95,7 +95,7 @@ export function ExecutiveConfidenceDashboard({
           </CardHeader>
           <CardContent className="space-y-3">
             {items
-              .filter((item) => {
+              .filter(item => {
                 const confidence = calculateBusinessConfidence(
                   item.aiConfidence,
                   item.qualityScore,
@@ -104,10 +104,10 @@ export function ExecutiveConfidenceDashboard({
                 return confidence.actionRequired;
               })
               .slice(0, 5)
-              .map((item) => (
+              .map(item => (
                 <ExecutiveItemRow key={item.id} item={item} priority />
               ))}
-            {items.filter((item) => {
+            {items.filter(item => {
               const confidence = calculateBusinessConfidence(
                 item.aiConfidence,
                 item.qualityScore,
@@ -115,8 +115,8 @@ export function ExecutiveConfidenceDashboard({
               );
               return confidence.actionRequired;
             }).length === 0 && (
-              <div className="text-center py-6 text-gray-500">
-                <CheckCircle2 className="h-8 w-8 mx-auto mb-2 text-green-500" />
+              <div className="py-6 text-center text-gray-500">
+                <CheckCircle2 className="mx-auto mb-2 h-8 w-8 text-green-500" />
                 All items have been reviewed
               </div>
             )}
@@ -135,7 +135,7 @@ export function ExecutiveConfidenceDashboard({
             {items
               .sort((a, b) => b.createdAt.getTime() - a.createdAt.getTime())
               .slice(0, 5)
-              .map((item) => (
+              .map(item => (
                 <ExecutiveItemRow key={item.id} item={item} showTime />
               ))}
           </CardContent>
@@ -149,7 +149,7 @@ export function ExecutiveConfidenceDashboard({
         </CardHeader>
         <CardContent>
           <div className="space-y-2">
-            {items.map((item) => (
+            {items.map(item => (
               <ExecutiveItemRow key={item.id} item={item} detailed />
             ))}
           </div>
@@ -191,21 +191,21 @@ function ExecutiveItemRow({
   return (
     <div
       className={cn(
-        'flex items-center justify-between p-3 rounded-lg border transition-colors hover:bg-gray-50',
-        priority && businessConfidence.actionRequired && 'border-yellow-200 bg-yellow-50'
+        'flex items-center justify-between rounded-lg border p-3 transition-colors hover:bg-gray-50',
+        priority &&
+          businessConfidence.actionRequired &&
+          'border-yellow-200 bg-yellow-50'
       )}
     >
-      <div className="flex items-center gap-3 flex-1 min-w-0">
+      <div className="flex min-w-0 flex-1 items-center gap-3">
         {/* Type Badge - Left Anchor */}
         <TypeBadge type={item.type} />
 
         {/* Title - Main Content */}
-        <div className="flex-1 min-w-0">
-          <div className="font-medium text-gray-900 truncate">
-            {item.title}
-          </div>
+        <div className="min-w-0 flex-1">
+          <div className="truncate font-medium text-gray-900">{item.title}</div>
           {(showTime || detailed) && (
-            <div className="text-xs text-gray-500 mt-1">
+            <div className="mt-1 text-xs text-gray-500">
               {showTime && formatRelativeTime(item.createdAt)}
               {detailed && item.status && (
                 <>
@@ -285,11 +285,9 @@ function MetricCard({
         <div className="flex items-center justify-between">
           <div>
             <p className={cn('text-sm font-medium', classes.text)}>{title}</p>
-            <div className="flex items-baseline gap-2 mt-1">
+            <div className="mt-1 flex items-baseline gap-2">
               <p className={cn('text-2xl font-bold', classes.text)}>{value}</p>
-              <p className={cn('text-sm', classes.text)}>
-                {percentage}%
-              </p>
+              <p className={cn('text-sm', classes.text)}>{percentage}%</p>
             </div>
           </div>
           <Icon className={cn('h-8 w-8', classes.icon)} />
@@ -302,11 +300,18 @@ function MetricCard({
 /**
  * Type Badge Component
  */
-function TypeBadge({ type }: { type: 'idea' | 'solution' | 'requirement' | 'frd' }) {
+function TypeBadge({
+  type,
+}: {
+  type: 'idea' | 'solution' | 'requirement' | 'frd';
+}) {
   const config = {
     idea: { label: 'Idea', className: 'bg-purple-100 text-purple-800' },
     solution: { label: 'Solution', className: 'bg-blue-100 text-blue-800' },
-    requirement: { label: 'Requirement', className: 'bg-green-100 text-green-800' },
+    requirement: {
+      label: 'Requirement',
+      className: 'bg-green-100 text-green-800',
+    },
     frd: { label: 'FRD', className: 'bg-orange-100 text-orange-800' },
   };
 
@@ -327,7 +332,7 @@ function calculateOverallMetrics(items: any[]) {
   let actionRequired = 0;
   let humanValidated = 0;
 
-  items.forEach((item) => {
+  items.forEach(item => {
     const confidence = calculateBusinessConfidence(
       item.aiConfidence,
       item.qualityScore,
@@ -351,14 +356,16 @@ function calculateOverallMetrics(items: any[]) {
 
 function formatRelativeTime(date: Date): string {
   const now = new Date();
-  const diffInHours = Math.floor((now.getTime() - date.getTime()) / (1000 * 60 * 60));
+  const diffInHours = Math.floor(
+    (now.getTime() - date.getTime()) / (1000 * 60 * 60)
+  );
 
   if (diffInHours < 1) return 'Just now';
   if (diffInHours < 24) return `${diffInHours}h ago`;
   if (diffInHours < 48) return 'Yesterday';
-  
+
   const diffInDays = Math.floor(diffInHours / 24);
   if (diffInDays < 7) return `${diffInDays}d ago`;
-  
+
   return date.toLocaleDateString();
 }

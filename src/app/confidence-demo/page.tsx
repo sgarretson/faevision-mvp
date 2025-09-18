@@ -14,7 +14,7 @@ import { Badge } from '@/components/ui/badge';
 
 /**
  * Confidence Indicator Demonstration Page
- * 
+ *
  * Showcases the complete Business Confidence Translation Layer
  * implementation for executive stakeholder validation.
  */
@@ -74,17 +74,21 @@ export default function ConfidenceDemoPage() {
 
   return (
     <div className="min-h-screen bg-gray-50">
-      <div className="container mx-auto py-8 px-4 space-y-8">
+      <div className="container mx-auto space-y-8 px-4 py-8">
         {/* Header */}
-        <div className="text-center space-y-2">
+        <div className="space-y-2 text-center">
           <h1 className="text-3xl font-bold text-gray-900">
             FAEVision Confidence Indicators
           </h1>
-          <p className="text-gray-600 max-w-2xl mx-auto">
-            Executive-friendly business confidence translation system with AI/Human/Hybrid
-            origin tracking and progressive disclosure for technical details.
+          <p className="mx-auto max-w-2xl text-gray-600">
+            Executive-friendly business confidence translation system with
+            AI/Human/Hybrid origin tracking and progressive disclosure for
+            technical details.
           </p>
-          <Badge variant="outline" className="bg-blue-50 text-blue-700 border-blue-200">
+          <Badge
+            variant="outline"
+            className="border-blue-200 bg-blue-50 text-blue-700"
+          >
             FAE-130: Business Confidence Translation Layer
           </Badge>
         </div>
@@ -95,10 +99,12 @@ export default function ConfidenceDemoPage() {
             <CardTitle>Individual Confidence Indicators</CardTitle>
           </CardHeader>
           <CardContent className="space-y-6">
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+            <div className="grid grid-cols-1 gap-6 md:grid-cols-2 lg:grid-cols-3">
               {/* High Confidence AI */}
               <div className="space-y-3">
-                <h3 className="font-semibold text-gray-900">High Confidence AI</h3>
+                <h3 className="font-semibold text-gray-900">
+                  High Confidence AI
+                </h3>
                 <ConfidenceIndicator
                   aiConfidence={0.9}
                   qualityScore={0.85}
@@ -120,7 +126,9 @@ export default function ConfidenceDemoPage() {
 
               {/* Hybrid AI + Human */}
               <div className="space-y-3">
-                <h3 className="font-semibold text-gray-900">Hybrid AI + Human</h3>
+                <h3 className="font-semibold text-gray-900">
+                  Hybrid AI + Human
+                </h3>
                 <ConfidenceIndicator
                   aiConfidence={0.75}
                   qualityScore={0.9}
@@ -131,7 +139,9 @@ export default function ConfidenceDemoPage() {
 
               {/* Low Confidence AI */}
               <div className="space-y-3">
-                <h3 className="font-semibold text-gray-900">Low Confidence AI</h3>
+                <h3 className="font-semibold text-gray-900">
+                  Low Confidence AI
+                </h3>
                 <ConfidenceIndicator
                   aiConfidence={0.4}
                   qualityScore={0.3}
@@ -142,7 +152,9 @@ export default function ConfidenceDemoPage() {
 
               {/* Medium Confidence */}
               <div className="space-y-3">
-                <h3 className="font-semibold text-gray-900">Medium Confidence</h3>
+                <h3 className="font-semibold text-gray-900">
+                  Medium Confidence
+                </h3>
                 <ConfidenceIndicator
                   aiConfidence={0.6}
                   qualityScore={0.65}
@@ -179,7 +191,7 @@ export default function ConfidenceDemoPage() {
         </Card>
 
         {/* Mobile Components */}
-        <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
+        <div className="grid grid-cols-1 gap-8 lg:grid-cols-2">
           <Card>
             <CardHeader>
               <CardTitle>Mobile Executive Summary</CardTitle>
@@ -202,7 +214,7 @@ export default function ConfidenceDemoPage() {
             <CardContent>
               <MobileActionPanel
                 items={demoItems}
-                onItemClick={(id) => console.log('Clicked item:', id)}
+                onItemClick={id => console.log('Clicked item:', id)}
               />
             </CardContent>
           </Card>
@@ -217,8 +229,8 @@ export default function ConfidenceDemoPage() {
             </p>
           </CardHeader>
           <CardContent>
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-              {demoItems.slice(0, 4).map((item) => (
+            <div className="grid grid-cols-1 gap-4 md:grid-cols-2">
+              {demoItems.slice(0, 4).map(item => (
                 <MobileConfidenceCard
                   key={item.id}
                   title={item.title}
@@ -241,20 +253,29 @@ export default function ConfidenceDemoPage() {
             <CardTitle>Implementation Features</CardTitle>
           </CardHeader>
           <CardContent>
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+            <div className="grid grid-cols-1 gap-6 md:grid-cols-2">
               <div>
-                <h3 className="font-semibold text-gray-900 mb-3">Business Benefits</h3>
+                <h3 className="mb-3 font-semibold text-gray-900">
+                  Business Benefits
+                </h3>
                 <ul className="space-y-2 text-sm text-gray-600">
-                  <li>✅ Clear visual distinction between AI, Human, and Hybrid content</li>
+                  <li>
+                    ✅ Clear visual distinction between AI, Human, and Hybrid
+                    content
+                  </li>
                   <li>✅ Executive-friendly risk level assessments</li>
-                  <li>✅ Action-required indicators for decision prioritization</li>
+                  <li>
+                    ✅ Action-required indicators for decision prioritization
+                  </li>
                   <li>✅ Progressive disclosure for technical users</li>
                   <li>✅ Mobile-optimized for executive meeting scenarios</li>
                 </ul>
               </div>
-              
+
               <div>
-                <h3 className="font-semibold text-gray-900 mb-3">Technical Features</h3>
+                <h3 className="mb-3 font-semibold text-gray-900">
+                  Technical Features
+                </h3>
                 <ul className="space-y-2 text-sm text-gray-600">
                   <li>✅ WCAG 2.1 AA accessibility compliance</li>
                   <li>✅ Traffic light system (Green/Yellow/Red)</li>

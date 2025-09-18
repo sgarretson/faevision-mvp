@@ -36,7 +36,7 @@ interface ConfidenceIndicatorProps {
 
 /**
  * Executive-Friendly Confidence Indicator Component
- * 
+ *
  * Implements the team consensus on business confidence translation:
  * - Traffic light system for immediate visual assessment
  * - Progressive disclosure for technical details
@@ -53,7 +53,7 @@ export function ConfidenceIndicator({
   variant = 'detailed',
 }: ConfidenceIndicatorProps) {
   const [isExpanded, setIsExpanded] = useState(showDetails);
-  
+
   const businessConfidence = calculateBusinessConfidence(
     aiConfidence,
     qualityScore,
@@ -69,18 +69,15 @@ export function ConfidenceIndicator({
   return (
     <div className={cn('space-y-2', className)}>
       {/* Primary Confidence Display */}
-      <div className="flex items-center gap-2 flex-wrap">
+      <div className="flex flex-wrap items-center gap-2">
         <TrafficLightIndicator
           color={businessConfidence.trafficLight}
           size={size}
         />
-        
+
         <OriginBadge origin={origin} size={size} />
-        
-        <RiskLevelBadge
-          riskLevel={businessConfidence.riskLevel}
-          size={size}
-        />
+
+        <RiskLevelBadge riskLevel={businessConfidence.riskLevel} size={size} />
 
         {businessConfidence.actionRequired && (
           <ActionRequiredBadge size={size} />
@@ -92,7 +89,7 @@ export function ConfidenceIndicator({
             size="sm"
             onClick={() => setIsExpanded(!isExpanded)}
             className={cn(
-              'p-1 h-auto text-gray-500 hover:text-gray-700',
+              'h-auto p-1 text-gray-500 hover:text-gray-700',
               sizeClasses[size]
             )}
             aria-label={isExpanded ? 'Hide details' : 'Show details'}
@@ -114,41 +111,49 @@ export function ConfidenceIndicator({
       {/* Progressive Disclosure - Technical Details */}
       {isExpanded && variant !== 'compact' && (
         <Card className="border-gray-200">
-          <CardContent className="p-3 space-y-3">
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-3 text-sm">
+          <CardContent className="space-y-3 p-3">
+            <div className="grid grid-cols-1 gap-3 text-sm md:grid-cols-2">
               <div>
-                <span className="font-medium text-gray-700">Confidence Level:</span>
-                <div className="flex items-center gap-1 mt-1">
+                <span className="font-medium text-gray-700">
+                  Confidence Level:
+                </span>
+                <div className="mt-1 flex items-center gap-1">
                   <ConfidenceMeter level={businessConfidence.level} />
                   <span className="text-gray-600">
                     {businessConfidence.level}
                   </span>
                 </div>
               </div>
-              
+
               <div>
-                <span className="font-medium text-gray-700">Quality Trend:</span>
-                <div className="flex items-center gap-1 mt-1">
+                <span className="font-medium text-gray-700">
+                  Quality Trend:
+                </span>
+                <div className="mt-1 flex items-center gap-1">
                   <QualityTrendIcon trend={businessConfidence.qualityTrend} />
                   <span className="text-gray-600">
                     {businessConfidence.qualityTrend}
                   </span>
                 </div>
               </div>
-              
-              {(aiConfidence !== null && aiConfidence !== undefined) && (
+
+              {aiConfidence !== null && aiConfidence !== undefined && (
                 <div>
-                  <span className="font-medium text-gray-700">AI Confidence:</span>
-                  <span className="text-gray-600 ml-2">
+                  <span className="font-medium text-gray-700">
+                    AI Confidence:
+                  </span>
+                  <span className="ml-2 text-gray-600">
                     {Math.round((aiConfidence || 0) * 100)}%
                   </span>
                 </div>
               )}
-              
-              {(qualityScore !== null && qualityScore !== undefined) && (
+
+              {qualityScore !== null && qualityScore !== undefined && (
                 <div>
-                  <span className="font-medium text-gray-700">Quality Score:</span>
-                  <span className="text-gray-600 ml-2">
+                  <span className="font-medium text-gray-700">
+                    Quality Score:
+                  </span>
+                  <span className="ml-2 text-gray-600">
                     {Math.round((qualityScore || 0) * 100)}%
                   </span>
                 </div>
@@ -156,7 +161,7 @@ export function ConfidenceIndicator({
             </div>
 
             {businessConfidence.humanValidated && (
-              <div className="pt-2 border-t border-gray-200">
+              <div className="border-t border-gray-200 pt-2">
                 <div className="flex items-center gap-2 text-sm text-green-700">
                   <CheckCircle className="h-4 w-4" />
                   <span>Human validated content</span>
@@ -192,8 +197,12 @@ function TrafficLightIndicator({
     RED: 'text-red-500',
   };
 
-  const Icon = color === 'GREEN' ? CheckCircle : 
-              color === 'YELLOW' ? AlertTriangle : XCircle;
+  const Icon =
+    color === 'GREEN'
+      ? CheckCircle
+      : color === 'YELLOW'
+        ? AlertTriangle
+        : XCircle;
 
   return (
     <Icon
@@ -234,7 +243,7 @@ function OriginBadge({
   };
 
   const { icon: Icon, label, className } = config[origin];
-  
+
   const sizeClasses = {
     sm: 'text-xs px-1.5 py-0.5',
     md: 'text-xs px-2 py-1',
@@ -321,18 +330,18 @@ function ConfidenceMeter({ level }: { level: 'LOW' | 'MEDIUM' | 'HIGH' }) {
   const activeBars = level === 'HIGH' ? 3 : level === 'MEDIUM' ? 2 : 1;
 
   return (
-    <div className="flex gap-0.5 items-end">
+    <div className="flex items-end gap-0.5">
       {Array.from({ length: bars }).map((_, i) => (
         <div
           key={i}
           className={cn(
-            'w-1.5 h-3 rounded-sm',
+            'h-3 w-1.5 rounded-sm',
             i < activeBars
               ? level === 'HIGH'
                 ? 'bg-green-500'
                 : level === 'MEDIUM'
-                ? 'bg-yellow-500'
-                : 'bg-red-500'
+                  ? 'bg-yellow-500'
+                  : 'bg-red-500'
               : 'bg-gray-200'
           )}
         />

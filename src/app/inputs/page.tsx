@@ -18,6 +18,8 @@ import {
 } from '@/components/inputs/bulk-action-bar';
 import { SelectionModeToggle } from '@/components/inputs/input-selection-checkbox';
 import { Alert, AlertDescription } from '@/components/ui/alert';
+import { ConfidenceIndicator } from '@/components/ui/confidence-indicator';
+import { CreationOrigin } from '@/types/origin-confidence';
 
 interface InputItem {
   id: string;
@@ -44,6 +46,15 @@ interface InputItem {
     comments: number;
     votes: number;
   };
+  // Enhanced confidence tracking fields
+  signal?: {
+    id: string;
+    aiConfidence?: number | null;
+    qualityScore?: number | null;
+    origin?: CreationOrigin;
+    enhancedTaggingResults?: any;
+    clusteringFeaturesJson?: any;
+  } | null;
 }
 
 interface PaginationInfo {

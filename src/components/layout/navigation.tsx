@@ -17,6 +17,7 @@ import {
   Zap,
   Brain,
   Activity,
+  CheckSquare,
 } from 'lucide-react';
 import { cn } from '@/lib/utils';
 
@@ -27,6 +28,7 @@ const navigation = [
   { name: 'Ideas', href: '/ideas', icon: Brain },
   { name: 'Solutions', href: '/solutions', icon: Lightbulb },
   { name: 'Performance', href: '/monitoring/performance', icon: Activity },
+  { name: 'Workflow Validation', href: '/workflow-validation', icon: CheckSquare },
 ];
 
 export function Navigation() {

@@ -154,7 +154,8 @@ export function getExecutiveRecommendation(
 
   if (origin === CreationOrigin.HYBRID) {
     return {
-      recommendation: 'AI-assisted with human validation. High confidence recommendation.',
+      recommendation:
+        'AI-assisted with human validation. High confidence recommendation.',
       actionRequired: false,
     };
   }
@@ -163,17 +164,20 @@ export function getExecutiveRecommendation(
   switch (riskLevel) {
     case 'LOW':
       return {
-        recommendation: 'AI recommendation with high confidence. Consider for approval.',
+        recommendation:
+          'AI recommendation with high confidence. Consider for approval.',
         actionRequired: false,
       };
     case 'MEDIUM':
       return {
-        recommendation: 'AI recommendation requires expert review before implementation.',
+        recommendation:
+          'AI recommendation requires expert review before implementation.',
         actionRequired: true,
       };
     case 'HIGH':
       return {
-        recommendation: 'AI recommendation needs significant expert validation and refinement.',
+        recommendation:
+          'AI recommendation needs significant expert validation and refinement.',
         actionRequired: true,
       };
     default:
