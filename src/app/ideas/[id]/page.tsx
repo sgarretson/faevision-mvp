@@ -477,7 +477,13 @@ function IdeaDetailPageComponent() {
                 <div className="mt-2">
                   <IdeaApproval
                     ideaId={idea.id}
-                    currentStatus={idea.status as any}
+                    currentStatus={
+                      (idea.status || 'draft') as
+                        | 'draft'
+                        | 'review'
+                        | 'approved'
+                        | 'rejected'
+                    }
                     votes={{
                       up: idea._count.upVotes,
                       down: idea._count.downVotes,
