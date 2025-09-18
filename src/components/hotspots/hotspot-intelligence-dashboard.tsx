@@ -27,6 +27,7 @@ interface ClusterIntelligence {
   name: string;
   type: 'CRITICAL' | 'HIGH' | 'MEDIUM' | 'LOW';
   signalCount: number;
+  signals?: { id: string; title?: string }[]; // associated signals (optional)
   businessImpact: {
     costImpact: number;
     timelineImpact: number;
@@ -160,6 +161,13 @@ export function HotspotIntelligenceDashboard() {
               const recommendedActions: string[] =
                 c.recommendedActions || c.recommendations || [];
 
+              // Associated signals if provided by backend
+              const signals: { id: string; title?: string }[] =
+                c.signals ||
+                (Array.isArray(c.signalIds)
+                  ? c.signalIds.map((sid: string) => ({ id: sid }))
+                  : []);
+
               const businessImpact = {
                 costImpact:
                   (c.businessImpact && c.businessImpact.costImpact) ||
@@ -182,6 +190,7 @@ export function HotspotIntelligenceDashboard() {
                 type,
                 signalCount,
                 businessImpact,
+                signals,
                 rootCauseBreakdown,
                 affectedDepartments,
                 departmentsInvolved: c.departmentsInvolved,
