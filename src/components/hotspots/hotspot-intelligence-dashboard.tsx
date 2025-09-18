@@ -126,7 +126,7 @@ export function HotspotIntelligenceDashboard() {
           const rawClusters: any[] = data.result.finalClusters || [];
           const normalizedClusters: ClusterIntelligence[] = rawClusters.map(
             (c: any, idx: number) => {
-              const id = c.id || c.clusterId || `cluster-${idx}`;
+              const id = c.id || c.clusterId || `temp-cluster-${idx}`;
               const name =
                 c.name || c.label || c.category || 'Process & Workflow';
               const urgencyScore: number =
