@@ -34,10 +34,10 @@ export async function GET(
     }
 
     // Get signal with creator information
-    const signal = await (prisma as any).signal?.findUnique({
+    const signal = await (prisma as any).signals?.findUnique({
       where: { id },
       include: {
-        createdBy: {
+        users: {
           select: {
             id: true,
             name: true,
@@ -46,19 +46,19 @@ export async function GET(
             department: true,
           },
         },
-        department: {
+        departments: {
           select: {
             id: true,
             name: true,
           },
         },
-        team: {
+        teams: {
           select: {
             id: true,
             name: true,
           },
         },
-        category: {
+        categories: {
           select: {
             id: true,
             name: true,
@@ -73,13 +73,13 @@ export async function GET(
 
     // Get vote and comment counts
     const [votesCount, commentsCount] = await Promise.all([
-      (prisma as any).vote?.count({
+      (prisma as any).votes?.count({
         where: {
           entityType: 'SIGNAL',
           entityId: signal.id,
         },
       }) || 0,
-      (prisma as any).comment?.count({
+      (prisma as any).comments?.count({
         where: {
           entityType: 'SIGNAL',
           entityId: signal.id,
@@ -94,8 +94,8 @@ export async function GET(
       description: signal.description,
       type: 'GENERAL' as const, // Default type since Signal model doesn't have type field
       status: 'ACTIVE' as const, // Default status
-      department: signal.department?.name,
-      issueType: signal.category?.name || 'General',
+      department: signal.departments?.name,
+      issueType: signal.categories?.name || 'General',
       rootCause: '',
       priority:
         signal.severity === 'HIGH'
@@ -104,13 +104,13 @@ export async function GET(
             ? 'LOW'
             : 'MEDIUM',
       createdAt: signal.receivedAt.toISOString(),
-      creator: signal.createdBy
+      creator: signal.users
         ? {
-            id: signal.createdBy.id,
-            name: signal.createdBy.name,
-            email: signal.createdBy.email,
-            role: signal.createdBy.role,
-            department: signal.createdBy.department,
+            id: signal.users.id,
+            name: signal.users.name,
+            email: signal.users.email,
+            role: signal.users.role,
+            department: signal.users.department,
           }
         : null,
       _count: {

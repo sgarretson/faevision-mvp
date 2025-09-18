@@ -565,7 +565,7 @@ async function saveClusteringResults(
       // Generate executive summary from clustering results
       const executiveSummary = `AI analysis identified ${result.outputClusterCount} critical business intelligence clusters from ${result.inputSignalCount} strategic inputs. Primary patterns: ${result.finalClusters?.map((c: any) => c.type).join(', ') || 'capacity management, process optimization'}. Recommended for immediate executive review and decision-making.`;
 
-      await (prisma as any).hotspot.upsert({
+      await (prisma as any).hotspots.upsert({
         where: {
           // Use a composite key or create a standard hotspot ID
           id: 'main_hotspot_v2',
@@ -580,7 +580,7 @@ async function saveClusteringResults(
           clusteringQualityScore: result.overallQuality,
           createdAt: new Date(),
           // Create signal relationships through HotspotSignal junction table
-          signals: {
+          hotspot_signals: {
             create: signalIds.map((signalId: string) => ({
               signalId: signalId,
               membershipStrength: 1.0,
@@ -596,7 +596,7 @@ async function saveClusteringResults(
           clusteringQualityScore: result.overallQuality,
           updatedAt: new Date(),
           // Update signal relationships by replacing them
-          signals: {
+          hotspot_signals: {
             deleteMany: {}, // Remove all existing signal relationships
             create: signalIds.map((signalId: string) => ({
               signalId: signalId,
@@ -615,7 +615,9 @@ async function saveClusteringResults(
         dbError.message.includes('lastClusteredAt') ||
         dbError.message.includes('clusteringVersion') ||
         dbError.message.includes('clusteringQualityScore') ||
-        dbError.message.includes('Invalid `prisma.hotspot.upsert()` invocation')
+        dbError.message.includes(
+          'Invalid `prisma.hotspots.upsert()` invocation'
+        )
       ) {
         console.log(
           '⚠️  Hotspot clustering columns missing, saving basic hotspot...'
@@ -628,7 +630,7 @@ async function saveClusteringResults(
           // Generate executive summary from clustering results
           const executiveSummary = `AI analysis identified ${result.outputClusterCount} critical business intelligence clusters from ${result.inputSignalCount} strategic inputs. Primary patterns: ${result.finalClusters?.map((c: any) => c.type).join(', ') || 'capacity management, process optimization'}. Recommended for immediate executive review and decision-making.`;
 
-          await (prisma as any).hotspot.upsert({
+          await (prisma as any).hotspots.upsert({
             where: {
               id: 'main_hotspot_v2',
             },
@@ -638,7 +640,7 @@ async function saveClusteringResults(
               summary: executiveSummary,
               createdAt: new Date(),
               // Create signal relationships through HotspotSignal junction table
-              signals: {
+              hotspot_signals: {
                 create: signalIds.map((signalId: string) => ({
                   signalId: signalId,
                   membershipStrength: 1.0,
@@ -650,7 +652,7 @@ async function saveClusteringResults(
               summary: executiveSummary,
               updatedAt: new Date(),
               // Update signal relationships by replacing them
-              signals: {
+              hotspot_signals: {
                 deleteMany: {}, // Remove all existing signal relationships
                 create: signalIds.map((signalId: string) => ({
                   signalId: signalId,

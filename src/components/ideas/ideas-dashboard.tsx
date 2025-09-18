@@ -371,7 +371,7 @@ export function IdeasDashboard() {
                       <div className="flex items-start justify-between">
                         <div className="flex-1">
                           <h3 className="text-lg font-semibold text-gray-900">
-                            {idea.title}
+                            {idea.title || 'Untitled Idea'}
                           </h3>
                           <p className="mt-1 line-clamp-2 text-sm text-gray-600">
                             {idea.description}

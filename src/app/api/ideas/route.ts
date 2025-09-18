@@ -176,7 +176,7 @@ export async function POST(request: NextRequest) {
 
     if (hotspotId) {
       // Verify hotspot exists
-      hotspot = await (prisma as any).hotspot?.findUnique({
+      hotspot = await (prisma as any).hotspots?.findUnique({
         where: { id: hotspotId },
       });
 
@@ -188,7 +188,7 @@ export async function POST(request: NextRequest) {
       }
     } else if (origin === 'human') {
       // For manual ideas, create or find a general hotspot
-      const generalHotspot = await (prisma as any).hotspot?.findFirst({
+      const generalHotspot = await (prisma as any).hotspots?.findFirst({
         where: { id: 'manual_ideas_hotspot' },
       });
 
@@ -196,7 +196,7 @@ export async function POST(request: NextRequest) {
         finalHotspotId = generalHotspot.id;
       } else {
         // Create a general hotspot for manual ideas
-        hotspot = await (prisma as any).hotspot?.create({
+        hotspot = await (prisma as any).hotspots?.create({
           data: {
             id: 'manual_ideas_hotspot',
             title: 'Manual Strategic Ideas',
@@ -212,7 +212,7 @@ export async function POST(request: NextRequest) {
     }
 
     // Create the idea
-    const idea = await (prisma as any).idea.create({
+    const idea = await (prisma as any).ideas.create({
       data: {
         hotspotId: finalHotspotId,
         title,
@@ -234,7 +234,7 @@ export async function POST(request: NextRequest) {
             status: true,
           },
         },
-        createdBy: {
+        users: {
           select: {
             id: true,
             name: true,

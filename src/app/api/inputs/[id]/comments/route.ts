@@ -38,7 +38,7 @@ export async function GET(
     }
 
     // Verify the signal exists
-    const signal = await (prisma as any).signal?.findUnique({
+    const signal = await (prisma as any).signals?.findUnique({
       where: { id },
       select: { id: true },
     });
@@ -48,7 +48,7 @@ export async function GET(
     }
 
     // Get comments for this signal
-    const comments = await (prisma as any).comment?.findMany({
+    const comments = await (prisma as any).comments?.findMany({
       where: {
         entityType: 'SIGNAL',
         entityId: id,
@@ -108,7 +108,7 @@ export async function POST(
     const validatedData = createCommentSchema.parse(body);
 
     // Verify the signal exists
-    const signal = await (prisma as any).signal?.findUnique({
+    const signal = await (prisma as any).signals?.findUnique({
       where: { id },
       select: { id: true },
     });
@@ -138,7 +138,7 @@ export async function POST(
     });
 
     // Log the comment creation for audit
-    await (prisma as any).auditLog?.create({
+    await (prisma as any).audit_logs?.create({
       data: {
         userId: session.user.id,
         action: 'CREATE_COMMENT',
