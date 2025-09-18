@@ -552,4 +552,263 @@ export class AIPipelineIntegrator {
       };
     }
   }
+
+  /**
+   * Execute complete AI pipeline: Phase 1 → Phase 2 → Phase 3
+   * Domain Classification → Feature Engineering → Hybrid Clustering
+   */
+  async executeCompletePipeline(signalIds?: string[]): Promise<{
+    pipelineResults: PipelineProcessingResult[];
+    clusteringResult: any;
+    executiveSummary: string;
+  }> {
+    const startTime = Date.now();
+
+    try {
+      console.log(`🚀 Complete AI Pipeline Starting:`, {
+        signalIds: signalIds?.length || 'all pending',
+        timestamp: new Date().toISOString(),
+      });
+
+      // Phase 1 & 2: Process signals through domain classification and feature engineering
+      let pipelineResults: PipelineProcessingResult[] = [];
+
+      if (signalIds && signalIds.length > 0) {
+        // Process specific signals
+        const signalRequests =
+          await this.getSignalProcessingRequests(signalIds);
+        const batchResult = await this.processBatch({
+          signals: signalRequests,
+        });
+        pipelineResults = batchResult.results;
+      } else {
+        // Find signals that need processing
+        const pendingSignals = await this.getPendingSignals();
+        if (pendingSignals.length > 0) {
+          const batchResult = await this.processBatch({
+            signals: pendingSignals,
+          });
+          pipelineResults = batchResult.results;
+        }
+      }
+
+      console.log(
+        `🔧 Pipeline Processing Complete: ${pipelineResults.length} signals processed`
+      );
+
+      // Phase 3: Execute hybrid clustering
+      const clusteringFeatures = await this.getClusteringReadySignals();
+
+      if (clusteringFeatures.length < 4) {
+        throw new Error(
+          `Insufficient signals for clustering: ${clusteringFeatures.length} (minimum 4 required)`
+        );
+      }
+
+      // Import clustering engine
+      const { ExecutiveHybridClusteringEngine } = await import(
+        './executive-hybrid-clustering-engine'
+      );
+      const clusteringEngine = new ExecutiveHybridClusteringEngine();
+
+      const clusteringResult =
+        await clusteringEngine.executeHybridClustering(clusteringFeatures);
+
+      const totalTime = Date.now() - startTime;
+
+      const executiveSummary = `
+Complete AI Pipeline executed successfully in ${(totalTime / 1000).toFixed(1)}s:
+• Processed ${pipelineResults.length} signals through domain classification and feature engineering
+• Generated ${clusteringResult.clusters.length} executive-optimized hotspots from ${clusteringFeatures.length} clustering-ready signals
+• Quality score: ${(clusteringResult.processingMetrics.qualityScore * 100).toFixed(1)}%
+• Top priorities: ${clusteringResult.executiveSummary.topPriorities.join(', ')}
+• Critical actions: ${clusteringResult.executiveSummary.criticalActions.length} immediate recommendations
+      `.trim();
+
+      console.log(`✅ Complete AI Pipeline Success:`, {
+        pipelineSignals: pipelineResults.length,
+        clusteringSignals: clusteringFeatures.length,
+        clustersGenerated: clusteringResult.clusters.length,
+        totalTime,
+      });
+
+      return {
+        pipelineResults,
+        clusteringResult,
+        executiveSummary,
+      };
+    } catch (error) {
+      console.error('❌ Complete AI Pipeline Error:', error);
+      throw error;
+    }
+  }
+
+  /**
+   * Get signal processing requests for specific signal IDs
+   */
+  private async getSignalProcessingRequests(
+    signalIds: string[]
+  ): Promise<PipelineProcessingRequest[]> {
+    try {
+      const signals = await (prisma as any).signals.findMany({
+        where: {
+          id: { in: signalIds },
+        },
+        select: {
+          id: true,
+          title: true,
+          description: true,
+          departmentId: true,
+          severity: true,
+          createdById: true,
+          tagsJson: true,
+        },
+      });
+
+      return signals.map((signal: any) => ({
+        signalId: signal.id,
+        title: signal.title,
+        description: signal.description,
+        metadata: {
+          department: signal.departmentId,
+          severity: signal.severity,
+          createdBy: signal.createdById,
+          tags: signal.tagsJson as string[],
+        },
+      }));
+    } catch (error) {
+      console.error('❌ Error fetching signal processing requests:', error);
+      return [];
+    }
+  }
+
+  /**
+   * Get signals that are pending AI processing
+   */
+  private async getPendingSignals(): Promise<PipelineProcessingRequest[]> {
+    try {
+      const signals = await (prisma as any).signals.findMany({
+        where: {
+          OR: [
+            { domainClassification: null },
+            { clusteringFeaturesJson: null },
+            { featuresQualityScore: { lt: 0.5 } },
+          ],
+        },
+        select: {
+          id: true,
+          title: true,
+          description: true,
+          departmentId: true,
+          severity: true,
+          createdById: true,
+          tagsJson: true,
+        },
+        take: 50, // Limit to prevent overwhelming processing
+      });
+
+      const requests = signals.map((signal: any) => ({
+        signalId: signal.id,
+        title: signal.title,
+        description: signal.description,
+        metadata: {
+          department: signal.departmentId,
+          severity: signal.severity,
+          createdBy: signal.createdById,
+          tags: signal.tagsJson as string[],
+        },
+      }));
+
+      console.log(`📋 Found ${requests.length} signals pending AI processing`);
+
+      return requests;
+    } catch (error) {
+      console.error('❌ Error fetching pending signals:', error);
+      return [];
+    }
+  }
+
+  /**
+   * Trigger clustering if enough signals are ready
+   */
+  async triggerClusteringIfReady(): Promise<{
+    triggered: boolean;
+    reason: string;
+    clusteringResult?: any;
+  }> {
+    try {
+      const clusteringFeatures = await this.getClusteringReadySignals();
+
+      if (clusteringFeatures.length < 4) {
+        return {
+          triggered: false,
+          reason: `Insufficient signals for clustering: ${clusteringFeatures.length} (minimum 4 required)`,
+        };
+      }
+
+      // Check if clustering was run recently
+      const recentClustering = await this.getRecentClusteringInfo();
+      if (recentClustering.wasRecentlyRun) {
+        return {
+          triggered: false,
+          reason: `Clustering was recently run ${recentClustering.timeSince} ago. ${clusteringFeatures.length} signals ready.`,
+        };
+      }
+
+      // Trigger clustering
+      const { ExecutiveHybridClusteringEngine } = await import(
+        './executive-hybrid-clustering-engine'
+      );
+      const clusteringEngine = new ExecutiveHybridClusteringEngine();
+
+      const clusteringResult =
+        await clusteringEngine.executeHybridClustering(clusteringFeatures);
+
+      return {
+        triggered: true,
+        reason: `Successfully clustered ${clusteringFeatures.length} signals into ${clusteringResult.clusters.length} hotspots`,
+        clusteringResult,
+      };
+    } catch (error) {
+      console.error('❌ Error triggering clustering:', error);
+      return {
+        triggered: false,
+        reason: `Clustering failed: ${error instanceof Error ? error.message : 'Unknown error'}`,
+      };
+    }
+  }
+
+  /**
+   * Get recent clustering information
+   */
+  private async getRecentClusteringInfo(): Promise<{
+    wasRecentlyRun: boolean;
+    timeSince: string;
+  }> {
+    try {
+      const recentHotspot = await (prisma as any).hotspots.findFirst({
+        orderBy: { createdAt: 'desc' },
+        select: { createdAt: true },
+      });
+
+      if (!recentHotspot) {
+        return { wasRecentlyRun: false, timeSince: 'never' };
+      }
+
+      const timeDiff = Date.now() - new Date(recentHotspot.createdAt).getTime();
+      const hoursSince = timeDiff / (1000 * 60 * 60);
+
+      // Consider clustering "recent" if run within last 2 hours
+      const wasRecentlyRun = hoursSince < 2;
+      const timeSince =
+        hoursSince < 1
+          ? `${Math.round(hoursSince * 60)} minutes`
+          : `${Math.round(hoursSince)} hours`;
+
+      return { wasRecentlyRun, timeSince };
+    } catch (error) {
+      console.error('❌ Error checking recent clustering:', error);
+      return { wasRecentlyRun: false, timeSince: 'unknown' };
+    }
+  }
 }
