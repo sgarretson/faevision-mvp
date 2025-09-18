@@ -211,7 +211,7 @@ export async function POST(request: NextRequest) {
         createdBy,
       },
       include: {
-        creator: {
+        users: {
           select: {
             id: true,
             name: true,
@@ -219,7 +219,7 @@ export async function POST(request: NextRequest) {
             role: true,
           },
         },
-        hotspot: {
+        hotspots: {
           select: {
             id: true,
             title: true,
@@ -270,8 +270,8 @@ export async function POST(request: NextRequest) {
         businessValue: solution.businessValue,
         successMetrics: solution.successMetrics,
         expectedImpactJson: solution.expectedImpactJson,
-        creator: solution.creator,
-        hotspot: solution.hotspot,
+        creator: solution.users,
+        hotspot: solution.hotspots,
         createdAt: solution.createdAt.toISOString(),
         updatedAt: solution.updatedAt.toISOString(),
       },

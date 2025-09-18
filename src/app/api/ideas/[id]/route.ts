@@ -37,7 +37,7 @@ export async function GET(
     const idea = await (prisma as any).idea?.findUnique({
       where: { id },
       include: {
-        hotspot: {
+        hotspots: {
           select: {
             id: true,
             title: true,

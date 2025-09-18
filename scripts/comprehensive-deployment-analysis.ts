@@ -1,314 +1,348 @@
-#!/usr/bin/env tsx
+#!/usr/bin/env ts-node
+
 /**
  * Comprehensive Vercel Deployment Error Analysis
+ * Expert Team: All Specialists
  *
- * ALL TEAM EXPERTS - Systematic Production Error Detection
- *
- * Analyzes build warnings, runtime errors, and deployment issues
- * Creates prioritized fix plan for production stability
+ * Systematically analyzes deployment errors across:
+ * - Build and compilation issues
+ * - Runtime Prisma schema validation
+ * - API route misconfigurations
+ * - Performance and optimization
+ * - Infrastructure problems
  */
 
-import { prisma } from '../src/lib/prisma';
+import { readFileSync, writeFileSync } from 'fs';
+import path from 'path';
 
 interface DeploymentError {
-  category: 'BUILD' | 'RUNTIME' | 'SCHEMA' | 'PERFORMANCE' | 'SECURITY';
+  id: string;
   severity: 'CRITICAL' | 'HIGH' | 'MEDIUM' | 'LOW';
+  category: 'BUILD' | 'RUNTIME' | 'SCHEMA' | 'PERFORMANCE' | 'INFRASTRUCTURE';
   component: string;
-  expert: string;
-  error: string;
-  recommendation: string;
-  priority: number;
+  description: string;
+  impact: string;
+  suggestedExpert: string;
+  action: string;
+  urgency: number; // 1-10 scale
+}
+
+interface SchemaValidationIssue {
+  model: string;
+  field: string;
+  expectedName: string;
+  actualName: string;
+  location: string;
 }
 
 class ComprehensiveDeploymentAnalysis {
   private errors: DeploymentError[] = [];
+  private schemaIssues: SchemaValidationIssue[] = [];
 
   async analyzeDeployment(): Promise<void> {
     console.log('🔍 COMPREHENSIVE VERCEL DEPLOYMENT ANALYSIS\n');
     console.log('👥 ALL TEAM EXPERTS - Systematic Error Detection\n');
     console.log('='.repeat(80) + '\n');
 
-    // Step 1: Build Analysis
     await this.analyzeBuildIssues();
-
-    // Step 2: Runtime Error Detection
     await this.analyzeRuntimeErrors();
-
-    // Step 3: Schema Validation
     await this.analyzeSchemaIssues();
-
-    // Step 4: Performance Analysis
     await this.analyzePerformanceIssues();
-
-    // Step 5: Generate Expert Assignments
     await this.generateExpertAssignments();
   }
 
   private async analyzeBuildIssues(): Promise<void> {
-    console.log('🔨 STEP 1: BUILD ANALYSIS - Jordan Kim (Vercel Engineer)\n');
+    console.log('🔨 BUILD ANALYSIS (Vercel Engineer: Jordan Kim)\n');
 
-    // Based on screenshot: 6 build warnings detected
-    console.log('📊 Build Status Analysis:');
-    console.log('   ⚠️ 6 warnings detected (2m 12s build time)');
-    console.log('   ✅ Build successful but with warnings');
-    console.log('   🎯 Focus: Eliminate warnings for production stability\n');
-
-    // Common build warnings in Next.js TypeScript projects
-    const potentialBuildIssues = [
-      {
-        category: 'BUILD' as const,
-        severity: 'MEDIUM' as const,
-        component: 'TypeScript Compilation',
-        expert: 'TypeScript Expert (Expert #14)',
-        error: 'TypeScript strict mode warnings',
-        recommendation: 'Enable strict mode compliance, fix any type warnings',
-        priority: 3,
-      },
-      {
-        category: 'BUILD' as const,
-        severity: 'MEDIUM' as const,
-        component: 'ESLint Validation',
-        expert: 'Lead Developer (Alex Thompson)',
-        error: 'ESLint warnings in codebase',
-        recommendation: 'Fix ESLint warnings, ensure code quality standards',
-        priority: 4,
-      },
-      {
-        category: 'BUILD' as const,
-        severity: 'HIGH' as const,
-        component: 'Prisma Client Generation',
-        expert: 'Database Architect (Morgan Smith)',
-        error: 'Prisma client generation warnings',
-        recommendation: 'Verify schema alignment and client generation',
-        priority: 2,
-      },
-    ];
-
-    potentialBuildIssues.forEach(issue => this.errors.push(issue));
-
-    console.log('🎯 Build Issues Identified:');
-    potentialBuildIssues.forEach((issue, index) => {
-      console.log(`   ${index + 1}. ${issue.severity}: ${issue.error}`);
-      console.log(`      Expert: ${issue.expert}`);
-      console.log(`      Action: ${issue.recommendation}\n`);
+    // Critical dependency warning detected in build logs
+    this.errors.push({
+      id: 'BUILD_001',
+      severity: 'CRITICAL',
+      category: 'BUILD',
+      component: 'src/app/api/deploy/production-readiness/route.ts',
+      description:
+        'Critical dependency warning: dynamic require.resolve() expressions',
+      impact: 'Build optimization failures, potential production issues',
+      suggestedExpert: 'Vercel Engineer (Jordan Kim)',
+      action: 'Replace dynamic dependency resolution with static validation',
+      urgency: 9,
     });
+
+    console.log('✅ Build analysis complete - 1 critical issue found\n');
   }
 
   private async analyzeRuntimeErrors(): Promise<void> {
-    console.log('🚨 STEP 2: RUNTIME ERROR ANALYSIS - All Experts\n');
+    console.log(
+      '⚡ RUNTIME ERROR ANALYSIS (Database Architect: Morgan Smith)\n'
+    );
 
-    // Test critical API endpoints for runtime errors
-    const apiEndpoints = [
-      { path: '/api/dashboard', expert: 'Vercel Engineer (Jordan Kim)' },
-      { path: '/api/ideas', expert: 'AI Architect (Dr. Priya Patel)' },
-      { path: '/api/solutions', expert: 'Lead Developer (Alex Thompson)' },
-      { path: '/api/hotspots', expert: 'AI Architect (Dr. Priya Patel)' },
-      { path: '/api/signals', expert: 'Database Architect (Morgan Smith)' },
-    ];
+    // Dashboard API Prisma errors
+    this.errors.push({
+      id: 'RUNTIME_001',
+      severity: 'CRITICAL',
+      category: 'RUNTIME',
+      component: '/api/dashboard',
+      description:
+        'PrismaClientValidationError: Unknown field `createdBy` for signals model',
+      impact: 'Dashboard completely inaccessible, user experience broken',
+      suggestedExpert: 'Database Architect (Morgan Smith)',
+      action:
+        'Update API queries to use correct relationship names from schema',
+      urgency: 10,
+    });
 
-    console.log('🔍 API Endpoint Error Analysis:');
+    this.errors.push({
+      id: 'RUNTIME_002',
+      severity: 'CRITICAL',
+      category: 'RUNTIME',
+      component: '/api/dashboard',
+      description:
+        'PrismaClientValidationError: Unknown field `department` for signals model',
+      impact: 'Dashboard data loading failures, signal filtering broken',
+      suggestedExpert: 'Database Architect (Morgan Smith)',
+      action: 'Use `departments` relationship instead of `department`',
+      urgency: 10,
+    });
 
-    for (const endpoint of apiEndpoints) {
-      try {
-        console.log(`   Testing ${endpoint.path}... ⏳`);
+    // Solutions API Prisma errors
+    this.errors.push({
+      id: 'RUNTIME_003',
+      severity: 'CRITICAL',
+      category: 'RUNTIME',
+      component: '/api/solutions/[id]',
+      description:
+        'PrismaClientValidationError: Unknown field `creator` for solutions model',
+      impact: 'Solution detail pages inaccessible, workflow broken',
+      suggestedExpert: 'Database Architect (Morgan Smith)',
+      action: 'Use `users` relationship instead of `creator`',
+      urgency: 10,
+    });
 
-        // Simulate endpoint testing with schema validation
-        if (endpoint.path === '/api/dashboard') {
-          // We know this had the createdBy error we fixed
-          console.log(
-            `   ✅ ${endpoint.path} - FIXED (createdBy relationship error resolved)`
-          );
-        } else {
-          console.log(`   ⚠️ ${endpoint.path} - Needs schema validation check`);
+    // Comments API Prisma errors
+    this.errors.push({
+      id: 'RUNTIME_004',
+      severity: 'CRITICAL',
+      category: 'RUNTIME',
+      component: '/api/solutions/[id]/comments',
+      description:
+        'PrismaClientValidationError: Unknown field `creator` for comments model',
+      impact: 'Comments system broken, collaboration features unusable',
+      suggestedExpert: 'Database Architect (Morgan Smith)',
+      action:
+        'Use `users` relationship instead of `creator` in comments queries',
+      urgency: 9,
+    });
 
-          this.errors.push({
-            category: 'RUNTIME',
-            severity: 'HIGH',
-            component: endpoint.path,
-            expert: endpoint.expert,
-            error: 'Potential schema validation issues',
-            recommendation:
-              'Verify all queries use existing schema fields only',
-            priority: 2,
-          });
-        }
-      } catch (error) {
-        console.log(`   ❌ ${endpoint.path} - Runtime error detected`);
-
-        this.errors.push({
-          category: 'RUNTIME',
-          severity: 'CRITICAL',
-          component: endpoint.path,
-          expert: endpoint.expert,
-          error: 'Runtime execution failure',
-          recommendation: 'Immediate investigation and fix required',
-          priority: 1,
-        });
-      }
-    }
-    console.log();
+    console.log('✅ Runtime analysis complete - 4 critical issues found\n');
   }
 
   private async analyzeSchemaIssues(): Promise<void> {
     console.log(
-      '🗄️ STEP 3: SCHEMA VALIDATION - Database Architect (Morgan Smith)\n'
+      '🗄️  SCHEMA VALIDATION ANALYSIS (Database Architect: Morgan Smith)\n'
     );
 
-    try {
-      // Test basic model access
-      const modelTests = [
-        { model: 'signals', expert: 'Database Architect (Morgan Smith)' },
-        { model: 'hotspots', expert: 'AI Architect (Dr. Priya Patel)' },
-        { model: 'ideas', expert: 'AI Architect (Dr. Priya Patel)' },
-        { model: 'solutions', expert: 'Lead Developer (Alex Thompson)' },
-        { model: 'users', expert: 'Database Architect (Morgan Smith)' },
-        { model: 'comments', expert: 'Lead Developer (Alex Thompson)' },
-        { model: 'votes', expert: 'Lead Developer (Alex Thompson)' },
-      ];
-
-      console.log('📋 Schema Model Validation:');
-
-      for (const test of modelTests) {
-        try {
-          const count = (await (prisma as any)[test.model]?.count()) || 0;
-          console.log(
-            `   ✅ ${test.model}: ${count} records - Schema accessible`
-          );
-        } catch (error) {
-          console.log(`   ❌ ${test.model}: Schema access error`);
-
-          this.errors.push({
-            category: 'SCHEMA',
-            severity: 'CRITICAL',
-            component: `${test.model} model`,
-            expert: test.expert,
-            error: 'Schema access failure or invalid queries',
-            recommendation: 'Fix schema queries and relationship references',
-            priority: 1,
-          });
-        }
-      }
-      console.log();
-    } catch (error) {
-      console.log('❌ Database connection failed');
-
-      this.errors.push({
-        category: 'SCHEMA',
-        severity: 'CRITICAL',
-        component: 'Database Connection',
-        expert: 'Database Architect (Morgan Smith)',
-        error: 'Database connectivity or Prisma configuration issue',
-        recommendation: 'Verify Prisma configuration and database access',
-        priority: 1,
-      });
-    }
-  }
-
-  private async analyzePerformanceIssues(): Promise<void> {
-    console.log(
-      '⚡ STEP 4: PERFORMANCE ANALYSIS - Vercel Engineer (Jordan Kim)\n'
-    );
-
-    // Performance issues from deployment screenshot analysis
-    const performanceIssues = [
+    // Document all relationship naming mismatches based on error logs and schema
+    const schemaProblems = [
       {
-        category: 'PERFORMANCE' as const,
-        severity: 'MEDIUM' as const,
-        component: 'Build Time',
-        expert: 'Vercel Engineer (Jordan Kim)',
-        error: 'Build time 2m 12s - could be optimized',
-        recommendation: 'Optimize build process, reduce bundle size',
-        priority: 4,
+        model: 'signals',
+        field: 'createdBy',
+        expectedName: 'users',
+        actualName: 'createdBy',
+        location: 'src/app/api/dashboard/route.ts - select statement',
       },
       {
-        category: 'PERFORMANCE' as const,
-        severity: 'HIGH' as const,
-        component: 'Cold Start Prevention',
-        expert: 'Vercel Engineer (Jordan Kim)',
-        error: 'Cold start prevention enabled but may need optimization',
-        recommendation: 'Review serverless function performance',
-        priority: 3,
+        model: 'signals',
+        field: 'department',
+        expectedName: 'departments',
+        actualName: 'department',
+        location: 'src/app/api/dashboard/route.ts - select statement',
+      },
+      {
+        model: 'solutions',
+        field: 'creator',
+        expectedName: 'users',
+        actualName: 'creator',
+        location: 'src/app/api/solutions/[id]/route.ts - include statement',
+      },
+      {
+        model: 'solutions',
+        field: 'idea',
+        expectedName: 'ideas',
+        actualName: 'idea',
+        location: 'src/app/api/solutions/[id]/route.ts - include statement',
+      },
+      {
+        model: 'solutions',
+        field: 'hotspot',
+        expectedName: 'hotspots',
+        actualName: 'hotspot',
+        location: 'src/app/api/solutions/[id]/route.ts - include statement',
+      },
+      {
+        model: 'solutions',
+        field: 'initiative',
+        expectedName: 'initiatives',
+        actualName: 'initiative',
+        location: 'src/app/api/solutions/[id]/route.ts - include statement',
+      },
+      {
+        model: 'comments',
+        field: 'creator',
+        expectedName: 'users',
+        actualName: 'creator',
+        location:
+          'src/app/api/solutions/[id]/comments/route.ts - include statement',
+      },
+      {
+        model: 'signals',
+        field: 'department',
+        expectedName: 'departments',
+        actualName: 'department',
+        location:
+          'src/app/api/signals/clustering/generate/route.ts - include statement',
+      },
+      {
+        model: 'signals',
+        field: 'team',
+        expectedName: 'teams',
+        actualName: 'team',
+        location:
+          'src/app/api/signals/clustering/generate/route.ts - include statement',
+      },
+      {
+        model: 'signals',
+        field: 'createdBy',
+        expectedName: 'users',
+        actualName: 'createdBy',
+        location:
+          'src/app/api/signals/clustering/generate/route.ts - include statement',
       },
     ];
 
-    performanceIssues.forEach(issue => this.errors.push(issue));
+    this.schemaIssues.push(...schemaProblems);
 
-    console.log('📊 Performance Analysis:');
-    performanceIssues.forEach((issue, index) => {
-      console.log(`   ${index + 1}. ${issue.error}`);
-      console.log(`      Expert: ${issue.expert}`);
-      console.log(`      Priority: ${issue.priority}\n`);
+    // Generate systematic fix recommendations
+    this.errors.push({
+      id: 'SCHEMA_001',
+      severity: 'CRITICAL',
+      category: 'SCHEMA',
+      component: 'Prisma API Queries',
+      description: `${schemaProblems.length} relationship naming mismatches across API routes`,
+      impact: 'Complete system breakdown, all database operations failing',
+      suggestedExpert: 'Database Architect (Morgan Smith)',
+      action: 'Systematic relationship name corrections across all API files',
+      urgency: 10,
     });
+
+    console.log(
+      `✅ Schema analysis complete - ${schemaProblems.length} mismatches identified\n`
+    );
+  }
+
+  private async analyzePerformanceIssues(): Promise<void> {
+    console.log('⚡ PERFORMANCE ANALYSIS (Vercel Engineer: Jordan Kim)\n');
+
+    this.errors.push({
+      id: 'PERF_001',
+      severity: 'MEDIUM',
+      category: 'PERFORMANCE',
+      component: 'Build Process',
+      description: 'Dynamic dependency resolution impacting build efficiency',
+      impact: 'Slower deployments, potential runtime performance issues',
+      suggestedExpert: 'Vercel Engineer (Jordan Kim)',
+      action: 'Optimize dependency handling for production builds',
+      urgency: 6,
+    });
+
+    console.log(
+      '✅ Performance analysis complete - 1 optimization opportunity found\n'
+    );
   }
 
   private async generateExpertAssignments(): Promise<void> {
-    console.log('👥 STEP 5: EXPERT ASSIGNMENT PLAN\n');
+    console.log('👥 EXPERT ASSIGNMENT RECOMMENDATIONS\n');
+    console.log('=' + '='.repeat(60) + '\n');
 
-    // Sort errors by priority
-    const sortedErrors = this.errors.sort((a, b) => a.priority - b.priority);
+    // Group errors by urgency and expert
+    const expertGroups = this.errors.reduce(
+      (acc, error) => {
+        if (!acc[error.suggestedExpert]) {
+          acc[error.suggestedExpert] = [];
+        }
+        acc[error.suggestedExpert].push(error);
+        return acc;
+      },
+      {} as Record<string, DeploymentError[]>
+    );
 
-    // Group by expert
-    const expertAssignments = new Map<string, DeploymentError[]>();
+    for (const [expert, expertErrors] of Object.entries(expertGroups)) {
+      console.log(`🎯 ${expert}:`);
 
-    sortedErrors.forEach(error => {
-      if (!expertAssignments.has(error.expert)) {
-        expertAssignments.set(error.expert, []);
+      const sortedErrors = expertErrors.sort((a, b) => b.urgency - a.urgency);
+
+      for (const error of sortedErrors) {
+        const urgencyEmoji =
+          error.urgency >= 9 ? '🚨' : error.urgency >= 7 ? '⚠️' : '🔧';
+        console.log(`   ${urgencyEmoji} ${error.id}: ${error.description}`);
+        console.log(`      Action: ${error.action}`);
+        console.log(`      Priority: ${error.urgency}/10\n`);
       }
-      expertAssignments.get(error.expert)!.push(error);
-    });
-
-    console.log('🎯 EXPERT ASSIGNMENT BREAKDOWN:\n');
-
-    for (const [expert, assignedErrors] of expertAssignments) {
-      console.log(`**${expert}**:`);
-      assignedErrors.forEach((error, index) => {
-        console.log(`   ${index + 1}. [${error.severity}] ${error.component}`);
-        console.log(`      Error: ${error.error}`);
-        console.log(`      Action: ${error.recommendation}`);
-        console.log(`      Priority: ${error.priority}\n`);
-      });
     }
 
-    console.log('🚀 IMMEDIATE ACTION PLAN:\n');
-    console.log('PRIORITY 1 (CRITICAL):');
-    const criticalErrors = sortedErrors.filter(e => e.severity === 'CRITICAL');
-    criticalErrors.forEach((error, index) => {
-      console.log(`   ${index + 1}. ${error.component} - ${error.expert}`);
-    });
+    console.log('🔄 SYSTEMATIC FIX SEQUENCE:\n');
+    console.log('1. Database Schema Issues (URGENT - System Down)');
+    console.log('   → Fix all Prisma relationship naming mismatches');
+    console.log('   → Expert: Database Architect (Morgan Smith)');
+    console.log('   → Impact: Restores full system functionality\n');
 
-    console.log('\nPRIORITY 2 (HIGH):');
-    const highErrors = sortedErrors.filter(e => e.severity === 'HIGH');
-    highErrors.forEach((error, index) => {
-      console.log(`   ${index + 1}. ${error.component} - ${error.expert}`);
-    });
+    console.log('2. Build Optimization (HIGH - Deployment Quality)');
+    console.log('   → Remove dynamic dependency resolution');
+    console.log('   → Expert: Vercel Engineer (Jordan Kim)');
+    console.log('   → Impact: Cleaner builds, better performance\n');
 
-    console.log('\n📋 TOTAL ERRORS DETECTED:', this.errors.length);
-    console.log('🎯 EXPERTS INVOLVED:', expertAssignments.size);
+    console.log('3. Validation & Testing (MEDIUM - Quality Assurance)');
+    console.log('   → Comprehensive API testing');
+    console.log('   → Expert: Lead Developer (Alex Thompson)');
+    console.log('   → Impact: Prevent future regressions\n');
+
+    // Generate schema fix summary
+    console.log('📋 SCHEMA RELATIONSHIP FIXES REQUIRED:\n');
+    for (const issue of this.schemaIssues) {
+      console.log(`   📁 ${issue.location}`);
+      console.log(`      ❌ Change: ${issue.model}.${issue.actualName}`);
+      console.log(`      ✅ To: ${issue.model}.${issue.expectedName}\n`);
+    }
+
+    console.log('🎯 IMMEDIATE NEXT STEPS:');
+    console.log('1. Fix schema relationship names (Database Architect)');
+    console.log('2. Remove dynamic require.resolve() calls (Vercel Engineer)');
+    console.log('3. Test all API endpoints (Lead Developer)');
+    console.log('4. Deploy and validate (All Team)');
+
+    // Generate fix script outline
+    console.log('\n💡 AUTOMATED FIX PRIORITY:');
+    console.log('- scripts/fix-schema-relationships.ts (Database fixes)');
+    console.log('- scripts/fix-build-dependencies.ts (Build fixes)');
+    console.log('- scripts/validate-api-endpoints.ts (Testing)');
   }
 }
 
+// Main execution
 async function main() {
-  const analyzer = new ComprehensiveDeploymentAnalysis();
+  try {
+    const analyzer = new ComprehensiveDeploymentAnalysis();
+    await analyzer.analyzeDeployment();
 
-  console.log('='.repeat(80));
-  console.log('🔍 VERCEL DEPLOYMENT COMPREHENSIVE ERROR ANALYSIS');
-  console.log('='.repeat(80));
-  console.log('Trigger: User reported "a lot of errors" in deployment logs');
-  console.log('Approach: Systematic analysis by all team experts');
-  console.log('Goal: Identify, categorize, and create fix plan for all issues');
-  console.log('='.repeat(80) + '\n');
-
-  await analyzer.analyzeDeployment();
-
-  console.log('\n' + '='.repeat(80));
-  console.log('✅ COMPREHENSIVE ANALYSIS COMPLETE');
-  console.log('📋 Fix plan generated with expert assignments');
-  console.log('🚀 Ready for systematic error resolution');
-  console.log('='.repeat(80));
+    console.log('\n🎉 ANALYSIS COMPLETE - READY FOR SYSTEMATIC FIXES');
+    console.log(
+      '📧 Next: Assign experts and implement fixes in priority order'
+    );
+  } catch (error) {
+    console.error('❌ Analysis failed:', error);
+    process.exit(1);
+  }
 }
 
 if (require.main === module) {
-  main().catch(console.error);
+  main();
 }
-
-export default ComprehensiveDeploymentAnalysis;

@@ -55,7 +55,7 @@ export async function GET(
           entityId: id,
         },
         include: {
-          creator: {
+          users: {
             select: {
               id: true,
               name: true,

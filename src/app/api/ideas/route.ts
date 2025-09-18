@@ -226,7 +226,7 @@ export async function POST(request: NextRequest) {
         votes: 0,
       },
       include: {
-        hotspot: {
+        hotspots: {
           select: {
             id: true,
             title: true,

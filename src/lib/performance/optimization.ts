@@ -254,13 +254,13 @@ export class QueryOptimizer {
             users: {
               select: { id: true, name: true, role: true, email: true },
             },
-            hotspot: { select: { id: true, title: true, confidence: true } },
+            hotspots: { select: { id: true, title: true, confidence: true } },
           },
           full: {
             users: {
               select: { id: true, name: true, role: true, email: true },
             },
-            hotspot: {
+            hotspots: {
               include: {
                 signals: {
                   select: {

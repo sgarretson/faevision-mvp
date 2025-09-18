@@ -105,7 +105,7 @@ export async function POST(request: NextRequest) {
     const idea = await (prisma as any).ideas.findUnique({
       where: { id: ideaId },
       include: {
-        hotspot: {
+        hotspots: {
           include: {
             signals: {
               include: {
@@ -294,7 +294,7 @@ Provide confidence score (0.0-1.0) based on available information quality.
             role: true,
           },
         },
-        hotspot: {
+        hotspots: {
           select: {
             id: true,
             title: true,
@@ -302,7 +302,7 @@ Provide confidence score (0.0-1.0) based on available information quality.
             confidence: true,
           },
         },
-        idea: {
+        ideas: {
           select: {
             id: true,
             title: true,

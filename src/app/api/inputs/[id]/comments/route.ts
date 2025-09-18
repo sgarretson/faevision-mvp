@@ -54,7 +54,7 @@ export async function GET(
         entityId: id,
       },
       include: {
-        creator: {
+        users: {
           select: {
             id: true,
             name: true,
@@ -126,7 +126,7 @@ export async function POST(
         createdBy: session.user.id,
       },
       include: {
-        creator: {
+        users: {
           select: {
             id: true,
             name: true,

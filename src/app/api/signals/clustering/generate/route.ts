@@ -104,19 +104,19 @@ export async function POST(request: NextRequest) {
             aiTagsJson: true,
             enhancedTagsJson: true,
             createdAt: true,
-            department: {
+            departments: {
               select: {
                 id: true,
                 name: true,
               },
             },
-            team: {
+            teams: {
               select: {
                 id: true,
                 name: true,
               },
             },
-            createdBy: {
+            users: {
               select: {
                 id: true,
                 name: true,
@@ -140,9 +140,9 @@ export async function POST(request: NextRequest) {
       signals = await (prisma as any).signals.findMany({
         where: whereClause,
         include: {
-          department: true,
-          team: true,
-          createdBy: true,
+          departments: true,
+          teams: true,
+          users: true,
         },
         orderBy: { createdAt: 'desc' },
         take: 100, // Limit to prevent overwhelming the system
@@ -476,9 +476,9 @@ export async function GET(request: NextRequest) {
               include: {
                 signal: {
                   include: {
-                    department: true,
-                    team: true,
-                    category: true,
+                    departments: true,
+                    teams: true,
+                    categories: true,
                   },
                 },
               },

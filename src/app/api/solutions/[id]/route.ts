@@ -66,7 +66,7 @@ export async function GET(
             confidence: true,
             _count: {
               select: {
-                signals: true,
+                hotspot_signals: true,
               },
             },
           },
