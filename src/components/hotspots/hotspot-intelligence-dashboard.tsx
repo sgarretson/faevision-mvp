@@ -829,6 +829,27 @@ function ClusterIntelligenceCard({
             </ul>
           </div>
 
+          {/* Associated Signals (preview) */}
+          {Array.isArray(cluster.signals) && cluster.signals.length > 0 && (
+            <div>
+              <div className="mb-2 text-sm font-medium text-gray-700">
+                Associated Signals
+              </div>
+              <ul className="list-disc space-y-1 pl-5 text-sm text-gray-600">
+                {cluster.signals.slice(0, 5).map(sig => (
+                  <li key={`${cluster.id}-sig-${sig.id}`}>
+                    {sig.title || sig.id}
+                  </li>
+                ))}
+                {cluster.signals.length > 5 && (
+                  <li className="text-gray-500">
+                    +{cluster.signals.length - 5} more
+                  </li>
+                )}
+              </ul>
+            </div>
+          )}
+
           {/* Action Buttons */}
           <div className="flex space-x-3 pt-2">
             <button
@@ -844,7 +865,10 @@ function ClusterIntelligenceCard({
             <button
               onClick={e => {
                 e.stopPropagation();
-                if (cluster.id && typeof window !== 'undefined') {
+                const isTemp =
+                  typeof cluster.id === 'string' &&
+                  cluster.id.startsWith('temp-');
+                if (cluster.id && !isTemp && typeof window !== 'undefined') {
                   window.location.href = `/hotspots/${cluster.id}`;
                 } else {
                   // Fallback: expand the card if no routable id
