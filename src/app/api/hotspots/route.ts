@@ -1,5 +1,9 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { prisma } from '@/lib/prisma';
+import {
+  getHotspotsWithSignals,
+  getHotspotsCount,
+} from '@/lib/data-access/relationship-resolver';
 
 /**
  * Hotspots API Endpoint
@@ -28,59 +32,17 @@ export async function GET(request: NextRequest) {
             status: { in: ['OPEN', 'APPROVED'] },
           };
 
-      const [hotspots, totalCount] = await Promise.all([
-        (prisma as any).hotspots?.findMany({
-          where,
-          // REMOVED COMPLEX INCLUDES - USE SIMPLE FIELD ACCESS
-          orderBy: [{ rankScore: 'desc' }, { updatedAt: 'desc' }],
-          take: limit,
-          skip: offset,
-        }),
-        (prisma as any).hotspots?.count({ where }) || 0,
-      ]);
-
-      const formattedHotspots = (hotspots || []).map((hotspot: any) => {
-        // Use simplified signal data from hotspot record
-        const signals = [];
-        const membershipStrengths = [];
-        const outlierSignals = [];
-        const coreSignals = [];
-
-        return {
-          id: hotspot.id,
-          title: hotspot.title,
-          summary: hotspot.summary,
-          status: hotspot.status,
-          rankScore: hotspot.rankScore,
-          confidence: hotspot.confidence,
-          signalCount: signals.length,
-          linkedEntities: hotspot.linkedEntitiesJson || [],
-          clusteringMethod: hotspot.clusteringMethod,
-          similarityThreshold: hotspot.similarityThreshold,
-
-          // Enhanced clustering analysis
-          clusterAnalysis: {
-            totalSignals: signals.length,
-            coreSignals: coreSignals.length,
-            outlierSignals: outlierSignals.length,
-            avgMembershipStrength:
-              membershipStrengths.length > 0
-                ? membershipStrengths.reduce(
-                    (sum: number, strength: number) => sum + strength,
-                    0
-                  ) / membershipStrengths.length
-                : 0,
-            clusterQuality:
-              membershipStrengths.length > 0
-                ? (coreSignals.length / signals.length) * 100
-                : 0,
-          },
-
-          createdAt: hotspot.createdAt.toISOString(),
-          updatedAt: hotspot.updatedAt.toISOString(),
-          signals: [], // Simplified for emergency fix
-        };
+      // Get hotspots with full signal relationships - RESTORED FUNCTIONALITY
+      const hotspotsWithSignals = await getHotspotsWithSignals({
+        where,
+        limit,
+        offset,
       });
+
+      const totalCount = await getHotspotsCount(where);
+
+      // Format for frontend with all robust data
+      const formattedHotspots = hotspotsWithSignals;
 
       return NextResponse.json({
         success: true,
