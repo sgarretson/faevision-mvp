@@ -248,6 +248,7 @@ export async function POST(request: NextRequest) {
           success: true,
           cached: true,
           result: existingClustering.clusteringResults,
+          hotspotId: existingClustering.id,
           processingTime: Date.now() - startTime,
           message: 'Using cached clustering results',
         });
@@ -337,6 +338,7 @@ export async function POST(request: NextRequest) {
       success: true,
       cached: false,
       result: clusteringResult,
+      hotspotId,
       processingTime,
       transformation: {
         inputSignals: clusteringResult.inputSignalCount,

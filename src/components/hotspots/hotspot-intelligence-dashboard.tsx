@@ -223,6 +223,9 @@ export function HotspotIntelligenceDashboard() {
 
           console.log('🔄 Mapped clustering results:', mappedResults);
           setClusteringResults(mappedResults);
+          if ((data as any).hotspotId && typeof window !== 'undefined') {
+            (window as any).__currentHotspotId = (data as any).hotspotId;
+          }
 
           // Generate metrics directly inline to prevent re-renders
           const clusters = mappedResults.finalClusters || [];
