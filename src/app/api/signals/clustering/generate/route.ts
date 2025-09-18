@@ -755,7 +755,17 @@ function generateClusteringResultsFromHotspot(hotspot: any, signals: any[]) {
         type: clusterType,
         signalCount: signalArray.length,
         signalIds: signalArray.map((s: any) => s.id),
-        signals: signalArray,
+        signals: signalArray.map((s: any) => {
+          console.log(
+            `📋 Signal ${s.id}: title="${s.title || 'NO TITLE'}", desc="${(s.description || '').substring(0, 30)}..."`
+          );
+          return {
+            id: s.id,
+            title: s.title,
+            description: s.description,
+            severity: s.severity,
+          };
+        }),
         businessImpact: {
           costImpact: Math.round(avgSeverity * 10000), // Mock cost impact
           timelineImpact: avgSeverity * 0.2, // Mock timeline impact
