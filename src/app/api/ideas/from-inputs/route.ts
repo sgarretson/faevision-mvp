@@ -186,7 +186,7 @@ Consider the commonalities, patterns, and root causes across these inputs to cre
           title: 'Bulk Created Ideas',
           summary:
             'Ideas created from multiple strategic inputs through bulk selection workflow',
-          status: 'ACTIVE',
+          status: 'OPEN', // Valid HotspotStatus enum value
           confidence: 0.9,
           clusteringMethod: 'BULK_INPUT_SELECTION',
         },
