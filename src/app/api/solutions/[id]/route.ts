@@ -2,6 +2,16 @@ import { NextRequest, NextResponse } from 'next/server';
 import { auth } from '@/lib/auth';
 import { prisma } from '@/lib/prisma';
 
+/**
+ * Solution Detail API
+ *
+ * Handles fetching individual solution details with comprehensive data
+ * including source context, AI planning data, and related entities.
+ *
+ * Expert: Alex Thompson (Lead Developer)
+ * Support: Morgan Smith (Database Architect)
+ */
+
 export async function GET(
   request: NextRequest,
   { params }: { params: { id: string } }
@@ -10,12 +20,22 @@ export async function GET(
     // Check authentication
     const session = await auth();
     if (!session?.user?.id) {
-      return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
+      return NextResponse.json(
+        { success: false, error: 'Authentication required' },
+        { status: 401 }
+      );
     }
 
     const solutionId = params.id;
 
-    // Get solution with all related data (V2 model)
+    if (!solutionId) {
+      return NextResponse.json(
+        { success: false, error: 'Solution ID is required' },
+        { status: 400 }
+      );
+    }
+
+    // Fetch solution with full context
     const solution = await (prisma as any).solution.findUnique({
       where: { id: solutionId },
       include: {
@@ -28,60 +48,40 @@ export async function GET(
             department: true,
           },
         },
-        // V2 relationships
+        idea: {
+          select: {
+            id: true,
+            title: true,
+            description: true,
+            origin: true,
+            evidenceJson: true,
+            tagsJson: true,
+          },
+        },
         hotspot: {
           select: {
             id: true,
             title: true,
-            status: true,
+            summary: true,
+            confidence: true,
+            _count: {
+              select: {
+                signals: true,
+              },
+            },
           },
         },
         initiative: {
           select: {
             id: true,
-            title: true,
-          },
-        },
-        idea: {
-          select: {
-            id: true,
-            title: true,
-          },
-        },
-        // Legacy relationships (maintained for backward compatibility)
-        input: {
-          select: {
-            id: true,
-            title: true,
-            type: true,
-          },
-        },
-        requirements: {
-          select: {
-            id: true,
-            title: true,
-            status: true,
-            priority: true,
-          },
-          orderBy: {
-            createdAt: 'desc',
-          },
-        },
-        frdDocuments: {
-          select: {
-            id: true,
-            title: true,
-            status: true,
-            createdAt: true,
-          },
-          orderBy: {
-            createdAt: 'desc',
+            name: true,
+            description: true,
           },
         },
         _count: {
           select: {
-            requirements: true,
-            frdDocuments: true,
+            // comments: true, // Will be calculated separately for polymorphic comments
+            // tasks: true, // Uncomment when tasks are implemented
           },
         },
       },
@@ -89,54 +89,50 @@ export async function GET(
 
     if (!solution) {
       return NextResponse.json(
-        { error: 'Solution not found' },
+        { success: false, error: 'Solution not found' },
         { status: 404 }
       );
     }
 
-    // Map to frontend interface
-    const mappedSolution = {
-      id: solution.id,
-      title: solution.title,
-      description: solution.description,
-      status: solution.status,
-      priority: solution.priority,
-      targetDate: solution.targetDate,
-      completionDate: solution.completionDate,
-      estimatedEffort: solution.estimatedEffort,
-      businessValue: solution.businessValue,
-      successMetrics: solution.successMetrics,
-      expectedImpactJson: solution.expectedImpactJson,
-      actualImpactJson: solution.actualImpactJson,
-      createdAt: solution.createdAt.toISOString(),
-      updatedAt: solution.updatedAt.toISOString(),
-      creator: solution.creator,
-      // Source information
-      input: solution.input,
-      hotspot: solution.hotspot,
-      initiative: solution.initiative,
-      idea: solution.idea,
-      // Related entities
-      requirements: solution.requirements,
-      frdDocuments: solution.frdDocuments,
-      _count: solution._count,
+    // Get comment count using polymorphic model
+    const commentCount = await prisma.comment.count({
+      where: {
+        entityType: 'SOLUTION',
+        entityId: solutionId,
+      },
+    });
+
+    // Add comment count to solution data
+    const solutionWithCounts = {
+      ...solution,
+      _count: {
+        ...solution._count,
+        comments: commentCount,
+        tasks: 0, // TODO: Implement when tasks are added
+      },
     };
 
     return NextResponse.json({
-      solution: mappedSolution,
+      success: true,
+      solution: solutionWithCounts,
+      timestamp: new Date().toISOString(),
     });
   } catch (error) {
-    console.error('Solution fetch error:', error);
+    console.error('Error fetching solution:', error);
+
     return NextResponse.json(
       {
-        error: 'Internal server error',
+        success: false,
+        error:
+          error instanceof Error ? error.message : 'Failed to fetch solution',
+        timestamp: new Date().toISOString(),
       },
       { status: 500 }
     );
   }
 }
 
-export async function PUT(
+export async function PATCH(
   request: NextRequest,
   { params }: { params: { id: string } }
 ) {
@@ -144,13 +140,27 @@ export async function PUT(
     // Check authentication
     const session = await auth();
     if (!session?.user?.id) {
-      return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
+      return NextResponse.json(
+        { success: false, error: 'Authentication required' },
+        { status: 401 }
+      );
     }
 
     const solutionId = params.id;
     const body = await request.json();
 
-    // Check if solution exists and user has permission
+    const {
+      title,
+      description,
+      status,
+      progress,
+      estimatedEffort,
+      businessValue,
+      targetDate,
+      successMetrics,
+    } = body;
+
+    // Verify solution exists and user has permission
     const existingSolution = await (prisma as any).solution.findUnique({
       where: { id: solutionId },
       select: {
@@ -161,36 +171,32 @@ export async function PUT(
 
     if (!existingSolution) {
       return NextResponse.json(
-        { error: 'Solution not found' },
+        { success: false, error: 'Solution not found' },
         { status: 404 }
       );
     }
 
-    // Only creator or admin can update
-    if (
-      existingSolution.createdBy !== session.user.id &&
-      session.user.role !== 'ADMIN'
-    ) {
-      return NextResponse.json({ error: 'Forbidden' }, { status: 403 });
+    // For now, only allow creator to edit (can be expanded for team permissions)
+    if (existingSolution.createdBy !== session.user.id) {
+      return NextResponse.json(
+        { success: false, error: 'Permission denied' },
+        { status: 403 }
+      );
     }
 
     // Update solution
     const updatedSolution = await (prisma as any).solution.update({
       where: { id: solutionId },
       data: {
-        title: body.title,
-        description: body.description,
-        status: body.status,
-        priority: body.priority,
-        targetDate: body.targetDate ? new Date(body.targetDate) : null,
-        completionDate: body.completionDate
-          ? new Date(body.completionDate)
-          : null,
-        estimatedEffort: body.estimatedEffort,
-        businessValue: body.businessValue,
-        successMetrics: body.successMetrics,
-        expectedImpactJson: body.expectedImpactJson,
-        actualImpactJson: body.actualImpactJson,
+        ...(title && { title }),
+        ...(description && { description }),
+        ...(status && { status }),
+        ...(progress !== undefined && { progress }),
+        ...(estimatedEffort && { estimatedEffort }),
+        ...(businessValue && { businessValue }),
+        ...(targetDate && { targetDate: new Date(targetDate) }),
+        ...(successMetrics && { successMetrics }),
+        updatedAt: new Date(),
       },
       include: {
         creator: {
@@ -205,27 +211,21 @@ export async function PUT(
       },
     });
 
-    // Log the update for audit
-    await (prisma as any).auditLog.create({
-      data: {
-        userId: session.user.id,
-        action: 'UPDATE_SOLUTION',
-        entityType: 'SOLUTION',
-        entityId: updatedSolution.id,
-        changes: body,
-      },
-    });
-
     return NextResponse.json({
       success: true,
       solution: updatedSolution,
       message: 'Solution updated successfully',
+      timestamp: new Date().toISOString(),
     });
   } catch (error) {
-    console.error('Solution update error:', error);
+    console.error('Error updating solution:', error);
+
     return NextResponse.json(
       {
-        error: 'Internal server error',
+        success: false,
+        error:
+          error instanceof Error ? error.message : 'Failed to update solution',
+        timestamp: new Date().toISOString(),
       },
       { status: 500 }
     );
@@ -240,60 +240,58 @@ export async function DELETE(
     // Check authentication
     const session = await auth();
     if (!session?.user?.id) {
-      return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
+      return NextResponse.json(
+        { success: false, error: 'Authentication required' },
+        { status: 401 }
+      );
     }
 
     const solutionId = params.id;
 
-    // Check if solution exists and user has permission
+    // Verify solution exists and user has permission
     const existingSolution = await (prisma as any).solution.findUnique({
       where: { id: solutionId },
       select: {
         id: true,
-        title: true,
         createdBy: true,
+        title: true,
       },
     });
 
     if (!existingSolution) {
       return NextResponse.json(
-        { error: 'Solution not found' },
+        { success: false, error: 'Solution not found' },
         { status: 404 }
       );
     }
 
-    // Only admin can delete solutions
-    if (session.user.role !== 'ADMIN') {
-      return NextResponse.json({ error: 'Forbidden' }, { status: 403 });
+    // For now, only allow creator to delete (can be expanded for admin permissions)
+    if (existingSolution.createdBy !== session.user.id) {
+      return NextResponse.json(
+        { success: false, error: 'Permission denied' },
+        { status: 403 }
+      );
     }
 
-    // Delete solution (cascade will handle related entities)
+    // Delete solution (this will cascade to comments via database constraints)
     await (prisma as any).solution.delete({
       where: { id: solutionId },
     });
 
-    // Log the deletion for audit
-    await (prisma as any).auditLog.create({
-      data: {
-        userId: session.user.id,
-        action: 'DELETE_SOLUTION',
-        entityType: 'SOLUTION',
-        entityId: solutionId,
-        changes: {
-          title: existingSolution.title,
-        },
-      },
-    });
-
     return NextResponse.json({
       success: true,
-      message: 'Solution deleted successfully',
+      message: `Solution "${existingSolution.title}" deleted successfully`,
+      timestamp: new Date().toISOString(),
     });
   } catch (error) {
-    console.error('Solution deletion error:', error);
+    console.error('Error deleting solution:', error);
+
     return NextResponse.json(
       {
-        error: 'Internal server error',
+        success: false,
+        error:
+          error instanceof Error ? error.message : 'Failed to delete solution',
+        timestamp: new Date().toISOString(),
       },
       { status: 500 }
     );
