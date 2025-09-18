@@ -116,14 +116,24 @@ function IdeaDetailPageComponent() {
       const data = await response.json();
 
       if (!response.ok) {
-        setError(data.error || 'Failed to fetch idea details');
+        if (response.status === 401) {
+          setError(
+            'Please log in to view idea details. Use any user email + password: demo123'
+          );
+        } else if (response.status === 404) {
+          setError('Idea not found. Please check the URL and try again.');
+        } else {
+          setError(data.error || 'Failed to fetch idea details');
+        }
         return;
       }
 
       setIdea(data.idea);
     } catch (error) {
       console.error('Fetch idea detail error:', error);
-      setError('Failed to load idea details');
+      setError(
+        'Failed to load idea details. Please check your connection and try again.'
+      );
     } finally {
       setIsLoading(false);
     }
@@ -136,9 +146,16 @@ function IdeaDetailPageComponent() {
 
       if (response.ok) {
         setComments(data.comments || []);
+      } else if (response.status === 401) {
+        // Don't set error for comments auth failure - idea error will handle it
+        setComments([]);
+      } else {
+        console.warn('Comments fetch failed:', data.error);
+        setComments([]);
       }
     } catch (error) {
       console.error('Fetch comments error:', error);
+      setComments([]);
     }
   }, [ideaId]);
 
@@ -146,6 +163,11 @@ function IdeaDetailPageComponent() {
     if (status === 'authenticated' && ideaId) {
       fetchIdeaDetail();
       fetchComments();
+    } else if (status === 'unauthenticated') {
+      setError(
+        'Please log in to view idea details. Use any user email + password: demo123'
+      );
+      setIsLoading(false);
     }
   }, [status, ideaId, fetchIdeaDetail, fetchComments]);
 
@@ -169,7 +191,15 @@ function IdeaDetailPageComponent() {
       const data = await response.json();
 
       if (!response.ok) {
-        throw new Error(data.error || 'Failed to post comment');
+        if (response.status === 401) {
+          throw new Error(
+            'Please log in to post comments. Use any user email + password: demo123'
+          );
+        } else if (response.status === 404) {
+          throw new Error('Idea not found. Cannot post comment.');
+        } else {
+          throw new Error(data.error || 'Failed to post comment');
+        }
       }
 
       setNewComment('');
@@ -213,12 +243,28 @@ function IdeaDetailPageComponent() {
     return (
       <div className="min-h-screen bg-gray-50 py-8">
         <div className="mx-auto max-w-4xl px-4 sm:px-6 lg:px-8">
-          <Alert variant="destructive">
-            <AlertCircle className="h-4 w-4" />
-            <AlertDescription>
-              Please log in to view idea details.
-            </AlertDescription>
-          </Alert>
+          <Card className="mx-auto max-w-lg">
+            <CardContent className="p-8 text-center">
+              <AlertCircle className="mx-auto mb-4 h-12 w-12 text-amber-500" />
+              <h2 className="mb-2 text-xl font-semibold text-gray-900">
+                Authentication Required
+              </h2>
+              <p className="mb-6 text-gray-600">
+                Please log in to view idea details. Use any user email +
+                password: demo123
+              </p>
+              <div className="flex justify-center gap-3">
+                <Link href="/login">
+                  <Button className="bg-blue-600 hover:bg-blue-700">
+                    Go to Login
+                  </Button>
+                </Link>
+                <Link href="/ideas">
+                  <Button variant="outline">Back to Ideas</Button>
+                </Link>
+              </div>
+            </CardContent>
+          </Card>
         </div>
       </div>
     );
@@ -228,18 +274,37 @@ function IdeaDetailPageComponent() {
     return (
       <div className="min-h-screen bg-gray-50 py-8">
         <div className="mx-auto max-w-4xl px-4 sm:px-6 lg:px-8">
-          <div className="mb-6">
-            <Link href="/ideas">
-              <Button variant="outline">
-                <ArrowLeft className="mr-2 h-4 w-4" />
-                Back to Ideas
-              </Button>
-            </Link>
-          </div>
-          <Alert variant="destructive">
-            <AlertCircle className="h-4 w-4" />
-            <AlertDescription>{error}</AlertDescription>
-          </Alert>
+          <Card className="mx-auto max-w-lg">
+            <CardContent className="p-8 text-center">
+              <AlertCircle className="mx-auto mb-4 h-12 w-12 text-red-500" />
+              <h2 className="mb-2 text-xl font-semibold text-gray-900">
+                Unable to Load Idea
+              </h2>
+              <p className="mb-6 text-gray-600">{error}</p>
+              <div className="flex justify-center gap-3">
+                {error.includes('log in') ? (
+                  <Link href="/login">
+                    <Button className="bg-blue-600 hover:bg-blue-700">
+                      Go to Login
+                    </Button>
+                  </Link>
+                ) : (
+                  <Button
+                    onClick={() => window.location.reload()}
+                    variant="outline"
+                  >
+                    Try Again
+                  </Button>
+                )}
+                <Link href="/ideas">
+                  <Button variant="outline">
+                    <ArrowLeft className="mr-2 h-4 w-4" />
+                    Back to Ideas
+                  </Button>
+                </Link>
+              </div>
+            </CardContent>
+          </Card>
         </div>
       </div>
     );
